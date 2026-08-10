@@ -366,6 +366,12 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
 .field .err{display:none;color:#FF9E8A;font-size:.76rem;margin-top:6px;}
 .field.bad input,.field.bad select,.field.bad textarea{border-color:#FF9E8A;}
 .field.bad .err{display:block;}
+.direct{display:flex;flex-wrap:wrap;gap:14px 30px;margin-top:26px;padding:16px 18px;
+  border:1px solid rgba(255,255,255,.14);border-radius:4px;background:rgba(255,255,255,.04);}
+.direct a{display:inline-flex;align-items:center;gap:9px;color:#fff;font-weight:600;font-size:.95rem;}
+.direct a:hover{color:#7FB2DC;}
+.direct .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  color:#8F98A1;display:block;margin-bottom:5px;font-weight:400;}
 .form-foot{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:26px;}
 .form-foot .note{font-size:.78rem;color:#79838D;max-width:44ch;}
 .btn-light{background:#fff;color:var(--ink);}
@@ -687,6 +693,17 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
     <h2 class="h-sec">Tell me what you're building.</h2>
     <p class="lede">Answer as much or as little as you like. You'll get a reply within one working day, and a fixed quote before anything begins.</p>
 
+    <div class="direct">
+      <div>
+        <span class="k">Call or WhatsApp</span>
+        <a href="tel:+201111089255">+20 111 108 9255</a>
+      </div>
+      <div>
+        <span class="k">Email</span>
+        <a href="mailto:hello.axisdigitalstudio@gmail.com">hello.axisdigitalstudio@gmail.com</a>
+      </div>
+    </div>
+
     <form id="enquiry" novalidate>
       <div class="form-grid">
         <div class="field">
@@ -762,6 +779,8 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
       <a href="#contact">Contact</a>
+      <a href="tel:+201111089255">+20 111 108 9255</a>
+      <a href="mailto:hello.axisdigitalstudio@gmail.com">Email</a>
     </nav>
     <small>&copy; <span id="yr">2026</span> Axis Digital</small>
   </div>
@@ -886,10 +905,10 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
         form.reset();
         say('ok', 'Thanks \u2014 that\u2019s come through. You\u2019ll get a reply within one working day.');
       } else {
-        say('bad', 'Something went wrong sending that. Email mohammedmemmo27@gmail.com instead and I\u2019ll pick it up.');
+        say('bad', 'Something went wrong sending that. Email hello.axisdigitalstudio@gmail.com instead and I\u2019ll pick it up.');
       }
     }).catch(function(){
-      say('bad', 'Couldn\u2019t reach the server. Check your connection, or email mohammedmemmo27@gmail.com.');
+      say('bad', 'Couldn\u2019t reach the server. Check your connection, or email hello.axisdigitalstudio@gmail.com.');
     }).then(function(){
       sendBtn.disabled = false;
       sendBtn.textContent = 'Send enquiry';
