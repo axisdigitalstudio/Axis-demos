@@ -801,7 +801,7 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
   /* ---------- demo links ----------
      These point at the six hosted demo files. Once the demos are live,
      replace DEMO_BASE with the folder they sit in and the links resolve. */
-  var DEMO_BASE = '';   /* e.g. 'https://yourname.github.io/axis-demos/' */
+  var DEMO_BASE = 'https://mohammedmemmo27-alt.github.io/axis-demos/';
   var DEMO_FILES = [
     'gym-demo.html',
     'restaurant-demo.html',
@@ -826,7 +826,7 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
      Posts to Formspree. Create a free form at formspree.io, then paste
      your endpoint below. Until then the form explains it isn't connected
      rather than pretending the message was sent. */
-  var FORM_ENDPOINT = '';   /* e.g. 'https://formspree.io/f/xxxxxxxx' */
+  var FORM_ENDPOINT = 'https://formspree.io/f/xzepeyan';
 
   var form = document.getElementById('enquiry');
   var statusBox = document.getElementById('fstatus');
@@ -886,10 +886,10 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
         form.reset();
         say('ok', 'Thanks \u2014 that\u2019s come through. You\u2019ll get a reply within one working day.');
       } else {
-        say('bad', 'Something went wrong sending that. Email YOUR-EMAIL-HERE instead and I\u2019ll pick it up.');
+        say('bad', 'Something went wrong sending that. Email mohammedmemmo27@gmail.com instead and I\u2019ll pick it up.');
       }
     }).catch(function(){
-      say('bad', 'Couldn\u2019t reach the server. Check your connection, or email YOUR-EMAIL-HERE.');
+      say('bad', 'Couldn\u2019t reach the server. Check your connection, or email mohammedmemmo27@gmail.com.');
     }).then(function(){
       sendBtn.disabled = false;
       sendBtn.textContent = 'Send enquiry';
