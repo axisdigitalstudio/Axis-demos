@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Meridian Atelier — architecture and interior design studio working in concrete, oak and brass. Residential, commercial and hospitality projects." />
+<title>Meridian Atelier — Architecture &amp; Interiors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MERIDIAN ATELIER — single-file demo build for Axis Digital
+   Everything inline. No external images, no JS libraries.
+   Content renders fully without JavaScript; JS only enhances.
+   ============================================================ */
+
+:root{
+  --paper:#F6F1E9;
+  --cream:#EDE4D6;
+  --sand:#DED2C0;
+  --ink:#221F1B;
+  --ink-2:#3B352E;
+  --concrete:#857C71;
+  --clay:#B0563A;
+  --clay-deep:#8E4229;
+  --brass:#A98A52;
+  --brass-lite:#C7A972;
+  --line:rgba(34,31,27,.14);
+  --line-strong:rgba(34,31,27,.28);
+  --line-dark:rgba(246,241,233,.16);
+
+  --serif:'Fraunces', 'Times New Roman', serif;
+  --sans:'Jost', 'Helvetica Neue', Arial, sans-serif;
+
+  --shell:1240px;
+  --pad:clamp(20px, 5vw, 56px);
+  --sect:clamp(76px, 9vw, 132px);
+
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; scroll-padding-top:96px; -webkit-text-size-adjust:100%; }
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:300;
+  font-size:16px;
+  line-height:1.65;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+img,svg{ max-width:100%; display:block; }
+h1,h2,h3,h4{ font-family:var(--serif); font-weight:500; line-height:1.04; margin:0; letter-spacing:-.015em; }
+p{ margin:0; }
+a{ color:inherit; text-decoration:none; }
+ul,ol{ margin:0; padding:0; list-style:none; }
+button{ font:inherit; color:inherit; }
+
+:focus-visible{
+  outline:2px solid var(--clay);
+  outline-offset:3px;
+  border-radius:2px;
+}
+.section-dark :focus-visible{ outline-color:var(--brass-lite); }
+
+.shell{ width:100%; max-width:var(--shell); margin:0 auto; padding-inline:var(--pad); }
+.sr-only{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+.skip{
+  position:absolute; left:var(--pad); top:-72px; z-index:200;
+  background:var(--ink); color:var(--paper); padding:12px 20px;
+  font-size:13px; letter-spacing:.12em; text-transform:uppercase;
+  transition:top .28s var(--ease);
+}
+.skip:focus{ top:12px; }
+
+/* ---------- shared type ---------- */
+.eyebrow{
+  font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+  font-weight:500; color:var(--clay); display:flex; align-items:center; gap:12px;
+}
+.eyebrow::before{
+  content:""; width:34px; height:1px; background:var(--clay); flex:none;
+}
+.section-dark .eyebrow{ color:var(--brass-lite); }
+.section-dark .eyebrow::before{ background:var(--brass-lite); }
+
+.h-xl{ font-size:clamp(2.9rem, 8.2vw, 6.1rem); }
+.h-lg{ font-size:clamp(2.1rem, 5vw, 3.6rem); }
+.h-md{ font-size:clamp(1.5rem, 2.6vw, 2.05rem); }
+.lede{ font-size:clamp(1rem, 1.35vw, 1.16rem); color:var(--ink-2); max-width:56ch; }
+.section-dark .lede{ color:rgba(246,241,233,.72); }
+.muted{ color:var(--concrete); }
+.mono{
+  font-size:11px; letter-spacing:.2em; text-transform:uppercase; font-weight:500;
+}
+
+.section-head{
+  display:grid; gap:22px; grid-template-columns:1fr; align-items:end;
+  margin-bottom:clamp(38px,5vw,64px);
+}
+@media (min-width:900px){
+  .section-head{ grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:56px; }
+  .section-head .lede{ padding-bottom:6px; }
+}
+.section-head h2{ margin-top:18px; }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:fixed; inset:0 0 auto 0; z-index:100;
+  background:rgba(246,241,233,0);
+  border-bottom:1px solid transparent;
+  transition:background .45s var(--ease), border-color .45s var(--ease),
+             backdrop-filter .45s var(--ease), box-shadow .45s var(--ease);
+}
+.nav.is-stuck{
+  background:rgba(246,241,233,.82);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  backdrop-filter:saturate(180%) blur(14px);
+  border-bottom-color:var(--line);
+  box-shadow:0 10px 30px -24px rgba(34,31,27,.5);
+}
+.nav__inner{
+  display:flex; align-items:center; justify-content:space-between; gap:24px;
+  padding-block:26px;
+  transition:padding .45s var(--ease);
+}
+.nav.is-stuck .nav__inner{ padding-block:14px; }
+
+.brand{ display:flex; align-items:center; gap:12px; flex:none; }
+.brand__mark{
+  width:30px; height:30px; flex:none; position:relative;
+  border:1.5px solid var(--ink);
+  transition:transform .6s var(--ease-out), border-color .4s var(--ease);
+}
+.brand__mark::before{
+  content:""; position:absolute; inset:5px; border:1.5px solid var(--clay);
+  transition:inset .5s var(--ease-out);
+}
+.brand__mark::after{
+  content:""; position:absolute; left:50%; top:-1.5px; bottom:-1.5px; width:1.5px;
+  background:var(--ink); transform:translateX(-50%);
+}
+.brand:hover .brand__mark{ transform:rotate(45deg); }
+.brand:hover .brand__mark::before{ inset:9px; }
+.brand__word{ line-height:1.05; }
+.brand__word b{
+  display:block; font-family:var(--serif); font-weight:600;
+  font-size:17px; letter-spacing:.06em; text-transform:uppercase;
+}
+.brand__word span{
+  display:block; font-size:9.5px; letter-spacing:.36em;
+  text-transform:uppercase; color:var(--concrete); margin-top:2px;
+}
+.nav.is-stuck .brand__word span{ opacity:.8; }
+
+.nav__links{ display:none; align-items:center; gap:34px; }
+@media (min-width:960px){ .nav__links{ display:flex; } }
+.nav__link{
+  position:relative; font-size:13px; letter-spacing:.14em;
+  text-transform:uppercase; font-weight:400; padding-block:6px;
+  color:var(--ink-2);
+  transition:color .3s var(--ease);
+}
+.nav__link::after{
+  content:""; position:absolute; left:0; bottom:0; height:1px; width:100%;
+  background:var(--clay); transform:scaleX(0); transform-origin:right;
+  transition:transform .45s var(--ease-out);
+}
+.nav__link:hover{ color:var(--ink); }
+.nav__link:hover::after,
+.nav__link:focus-visible::after{ transform:scaleX(1); transform-origin:left; }
+
+.nav__cta{ display:none; }
+@media (min-width:960px){ .nav__cta{ display:inline-flex; } }
+
+.burger{
+  display:inline-flex; flex-direction:column; justify-content:center; gap:6px;
+  width:44px; height:44px; padding:0 10px; background:none;
+  border:1px solid var(--line-strong); cursor:pointer;
+  transition:border-color .3s var(--ease), background .3s var(--ease);
+}
+@media (min-width:960px){ .burger{ display:none; } }
+.burger:hover{ border-color:var(--ink); }
+.burger span{
+  display:block; height:1.5px; background:var(--ink); width:100%;
+  transition:transform .4s var(--ease-out), opacity .25s var(--ease);
+}
+.burger[aria-expanded="true"] span:nth-child(1){ transform:translateY(7.5px) rotate(45deg); }
+.burger[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+.burger[aria-expanded="true"] span:nth-child(3){ transform:translateY(-7.5px) rotate(-45deg); }
+
+.drawer{
+  display:grid; grid-template-rows:0fr;
+  background:var(--cream); border-bottom:1px solid transparent;
+  transition:grid-template-rows .5s var(--ease-out), border-color .4s var(--ease);
+}
+.drawer[data-open="true"]{ grid-template-rows:1fr; border-bottom-color:var(--line); }
+.drawer__wrap{ overflow:hidden; }
+.drawer ul{ padding:8px var(--pad) 26px; }
+.drawer li + li{ border-top:1px solid var(--line); }
+.drawer a{
+  display:flex; align-items:baseline; gap:14px; padding:16px 2px;
+  font-family:var(--serif); font-size:1.5rem;
+}
+.drawer a i{
+  font-style:normal; font-family:var(--sans); font-size:10px;
+  letter-spacing:.2em; color:var(--clay);
+}
+@media (min-width:960px){ .drawer{ display:none; } }
+
+/* No-JS fallback: burger can't work, so expose the nav links inline. */
+noscript .nojs-nav{
+  display:flex; flex-wrap:wrap; gap:6px 20px;
+  padding:0 var(--pad) 18px;
+  border-bottom:1px solid var(--line); background:var(--cream);
+}
+noscript .nojs-nav a{ font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
+@media (min-width:960px){ noscript .nojs-nav{ display:none; } }
+
+/* ============================================================
+   BUTTONS — fill-wipe hover
+   ============================================================ */
+.btn{
+  --btn-fill:var(--ink);
+  --btn-fg:var(--paper);
+  position:relative; isolation:isolate; overflow:hidden;
+  display:inline-flex; align-items:center; justify-content:center; gap:12px;
+  padding:15px 30px; border:1px solid var(--ink); background:transparent;
+  color:var(--ink); cursor:pointer; text-align:center;
+  font-size:12.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:500;
+  transition:color .38s var(--ease), border-color .38s var(--ease), transform .38s var(--ease-out);
+}
+.btn::before{
+  content:""; position:absolute; inset:0; z-index:-1; background:var(--btn-fill);
+  transform:scaleX(0); transform-origin:left center;
+  transition:transform .52s var(--ease-out);
+}
+.btn:hover, .btn:focus-visible{ color:var(--btn-fg); border-color:var(--btn-fill); }
+.btn:hover::before, .btn:focus-visible::before{ transform:scaleX(1); }
+.btn:active{ transform:translateY(1px); }
+.btn__arrow{
+  display:inline-block; transition:transform .45s var(--ease-out);
+}
+.btn:hover .btn__arrow{ transform:translateX(5px); }
+
+.btn--solid{
+  background:var(--ink); color:var(--paper);
+  --btn-fill:var(--clay); --btn-fg:#fff;
+  border-color:var(--ink);
+}
+.btn--clay{
+  --btn-fill:var(--clay); --btn-fg:#fff;
+  border-color:var(--clay); color:var(--clay-deep);
+}
+.btn--light{
+  border-color:var(--line-dark); color:var(--paper);
+  --btn-fill:var(--paper); --btn-fg:var(--ink);
+}
+.btn--wide{ width:100%; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative; padding-top:clamp(128px, 17vw, 190px); padding-bottom:var(--sect);
+  overflow:hidden;
+}
+.hero::before{
+  content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(90% 70% at 78% 8%, rgba(176,86,58,.13), transparent 62%),
+    radial-gradient(70% 60% at 6% 96%, rgba(169,138,82,.15), transparent 60%);
+}
+.hero::after{
+  content:""; position:absolute; inset:0; z-index:0; pointer-events:none; opacity:.5;
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size:clamp(60px,8vw,110px) clamp(60px,8vw,110px);
+  -webkit-mask-image:linear-gradient(to bottom, #000 0%, transparent 78%);
+  mask-image:linear-gradient(to bottom, #000 0%, transparent 78%);
+}
+.hero .shell{ position:relative; z-index:1; }
+
+.hero__grid{ display:grid; gap:clamp(40px,5vw,64px); }
+@media (min-width:1000px){
+  .hero__grid{ grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr); align-items:end; }
+}
+.hero h1{ margin-top:24px; }
+.hero h1 em{
+  font-style:italic; font-weight:400; color:var(--clay);
+  display:inline-block;
+}
+.hero h1 .line{ display:block; }
+.hero h1 .indent{ padding-left:clamp(0px,6vw,110px); }
+.hero__lede{ margin-top:30px; max-width:50ch; }
+.hero__ctas{
+  margin-top:38px; display:flex; flex-wrap:wrap; gap:14px;
+}
+.hero__ctas .btn{ flex:1 1 auto; min-width:210px; }
+@media (min-width:560px){ .hero__ctas .btn{ flex:0 0 auto; } }
+
+.hero__meta{
+  margin-top:44px; display:flex; flex-wrap:wrap; gap:10px 34px;
+  padding-top:22px; border-top:1px solid var(--line);
+}
+.hero__meta div{ display:flex; align-items:baseline; gap:9px; }
+.hero__meta b{ font-family:var(--serif); font-size:1.5rem; font-weight:600; }
+.hero__meta span{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--concrete); }
+
+/* quote / stat panel with CSS axonometric drawing */
+.panel{
+  position:relative; background:var(--ink); color:var(--paper);
+  padding:clamp(26px,3.4vw,38px); overflow:hidden;
+  box-shadow:0 40px 70px -50px rgba(34,31,27,.9);
+}
+.panel::after{
+  content:""; position:absolute; right:-70px; bottom:-70px; width:220px; height:220px;
+  border:1px solid rgba(246,241,233,.14); transform:rotate(45deg);
+}
+.panel__draw{
+  position:relative; height:clamp(140px,17vw,180px); margin-bottom:26px;
+}
+.panel__draw i{ position:absolute; display:block; font-style:normal; }
+.pd-sun{
+  width:54px; height:54px; right:6%; top:4%; border-radius:50%;
+  background:radial-gradient(circle at 34% 32%, var(--brass-lite), var(--brass) 60%, rgba(169,138,82,.25));
+  box-shadow:0 0 40px rgba(199,169,114,.35);
+}
+.pd-slab-a{ left:0; bottom:34px; width:74%; height:12px; background:var(--paper); }
+.pd-slab-b{ left:11%; bottom:64px; width:66%; height:10px; background:rgba(246,241,233,.62); }
+.pd-slab-c{ left:24%; bottom:92px; width:50%; height:8px; background:rgba(246,241,233,.34); }
+.pd-core{ left:38%; bottom:34px; width:11px; height:76px; background:var(--clay); }
+.pd-post{ left:6%; bottom:12px; width:5px; height:26px; background:rgba(246,241,233,.5); }
+.pd-post2{ left:64%; bottom:12px; width:5px; height:26px; background:rgba(246,241,233,.5); }
+.pd-ground{ left:0; right:0; bottom:12px; height:1px; background:rgba(246,241,233,.32); }
+.pd-hatch{
+  left:0; right:0; bottom:0; height:12px; opacity:.5;
+  background:repeating-linear-gradient(45deg, rgba(246,241,233,.4) 0 1px, transparent 1px 7px);
+}
+.panel blockquote{ margin:0; font-family:var(--serif); font-size:clamp(1.2rem,2vw,1.5rem); line-height:1.32; }
+.panel cite{
+  display:block; margin-top:16px; font-style:normal;
+  font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--brass-lite);
+}
+
+/* ============================================================
+   MARQUEE
+   ============================================================ */
+.marquee{
+  border-block:1px solid var(--line); background:var(--cream);
+  overflow:hidden; padding-block:16px; position:relative;
+  -webkit-mask-image:linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+  mask-image:linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+}
+.marquee__track{
+  display:flex; width:max-content; align-items:center;
+  animation:marquee 42s linear infinite;
+}
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track{ animation-play-state:paused; }
+@keyframes marquee{ from{ transform:translate3d(0,0,0); } to{ transform:translate3d(-50%,0,0); } }
+.marquee__item{
+  display:inline-flex; align-items:center; gap:22px; padding-inline:22px;
+  font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:var(--ink-2);
+  white-space:nowrap;
+}
+.marquee__item::after{
+  content:""; width:6px; height:6px; background:var(--clay); transform:rotate(45deg); flex:none;
+}
+.marquee__item:nth-child(even)::after{ background:var(--brass); }
+
+/* ============================================================
+   PROJECTS
+   ============================================================ */
+.work{ padding-block:var(--sect); }
+.work__grid{ display:grid; gap:clamp(22px,2.6vw,32px); }
+@media (min-width:700px){ .work__grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (min-width:1080px){
+  .work__grid{ grid-template-columns:repeat(6,minmax(0,1fr)); }
+  .card{ grid-column:span 2; }
+  .card--wide{ grid-column:span 3; }
+}
+
+.card{
+  position:relative; display:flex; flex-direction:column;
+  background:var(--paper); border:1px solid var(--line);
+  transition:transform .55s var(--ease-out), box-shadow .55s var(--ease-out),
+             border-color .45s var(--ease);
+  will-change:transform;
+}
+.card:hover, .card:focus-within{
+  transform:translateY(-8px);
+  box-shadow:0 44px 60px -44px rgba(34,31,27,.55);
+  border-color:var(--line-strong);
+}
+
+/* the CSS-drawn elevation */
+.elev{
+  position:relative; aspect-ratio:16/10; overflow:hidden;
+  background:linear-gradient(168deg, var(--t1), var(--t2));
+}
+.elev::after{
+  content:""; position:absolute; inset:0; opacity:.35; pointer-events:none;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.16) 1px, transparent 1px);
+  background-size:26px 26px;
+}
+.elev i{
+  position:absolute; display:block; font-style:normal;
+  background:var(--sil);
+  transition:transform .6s var(--ease-out);
+}
+.elev .sun{
+  border-radius:50%; background:rgba(255,255,255,.5);
+  transition:transform .8s var(--ease-out), background .5s var(--ease);
+}
+.elev .ground{
+  left:0; right:0; bottom:15%; height:1px; background:rgba(255,255,255,.55);
+}
+.elev .hatch{
+  left:0; right:0; bottom:0; height:15%; background:
+    repeating-linear-gradient(48deg, rgba(255,255,255,.34) 0 1px, transparent 1px 8px);
+}
+.card:hover .elev .sun{ transform:translateY(-8px) scale(1.06); background:rgba(255,255,255,.72); }
+.card:hover .elev .m1{ transform:translateY(-5px); }
+.card:hover .elev .m2{ transform:translateY(-3px); transition-delay:.05s; }
+.card:hover .elev .m3{ transform:translateY(-2px); transition-delay:.1s; }
+
+/* 1 — cantilevered slabs */
+.elev--ridge .s1{ left:5%;  bottom:15%; width:58%; height:8%; }
+.elev--ridge .s2{ left:20%; bottom:27%; width:56%; height:7%; }
+.elev--ridge .s3{ left:36%; bottom:38%; width:50%; height:6%; }
+.elev--ridge .s4{ left:44%; bottom:15%; width:6%;  height:30%; opacity:.7; }
+.elev--ridge .s5{ left:12%; bottom:15%; width:4%;  height:13%; opacity:.5; }
+.elev--ridge .sun{ right:9%; top:12%; width:38px; height:38px; }
+
+/* 2 — sawtooth foundry roof */
+.elev--foundry .s1{ left:8%; bottom:15%; width:80%; height:26%; }
+.elev--foundry .s2{ left:2%; bottom:15%; width:6%; height:46%; opacity:.55; }
+.elev--foundry .tooth{
+  background:none; width:0; height:0; bottom:41%;
+  border-left:0 solid transparent; border-right:22px solid transparent;
+  border-bottom:16px solid var(--sil);
+}
+.elev--foundry .t1{ left:10%; } .elev--foundry .t2{ left:29%; }
+.elev--foundry .t3{ left:48%; } .elev--foundry .t4{ left:67%; }
+.elev--foundry .s3{ left:78%; bottom:41%; width:6%; height:22%; opacity:.7; }
+.elev--foundry .sun{ left:8%; top:14%; width:30px; height:30px; }
+
+/* 3 — arched colonnade */
+.elev--solano .arch{
+  bottom:15%; width:13%; height:34%; border-radius:50% 50% 0 0 / 62% 62% 0 0;
+}
+.elev--solano .a1{ left:11%; } .elev--solano .a2{ left:28%; }
+.elev--solano .a3{ left:45%; } .elev--solano .a4{ left:62%; }
+.elev--solano .a5{ left:79%; height:28%; opacity:.6; }
+.elev--solano .s1{ left:8%; bottom:52%; width:84%; height:5%; }
+.elev--solano .s2{ left:20%; bottom:57%; width:60%; height:8%; opacity:.55; }
+.elev--solano .sun{ right:12%; top:10%; width:34px; height:34px; }
+
+/* 4 — stacked terraces */
+.elev--atrium .s1{ left:16%; bottom:15%; width:66%; height:14%; }
+.elev--atrium .s2{ left:22%; bottom:30%; width:54%; height:12%; opacity:.86; }
+.elev--atrium .s3{ left:28%; bottom:43%; width:42%; height:11%; opacity:.7; }
+.elev--atrium .s4{ left:34%; bottom:55%; width:30%; height:10%; opacity:.55; }
+.elev--atrium .p1{ left:16%; bottom:29%; width:66%; height:2px; opacity:.9; }
+.elev--atrium .p2{ left:22%; bottom:42%; width:54%; height:2px; opacity:.75; }
+.elev--atrium .sun{ left:11%; top:16%; width:26px; height:26px; }
+
+/* 5 — barrel vaults */
+.elev--salt .v{
+  bottom:36%; width:22%; height:20%; border-radius:50% 50% 0 0 / 100% 100% 0 0;
+}
+.elev--salt .v1{ left:14%; } .elev--salt .v2{ left:39%; } .elev--salt .v3{ left:64%; }
+.elev--salt .s1{ left:12%; bottom:15%; width:76%; height:22%; }
+.elev--salt .s2{ left:12%; bottom:24%; width:76%; height:1px; background:rgba(255,255,255,.45); }
+.elev--salt .s3{ left:47%; bottom:15%; width:6%; height:9%; opacity:.6; }
+.elev--salt .sun{ right:14%; top:13%; width:44px; height:44px; }
+
+.card__body{ padding:26px clamp(20px,2.2vw,28px) 28px; display:flex; flex-direction:column; flex:1; }
+.card__rule{
+  height:2px; background:var(--clay); width:26px; margin-bottom:18px;
+  transition:width .6s var(--ease-out), background .4s var(--ease);
+}
+.card:hover .card__rule, .card:focus-within .card__rule{ width:74px; }
+.card__top{
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--concrete);
+  margin-bottom:12px;
+}
+.card h3{ font-size:clamp(1.32rem,2vw,1.62rem); }
+.card h3 a::after{ content:""; position:absolute; inset:0; }
+.card p{ margin-top:12px; color:var(--ink-2); font-size:15px; }
+.card__foot{
+  margin-top:auto; padding-top:20px; display:flex; align-items:center;
+  justify-content:space-between; gap:14px;
+}
+.card__spec{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--concrete); }
+.card__go{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--clay-deep);
+  transition:transform .5s var(--ease-out), opacity .4s var(--ease);
+}
+/* only hide on true hover devices — touch users always see it */
+@media (hover:hover) and (pointer:fine){
+  .card__go{ opacity:0; transform:translateX(-10px); }
+  .card:hover .card__go, .card:focus-within .card__go{
+    opacity:1; transform:translateX(0); transition-delay:.08s;
+  }
+}
+.card__go svg{ width:16px; height:9px; }
+
+/* ============================================================
+   DRAWING SET — the two signature diagrams
+   ============================================================ */
+.method{ padding-block:var(--sect); background:var(--cream); border-block:1px solid var(--line); }
+.drawings{ display:grid; gap:clamp(34px,4.4vw,56px); }
+@media (min-width:1060px){ .drawings{ grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr); align-items:start; } }
+
+.sheet{
+  background:var(--paper); border:1px solid var(--line-strong); padding:clamp(18px,2.4vw,28px);
+  position:relative;
+}
+.sheet__label{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding-bottom:14px; margin-bottom:20px; border-bottom:1px solid var(--line);
+  font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--concrete);
+}
+.sheet__label b{ color:var(--ink); font-weight:500; letter-spacing:.2em; }
+
+/* --- floor plan --- */
+.plan{
+  display:grid; grid-template-columns:repeat(12,1fr); grid-template-rows:repeat(8,1fr);
+  aspect-ratio:3/2; gap:3px; background:var(--sand); border:2px solid var(--ink); padding:3px;
+}
+.room{
+  position:relative; display:flex; flex-direction:column; justify-content:flex-end;
+  gap:1px; padding:5px 6px; text-align:left; cursor:pointer;
+  background:var(--paper); border:0; border-left:2px solid transparent;
+  font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2);
+  transition:background .38s var(--ease), color .38s var(--ease),
+             border-color .38s var(--ease), transform .4s var(--ease-out);
+}
+.room b{ font-weight:500; font-size:9.5px; line-height:1.25; }
+.room i{
+  font-style:normal; font-family:var(--serif); font-size:11px;
+  color:var(--concrete); letter-spacing:.02em; transition:color .38s var(--ease);
+}
+.room:hover{ background:var(--sand); }
+.room[aria-pressed="true"]{
+  background:var(--ink); color:var(--paper); border-left-color:var(--clay);
+}
+.room[aria-pressed="true"] i{ color:var(--brass-lite); }
+.room--out{
+  background:repeating-linear-gradient(45deg, rgba(133,124,113,.18) 0 1px, transparent 1px 6px), var(--paper);
+  outline:1px dashed var(--line-strong); outline-offset:-4px;
+}
+.room--out[aria-pressed="true"]{ background:var(--ink); }
+@media (max-width:620px){
+  .room i{ display:none; }
+  .room{ padding:3px 4px; }
+  .room b{ font-size:8px; letter-spacing:.03em; }
+}
+
+/* grid placement */
+.r-terrace{ grid-area:1/1/5/5; }
+.r-great  { grid-area:1/5/5/10; }
+.r-kitchen{ grid-area:1/10/3/13; }
+.r-utility{ grid-area:3/10/5/13; }
+.r-entry  { grid-area:5/1/9/3; }
+.r-studio { grid-area:5/3/9/5; }
+.r-hall   { grid-area:5/5/6/13; }
+.r-guest  { grid-area:6/5/9/9; }
+.r-primary{ grid-area:6/9/9/13; }
+
+.scale{
+  display:flex; align-items:center; gap:10px; margin-top:14px;
+  font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--concrete);
+}
+.scale__bar{
+  height:7px; width:96px; flex:none;
+  background:repeating-linear-gradient(to right, var(--ink) 0 24px, var(--paper) 24px 48px);
+  border:1px solid var(--ink);
+}
+
+.plan__read{
+  margin-top:22px; padding-top:20px; border-top:1px solid var(--line);
+  display:grid; gap:16px;
+}
+@media (min-width:620px){ .plan__read{ grid-template-columns:1fr auto; align-items:start; } }
+.plan__read h4{ font-size:1.3rem; }
+.plan__read p{ margin-top:8px; color:var(--ink-2); font-size:14.5px; max-width:48ch; }
+.plan__figs{ display:flex; gap:26px; }
+.plan__figs div span{
+  display:block; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--concrete);
+}
+.plan__figs div b{ font-family:var(--serif); font-size:1.35rem; font-weight:600; }
+
+/* --- wall section --- */
+.wall{
+  display:flex; height:clamp(150px,20vw,196px); border:2px solid var(--ink);
+  background:var(--paper); overflow:hidden;
+}
+.layer{
+  position:relative; border-right:1px solid var(--ink);
+  transition:flex-grow .6s var(--ease-out), filter .35s var(--ease);
+}
+.layer:last-child{ border-right:0; }
+.layer:hover, .layer.is-lit{ filter:brightness(1.06) saturate(1.12); }
+.layer::after{
+  content:attr(data-mm); position:absolute; left:0; right:0; bottom:6px;
+  text-align:center; font-size:9px; letter-spacing:.06em; color:var(--ink);
+  background:rgba(246,241,233,.82); padding:1px 0;
+}
+.l-concrete{ flex:200 0 0; background:
+  repeating-linear-gradient(115deg, rgba(34,31,27,.11) 0 2px, transparent 2px 9px),
+  radial-gradient(circle at 30% 30%, rgba(34,31,27,.1) 0 2px, transparent 3px),
+  linear-gradient(180deg,#B9B2A8,#9C948A); }
+.l-wool{ flex:120 0 0; background:
+  repeating-linear-gradient(45deg, rgba(176,86,58,.3) 0 3px, transparent 3px 8px),
+  linear-gradient(180deg,#E2CBBD,#D3B4A2); }
+.l-cavity{ flex:45 0 0; background:
+  repeating-linear-gradient(to bottom, rgba(34,31,27,.16) 0 1px, transparent 1px 10px),
+  linear-gradient(180deg,#F1EAE0,#E3DACC); }
+.l-oak{ flex:34 0 0; background:
+  repeating-linear-gradient(to bottom, rgba(120,84,44,.34) 0 2px, transparent 2px 12px),
+  linear-gradient(180deg,#C79A63,#A87B45); }
+.l-brass{ flex:14 0 0; background:linear-gradient(180deg,var(--brass-lite),var(--brass)); }
+.l-brass::after{ content:""; }
+
+.legend{ margin-top:20px; display:grid; gap:0; }
+.legend li{
+  display:grid; grid-template-columns:16px 1fr auto; gap:14px; align-items:center;
+  padding:11px 0; border-top:1px solid var(--line);
+  transition:background .3s var(--ease), padding-left .35s var(--ease-out);
+  cursor:default;
+}
+.legend li:hover, .legend li.is-lit{ background:var(--cream); padding-left:8px; }
+.legend li:first-child{ border-top:0; }
+.legend .sw{ width:16px; height:16px; border:1px solid var(--ink); }
+.legend b{ font-weight:400; font-size:14px; }
+.legend b em{ font-style:normal; display:block; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--concrete); margin-top:2px; }
+.legend .mm{ font-family:var(--serif); font-size:1.05rem; }
+
+.method__note{
+  margin-top:26px; padding:20px 22px; background:var(--ink); color:rgba(246,241,233,.82);
+  font-size:14.5px;
+}
+.method__note b{ color:var(--brass-lite); font-weight:500; }
+
+/* ============================================================
+   STUDIO (dark)
+   ============================================================ */
+.section-dark{ background:var(--ink); color:var(--paper); }
+.studio{ padding-block:var(--sect); position:relative; overflow:hidden; }
+.studio::before{
+  content:""; position:absolute; right:-160px; top:-120px; width:520px; height:520px;
+  border:1px solid rgba(246,241,233,.09); border-radius:50%; pointer-events:none;
+}
+.studio .shell{ position:relative; z-index:1; }
+.studio__lede{
+  font-family:var(--serif); font-size:clamp(1.4rem,2.7vw,2.05rem); line-height:1.34;
+  max-width:24ch;
+}
+.studio__grid{ display:grid; gap:clamp(36px,4.6vw,64px); }
+@media (min-width:980px){ .studio__grid{ grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr); } }
+
+.principles li{
+  display:grid; grid-template-columns:auto 1fr; gap:22px; align-items:start;
+  padding:26px 0; border-top:1px solid var(--line-dark);
+  transition:padding-left .5s var(--ease-out);
+}
+.principles li:hover{ padding-left:10px; }
+.principles li:last-child{ border-bottom:1px solid var(--line-dark); }
+.principles .num{
+  font-family:var(--serif); font-size:1.1rem; color:var(--brass-lite);
+  padding-top:3px; min-width:34px;
+}
+.principles h3{ font-size:1.32rem; }
+.principles p{ margin-top:8px; color:rgba(246,241,233,.66); font-size:15px; max-width:46ch; }
+
+.stats{
+  margin-top:clamp(44px,5vw,68px); display:grid; gap:1px;
+  grid-template-columns:repeat(2,minmax(0,1fr)); background:var(--line-dark);
+  border:1px solid var(--line-dark);
+}
+@media (min-width:820px){ .stats{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
+.stats div{
+  background:var(--ink); padding:clamp(20px,2.6vw,30px);
+  transition:background .45s var(--ease);
+}
+.stats div:hover{ background:#2B2722; }
+.stats b{ display:block; font-family:var(--serif); font-size:clamp(2rem,3.6vw,2.9rem); font-weight:600; }
+.stats b sup{ font-size:.45em; color:var(--clay); top:-.7em; }
+.stats span{
+  display:block; margin-top:8px; font-size:10.5px; letter-spacing:.2em;
+  text-transform:uppercase; color:rgba(246,241,233,.55);
+}
+
+/* ============================================================
+   TESTIMONIALS
+   ============================================================ */
+.voices{ padding-block:var(--sect); }
+.voices__grid{ display:grid; gap:clamp(20px,2.4vw,28px); }
+@media (min-width:940px){ .voices__grid{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+.voice{
+  border:1px solid var(--line); padding:clamp(24px,2.6vw,32px);
+  display:flex; flex-direction:column; background:var(--paper);
+  transition:background .5s var(--ease), transform .5s var(--ease-out), border-color .4s var(--ease);
+}
+.voice:hover{ background:var(--cream); transform:translateY(-5px); border-color:var(--line-strong); }
+.voice__q{
+  font-family:var(--serif); font-size:2.6rem; line-height:.6; color:var(--clay);
+  height:24px; display:block;
+}
+.voice p{ margin-top:20px; font-size:15.5px; color:var(--ink-2); }
+.voice footer{
+  margin-top:26px; padding-top:18px; border-top:1px solid var(--line);
+  display:flex; align-items:center; gap:14px;
+}
+.voice__badge{
+  width:38px; height:38px; flex:none; display:grid; place-items:center;
+  font-family:var(--serif); font-size:14px; color:var(--paper);
+  background:var(--ink); transition:background .45s var(--ease), transform .5s var(--ease-out);
+}
+.voice:hover .voice__badge{ background:var(--clay); transform:rotate(-6deg); }
+.voice__who b{ display:block; font-weight:500; font-size:14.5px; }
+.voice__who span{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--concrete); }
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact{ padding-block:var(--sect); background:var(--cream); border-top:1px solid var(--line); }
+.contact__grid{ display:grid; gap:clamp(36px,4.4vw,60px); }
+@media (min-width:960px){ .contact__grid{ grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); } }
+
+.contact__aside dl{ margin:30px 0 0; }
+.contact__aside dt{
+  font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--concrete);
+  padding-top:16px; border-top:1px solid var(--line);
+}
+.contact__aside dd{ margin:5px 0 16px; font-size:15.5px; }
+.contact__aside dd a{ border-bottom:1px solid var(--line-strong); transition:border-color .3s var(--ease); }
+.contact__aside dd a:hover{ border-color:var(--clay); }
+
+form{ background:var(--paper); border:1px solid var(--line-strong); padding:clamp(22px,3vw,36px); }
+.field-row{ display:grid; gap:18px; }
+@media (min-width:640px){ .field-row--2{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); } }
+.field{ display:flex; flex-direction:column; gap:7px; margin-bottom:18px; }
+.field label, .field .flabel{
+  font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-2);
+}
+.field label .req{ color:var(--clay); }
+.field input, .field select, .field textarea{
+  font:inherit; font-size:15px; color:var(--ink);
+  background:transparent; border:0; border-bottom:1px solid var(--line-strong);
+  padding:10px 2px; border-radius:0; width:100%;
+  transition:border-color .35s var(--ease), background .35s var(--ease);
+}
+.field select{ appearance:none; cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);
+  background-position:calc(100% - 12px) calc(50% + 1px), calc(100% - 7px) calc(50% + 1px);
+  background-size:5px 5px,5px 5px; background-repeat:no-repeat; padding-right:26px; }
+.field textarea{ resize:vertical; min-height:104px; }
+.field input:focus, .field select:focus, .field textarea:focus{
+  outline:none; border-bottom-color:var(--clay); background:rgba(176,86,58,.045);
+}
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible{
+  outline:2px solid var(--clay); outline-offset:2px;
+}
+
+.chips{ display:flex; flex-wrap:wrap; gap:9px; margin-top:4px; }
+.chip{
+  position:relative; overflow:hidden; isolation:isolate; cursor:pointer;
+  border:1px solid var(--line-strong); background:transparent; padding:9px 16px;
+  font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  transition:color .35s var(--ease), border-color .35s var(--ease);
+}
+.chip::before{
+  content:""; position:absolute; inset:0; z-index:-1; background:var(--ink);
+  transform:translateY(101%); transition:transform .45s var(--ease-out);
+}
+.chip:hover{ border-color:var(--ink); }
+.chip[aria-pressed="true"]{ color:var(--paper); border-color:var(--ink); }
+.chip[aria-pressed="true"]::before{ transform:translateY(0); }
+.chip__x{ opacity:0; width:0; display:inline-block; transition:opacity .3s var(--ease), width .3s var(--ease); }
+.chip[aria-pressed="true"] .chip__x{ opacity:1; width:12px; margin-left:6px; }
+
+.form__foot{
+  margin-top:26px; padding-top:22px; border-top:1px solid var(--line);
+  display:flex; flex-wrap:wrap; gap:18px; align-items:center; justify-content:space-between;
+}
+.form__foot .btn{ flex:1 1 240px; }
+.form__note{ font-size:12px; color:var(--concrete); flex:1 1 200px; }
+.form__msg{
+  margin-top:18px; font-size:14px; padding:0 16px; max-height:0; overflow:hidden;
+  border-left:2px solid var(--clay); background:var(--cream); color:var(--ink-2);
+  transition:max-height .5s var(--ease-out), padding .4s var(--ease-out);
+}
+.form__msg.is-on{ max-height:190px; padding:16px; }
+.form__msg b{ font-weight:500; color:var(--ink); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.foot{ background:var(--ink); color:var(--paper); padding-block:clamp(50px,6vw,76px) 30px; }
+.foot__grid{ display:grid; gap:38px; }
+@media (min-width:840px){ .foot__grid{ grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr); } }
+.foot .brand__mark{ border-color:var(--paper); }
+.foot .brand__mark::after{ background:var(--paper); }
+.foot .brand__word span{ color:rgba(246,241,233,.5); }
+.foot p{ margin-top:20px; color:rgba(246,241,233,.6); font-size:14.5px; max-width:38ch; }
+.foot h4{
+  font-family:var(--sans); font-size:10.5px; letter-spacing:.24em; text-transform:uppercase;
+  color:rgba(246,241,233,.45); font-weight:400; margin-bottom:16px;
+}
+.foot__nav li{ margin-bottom:11px; }
+.foot__nav a{
+  position:relative; font-size:14.5px; color:rgba(246,241,233,.82);
+  transition:color .3s var(--ease), padding-left .4s var(--ease-out);
+}
+.foot__nav a:hover{ color:var(--paper); padding-left:8px; }
+.foot__nav a::before{
+  content:""; position:absolute; left:0; top:50%; width:5px; height:1px;
+  background:var(--clay); opacity:0; transition:opacity .3s var(--ease);
+}
+.foot__nav a:hover::before{ opacity:1; }
+
+.social{ display:flex; gap:12px; margin-top:22px; }
+.social a{
+  width:42px; height:42px; display:grid; place-items:center;
+  border:1px solid var(--line-dark); color:rgba(246,241,233,.75);
+  transition:background .4s var(--ease), color .4s var(--ease),
+             border-color .4s var(--ease), transform .5s var(--ease-out);
+}
+.social a:hover{ background:var(--paper); color:var(--ink); border-color:var(--paper); transform:translateY(-4px); }
+.social svg{ width:17px; height:17px; }
+
+.foot__base{
+  margin-top:clamp(40px,5vw,60px); padding-top:24px; border-top:1px solid var(--line-dark);
+  display:flex; flex-wrap:wrap; gap:12px 26px; justify-content:space-between;
+  font-size:11.5px; letter-spacing:.1em; color:rgba(246,241,233,.45);
+}
+.foot__base a{ color:rgba(246,241,233,.7); }
+.foot__base a:hover{ color:var(--paper); }
+
+/* ============================================================
+   REDUCED MOTION — kill every duration
+   ============================================================ */
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    transition-delay:0ms !important;
+    scroll-behavior:auto !important;
+  }
+  .marquee__track{ animation:none !important; transform:none !important; }
+  .card:hover{ transform:none; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="nav__inner shell">
+    <a class="brand" href="#home" aria-label="Meridian Atelier — home">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span class="brand__word"><b>Meridian</b><span>Atelier</span></span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <a class="nav__link" href="#work">Projects</a>
+      <a class="nav__link" href="#method">Method</a>
+      <a class="nav__link" href="#studio">Studio</a>
+      <a class="nav__link" href="#voices">Clients</a>
+    </nav>
+
+    <a class="btn btn--solid nav__cta" href="#contact">
+      Start a project <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+    </a>
+
+    <button class="burger" id="burger" type="button"
+            aria-label="Open navigation menu" aria-expanded="false" aria-controls="drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="drawer" id="drawer" data-open="false">
+    <div class="drawer__wrap">
+      <ul>
+        <li><a href="#work"><i>01</i> Projects</a></li>
+        <li><a href="#method"><i>02</i> Method</a></li>
+        <li><a href="#studio"><i>03</i> Studio</a></li>
+        <li><a href="#voices"><i>04</i> Clients</a></li>
+        <li><a href="#contact"><i>05</i> Start a project</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <noscript>
+    <div class="nojs-nav">
+      <a href="#work">Projects</a><a href="#method">Method</a>
+      <a href="#studio">Studio</a><a href="#voices">Clients</a>
+      <a href="#contact">Start a project</a>
+    </div>
+  </noscript>
+</header>
+
+<main id="main">
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" id="home">
+    <div class="shell">
+      <div class="hero__grid">
+        <div>
+          <p class="eyebrow">Architecture &amp; Interiors — Est. 2011</p>
+          <h1 class="h-xl">
+            <span class="line">Buildings that</span>
+            <span class="line indent"><em>hold</em> the light</span>
+          </h1>
+          <p class="lede hero__lede">
+            A twelve-person atelier drawing houses, workplaces and small hotels in
+            board-formed concrete, white oak and unlacquered brass — materials that
+            are meant to age in public.
+          </p>
+
+          <div class="hero__ctas">
+            <a class="btn btn--solid" href="#work">
+              View projects <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            <a class="btn btn--clay" href="#contact">
+              Start a project <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+
+          <div class="hero__meta">
+            <div><b>68</b><span>Projects built</span></div>
+            <div><b>14</b><span>Years in practice</span></div>
+            <div><b>4</b><span>Countries</span></div>
+          </div>
+        </div>
+
+        <aside class="panel" aria-label="Studio statement">
+          <div class="panel__draw" aria-hidden="true">
+            <i class="pd-sun"></i>
+            <i class="pd-slab-c"></i>
+            <i class="pd-slab-b"></i>
+            <i class="pd-slab-a"></i>
+            <i class="pd-core"></i>
+            <i class="pd-post"></i>
+            <i class="pd-post2"></i>
+            <i class="pd-ground"></i>
+            <i class="pd-hatch"></i>
+          </div>
+          <blockquote>
+            “We design the section before the plan. Light arrives on a
+            diagonal — the floor plate is just where you stand to receive it.”
+          </blockquote>
+          <cite>Ilse Navarro, Founding Partner</cite>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MARQUEE ==================== -->
+  <div class="marquee" aria-label="Materials we build with">
+    <div class="marquee__track">
+      <span class="marquee__item">Board-formed concrete</span>
+      <span class="marquee__item">White oak</span>
+      <span class="marquee__item">Unlacquered brass</span>
+      <span class="marquee__item">Belgian linen</span>
+      <span class="marquee__item">Lime plaster</span>
+      <span class="marquee__item">Travertine</span>
+      <span class="marquee__item">Blackened steel</span>
+      <span class="marquee__item">Terracotta</span>
+      <span class="marquee__item">Reeded glass</span>
+      <span class="marquee__item">Sisal</span>
+      <span class="marquee__item" aria-hidden="true">Board-formed concrete</span>
+      <span class="marquee__item" aria-hidden="true">White oak</span>
+      <span class="marquee__item" aria-hidden="true">Unlacquered brass</span>
+      <span class="marquee__item" aria-hidden="true">Belgian linen</span>
+      <span class="marquee__item" aria-hidden="true">Lime plaster</span>
+      <span class="marquee__item" aria-hidden="true">Travertine</span>
+      <span class="marquee__item" aria-hidden="true">Blackened steel</span>
+      <span class="marquee__item" aria-hidden="true">Terracotta</span>
+      <span class="marquee__item" aria-hidden="true">Reeded glass</span>
+      <span class="marquee__item" aria-hidden="true">Sisal</span>
+    </div>
+  </div>
+
+  <!-- ==================== PROJECTS ==================== -->
+  <section class="work" id="work">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Selected work — 2019 / 2026</p>
+          <h2 class="h-lg">Five buildings,<br>one set of rules</h2>
+        </div>
+        <p class="lede">
+          Every project below started as a single hand section. Categories differ;
+          the structural honesty doesn't.
+        </p>
+      </div>
+
+      <div class="work__grid">
+
+        <article class="card card--wide" style="--t1:#E3D6C4; --t2:#C7B49C; --sil:#5E5348;">
+          <div class="elev elev--ridge" role="img"
+               aria-label="Elevation drawing: three stacked cantilevered slabs around a central core">
+            <i class="sun"></i><i class="s3 m3"></i><i class="s2 m2"></i>
+            <i class="s1 m1"></i><i class="s4"></i><i class="s5"></i>
+            <i class="ground"></i><i class="hatch"></i>
+          </div>
+          <div class="card__body">
+            <div class="card__rule" aria-hidden="true"></div>
+            <div class="card__top"><span>Residential</span><span>Sonoma, CA</span></div>
+            <h3><a href="#contact">Ridgeline House</a></h3>
+            <p>Three cantilevered slabs stepping down a hillside, tied by a single board-formed chimney core.</p>
+            <div class="card__foot">
+              <span class="card__spec">3,240 sq ft · 2023</span>
+              <span class="card__go">Case study
+                <svg viewBox="0 0 16 9" fill="none" aria-hidden="true"><path d="M0 4.5h14M10.5 1 14 4.5 10.5 8" stroke="currentColor" stroke-width="1.2"/></svg>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card card--wide" style="--t1:#D9C4B4; --t2:#B08872; --sil:#4A3D35;">
+          <div class="elev elev--foundry" role="img"
+               aria-label="Elevation drawing: a long brick shed with a four-bay sawtooth north-light roof">
+            <i class="sun"></i>
+            <i class="tooth t1 m1"></i><i class="tooth t2 m1"></i>
+            <i class="tooth t3 m2"></i><i class="tooth t4 m2"></i>
+            <i class="s1"></i><i class="s2"></i><i class="s3 m3"></i>
+            <i class="ground"></i><i class="hatch"></i>
+          </div>
+          <div class="card__body">
+            <div class="card__rule" aria-hidden="true"></div>
+            <div class="card__top"><span>Commercial</span><span>Portland, OR</span></div>
+            <h3><a href="#contact">Foundry No. 7</a></h3>
+            <p>A 1918 iron works converted to studios — the sawtooth roof kept, reglazed, and turned north for even light.</p>
+            <div class="card__foot">
+              <span class="card__spec">18,400 sq ft · 2024</span>
+              <span class="card__go">Case study
+                <svg viewBox="0 0 16 9" fill="none" aria-hidden="true"><path d="M0 4.5h14M10.5 1 14 4.5 10.5 8" stroke="currentColor" stroke-width="1.2"/></svg>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" style="--t1:#EBDCC6; --t2:#CBA678; --sil:#6B4F33;">
+          <div class="elev elev--solano" role="img"
+               aria-label="Elevation drawing: a five-bay arched colonnade beneath a deep entablature">
+            <i class="sun"></i><i class="s2 m3"></i><i class="s1 m2"></i>
+            <i class="arch a1 m1"></i><i class="arch a2 m1"></i><i class="arch a3 m1"></i>
+            <i class="arch a4 m1"></i><i class="arch a5 m1"></i>
+            <i class="ground"></i><i class="hatch"></i>
+          </div>
+          <div class="card__body">
+            <div class="card__rule" aria-hidden="true"></div>
+            <div class="card__top"><span>Hospitality</span><span>Oaxaca, MX</span></div>
+            <h3><a href="#contact">Casa Solano</a></h3>
+            <p>Eleven rooms wrapped around a lime-plaster courtyard, shaded by a cast-in-place colonnade.</p>
+            <div class="card__foot">
+              <span class="card__spec">11 keys · 2025</span>
+              <span class="card__go">Case study
+                <svg viewBox="0 0 16 9" fill="none" aria-hidden="true"><path d="M0 4.5h14M10.5 1 14 4.5 10.5 8" stroke="currentColor" stroke-width="1.2"/></svg>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" style="--t1:#DCD9CE; --t2:#A9A493; --sil:#4F5245;">
+          <div class="elev elev--atrium" role="img"
+               aria-label="Elevation drawing: four stepped terraces narrowing toward the top, each with a planter edge">
+            <i class="sun"></i><i class="s4 m3"></i><i class="s3 m3"></i>
+            <i class="s2 m2"></i><i class="s1 m1"></i>
+            <i class="p2"></i><i class="p1"></i>
+            <i class="ground"></i><i class="hatch"></i>
+          </div>
+          <div class="card__body">
+            <div class="card__rule" aria-hidden="true"></div>
+            <div class="card__top"><span>Residential</span><span>Lisbon, PT</span></div>
+            <h3><a href="#contact">Atrium Twelve</a></h3>
+            <p>Twelve apartments stepped back floor by floor so every unit gains a planted terrace and cross draft.</p>
+            <div class="card__foot">
+              <span class="card__spec">12 units · 2024</span>
+              <span class="card__go">Case study
+                <svg viewBox="0 0 16 9" fill="none" aria-hidden="true"><path d="M0 4.5h14M10.5 1 14 4.5 10.5 8" stroke="currentColor" stroke-width="1.2"/></svg>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" style="--t1:#D6DBD8; --t2:#9FAEA9; --sil:#3E4A47;">
+          <div class="elev elev--salt" role="img"
+               aria-label="Elevation drawing: three barrel vaults over a low bathhouse with a reflecting pool line">
+            <i class="sun"></i><i class="v v1 m1"></i><i class="v v2 m1"></i><i class="v v3 m1"></i>
+            <i class="s1 m2"></i><i class="s2"></i><i class="s3 m3"></i>
+            <i class="ground"></i><i class="hatch"></i>
+          </div>
+          <div class="card__body">
+            <div class="card__rule" aria-hidden="true"></div>
+            <div class="card__top"><span>Hospitality</span><span>Reykjavík, IS</span></div>
+            <h3><a href="#contact">The Salt Room</a></h3>
+            <p>A geothermal bathhouse under three brick vaults, detailed to survive constant 96% humidity.</p>
+            <div class="card__foot">
+              <span class="card__spec">6,100 sq ft · 2026</span>
+              <span class="card__go">Case study
+                <svg viewBox="0 0 16 9" fill="none" aria-hidden="true"><path d="M0 4.5h14M10.5 1 14 4.5 10.5 8" stroke="currentColor" stroke-width="1.2"/></svg>
+              </span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== THE DRAWING SET ==================== -->
+  <section class="method" id="method">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">The drawing set</p>
+          <h2 class="h-lg">How a Meridian<br>project is put together</h2>
+        </div>
+        <p class="lede">
+          Two drawings do most of the talking in our office: the plan, which sets how
+          you move, and the wall section, which sets how the building feels and how
+          long it lasts. Here is one of each, at real proportion.
+        </p>
+      </div>
+
+      <div class="drawings">
+
+        <!-- ---------- SHEET A: FLOOR PLAN ---------- -->
+        <div class="sheet">
+          <p class="sheet__label"><b>A-101 — Ground plan</b> <span>Ridgeline House · 3,240 sq ft</span></p>
+
+          <div class="plan" id="plan">
+            <button class="room r-terrace room--out" type="button" aria-pressed="false"
+              data-name="Terrace" data-sqft="540" data-dim="30&#39; × 18&#39;" data-share="17"
+              data-note="Exterior room. Same floor level as the great room and the same travertine paver, so the slab reads as one surface through the glass line.">
+              <b>Terrace</b><i>540</i>
+            </button>
+            <button class="room r-great" type="button" aria-pressed="true"
+              data-name="Great room" data-sqft="680" data-dim="34&#39; × 20&#39;" data-share="21"
+              data-note="The only double-height volume. Its west wall is the board-formed core, which absorbs afternoon heat and releases it after sundown.">
+              <b>Great room</b><i>680</i>
+            </button>
+            <button class="room r-kitchen" type="button" aria-pressed="false"
+              data-name="Kitchen &amp; pantry" data-sqft="200" data-dim="20&#39; × 10&#39;" data-share="6"
+              data-note="Placed on the north-east corner so prep surfaces get flat morning light and never direct glare. Pantry doubles as the service entry.">
+              <b>Kitchen</b><i>200</i>
+            </button>
+            <button class="room r-utility" type="button" aria-pressed="false"
+              data-name="Utility" data-sqft="200" data-dim="20&#39; × 10&#39;" data-share="6"
+              data-note="Plant, laundry and the mechanical riser stacked in one zone so no pipework crosses a habitable room.">
+              <b>Utility</b><i>200</i>
+            </button>
+            <button class="room r-entry" type="button" aria-pressed="false"
+              data-name="Entry court" data-sqft="270" data-dim="18&#39; × 15&#39;" data-share="8"
+              data-note="A compressed, low-ceiling arrival — deliberately dark, so the great room reads twice as bright when you step through.">
+              <b>Entry</b><i>270</i>
+            </button>
+            <button class="room r-studio" type="button" aria-pressed="false"
+              data-name="Studio" data-sqft="270" data-dim="18&#39; × 15&#39;" data-share="8"
+              data-note="Detachable from the house: its own door off the entry court, so clients can visit without crossing private space.">
+              <b>Studio</b><i>270</i>
+            </button>
+            <button class="room r-hall" type="button" aria-pressed="false"
+              data-name="Gallery hall" data-sqft="270" data-dim="45&#39; × 6&#39;" data-share="8"
+              data-note="The circulation spine. Every room hangs off it, which is what keeps the plan free of internal corridors elsewhere.">
+              <b>Gallery hall</b><i>270</i>
+            </button>
+            <button class="room r-guest" type="button" aria-pressed="false"
+              data-name="Guest wing" data-sqft="400" data-dim="25&#39; × 16&#39;" data-share="12"
+              data-note="Two rooms sharing a bath, closable behind a single oak pocket door when the house is used by two people.">
+              <b>Guest wing</b><i>400</i>
+            </button>
+            <button class="room r-primary" type="button" aria-pressed="false"
+              data-name="Primary suite" data-sqft="410" data-dim="25&#39; × 16&#39;" data-share="13"
+              data-note="Sited at the far end of the spine, facing the ridge. Bed wall is solid; the light comes from a clerestory above the wardrobe.">
+              <b>Primary</b><i>410</i>
+            </button>
+          </div>
+
+          <p class="scale"><span class="scale__bar" aria-hidden="true"></span> 0 — 10 ft &nbsp;·&nbsp; North &uarr; up</p>
+
+          <div class="plan__read">
+            <div>
+              <h4 id="plan-name">Great room</h4>
+              <p id="plan-note">The only double-height volume. Its west wall is the board-formed core, which absorbs afternoon heat and releases it after sundown.</p>
+            </div>
+            <div class="plan__figs">
+              <div><span>Area</span><b id="plan-sqft">680 sq ft</b></div>
+              <div><span>Dim</span><b id="plan-dim">34' × 20'</b></div>
+              <div><span>Of plan</span><b id="plan-share">21%</b></div>
+            </div>
+          </div>
+          <p class="sr-only" role="status" id="plan-live"></p>
+        </div>
+
+        <!-- ---------- SHEET B: WALL SECTION ---------- -->
+        <div>
+          <div class="sheet">
+            <p class="sheet__label"><b>A-501 — Wall section</b> <span>Typical exterior · 397 mm</span></p>
+
+            <div class="wall" id="wall" role="img"
+                 aria-label="Cut through a typical exterior wall, outside to inside: 200 millimetre board-formed concrete, 120 millimetre mineral wool, 45 millimetre service cavity, 20 millimetre oak batten screen, 12 millimetre brass reveal.">
+              <span class="layer l-concrete" data-mm="200" data-i="0"></span>
+              <span class="layer l-wool"     data-mm="120" data-i="1"></span>
+              <span class="layer l-cavity"   data-mm="45"  data-i="2"></span>
+              <span class="layer l-oak"      data-mm="20"  data-i="3"></span>
+              <span class="layer l-brass"    data-mm="12"  data-i="4"></span>
+            </div>
+
+            <ul class="legend" id="legend">
+              <li data-i="0"><span class="sw" style="background:#A79F94" aria-hidden="true"></span>
+                <b>Board-formed concrete<em>Structure + thermal mass</em></b><span class="mm">200<small>mm</small></span></li>
+              <li data-i="1"><span class="sw" style="background:#D9BFAF" aria-hidden="true"></span>
+                <b>Mineral wool<em>Continuous outboard insulation</em></b><span class="mm">120<small>mm</small></span></li>
+              <li data-i="2"><span class="sw" style="background:#EAE2D6" aria-hidden="true"></span>
+                <b>Service cavity<em>Wiring — never drilled through</em></b><span class="mm">45<small>mm</small></span></li>
+              <li data-i="3"><span class="sw" style="background:#B78A54" aria-hidden="true"></span>
+                <b>White oak battens<em>The surface you touch</em></b><span class="mm">20<small>mm</small></span></li>
+              <li data-i="4"><span class="sw" style="background:#B99B60" aria-hidden="true"></span>
+                <b>Brass shadow reveal<em>Where two materials meet</em></b><span class="mm">12<small>mm</small></span></li>
+            </ul>
+          </div>
+
+          <p class="method__note">
+            <b>Why it matters:</b> the insulation sits outside the concrete, not inside it.
+            That single move lets the slab work as a thermal battery, removes every
+            cold bridge at the floor edge, and is the reason a Meridian house holds
+            temperature overnight with the mechanical system off.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STUDIO ==================== -->
+  <section class="studio section-dark" id="studio">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">The studio</p>
+          <h2 class="h-lg">Twelve people,<br>one drawing board</h2>
+        </div>
+        <p class="lede">
+          Meridian Atelier was founded in Sonoma in 2011 by Ilse Navarro and
+          Töm Rask. We take six to eight projects a year — enough that a partner
+          is on every site visit, few enough that we still draw by hand first.
+        </p>
+      </div>
+
+      <div class="studio__grid">
+        <div>
+          <p class="studio__lede">
+            A building should be legible. You should be able to read how it stands up
+            just by looking at it.
+          </p>
+          <div class="stats">
+            <div><b>14<sup>yrs</sup></b><span>In practice</span></div>
+            <div><b>68</b><span>Built projects</span></div>
+            <div><b>9</b><span>Design awards</span></div>
+            <div><b>12</b><span>People in studio</span></div>
+          </div>
+        </div>
+
+        <ol class="principles">
+          <li>
+            <span class="num" aria-hidden="true">01</span>
+            <div>
+              <h3>Structure stays visible</h3>
+              <p>If a beam is doing work, you should see it doing the work. We don't
+                 box out structure to make a room look calmer — we size it so it already is.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num" aria-hidden="true">02</span>
+            <div>
+              <h3>Materials must age well</h3>
+              <p>Unlacquered brass darkens, oak silvers, lime plaster chalks. We specify
+                 finishes that are better in year ten than in year one — and refuse the ones that aren't.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num" aria-hidden="true">03</span>
+            <div>
+              <h3>Draw the section first</h3>
+              <p>Plans get you through a building; sections tell you how it feels once
+                 you're inside. Every Meridian project begins with a hand section at 1:20.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VOICES ==================== -->
+  <section class="voices" id="voices">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Clients</p>
+          <h2 class="h-lg">On working<br>with the atelier</h2>
+        </div>
+        <p class="lede">
+          Three of the people whose buildings are above — on what the process
+          was actually like.
+        </p>
+      </div>
+
+      <div class="voices__grid">
+        <figure class="voice">
+          <span class="voice__q" aria-hidden="true">&ldquo;</span>
+          <blockquote><p>They talked us out of the bigger house. Two years in, that
+            conversation is the reason the place feels generous instead of empty.</p></blockquote>
+          <footer>
+            <span class="voice__badge" aria-hidden="true">HD</span>
+            <span class="voice__who"><b>Helena Doyle</b><span>Ridgeline House</span></span>
+          </footer>
+        </figure>
+
+        <figure class="voice">
+          <span class="voice__q" aria-hidden="true">&ldquo;</span>
+          <blockquote><p>We came in with a heritage shell nobody wanted to touch. Meridian
+            treated the existing roof as the best idea in the building — and it was.</p></blockquote>
+          <footer>
+            <span class="voice__badge" aria-hidden="true">MO</span>
+            <span class="voice__who"><b>Marcus Oyelaran</b><span>Foundry No. 7</span></span>
+          </footer>
+        </figure>
+
+        <figure class="voice">
+          <span class="voice__q" aria-hidden="true">&ldquo;</span>
+          <blockquote><p>Eleven keys, opened on schedule, and the plaster still looks
+            hand-made. Their site drawings were the most precise our contractor had seen.</p></blockquote>
+          <footer>
+            <span class="voice__badge" aria-hidden="true">RA</span>
+            <span class="voice__who"><b>Renata Alvim</b><span>Casa Solano</span></span>
+          </footer>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT ==================== -->
+  <section class="contact" id="contact">
+    <div class="shell">
+      <div class="contact__grid">
+        <div class="contact__aside">
+          <p class="eyebrow">Consultation request</p>
+          <h2 class="h-lg" style="margin-top:18px">Tell us<br>about the site</h2>
+          <p class="lede" style="margin-top:22px">
+            We take on six to eight projects a year. First conversations are 45 minutes,
+            unpaid, and usually happen on the land itself.
+          </p>
+          <dl>
+            <dt>Studio</dt>
+            <dd>118 Kiln Street, Sonoma, California</dd>
+            <dt>Email</dt>
+            <dd><a href="mailto:studio@meridianatelier.com">studio@meridianatelier.com</a></dd>
+            <dt>Telephone</dt>
+            <dd><a href="tel:+17075550142">+1 707 555 0142</a></dd>
+            <dt>Currently booking</dt>
+            <dd>Q3 2026 starts</dd>
+          </dl>
+        </div>
+
+        <form id="brief" novalidate>
+          <div class="field-row field-row--2">
+            <div class="field">
+              <label for="f-name">Your name <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="f-email">Email <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-email" name="email" type="email" autocomplete="email" required />
+            </div>
+          </div>
+
+          <div class="field-row field-row--2">
+            <div class="field">
+              <label for="f-type">Project type</label>
+              <select id="f-type" name="type">
+                <option>New build — residential</option>
+                <option>Renovation / addition</option>
+                <option>Commercial or workplace</option>
+                <option>Hospitality</option>
+                <option>Interiors only</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-budget">Construction budget</label>
+              <select id="f-budget" name="budget">
+                <option>Under $500k</option>
+                <option>$500k – $1.5m</option>
+                <option>$1.5m – $4m</option>
+                <option>$4m +</option>
+                <option>Not yet defined</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-site">Site location</label>
+            <input id="f-site" name="site" type="text" placeholder="City, or nearest town" />
+          </div>
+
+          <div class="field">
+            <span class="flabel" id="scope-label">Scope you're considering</span>
+            <div class="chips" id="chips" role="group" aria-labelledby="scope-label">
+              <button class="chip" type="button" aria-pressed="false" data-scope="Feasibility study">Feasibility study<span class="chip__x" aria-hidden="true">&times;</span></button>
+              <button class="chip" type="button" aria-pressed="false" data-scope="Full architecture">Full architecture<span class="chip__x" aria-hidden="true">&times;</span></button>
+              <button class="chip" type="button" aria-pressed="false" data-scope="Interiors">Interiors<span class="chip__x" aria-hidden="true">&times;</span></button>
+              <button class="chip" type="button" aria-pressed="false" data-scope="Furniture &amp; FF&amp;E">Furniture &amp; FF&amp;E<span class="chip__x" aria-hidden="true">&times;</span></button>
+              <button class="chip" type="button" aria-pressed="false" data-scope="Landscape">Landscape<span class="chip__x" aria-hidden="true">&times;</span></button>
+              <button class="chip" type="button" aria-pressed="false" data-scope="Site supervision">Site supervision<span class="chip__x" aria-hidden="true">&times;</span></button>
+            </div>
+            <input type="hidden" name="scope" id="f-scope" value="" />
+          </div>
+
+          <div class="field">
+            <label for="f-msg">The brief in a paragraph</label>
+            <textarea id="f-msg" name="message" placeholder="What's there now, what you want, and when you'd like to be in."></textarea>
+          </div>
+
+          <div class="form__foot">
+            <button class="btn btn--solid" type="submit">
+              Send request <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+            </button>
+            <p class="form__note">We reply to every enquiry within two working days.</p>
+          </div>
+
+          <p class="form__msg" id="form-msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="shell">
+    <div class="foot__grid">
+      <div>
+        <a class="brand" href="#home" aria-label="Meridian Atelier — home">
+          <span class="brand__mark" aria-hidden="true"></span>
+          <span class="brand__word"><b>Meridian</b><span>Atelier</span></span>
+        </a>
+        <p>Architecture and interiors in concrete, oak and brass.
+           Sonoma · Lisbon. Registered practice, AIA &amp; OA.</p>
+        <div class="social">
+          <a href="#home" aria-label="Meridian Atelier on Instagram">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/>
+              <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/>
+              <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/>
+            </svg>
+          </a>
+          <a href="#home" aria-label="Meridian Atelier on Pinterest">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M12 7.6c-2.2 0-3.6 1.4-3.6 3.2 0 .9.4 1.8 1.2 2.1.2.1.3 0 .3-.2l.1-.6c0-.1 0-.2-.1-.3-.3-.4-.4-.9-.4-1.4 0-1.5 1.1-2.7 2.8-2.7 1.5 0 2.4.9 2.4 2.2 0 1.7-.7 3-1.8 3-.6 0-1-.5-.9-1.1.2-.7.5-1.5.5-2 0-.5-.3-.9-.8-.9-.6 0-1.1.7-1.1 1.6 0 .6.2 1 .2 1l-.9 3.6c-.2.9 0 2 0 2.1 0 .1.1.1.2 0 .1-.1.7-.9.9-1.7l.4-1.4c.2.4.9.8 1.6.8 2.1 0 3.5-1.9 3.5-4.4 0-1.9-1.6-3.6-4-3.6Z" fill="currentColor"/>
+            </svg>
+          </a>
+          <a href="#home" aria-label="Meridian Atelier on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M7.5 10.2v6.3M7.5 7.4v.1M11.4 16.5v-6.3M11.4 12.6c0-1.2.9-2.1 2.1-2.1s2.1.9 2.1 2.1v3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </a>
+          <a href="#home" aria-label="Meridian Atelier journal, RSS feed">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 10a9 9 0 0 1 9 9M5 5a14 14 0 0 1 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <circle cx="6" cy="18" r="1.6" fill="currentColor"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <nav class="foot__nav" aria-label="Footer">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="#work">Projects</a></li>
+          <li><a href="#method">The drawing set</a></li>
+          <li><a href="#studio">Studio</a></li>
+          <li><a href="#voices">Clients</a></li>
+          <li><a href="#contact">Start a project</a></li>
+        </ul>
+      </nav>
+
+      <nav class="foot__nav" aria-label="Practice">
+        <h4>Practice</h4>
+        <ul>
+          <li><a href="#studio">Awards &amp; press</a></li>
+          <li><a href="#studio">Careers</a></li>
+          <li><a href="#method">Fee structure</a></li>
+          <li><a href="mailto:studio@meridianatelier.com">studio@meridianatelier.com</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="foot__base">
+      <span>© 2026 Meridian Atelier. Demo site — fictional practice.</span>
+      <span>Designed &amp; built by <a href="#home">Axis Digital</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- sticky nav ---------- */
+  var nav = document.getElementById('nav');
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(function () {
+      nav.classList.toggle('is-stuck', window.scrollY > 24);
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- mobile drawer ---------- */
+  var burger = document.getElementById('burger');
+  var drawer = document.getElementById('drawer');
+  function setDrawer(open) {
+    drawer.setAttribute('data-open', open ? 'true' : 'false');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+  }
+  burger.addEventListener('click', function () {
+    setDrawer(burger.getAttribute('aria-expanded') !== 'true');
+  });
+  drawer.addEventListener('click', function (e) {
+    if (e.target.closest('a')) setDrawer(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') {
+      setDrawer(false);
+      burger.focus();
+    }
+  });
+  window.addEventListener('resize', function () {
+    if (window.innerWidth >= 960) setDrawer(false);
+  });
+
+  /* ---------- floor plan reader ----------
+     Every room already carries its data in the markup and the read-out
+     is pre-rendered with the great room, so this only swaps text. */
+  var plan = document.getElementById('plan');
+  if (plan) {
+    var out = {
+      name:  document.getElementById('plan-name'),
+      note:  document.getElementById('plan-note'),
+      sqft:  document.getElementById('plan-sqft'),
+      dim:   document.getElementById('plan-dim'),
+      share: document.getElementById('plan-share'),
+      live:  document.getElementById('plan-live')
+    };
+    var rooms = Array.prototype.slice.call(plan.querySelectorAll('.room'));
+
+    function selectRoom(btn) {
+      rooms.forEach(function (r) { r.setAttribute('aria-pressed', String(r === btn)); });
+      out.name.textContent  = btn.dataset.name;
+      out.note.textContent  = btn.dataset.note;
+      out.sqft.textContent  = btn.dataset.sqft + ' sq ft';
+      out.dim.textContent   = btn.dataset.dim;
+      out.share.textContent = btn.dataset.share + '%';
+      out.live.textContent  = btn.dataset.name + ', ' + btn.dataset.sqft + ' square feet.';
+    }
+
+    plan.addEventListener('click', function (e) {
+      var btn = e.target.closest('.room');
+      if (btn) selectRoom(btn);
+    });
+    plan.addEventListener('mouseover', function (e) {
+      var btn = e.target.closest('.room');
+      if (btn && window.matchMedia('(hover:hover)').matches) selectRoom(btn);
+    });
+    rooms.forEach(function (r) {
+      r.addEventListener('focus', function () { selectRoom(r); });
+    });
+  }
+
+  /* ---------- wall section ↔ legend cross-highlight ---------- */
+  var wall = document.getElementById('wall');
+  var legend = document.getElementById('legend');
+  if (wall && legend) {
+    var layers = Array.prototype.slice.call(wall.querySelectorAll('.layer'));
+    var rows = Array.prototype.slice.call(legend.querySelectorAll('li'));
+    function lit(i) {
+      layers.forEach(function (l) { l.classList.toggle('is-lit', l.dataset.i === i); });
+      rows.forEach(function (r) { r.classList.toggle('is-lit', r.dataset.i === i); });
+    }
+    function clear() { lit(null); }
+    layers.concat(rows).forEach(function (el) {
+      el.addEventListener('mouseenter', function () { lit(el.dataset.i); });
+      el.addEventListener('mouseleave', clear);
+    });
+  }
+
+  /* ---------- scope chips ---------- */
+  var chips = document.getElementById('chips');
+  var scopeField = document.getElementById('f-scope');
+  function syncScope() {
+    var on = chips.querySelectorAll('.chip[aria-pressed="true"]');
+    scopeField.value = Array.prototype.map.call(on, function (c) {
+      return c.dataset.scope;
+    }).join(', ');
+  }
+  if (chips) {
+    chips.addEventListener('click', function (e) {
+      var chip = e.target.closest('.chip');
+      if (!chip) return;
+      chip.setAttribute('aria-pressed', chip.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      syncScope();
+    });
+  }
+
+  /* ---------- consultation form (front-end only) ---------- */
+  var form = document.getElementById('brief');
+  var msg = document.getElementById('form-msg');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = form.elements.name.value.trim();
+      var email = form.elements.email.value.trim();
+      var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      if (!name || !valid) {
+        msg.innerHTML = '<b>Almost.</b> We need a name and a valid email address before we can reply.';
+        msg.classList.add('is-on');
+        (!name ? form.elements.name : form.elements.email).focus();
+        return;
+      }
+
+      var scope = scopeField.value ? ' Noted scope: ' + scopeField.value + '.' : '';
+      msg.innerHTML = '<b>Thank you, ' + name.replace(/[<>&]/g, '') + '.</b> ' +
+        'Your request is with the studio — we reply to every enquiry within two working days.' +
+        scope + ' <em>(Demo form: nothing was actually sent.)</em>';
+      msg.classList.add('is-on');
+      form.reset();
+      Array.prototype.forEach.call(chips.querySelectorAll('.chip'), function (c) {
+        c.setAttribute('aria-pressed', 'false');
+      });
+      syncScope();
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

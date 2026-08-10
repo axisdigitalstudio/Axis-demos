@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Northline Heating &amp; Air — same-day HVAC and plumbing repair across the north metro. Upfront pricing, licensed techs, book online in 60 seconds." />
+<title>Northline Heating &amp; Air — Same-Day HVAC &amp; Plumbing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   NORTHLINE HEATING & AIR — single-file demo for Axis Digital
+   Register: bright, functional, conversion-first. One sans, no serif.
+   Fast motion (140-220ms). Content never waits on JavaScript.
+   ============================================================ */
+
+:root{
+  --blue:#1D4ED8;
+  --blue-600:#2563EB;
+  --blue-700:#1E40AF;
+  --blue-50:#EFF6FF;
+  --blue-100:#DBEAFE;
+  --orange:#EA580C;
+  --orange-50:#FFF7ED;
+  --green:#16A34A;
+  --green-50:#F0FDF4;
+  --amber:#F59E0B;
+
+  --ink:#0F172A;
+  --slate:#475569;
+  --slate-400:#94A3B8;
+  --line:#E2E8F0;
+  --line-2:#CBD5E1;
+  --surface:#F8FAFC;
+  --white:#fff;
+
+  --sans:'Plus Jakarta Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+
+  --shell:1180px;
+  --pad:clamp(16px,4vw,40px);
+  --sect:clamp(56px,7vw,92px);
+
+  --r:12px;
+  --r-lg:18px;
+  --sh-sm:0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.08);
+  --sh:0 4px 6px -1px rgba(15,23,42,.07), 0 2px 4px -2px rgba(15,23,42,.05);
+  --sh-lg:0 12px 20px -8px rgba(15,23,42,.14), 0 4px 8px -4px rgba(15,23,42,.06);
+
+  --t:.18s cubic-bezier(.4,0,.2,1);
+  --t-fast:.14s cubic-bezier(.4,0,.2,1);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; scroll-padding-top:120px; -webkit-text-size-adjust:100%; }
+body{
+  margin:0; background:var(--white); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.6; font-weight:400;
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+}
+@media (max-width:759px){ body{ padding-bottom:68px; } } /* room for the call bar */
+
+h1,h2,h3,h4{ margin:0; line-height:1.15; font-weight:800; letter-spacing:-.02em; }
+p{ margin:0; }
+ul,ol{ margin:0; padding:0; list-style:none; }
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; color:inherit; }
+svg{ display:block; }
+
+:focus-visible{ outline:3px solid var(--blue); outline-offset:2px; border-radius:4px; }
+
+.shell{ width:100%; max-width:var(--shell); margin:0 auto; padding-inline:var(--pad); }
+.sr-only{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+.skip{
+  position:absolute; left:12px; top:-60px; z-index:300;
+  background:var(--ink); color:#fff; padding:10px 18px; border-radius:8px;
+  font-weight:600; font-size:14px; transition:top var(--t);
+}
+.skip:focus{ top:12px; }
+
+.h1{ font-size:clamp(2rem,5.2vw,3.4rem); }
+.h2{ font-size:clamp(1.6rem,3.4vw,2.4rem); }
+.h3{ font-size:clamp(1.05rem,1.6vw,1.2rem); font-weight:700; }
+.lede{ color:var(--slate); font-size:clamp(1rem,1.3vw,1.12rem); }
+.eyebrow{
+  font-size:12px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--blue);
+}
+.center{ text-align:center; }
+.sect-head{ max-width:62ch; margin-bottom:clamp(28px,4vw,44px); }
+.sect-head.center{ margin-inline:auto; }
+.sect-head .h2{ margin-top:10px; }
+.sect-head .lede{ margin-top:12px; }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  padding:14px 24px; border-radius:var(--r); border:2px solid transparent;
+  font-weight:700; font-size:15.5px; cursor:pointer; white-space:nowrap;
+  transition:background var(--t), color var(--t), border-color var(--t),
+             transform var(--t-fast), box-shadow var(--t);
+}
+.btn:active{ transform:translateY(1px); }
+.btn--primary{ background:var(--blue); color:#fff; box-shadow:var(--sh); }
+.btn--primary:hover{ background:var(--blue-700); box-shadow:var(--sh-lg); }
+.btn--orange{ background:var(--orange); color:#fff; box-shadow:var(--sh); }
+.btn--orange:hover{ background:#C2410C; box-shadow:var(--sh-lg); }
+.btn--ghost{ background:var(--white); color:var(--ink); border-color:var(--line-2); }
+.btn--ghost:hover{ border-color:var(--blue); color:var(--blue); background:var(--blue-50); }
+.btn--white{ background:#fff; color:var(--blue-700); }
+.btn--white:hover{ background:var(--blue-50); }
+.btn--lg{ padding:17px 30px; font-size:16.5px; }
+.btn--block{ width:100%; }
+.btn svg{ width:18px; height:18px; flex:none; }
+
+/* ============================================================
+   TOP BAR + HEADER
+   ============================================================ */
+.topbar{
+  background:var(--ink); color:#fff; font-size:13.5px; font-weight:500;
+}
+.topbar__in{
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding-block:9px; flex-wrap:wrap;
+}
+.topbar a{ font-weight:700; }
+.topbar a:hover{ text-decoration:underline; }
+.status{ display:inline-flex; align-items:center; gap:8px; color:#CBD5E1; }
+.dot{
+  width:8px; height:8px; border-radius:50%; background:var(--green); flex:none;
+  box-shadow:0 0 0 3px rgba(22,163,74,.25);
+}
+.topbar__areas{ color:#94A3B8; }
+@media (max-width:559px){ .topbar__areas{ display:none; } }
+
+.hdr{
+  position:sticky; top:0; z-index:100; background:rgba(255,255,255,.94);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  transition:box-shadow var(--t), border-color var(--t);
+}
+.hdr.is-stuck{ box-shadow:var(--sh); border-bottom-color:transparent; }
+.hdr__in{
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding-block:12px;
+}
+.logo{ display:flex; align-items:center; gap:11px; flex:none; }
+.logo__mark{
+  width:40px; height:40px; border-radius:11px; flex:none;
+  background:linear-gradient(135deg,var(--blue-600),var(--blue-700));
+  display:grid; place-items:center; color:#fff;
+  transition:transform var(--t);
+}
+.logo:hover .logo__mark{ transform:rotate(-6deg) scale(1.04); }
+.logo__mark svg{ width:22px; height:22px; }
+.logo__txt b{ display:block; font-weight:800; font-size:17px; letter-spacing:-.02em; line-height:1.15; }
+.logo__txt span{ display:block; font-size:11.5px; color:var(--slate); font-weight:600; }
+
+.nav{ display:none; align-items:center; gap:4px; }
+@media (min-width:960px){ .nav{ display:flex; } }
+.nav a{
+  padding:9px 13px; border-radius:8px; font-weight:600; font-size:15px; color:var(--slate);
+  transition:background var(--t), color var(--t);
+}
+.nav a:hover{ background:var(--surface); color:var(--ink); }
+
+.hdr__cta{ display:none; align-items:center; gap:10px; }
+@media (min-width:760px){ .hdr__cta{ display:flex; } }
+.callbtn{
+  display:inline-flex; align-items:center; gap:9px; font-weight:800; font-size:16px;
+  padding:11px 16px; border-radius:var(--r); color:var(--blue-700);
+  transition:background var(--t);
+}
+.callbtn:hover{ background:var(--blue-50); }
+.callbtn svg{ width:18px; height:18px; }
+
+.burger{
+  display:grid; place-items:center; width:44px; height:44px; flex:none;
+  background:var(--white); border:1px solid var(--line-2); border-radius:10px; cursor:pointer;
+  transition:background var(--t), border-color var(--t);
+}
+@media (min-width:960px){ .burger{ display:none; } }
+.burger:hover{ background:var(--surface); border-color:var(--blue); }
+.burger svg{ width:22px; height:22px; }
+.burger .x{ display:none; }
+.burger[aria-expanded="true"] .x{ display:block; }
+.burger[aria-expanded="true"] .bars{ display:none; }
+
+.drawer{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .22s cubic-bezier(.4,0,.2,1); background:var(--surface); }
+.drawer[data-open="true"]{ grid-template-rows:1fr; border-bottom:1px solid var(--line); }
+.drawer__in{ overflow:hidden; }
+.drawer ul{ padding:8px var(--pad) 18px; }
+.drawer a{
+  display:block; padding:13px 12px; border-radius:10px; font-weight:600; font-size:16px;
+  transition:background var(--t);
+}
+.drawer a:hover{ background:var(--blue-50); color:var(--blue-700); }
+.drawer .btn{ margin-top:8px; }
+@media (min-width:960px){ .drawer{ display:none; } }
+noscript .nojs-nav{
+  display:flex; flex-wrap:wrap; gap:8px 18px; padding:10px var(--pad) 14px;
+  background:var(--surface); border-bottom:1px solid var(--line); font-weight:600;
+}
+@media (min-width:960px){ noscript .nojs-nav{ display:none; } }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  background:
+    radial-gradient(60% 70% at 88% 0%, var(--blue-50), transparent 62%),
+    linear-gradient(180deg,var(--white),var(--surface));
+  padding-block:clamp(34px,5vw,60px) var(--sect);
+  border-bottom:1px solid var(--line);
+}
+.hero__grid{ display:grid; gap:clamp(28px,3.5vw,44px); grid-template-columns:minmax(0,1fr); }
+@media (min-width:980px){
+  .hero__grid{ grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); align-items:center; }
+}
+.pill{
+  display:inline-flex; align-items:center; gap:8px; padding:7px 14px; border-radius:999px;
+  background:var(--green-50); color:#15803D; border:1px solid #BBF7D0;
+  font-size:13.5px; font-weight:700;
+}
+.hero h1{ margin-top:16px; }
+.hero h1 em{ font-style:normal; color:var(--blue); }
+.hero__lede{ margin-top:16px; max-width:52ch; }
+.hero__ctas{ margin-top:26px; display:flex; flex-wrap:wrap; gap:12px; }
+.hero__ctas .btn{ flex:1 1 auto; }
+@media (min-width:520px){ .hero__ctas .btn{ flex:0 0 auto; } }
+
+.trust{
+  margin-top:30px; padding-top:24px; border-top:1px solid var(--line);
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px 22px;
+}
+@media (min-width:620px){ .trust{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
+.trust div b{ display:block; font-size:1.5rem; font-weight:800; letter-spacing:-.02em; }
+.trust div span{ font-size:13px; color:var(--slate); font-weight:500; }
+.stars{ display:inline-flex; gap:2px; }
+.stars svg{ width:15px; height:15px; color:var(--amber); }
+
+/* quote card */
+.quote-card{
+  background:var(--white); border:1px solid var(--line); border-radius:var(--r-lg);
+  box-shadow:var(--sh-lg); padding:clamp(20px,2.6vw,28px);
+}
+.quote-card__top{
+  display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:6px;
+}
+.badge{
+  font-size:12px; font-weight:700; padding:5px 10px; border-radius:999px;
+  background:var(--orange-50); color:#C2410C; border:1px solid #FED7AA;
+}
+.quote-card h2{ font-size:1.35rem; }
+.quote-card > p{ color:var(--slate); font-size:14.5px; margin-top:6px; }
+.qc-form{ margin-top:18px; display:grid; gap:14px; grid-template-columns:minmax(0,1fr); }
+
+.field{ display:grid; gap:6px; }
+.field label{ font-size:13.5px; font-weight:700; }
+.field .hint{ font-weight:500; color:var(--slate-400); }
+.inp{
+  width:100%; font:inherit; font-size:15.5px; padding:12px 13px;
+  border:1.5px solid var(--line-2); border-radius:10px; background:var(--white); color:var(--ink);
+  transition:border-color var(--t), box-shadow var(--t);
+}
+.inp::placeholder{ color:var(--slate-400); }
+.inp:focus{ outline:none; border-color:var(--blue); box-shadow:0 0 0 3px var(--blue-100); }
+.inp:focus-visible{ outline:none; }
+select.inp{
+  appearance:none; cursor:pointer; padding-right:38px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5l5-5' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 14px center;
+}
+textarea.inp{ resize:vertical; min-height:96px; }
+.row-2{ display:grid; gap:14px; grid-template-columns:minmax(0,1fr); }
+@media (min-width:480px){ .row-2{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); } }
+.form-note{ font-size:12.5px; color:var(--slate); display:flex; align-items:center; gap:7px; }
+.form-note svg{ width:15px; height:15px; color:var(--green); flex:none; }
+
+/* ============================================================
+   LOGO / GUARANTEE STRIP
+   ============================================================ */
+.strip{ background:var(--ink); color:#fff; padding-block:20px; }
+.strip ul{
+  display:grid; gap:14px 26px; grid-template-columns:repeat(2,minmax(0,1fr));
+  font-size:14px; font-weight:600;
+}
+@media (min-width:760px){ .strip ul{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
+.strip li{ display:flex; align-items:center; gap:10px; }
+.strip svg{ width:19px; height:19px; color:#60A5FA; flex:none; }
+
+/* ============================================================
+   SERVICES
+   ============================================================ */
+.sect{ padding-block:var(--sect); }
+.sect--alt{ background:var(--surface); border-block:1px solid var(--line); }
+
+.cards{ display:grid; gap:16px; grid-template-columns:minmax(0,1fr); }
+@media (min-width:600px){ .cards{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (min-width:940px){ .cards{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+
+.svc{
+  background:var(--white); border:1px solid var(--line); border-radius:var(--r-lg);
+  padding:22px; display:flex; flex-direction:column;
+  transition:border-color var(--t), box-shadow var(--t), transform var(--t);
+}
+.svc:hover{ border-color:var(--blue); box-shadow:var(--sh-lg); transform:translateY(-3px); }
+.svc__ico{
+  width:46px; height:46px; border-radius:11px; background:var(--blue-50); color:var(--blue);
+  display:grid; place-items:center; margin-bottom:14px;
+  transition:background var(--t), color var(--t);
+}
+.svc:hover .svc__ico{ background:var(--blue); color:#fff; }
+.svc__ico svg{ width:23px; height:23px; }
+.svc p{ margin-top:7px; color:var(--slate); font-size:14.5px; }
+.svc__foot{
+  margin-top:16px; padding-top:14px; border-top:1px solid var(--line);
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.price-from{ font-size:13px; color:var(--slate); font-weight:600; }
+.price-from b{ color:var(--ink); font-size:16px; font-weight:800; }
+.svc__link{ font-size:14px; font-weight:700; color:var(--blue); display:inline-flex; align-items:center; gap:5px; }
+.svc__link svg{ width:15px; height:15px; transition:transform var(--t); }
+.svc:hover .svc__link svg{ transform:translateX(3px); }
+
+/* ============================================================
+   SERVICE AREA CHECKER
+   ============================================================ */
+.area{
+  background:var(--blue); color:#fff; border-radius:var(--r-lg);
+  padding:clamp(24px,3.4vw,40px); display:grid; gap:26px; grid-template-columns:minmax(0,1fr);
+}
+@media (min-width:900px){ .area{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center; } }
+.area h2{ color:#fff; }
+.area > div > p{ color:#DBEAFE; margin-top:10px; }
+.zip-form{ margin-top:20px; display:flex; gap:10px; flex-wrap:wrap; }
+.zip-form .inp{ flex:1 1 160px; border-color:transparent; }
+.zip-out{
+  margin-top:14px; font-weight:600; font-size:15px; min-height:24px;
+  display:flex; align-items:center; gap:9px; color:#EFF6FF;
+}
+.zip-out svg{ width:19px; height:19px; flex:none; }
+.zip-out.ok{ color:#BBF7D0; }
+.zip-out.no{ color:#FED7AA; }
+
+.area__list{
+  background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2);
+  border-radius:var(--r); padding:18px 20px;
+}
+.area__list h3{ font-size:14px; text-transform:uppercase; letter-spacing:.07em; color:#BFDBFE; }
+.area__list ul{
+  margin-top:12px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px 14px;
+  font-size:14.5px; font-weight:500;
+}
+.area__list li{ display:flex; align-items:center; gap:7px; }
+.area__list li::before{
+  content:""; width:5px; height:5px; border-radius:50%; background:#93C5FD; flex:none;
+}
+
+/* ============================================================
+   PRICING
+   ============================================================ */
+.tiers{ display:grid; gap:18px; align-items:start; grid-template-columns:minmax(0,1fr); }
+@media (min-width:840px){ .tiers{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+.tier{
+  background:var(--white); border:1.5px solid var(--line); border-radius:var(--r-lg);
+  padding:26px 24px; display:flex; flex-direction:column; position:relative;
+  transition:border-color var(--t), box-shadow var(--t);
+}
+.tier:hover{ border-color:var(--line-2); box-shadow:var(--sh); }
+.tier--best{
+  border-color:var(--blue); border-width:2px; box-shadow:var(--sh-lg);
+}
+.tier--best:hover{ border-color:var(--blue-700); }
+.tier__tag{
+  position:absolute; top:-13px; left:50%; transform:translateX(-50%);
+  background:var(--blue); color:#fff; font-size:12px; font-weight:800;
+  padding:5px 14px; border-radius:999px; white-space:nowrap;
+}
+.tier h3{ font-size:1.05rem; }
+.tier__price{ margin-top:12px; display:flex; align-items:baseline; gap:4px; }
+.tier__price b{ font-size:2.5rem; font-weight:800; letter-spacing:-.03em; }
+.tier__price span{ color:var(--slate); font-weight:600; font-size:15px; }
+.tier > p{ margin-top:8px; color:var(--slate); font-size:14.5px; }
+.tier ul{ margin:20px 0 24px; display:grid; gap:11px; }
+.tier li{ display:grid; grid-template-columns:20px 1fr; gap:10px; font-size:14.5px; align-items:start; }
+.tier li svg{ width:20px; height:20px; color:var(--green); margin-top:1px; }
+.tier .btn{ margin-top:auto; }
+
+/* ============================================================
+   STEPS
+   ============================================================ */
+.steps{ display:grid; gap:22px; counter-reset:s; grid-template-columns:minmax(0,1fr); }
+@media (min-width:760px){ .steps{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:30px; } }
+.step{ position:relative; padding-top:8px; }
+.step__n{
+  width:44px; height:44px; border-radius:12px; background:var(--blue); color:#fff;
+  display:grid; place-items:center; font-weight:800; font-size:18px; margin-bottom:14px;
+}
+.step p{ margin-top:7px; color:var(--slate); font-size:15px; }
+
+/* ============================================================
+   REVIEWS
+   ============================================================ */
+.revs{ display:grid; gap:16px; grid-template-columns:minmax(0,1fr); }
+@media (min-width:760px){ .revs{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+.rev{
+  background:var(--white); border:1px solid var(--line); border-radius:var(--r-lg); padding:22px;
+  display:flex; flex-direction:column;
+  transition:box-shadow var(--t), transform var(--t);
+}
+.rev:hover{ box-shadow:var(--sh-lg); transform:translateY(-3px); }
+.rev p{ margin-top:12px; font-size:15px; color:var(--slate); }
+.rev footer{ margin-top:16px; padding-top:14px; border-top:1px solid var(--line); display:flex; align-items:center; gap:8px 11px; flex-wrap:wrap; }
+.rev footer > span:nth-child(2){ min-width:0; flex:1 1 auto; }
+.av{
+  width:38px; height:38px; border-radius:50%; flex:none; display:grid; place-items:center;
+  background:var(--blue-50); color:var(--blue-700); font-weight:800; font-size:14px;
+}
+.rev b{ display:block; font-size:14.5px; font-weight:700; }
+.rev span{ font-size:12.5px; color:var(--slate); }
+.verified{ margin-left:auto; font-size:11.5px; font-weight:700; color:var(--green); display:flex; align-items:center; gap:4px; }
+.verified svg{ width:14px; height:14px; }
+
+/* ============================================================
+   FAQ — native <details>, zero JS needed
+   ============================================================ */
+.faq{ max-width:780px; margin-inline:auto; display:grid; gap:10px; }
+.faq details{
+  background:var(--white); border:1px solid var(--line); border-radius:var(--r);
+  transition:border-color var(--t), box-shadow var(--t);
+}
+.faq details[open]{ border-color:var(--blue); box-shadow:var(--sh); }
+.faq summary{
+  list-style:none; cursor:pointer; padding:17px 20px; font-weight:700; font-size:16px;
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+}
+.faq summary::-webkit-details-marker{ display:none; }
+.faq summary:hover{ color:var(--blue); }
+.faq summary .chev{
+  width:20px; height:20px; flex:none; color:var(--slate); transition:transform var(--t), color var(--t);
+}
+.faq details[open] summary .chev{ transform:rotate(180deg); color:var(--blue); }
+.faq .ans{ padding:0 20px 18px; color:var(--slate); font-size:15px; }
+
+/* ============================================================
+   BOOKING
+   ============================================================ */
+.book{ display:grid; gap:clamp(28px,4vw,48px); grid-template-columns:minmax(0,1fr); }
+@media (min-width:940px){ .book{ grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); } }
+.hours{
+  background:var(--white); border:1px solid var(--line); border-radius:var(--r-lg); padding:22px;
+  margin-top:22px;
+}
+.hours h3{ font-size:15px; }
+.hours table{ width:100%; border-collapse:collapse; margin-top:12px; font-size:14.5px; table-layout:fixed; }
+.hours td{ padding:7px 0; border-bottom:1px solid var(--line); color:var(--slate); }
+.hours tr:last-child td{ border-bottom:0; }
+.hours td:last-child{ text-align:right; font-weight:600; color:var(--ink); }
+.hours tr.today td{ color:var(--blue-700); font-weight:700; }
+
+.bookform{
+  background:var(--white); border:1px solid var(--line); border-radius:var(--r-lg);
+  padding:clamp(20px,2.6vw,30px); box-shadow:var(--sh);
+}
+fieldset{ border:0; padding:0; margin:0 0 18px; }
+legend{ font-size:13.5px; font-weight:700; padding:0; margin-bottom:9px; }
+.radios{ display:grid; gap:9px; grid-template-columns:minmax(0,1fr); }
+@media (min-width:560px){ .radios{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+.radio{
+  position:relative; display:flex; align-items:flex-start; gap:9px; padding:12px 13px;
+  border:1.5px solid var(--line-2); border-radius:10px; cursor:pointer;
+  transition:border-color var(--t), background var(--t);
+}
+.radio:hover{ border-color:var(--blue); background:var(--blue-50); }
+.radio input{ margin:2px 0 0; accent-color:var(--blue); width:17px; height:17px; flex:none; cursor:pointer; }
+.radio b{ display:block; font-size:14px; font-weight:700; }
+.radio span{ font-size:12.5px; color:var(--slate); }
+.radio:has(input:checked){ border-color:var(--blue); background:var(--blue-50); }
+.radio:has(input:focus-visible){ outline:3px solid var(--blue); outline-offset:2px; }
+
+.formmsg{
+  margin-top:16px; border-radius:var(--r); font-size:15px;
+  max-height:0; overflow:hidden; padding:0 18px;
+  background:var(--green-50); border:1px solid transparent; color:#15803D;
+  transition:max-height var(--t), padding var(--t), border-color var(--t);
+}
+.formmsg.on{ max-height:260px; padding:16px 18px; border-color:#BBF7D0; }
+.formmsg.err{ background:var(--orange-50); color:#C2410C; border-color:#FED7AA; }
+.formmsg b{ font-weight:800; }
+
+/* ============================================================
+   FOOTER + STICKY CALL BAR
+   ============================================================ */
+.foot{ background:var(--ink); color:#CBD5E1; padding-block:clamp(40px,5vw,60px) 26px; }
+.foot__grid{ display:grid; gap:32px; grid-template-columns:minmax(0,1fr); }
+@media (min-width:820px){ .foot__grid{ grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr); } }
+.foot .logo__txt b{ color:#fff; }
+.foot .logo__txt span{ color:#94A3B8; }
+.foot p{ margin-top:16px; font-size:14.5px; max-width:34ch; }
+.foot h4{ color:#fff; font-size:13px; text-transform:uppercase; letter-spacing:.08em; margin-bottom:14px; font-weight:700; }
+.foot li{ margin-bottom:9px; font-size:14.5px; }
+.foot li a{ transition:color var(--t), padding-left var(--t); display:inline-block; }
+.foot li a:hover{ color:#fff; padding-left:4px; }
+.social{ display:flex; gap:9px; margin-top:18px; }
+.social a{
+  width:40px; height:40px; border-radius:10px; display:grid; place-items:center;
+  border:1px solid #334155; color:#CBD5E1;
+  transition:background var(--t), color var(--t), border-color var(--t), transform var(--t);
+}
+.social a:hover{ background:#fff; color:var(--ink); border-color:#fff; transform:translateY(-2px); }
+.social svg{ width:17px; height:17px; }
+.foot__base{
+  margin-top:34px; padding-top:20px; border-top:1px solid #1E293B;
+  display:flex; flex-wrap:wrap; gap:10px 24px; justify-content:space-between; font-size:13px; color:#64748B;
+}
+
+.callbar{
+  position:fixed; left:0; right:0; bottom:0; z-index:120;
+  background:var(--white); border-top:1px solid var(--line);
+  padding:10px var(--pad) calc(10px + env(safe-area-inset-bottom));
+  display:flex; gap:10px; box-shadow:0 -4px 12px rgba(15,23,42,.08);
+}
+.callbar .btn{ flex:1; padding:13px 10px; font-size:15px; }
+@media (min-width:760px){ .callbar{ display:none; } }
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{
+    animation-duration:.001ms !important; animation-iteration-count:1 !important;
+    transition-duration:.001ms !important; transition-delay:0ms !important;
+    scroll-behavior:auto !important;
+  }
+  .svc:hover,.rev:hover{ transform:none; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- reusable icons -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-star" viewBox="0 0 20 20"><path fill="currentColor" d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 20 20"><path fill="currentColor" d="M4.6 2h3l1.5 3.7-2 1.4a11 11 0 0 0 5.8 5.8l1.4-2L18 12.4v3a1.6 1.6 0 0 1-1.8 1.6A14.4 14.4 0 0 1 3 3.8 1.6 1.6 0 0 1 4.6 2z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 20 20"><path fill="currentColor" d="M10 1.7a8.3 8.3 0 1 0 0 16.6 8.3 8.3 0 0 0 0-16.6zm4 6.1-4.9 4.9a.9.9 0 0 1-1.3 0L5.9 10.8a.9.9 0 1 1 1.3-1.3l1.3 1.3 4.2-4.3A.9.9 0 1 1 14 7.8z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M2 8h11M9 4l4 4-4 4"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 20 20"><path fill="currentColor" d="M10 1.5 3 4.2v5c0 4 3 7.7 7 9.3 4-1.6 7-5.3 7-9.3v-5L10 1.5zm3.4 6.4-4.2 4.2a.9.9 0 0 1-1.2 0L6 10.1a.9.9 0 1 1 1.2-1.2l1.4 1.3 3.6-3.5a.9.9 0 1 1 1.2 1.2z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 20 20"><path fill="currentColor" d="M10 1.7a8.3 8.3 0 1 0 0 16.6 8.3 8.3 0 0 0 0-16.6zm.9 8.6a.9.9 0 0 1-.4.7l-2.6 1.6a.9.9 0 1 1-.9-1.5l2.1-1.3V5.8a.9.9 0 0 1 1.8 0v4.5z"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 20 20"><path fill="currentColor" d="M9.2 1.7H3.4A1.7 1.7 0 0 0 1.7 3.4v5.8c0 .4.2.9.5 1.2l7.4 7.4a1.7 1.7 0 0 0 2.4 0l5.8-5.8a1.7 1.7 0 0 0 0-2.4l-7.4-7.4a1.7 1.7 0 0 0-1.2-.5zM5.4 7a1.7 1.7 0 1 1 0-3.3 1.7 1.7 0 0 1 0 3.3z"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 20 20"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M5 8l5 5 5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 20 20"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M5 5l10 10M15 5L5 15"/></symbol>
+</svg>
+
+<div class="topbar">
+  <div class="shell topbar__in">
+    <span class="status"><span class="dot" aria-hidden="true"></span><span id="open-status">Open now — until 8:00 PM</span></span>
+    <span class="topbar__areas">Serving the north metro since 2004</span>
+    <span>Emergency? <a href="tel:+16125550188">(612) 555-0188</a></span>
+  </div>
+</div>
+
+<header class="hdr" id="hdr">
+  <div class="shell hdr__in">
+    <a class="logo" href="#top" aria-label="Northline Heating and Air — home">
+      <span class="logo__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M12 6l4-3M12 6L8 3M12 12l5-2.5M12 12 7 9.5M12 18l4 2.5M12 18l-4 2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </span>
+      <span class="logo__txt"><b>Northline</b><span>Heating &amp; Air</span></span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#areas">Service area</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <div class="hdr__cta">
+      <a class="callbtn" href="tel:+16125550188"><svg aria-hidden="true"><use href="#i-phone"/></svg>(612) 555-0188</a>
+      <a class="btn btn--primary" href="#book">Book online</a>
+    </div>
+
+    <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+      <svg class="bars" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <svg class="x" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg>
+    </button>
+  </div>
+
+  <div class="drawer" id="drawer" data-open="false">
+    <div class="drawer__in">
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#areas">Service area</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="btn btn--primary btn--block" href="#book">Book online</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <noscript>
+    <div class="nojs-nav">
+      <a href="#services">Services</a><a href="#areas">Service area</a><a href="#pricing">Pricing</a>
+      <a href="#reviews">Reviews</a><a href="#faq">FAQ</a><a href="#book">Book online</a>
+    </div>
+  </noscript>
+</header>
+
+<main id="main">
+  <span id="top"></span>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero">
+    <div class="shell hero__grid">
+      <div>
+        <span class="pill"><span class="dot" aria-hidden="true"></span> Same-day slots open today</span>
+        <h1 class="h1">Heat out? AC down?<br><em>We're there today.</em></h1>
+        <p class="lede hero__lede">
+          Licensed HVAC and plumbing repair across the north metro. You get an upfront
+          price before we start — no hourly surprises, no overtime charges, ever.
+        </p>
+
+        <div class="hero__ctas">
+          <a class="btn btn--orange btn--lg" href="tel:+16125550188">
+            <svg aria-hidden="true"><use href="#i-phone"/></svg> Call (612) 555-0188
+          </a>
+          <a class="btn btn--ghost btn--lg" href="#book">Book online</a>
+        </div>
+
+        <div class="trust">
+          <div>
+            <b>4.9</b>
+            <span class="stars" role="img" aria-label="4.9 out of 5 stars">
+              <svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg>
+            </span>
+            <span>1,842 reviews</span>
+          </div>
+          <div><b>20+</b><span>Years in business</span></div>
+          <div><b>2 hr</b><span>Average arrival</span></div>
+          <div><b>$0</b><span>Overtime fees</span></div>
+        </div>
+      </div>
+
+      <!-- quick quote card -->
+      <div class="quote-card">
+        <div class="quote-card__top">
+          <h2>Get a fast quote</h2>
+          <span class="badge">Replies in ~15 min</span>
+        </div>
+        <p>Tell us what's going on and we'll text back a price range and the next open slot.</p>
+
+        <form class="qc-form" id="quote-form" novalidate>
+          <div class="field">
+            <label for="q-service">What do you need?</label>
+            <select class="inp" id="q-service" name="service">
+              <option>AC not cooling</option>
+              <option>Furnace / no heat</option>
+              <option>Water heater</option>
+              <option>Clogged drain</option>
+              <option>Leak or burst pipe</option>
+              <option>Maintenance / tune-up</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="row-2">
+            <div class="field">
+              <label for="q-zip">ZIP code</label>
+              <input class="inp" id="q-zip" name="zip" type="text" inputmode="numeric" placeholder="55021" autocomplete="postal-code" />
+            </div>
+            <div class="field">
+              <label for="q-phone">Mobile number</label>
+              <input class="inp" id="q-phone" name="phone" type="tel" placeholder="(612) 555-0123" autocomplete="tel" />
+            </div>
+          </div>
+          <button class="btn btn--primary btn--block btn--lg" type="submit">Text me a quote</button>
+          <p class="form-note">
+            <svg aria-hidden="true"><use href="#i-check"/></svg>
+            No obligation. We never sell your number.
+          </p>
+          <p class="formmsg" id="quote-msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== GUARANTEE STRIP ==================== -->
+  <div class="strip">
+    <div class="shell">
+      <ul>
+        <li><svg aria-hidden="true"><use href="#i-shield"/></svg> Licensed &amp; insured · MN #HV-104728</li>
+        <li><svg aria-hidden="true"><use href="#i-tag"/></svg> Upfront flat-rate pricing</li>
+        <li><svg aria-hidden="true"><use href="#i-clock"/></svg> Nights &amp; weekends, no upcharge</li>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg> 1-year workmanship warranty</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ==================== SERVICES ==================== -->
+  <section class="sect" id="services">
+    <div class="shell">
+      <div class="sect-head">
+        <p class="eyebrow">What we fix</p>
+        <h2 class="h2">Heating, cooling and plumbing — one call</h2>
+        <p class="lede">Every job is quoted flat-rate before we pick up a tool. Prices below are real starting points, not teasers.</p>
+      </div>
+
+      <div class="cards">
+        <article class="svc">
+          <span class="svc__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18M3 12h18M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <h3 class="h3">AC repair</h3>
+          <p>Not cooling, short cycling, frozen coil or a dead compressor — diagnosed same day.</p>
+          <div class="svc__foot">
+            <span class="price-from">from <b>$89</b></span>
+            <a class="svc__link" href="#book">Book <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </article>
+
+        <article class="svc">
+          <span class="svc__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2c2 3.5 4.5 5 4.5 8.5a4.5 4.5 0 0 1-9 0C7.5 7 10 5.5 12 2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 19h8M9 22h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <h3 class="h3">Furnace &amp; heating</h3>
+          <p>No heat, pilot problems, noisy blowers, and full furnace replacement with financing.</p>
+          <div class="svc__foot">
+            <span class="price-from">from <b>$89</b></span>
+            <a class="svc__link" href="#book">Book <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </article>
+
+        <article class="svc">
+          <span class="svc__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="3" stroke="currentColor" stroke-width="2"/><path d="M9 8h6M12 12v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <h3 class="h3">Water heaters</h3>
+          <p>Repair, tank swap or tankless conversion — most replacements done in a single visit.</p>
+          <div class="svc__foot">
+            <span class="price-from">from <b>$1,240</b></span>
+            <a class="svc__link" href="#book">Book <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </article>
+
+        <article class="svc">
+          <span class="svc__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3v7a6 6 0 0 0 12 0V3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 16v5M9 21h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <h3 class="h3">Drains &amp; sewer</h3>
+          <p>Camera inspection included on every main-line clear, so you see exactly what we saw.</p>
+          <div class="svc__foot">
+            <span class="price-from">from <b>$149</b></span>
+            <a class="svc__link" href="#book">Book <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </article>
+
+        <article class="svc">
+          <span class="svc__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 8h9a3 3 0 1 0-3-3M4 14h13a3 3 0 1 1-3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <h3 class="h3">Indoor air quality</h3>
+          <p>Whole-home humidifiers, HEPA filtration and duct sealing for the winter dry-out.</p>
+          <div class="svc__foot">
+            <span class="price-from">from <b>$420</b></span>
+            <a class="svc__link" href="#book">Book <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </article>
+
+        <article class="svc">
+          <span class="svc__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3 class="h3">Seasonal tune-ups</h3>
+          <p>21-point inspection each spring and fall. Catches the failure before the heat wave does.</p>
+          <div class="svc__foot">
+            <span class="price-from">from <b>$149</b></span>
+            <a class="svc__link" href="#book">Book <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SERVICE AREA ==================== -->
+  <section class="sect sect--alt" id="areas">
+    <div class="shell">
+      <div class="area">
+        <div>
+          <p class="eyebrow" style="color:#BFDBFE">Service area</p>
+          <h2 class="h2" style="margin-top:8px">Do we come to you?</h2>
+          <p>Enter your ZIP and we'll tell you right away, plus today's earliest opening.</p>
+
+          <form class="zip-form" id="zip-form" novalidate>
+            <label class="sr-only" for="zip-in">Your ZIP code</label>
+            <input class="inp" id="zip-in" name="zip" type="text" inputmode="numeric" maxlength="5" placeholder="Enter ZIP code" autocomplete="postal-code" />
+            <button class="btn btn--white" type="submit">Check</button>
+          </form>
+          <p class="zip-out" id="zip-out" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="area__list">
+          <h3>Towns we cover</h3>
+          <ul>
+            <li>Northgate</li><li>Cedar Falls</li>
+            <li>Brightwater</li><li>Maple Bend</li>
+            <li>Harlow</li><li>Ellison Park</li>
+            <li>Fairmount</li><li>Stonebridge</li>
+            <li>Riverton</li><li>West Hollis</li>
+          </ul>
+          <p style="margin-top:14px;font-size:13.5px;color:#BFDBFE">
+            ZIPs 55021–55029, 55040 and 55044. Just outside? Call us — we often still can.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PRICING ==================== -->
+  <section class="sect" id="pricing">
+    <div class="shell">
+      <div class="sect-head center">
+        <p class="eyebrow">Straight pricing</p>
+        <h2 class="h2">No hourly rates. No overtime. No surprises.</h2>
+        <p class="lede">You approve a flat price before any work starts. If it takes longer than we thought, that's our problem — not your bill.</p>
+      </div>
+
+      <div class="tiers">
+        <div class="tier">
+          <h3 class="h3">Diagnostic visit</h3>
+          <div class="tier__price"><b>$89</b></div>
+          <p>Waived entirely if you go ahead with the repair.</p>
+          <ul>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> Full system diagnosis</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> Written flat-rate quote</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> Photos of anything we find</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> Same-day slots most days</li>
+          </ul>
+          <a class="btn btn--ghost btn--block" href="#book">Book a visit</a>
+        </div>
+
+        <div class="tier tier--best">
+          <span class="tier__tag">Most popular</span>
+          <h3 class="h3">Comfort Club</h3>
+          <div class="tier__price"><b>$19</b><span>/month</span></div>
+          <p>Two tune-ups a year, priority dispatch, and no diagnostic fee.</p>
+          <ul>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> Spring AC + fall furnace tune-up</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> $0 diagnostic fee, always</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> Front-of-line scheduling</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> 15% off every repair</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> Cancel anytime</li>
+          </ul>
+          <a class="btn btn--primary btn--block" href="#book">Join the club</a>
+        </div>
+
+        <div class="tier">
+          <h3 class="h3">System replacement</h3>
+          <div class="tier__price"><b>$0</b><span>down</span></div>
+          <p>Financing from $84/mo on approved credit, with free in-home sizing.</p>
+          <ul>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> Free load calculation</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> Three options, no upselling</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> Rebate paperwork handled</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg> 10-year parts warranty</li>
+          </ul>
+          <a class="btn btn--ghost btn--block" href="#book">Get an estimate</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STEPS ==================== -->
+  <section class="sect sect--alt">
+    <div class="shell">
+      <div class="sect-head center">
+        <p class="eyebrow">How it works</p>
+        <h2 class="h2">Three steps, no waiting around</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="step__n" aria-hidden="true">1</span>
+          <h3 class="h3">Book in 60 seconds</h3>
+          <p>Pick a two-hour window online or call. We confirm by text immediately — no "sometime between 8 and 5."</p>
+        </div>
+        <div class="step">
+          <span class="step__n" aria-hidden="true">2</span>
+          <h3 class="h3">Meet your tech first</h3>
+          <p>You get a photo, name and live arrival tracking before anyone knocks on your door.</p>
+        </div>
+        <div class="step">
+          <span class="step__n" aria-hidden="true">3</span>
+          <h3 class="h3">Approve the price</h3>
+          <p>We diagnose, show you the options in writing, and only start once you've said yes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== REVIEWS ==================== -->
+  <section class="sect" id="reviews">
+    <div class="shell">
+      <div class="sect-head">
+        <p class="eyebrow">Reviews</p>
+        <h2 class="h2">1,842 neighbors, 4.9 stars</h2>
+        <p class="lede">Pulled from Google and Nextdoor over the last two years.</p>
+      </div>
+
+      <div class="revs">
+        <figure class="rev">
+          <span class="stars" role="img" aria-label="5 out of 5 stars">
+            <svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg>
+          </span>
+          <blockquote><p>Furnace quit at 6am on the coldest day of the year. Booked online at 6:15, tech was here before 9. Quoted $340, charged $340.</p></blockquote>
+          <footer>
+            <span class="av" aria-hidden="true">DR</span>
+            <span><b>Dana Reyes</b><span>Maple Bend</span></span>
+            <span class="verified"><svg aria-hidden="true"><use href="#i-check"/></svg> Verified</span>
+          </footer>
+        </figure>
+
+        <figure class="rev">
+          <span class="stars" role="img" aria-label="5 out of 5 stars">
+            <svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg>
+          </span>
+          <blockquote><p>Two other companies told me I needed a whole new system. Northline found a $190 capacitor. That honesty just bought them a customer for life.</p></blockquote>
+          <footer>
+            <span class="av" aria-hidden="true">TO</span>
+            <span><b>Tobias Okonkwo</b><span>Ellison Park</span></span>
+            <span class="verified"><svg aria-hidden="true"><use href="#i-check"/></svg> Verified</span>
+          </footer>
+        </figure>
+
+        <figure class="rev">
+          <span class="stars" role="img" aria-label="5 out of 5 stars">
+            <svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg>
+          </span>
+          <blockquote><p>The text with the tech's photo before arrival is such a small thing, but as someone home alone with kids it mattered a lot. Clean work, no mess left.</p></blockquote>
+          <footer>
+            <span class="av" aria-hidden="true">MH</span>
+            <span><b>Marisol Herrera</b><span>Cedar Falls</span></span>
+            <span class="verified"><svg aria-hidden="true"><use href="#i-check"/></svg> Verified</span>
+          </footer>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FAQ ==================== -->
+  <section class="sect sect--alt" id="faq">
+    <div class="shell">
+      <div class="sect-head center">
+        <p class="eyebrow">Questions</p>
+        <h2 class="h2">The things people ask us most</h2>
+      </div>
+
+      <div class="faq">
+        <details open>
+          <summary>Do you really charge the same after hours?<svg class="chev" aria-hidden="true"><use href="#i-chev"/></svg></summary>
+          <div class="ans">Yes. Nights, weekends and holidays are billed at the exact same flat rate as a Tuesday morning. A furnace doesn't check the clock before it fails, so we don't either.</div>
+        </details>
+        <details>
+          <summary>How fast can someone actually get here?<svg class="chev" aria-hidden="true"><use href="#i-chev"/></svg></summary>
+          <div class="ans">Our average arrival is about two hours for no-heat and no-cool emergencies. For non-urgent work you'll usually get a slot within 48 hours, and you always pick a two-hour window rather than waiting all day.</div>
+        </details>
+        <details>
+          <summary>What does the $89 diagnostic actually cover?<svg class="chev" aria-hidden="true"><use href="#i-chev"/></svg></summary>
+          <div class="ans">A full system inspection, a written flat-rate quote for whatever we find, and photos of the problem so you're not taking our word for it. If you approve the repair, the $89 comes straight off the bill.</div>
+        </details>
+        <details>
+          <summary>Will you try to sell me a new system?<svg class="chev" aria-hidden="true"><use href="#i-chev"/></svg></summary>
+          <div class="ans">Only if repair genuinely doesn't make financial sense, and we'll show you the math. Our techs are paid hourly, not on commission, so nobody here earns more by selling you equipment you don't need.</div>
+        </details>
+        <details>
+          <summary>Do you offer financing?<svg class="chev" aria-hidden="true"><use href="#i-chev"/></svg></summary>
+          <div class="ans">Yes, on replacements and larger repairs — from $84/month with $0 down on approved credit. We'll also handle the utility rebate paperwork for qualifying high-efficiency systems.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BOOKING ==================== -->
+  <section class="sect" id="book">
+    <div class="shell book">
+      <div>
+        <p class="eyebrow">Book online</p>
+        <h2 class="h2" style="margin-top:8px">Pick a time that works</h2>
+        <p class="lede" style="margin-top:12px">
+          Two-hour arrival windows, confirmed by text within 15 minutes. Need someone
+          right now? Calling is faster — <a href="tel:+16125550188" style="color:var(--blue);font-weight:700">(612) 555-0188</a>.
+        </p>
+
+        <div class="hours">
+          <h3 class="h3">Hours</h3>
+          <table>
+            <tbody>
+              <tr><td>Monday – Friday</td><td>7:00 AM – 8:00 PM</td></tr>
+              <tr><td>Saturday</td><td>8:00 AM – 6:00 PM</td></tr>
+              <tr><td>Sunday</td><td>9:00 AM – 4:00 PM</td></tr>
+              <tr><td>Emergencies</td><td>24 / 7</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <form class="bookform" id="book-form" novalidate>
+        <fieldset>
+          <legend>How soon do you need us?</legend>
+          <div class="radios">
+            <label class="radio">
+              <input type="radio" name="urgency" value="Emergency" />
+              <span><b>Emergency</b><span>Today</span></span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="urgency" value="This week" checked />
+              <span><b>This week</b><span>Next 48h</span></span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="urgency" value="Flexible" />
+              <span><b>Flexible</b><span>Any time</span></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="row-2">
+          <div class="field" style="margin-bottom:18px">
+            <label for="b-service">Service needed</label>
+            <select class="inp" id="b-service" name="service">
+              <option>AC repair</option>
+              <option>Furnace / heating</option>
+              <option>Water heater</option>
+              <option>Drain or sewer</option>
+              <option>Indoor air quality</option>
+              <option>Seasonal tune-up</option>
+              <option>Not sure — please advise</option>
+            </select>
+          </div>
+          <div class="field" style="margin-bottom:18px">
+            <label for="b-window">Preferred window</label>
+            <select class="inp" id="b-window" name="window">
+              <option>8:00 – 10:00 AM</option>
+              <option>10:00 AM – 12:00 PM</option>
+              <option>12:00 – 2:00 PM</option>
+              <option>2:00 – 4:00 PM</option>
+              <option>4:00 – 6:00 PM</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row-2" style="margin-bottom:18px">
+          <div class="field">
+            <label for="b-name">Full name <span aria-hidden="true" style="color:var(--orange)">*</span></label>
+            <input class="inp" id="b-name" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="b-phone">Mobile number <span aria-hidden="true" style="color:var(--orange)">*</span></label>
+            <input class="inp" id="b-phone" name="phone" type="tel" autocomplete="tel" placeholder="(612) 555-0123" required />
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:18px">
+          <label for="b-address">Service address <span class="hint">— street and ZIP</span></label>
+          <input class="inp" id="b-address" name="address" type="text" autocomplete="street-address" placeholder="418 Larkspur Ave, 55021" />
+        </div>
+
+        <div class="field" style="margin-bottom:18px">
+          <label for="b-notes">Anything we should know? <span class="hint">— optional</span></label>
+          <textarea class="inp" id="b-notes" name="notes" placeholder="Dog in the yard, unit is in the crawlspace, strange rattling since Tuesday…"></textarea>
+        </div>
+
+        <button class="btn btn--primary btn--block btn--lg" type="submit">Request this appointment</button>
+        <p class="form-note" style="margin-top:12px">
+          <svg aria-hidden="true"><use href="#i-check"/></svg>
+          Booking is free and you can reschedule by text any time.
+        </p>
+        <p class="formmsg" id="book-msg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="shell">
+    <div class="foot__grid">
+      <div>
+        <a class="logo" href="#top" aria-label="Northline Heating and Air — home">
+          <span class="logo__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M12 6l4-3M12 6L8 3M12 12l5-2.5M12 12 7 9.5M12 18l4 2.5M12 18l-4 2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+          <span class="logo__txt"><b>Northline</b><span>Heating &amp; Air</span></span>
+        </a>
+        <p>Family-owned since 2004. Licensed, bonded and insured in Minnesota — MN #HV-104728.</p>
+        <div class="social">
+          <a href="#top" aria-label="Northline on Facebook">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 8.5V7c0-.8.5-1 .9-1H17V3h-2.6C11.7 3 11 5 11 6.4v2.1H9V12h2v9h3v-9h2.3l.4-3.5H14z" fill="currentColor"/></svg>
+          </a>
+          <a href="#top" aria-label="Northline on Instagram">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.8" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg>
+          </a>
+          <a href="#top" aria-label="Northline on YouTube">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="5.5" width="19" height="13" rx="4" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 9.5v5l4.5-2.5-4.5-2.5z" fill="currentColor"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <nav aria-label="Services">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">AC repair</a></li>
+          <li><a href="#services">Furnace &amp; heating</a></li>
+          <li><a href="#services">Water heaters</a></li>
+          <li><a href="#services">Drains &amp; sewer</a></li>
+          <li><a href="#services">Air quality</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-label="Company">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#areas">Service area</a></li>
+          <li><a href="#book">Book online</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <h4>Get in touch</h4>
+        <ul>
+          <li><a href="tel:+16125550188"><b style="color:#fff">(612) 555-0188</b></a></li>
+          <li><a href="mailto:hello@northlinehvac.com">hello@northlinehvac.com</a></li>
+          <li>1400 Kilburn Rd, Northgate MN</li>
+          <li>Mon–Fri 7am–8pm · 24/7 emergency</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot__base">
+      <span>© 2026 Northline Heating &amp; Air. Demo site — fictional company.</span>
+      <span>Designed &amp; built by <a href="#top" style="color:#94A3B8">Axis Digital</a></span>
+    </div>
+  </div>
+</footer>
+
+<div class="callbar">
+  <a class="btn btn--orange" href="tel:+16125550188"><svg aria-hidden="true"><use href="#i-phone"/></svg> Call now</a>
+  <a class="btn btn--ghost" href="#book">Book online</a>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- header shadow on scroll ---------- */
+  var hdr = document.getElementById('hdr'), tick = false;
+  function onScroll() {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(function () {
+      hdr.classList.toggle('is-stuck', window.scrollY > 8);
+      tick = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- mobile drawer ---------- */
+  var burger = document.getElementById('burger'), drawer = document.getElementById('drawer');
+  function setDrawer(open) {
+    drawer.setAttribute('data-open', open ? 'true' : 'false');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+  burger.addEventListener('click', function () {
+    setDrawer(burger.getAttribute('aria-expanded') !== 'true');
+  });
+  drawer.addEventListener('click', function (e) { if (e.target.closest('a')) setDrawer(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') { setDrawer(false); burger.focus(); }
+  });
+  window.addEventListener('resize', function () { if (window.innerWidth >= 960) setDrawer(false); });
+
+  /* ---------- open/closed indicator (markup already shows sane default) ---------- */
+  var HOURS = { 0:[9,16], 1:[7,20], 2:[7,20], 3:[7,20], 4:[7,20], 5:[7,20], 6:[8,18] };
+  function fmt(h) { var ap = h >= 12 ? 'PM' : 'AM', v = h % 12 || 12; return v + ':00 ' + ap; }
+  var statusEl = document.getElementById('open-status');
+  if (statusEl) {
+    var now = new Date(), span = HOURS[now.getDay()], hr = now.getHours();
+    statusEl.textContent = (hr >= span[0] && hr < span[1])
+      ? 'Open now — until ' + fmt(span[1])
+      : 'Closed now — 24/7 emergency line open';
+  }
+
+  /* ---------- service-area ZIP checker ---------- */
+  var COVERED = ['55021','55022','55023','55024','55025','55026','55027','55028','55029','55040','55044'];
+  var zipForm = document.getElementById('zip-form'), zipOut = document.getElementById('zip-out');
+  var OK = '<svg aria-hidden="true"><use href="#i-check"/></svg>';
+  if (zipForm) {
+    zipForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = document.getElementById('zip-in').value.trim();
+      zipOut.className = 'zip-out';
+      if (!/^\d{5}$/.test(v)) {
+        zipOut.classList.add('no');
+        zipOut.textContent = 'Please enter a 5-digit ZIP code.';
+        return;
+      }
+      if (COVERED.indexOf(v) !== -1) {
+        zipOut.classList.add('ok');
+        zipOut.innerHTML = OK + ' Yes — we cover ' + v + '. Earliest opening today is 2:00 PM.';
+      } else {
+        zipOut.classList.add('no');
+        zipOut.textContent = v + ' is outside our usual route, but call us — we often still can.';
+      }
+    });
+  }
+
+  /* ---------- quick-quote form ---------- */
+  function digits(s) { return (s || '').replace(/\D/g, ''); }
+  function show(el, html, isErr) {
+    el.innerHTML = html;
+    el.className = 'formmsg on' + (isErr ? ' err' : '');
+  }
+
+  var qForm = document.getElementById('quote-form'), qMsg = document.getElementById('quote-msg');
+  if (qForm) {
+    qForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var zip = qForm.elements.zip.value.trim(), phone = digits(qForm.elements.phone.value);
+      if (!/^\d{5}$/.test(zip)) {
+        show(qMsg, '<b>Need a ZIP.</b> Enter your 5-digit ZIP so we can price the trip.', true);
+        qForm.elements.zip.focus();
+        return;
+      }
+      if (phone.length < 10) {
+        show(qMsg, '<b>Check that number.</b> We need 10 digits to text you back.', true);
+        qForm.elements.phone.focus();
+        return;
+      }
+      show(qMsg, '<b>Got it — quote on the way.</b> We’ll text ' +
+        qForm.elements.service.value.toLowerCase() + ' pricing for ' + zip +
+        ' within about 15 minutes. <em>(Demo form: nothing was sent.)</em>', false);
+      qForm.reset();
+    });
+  }
+
+  /* ---------- booking form ---------- */
+  var bForm = document.getElementById('book-form'), bMsg = document.getElementById('book-msg');
+  if (bForm) {
+    bForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = bForm.elements.name.value.trim(), phone = digits(bForm.elements.phone.value);
+      if (!name) {
+        show(bMsg, '<b>We need a name</b> so the tech knows who to ask for.', true);
+        bForm.elements.name.focus();
+        return;
+      }
+      if (phone.length < 10) {
+        show(bMsg, '<b>Check that number.</b> A 10-digit mobile lets us confirm by text.', true);
+        bForm.elements.phone.focus();
+        return;
+      }
+      var urgency = (bForm.querySelector('input[name="urgency"]:checked') || {}).value || 'This week';
+      show(bMsg, '<b>Thanks, ' + name.replace(/[<>&]/g, '') + '.</b> We’ve got you down for ' +
+        bForm.elements.service.value.toLowerCase() + ', ' + urgency.toLowerCase() +
+        ', ' + bForm.elements.window.value + '. Confirmation text in ~15 minutes. ' +
+        '<em>(Demo form: nothing was actually booked.)</em>', false);
+      bForm.reset();
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Axis Digital — Websites built with speed and precision</title>
+<meta name="description" content="Axis Digital is a boutique web design studio building fast, precise, conversion-focused websites for small businesses. Design, build, launch — in weeks, not months.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   AXIS DIGITAL — single-file marketing site
+   Palette: near-black canvas + ice-blue accent (#6FD6FF)
+   Type: Instrument Serif (display) / Inter (UI + body)
+   No external images — all visuals are CSS-crafted.
+   ============================================================ */
+
+:root{
+  --bg:            #060709;
+  --bg-raise:      #0B0D11;
+  --bg-card:       #0E1116;
+  --line:          rgba(255,255,255,.08);
+  --line-strong:   rgba(255,255,255,.16);
+  --ink:           #F2F5F8;
+  --ink-soft:      #A5AEBB;
+  --ink-mute:      #6B7482;
+  --accent:        #6FD6FF;
+  --accent-deep:   #1F8FCC;
+  --accent-glow:   rgba(111,214,255,.16);
+  --serif:'Instrument Serif', 'Times New Roman', serif;
+  --sans:'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --maxw: 1240px;
+  --pad: 40px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.65;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button,input,select,textarea{font:inherit;color:inherit;}
+::selection{background:var(--accent);color:#04121A;}
+
+/* --- global grain + ambient glow -------------------------------- */
+body::before{
+  content:'';position:fixed;inset:-50%;z-index:0;pointer-events:none;
+  opacity:.05;
+  background-image:
+    repeating-conic-gradient(#fff 0% 0.0009%, transparent 0% 0.0018%),
+    repeating-conic-gradient(#fff 0% 0.0006%, transparent 0% 0.0022%);
+  background-size:180px 180px, 97px 97px;
+  animation:grainShift 7s steps(6) infinite;
+}
+@keyframes grainShift{
+  0%{transform:translate(0,0)}   16%{transform:translate(-2%,1%)}
+  33%{transform:translate(1%,-2%)} 50%{transform:translate(-1%,2%)}
+  66%{transform:translate(2%,1%)} 83%{transform:translate(-2%,-1%)}
+  100%{transform:translate(0,0)}
+}
+
+/* --- layout primitives ------------------------------------------ */
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 var(--pad);position:relative;z-index:2;}
+section{position:relative;z-index:2;}
+.sec{padding:130px 0;}
+.sec-tight{padding:96px 0;}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 26px;
+}
+.eyebrow::before{
+  content:'';width:26px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent));
+}
+h1,h2,h3,h4{margin:0;font-weight:400;letter-spacing:-.015em;}
+.display{font-family:var(--serif);line-height:1.02;letter-spacing:-.025em;}
+.sec-title{
+  font-family:var(--serif);
+  font-size:clamp(2.4rem,5.2vw,4rem);
+  line-height:1.05;letter-spacing:-.025em;margin:0 0 20px;
+}
+.sec-sub{color:var(--ink-soft);font-size:1.0625rem;max-width:56ch;margin:0;font-weight:300;}
+.it{font-style:italic;color:var(--accent);}
+.hair{height:1px;background:var(--line);border:0;margin:0;}
+
+/* --- buttons ---------------------------------------------------- */
+.btn{
+  --bh:52px;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  height:var(--bh);padding:0 26px;border-radius:100px;border:1px solid transparent;
+  font-size:.875rem;font-weight:500;letter-spacing:.01em;cursor:pointer;
+  position:relative;overflow:hidden;white-space:nowrap;
+  transition:transform .4s var(--ease), background .4s var(--ease),
+             color .4s var(--ease), border-color .4s var(--ease), box-shadow .4s var(--ease);
+}
+.btn-primary{background:var(--accent);color:#04121A;font-weight:600;}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 42px -12px rgba(111,214,255,.55);
+  background:#8FE0FF;
+}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong);}
+.btn-ghost:hover{
+  border-color:var(--accent);color:var(--accent);
+  background:rgba(111,214,255,.05);transform:translateY(-2px);
+}
+.btn-sm{--bh:42px;padding:0 20px;font-size:.8125rem;}
+.btn-lg{--bh:58px;padding:0 34px;font-size:.9375rem;}
+.btn-block{width:100%;}
+
+.link-arrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:.9375rem;font-weight:500;color:var(--ink-soft);
+  transition:color .35s var(--ease);
+}
+.link-arrow .ar{transition:transform .4s var(--ease);display:inline-block;}
+.link-arrow:hover{color:var(--accent);}
+.link-arrow:hover .ar{transform:translateX(6px);}
+
+/* ================= NAV ========================================== */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  transition:background .5s var(--ease), border-color .5s var(--ease), backdrop-filter .5s;
+  border-bottom:1px solid transparent;
+}
+.nav.stuck{
+  background:rgba(6,7,9,.72);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  border-bottom-color:var(--line);
+}
+.nav-in{
+  max-width:var(--maxw);margin:0 auto;padding:0 var(--pad);
+  height:78px;display:flex;align-items:center;justify-content:space-between;gap:24px;
+  transition:height .5s var(--ease);
+}
+.nav.stuck .nav-in{height:66px;}
+.brand{display:flex;align-items:center;gap:11px;flex-shrink:0;}
+.brand-mark{
+  width:26px;height:26px;position:relative;flex-shrink:0;
+  border:1px solid var(--accent);border-radius:6px;
+  background:radial-gradient(circle at 30% 25%, rgba(111,214,255,.34), transparent 70%);
+  transition:transform .6s var(--ease), box-shadow .6s var(--ease);
+}
+.brand-mark::after{
+  content:'';position:absolute;inset:0;margin:auto;
+  width:1px;height:13px;background:var(--accent);
+  transform:rotate(45deg);box-shadow:0 0 10px var(--accent);
+}
+.brand:hover .brand-mark{transform:rotate(90deg);box-shadow:0 0 22px -4px var(--accent-glow);}
+.brand-txt{font-family:var(--serif);font-size:1.28rem;letter-spacing:-.01em;}
+.brand-txt b{font-weight:400;}
+.brand-txt span{color:var(--ink-mute);}
+
+.nav-links{display:flex;align-items:center;gap:34px;}
+.nav-links a{
+  font-size:.875rem;color:var(--ink-soft);position:relative;padding:4px 0;
+  transition:color .35s var(--ease);
+}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:0;height:1px;width:0;
+  background:var(--accent);transition:width .4s var(--ease);
+}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{display:flex;align-items:center;gap:14px;}
+
+.burger{
+  display:none;width:42px;height:42px;border:1px solid var(--line-strong);
+  background:transparent;border-radius:10px;cursor:pointer;
+  align-items:center;justify-content:center;flex-direction:column;gap:5px;
+}
+.burger span{display:block;width:16px;height:1.5px;background:var(--ink);transition:transform .4s var(--ease),opacity .3s;}
+.burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.burger.open span:nth-child(2){opacity:0;}
+.burger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+.mobile-menu{
+  position:fixed;inset:0;z-index:99;background:rgba(6,7,9,.98);
+  backdrop-filter:blur(18px);
+  display:flex;flex-direction:column;justify-content:center;gap:6px;
+  padding:0 var(--pad);
+  opacity:0;visibility:hidden;transform:translateY(-14px);
+  transition:opacity .45s var(--ease), transform .45s var(--ease), visibility .45s;
+}
+.mobile-menu.open{opacity:1;visibility:visible;transform:none;}
+.mobile-menu a{
+  font-family:var(--serif);font-size:2.2rem;padding:12px 0;
+  border-bottom:1px solid var(--line);color:var(--ink);
+}
+.mobile-menu a:last-of-type{border-bottom:0;}
+.mobile-menu .btn{margin-top:26px;align-self:flex-start;}
+
+/* ================= HERO ========================================= */
+.hero{
+  position:relative;padding:180px 0 110px;overflow:hidden;
+  min-height:min(100svh,940px);display:flex;align-items:center;
+}
+.hero-glow{
+  position:absolute;top:-30%;left:50%;transform:translateX(-50%);
+  width:min(1300px,150vw);height:900px;pointer-events:none;z-index:1;
+  background:
+    radial-gradient(ellipse 46% 42% at 50% 42%, rgba(111,214,255,.16), transparent 68%),
+    radial-gradient(ellipse 30% 34% at 22% 62%, rgba(31,143,204,.13), transparent 70%),
+    radial-gradient(ellipse 26% 30% at 80% 30%, rgba(160,190,255,.08), transparent 70%);
+  filter:blur(24px);
+  animation:glowDrift 16s ease-in-out infinite alternate;
+}
+@keyframes glowDrift{
+  0%{transform:translateX(-50%) scale(1);opacity:.9}
+  100%{transform:translateX(-46%) scale(1.09);opacity:1}
+}
+.hero-grid{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,.028) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.028) 1px, transparent 1px);
+  background-size:82px 82px;
+  mask-image:radial-gradient(ellipse 68% 62% at 50% 42%, #000 20%, transparent 78%);
+  -webkit-mask-image:radial-gradient(ellipse 68% 62% at 50% 42%, #000 20%, transparent 78%);
+}
+.hero .wrap{max-width:1180px;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:7px 15px 7px 11px;border:1px solid var(--line-strong);border-radius:100px;
+  font-size:.75rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);
+  background:rgba(255,255,255,.02);backdrop-filter:blur(8px);margin-bottom:34px;
+}
+.pulse{
+  width:6px;height:6px;border-radius:50%;background:var(--accent);position:relative;flex-shrink:0;
+}
+.pulse::after{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  border:1px solid var(--accent);opacity:.6;animation:pulseRing 2.2s ease-out infinite;
+}
+@keyframes pulseRing{0%{transform:scale(.6);opacity:.7}100%{transform:scale(1.7);opacity:0}}
+
+.hero h1{
+  font-family:var(--serif);
+  font-size:clamp(3rem,8.4vw,6.6rem);
+  line-height:.98;letter-spacing:-.032em;margin:0 0 32px;max-width:16ch;
+}
+.hero h1 .dim{color:var(--ink-mute);}
+.hero-sub{
+  font-size:clamp(1.0625rem,1.5vw,1.2rem);color:var(--ink-soft);
+  max-width:56ch;font-weight:300;margin:0 0 44px;line-height:1.7;
+}
+.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px 28px;}
+.hero-meta{
+  display:flex;flex-wrap:wrap;gap:0;margin-top:88px;
+  border-top:1px solid var(--line);
+}
+.hero-meta div{
+  flex:1 1 200px;padding:26px 28px 0 0;
+}
+.hero-meta dt{
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mute);margin:0 0 8px;
+}
+.hero-meta dd{margin:0;font-size:.95rem;color:var(--ink);font-weight:400;}
+
+/* --- marquee strip ---------------------------------------------- */
+.strip{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg, rgba(255,255,255,.014), transparent);
+  overflow:hidden;padding:19px 0;
+}
+.marquee{display:flex;width:max-content;animation:slide 34s linear infinite;}
+.marquee-set{display:flex;align-items:center;gap:52px;padding-right:52px;}
+.marquee span{
+  font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--ink-mute);white-space:nowrap;
+}
+.marquee .dot{width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:.7;flex-shrink:0;}
+@keyframes slide{to{transform:translateX(-50%)}}
+.strip:hover .marquee{animation-play-state:paused;}
+
+/* ================= SECTION HEAD ================================= */
+.sec-head{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:40px;
+  margin-bottom:64px;flex-wrap:wrap;
+}
+.sec-head-l{max-width:62ch;}
+
+/* ================= WORK ========================================= */
+.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:34px;}
+.case{
+  position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  background:var(--bg-card);
+  transition:transform .6s var(--ease), border-color .6s var(--ease), box-shadow .6s var(--ease);
+  display:block;
+}
+.case:hover{
+  transform:translateY(-8px);border-color:var(--line-strong);
+  box-shadow:0 40px 80px -40px rgba(0,0,0,.9);
+}
+/* browser-chrome mockup frame */
+.frame{
+  position:relative;aspect-ratio:16/11;overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
+.chrome{
+  position:absolute;top:0;left:0;right:0;height:34px;z-index:5;
+  display:flex;align-items:center;gap:7px;padding:0 14px;
+  background:rgba(10,11,14,.86);backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.chrome i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.16);}
+.chrome .bar{
+  flex:1;height:15px;margin-left:10px;border-radius:100px;
+  background:rgba(255,255,255,.05);
+  display:flex;align-items:center;padding:0 9px;
+}
+.chrome .bar em{
+  font-style:normal;font-size:8.5px;letter-spacing:.1em;
+  color:rgba(255,255,255,.34);text-transform:lowercase;
+}
+.shot{position:absolute;inset:34px 0 0;overflow:hidden;}
+.shot-in{
+  position:absolute;inset:0;
+  transition:transform 1s var(--ease);
+}
+.case:hover .shot-in{transform:scale(1.045);}
+
+/* --- AXIOM: charcoal + bronze ----------------------------------- */
+.shot-axiom{
+  background:
+    radial-gradient(ellipse 62% 48% at 50% 8%, rgba(198,150,74,.20), transparent 66%),
+    linear-gradient(165deg,#1B1917 0%, #121110 52%, #0A0A09 100%);
+}
+.shot-axiom::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(115deg,
+    transparent 0 26px, rgba(198,150,74,.05) 26px 27px);
+}
+.mk{position:absolute;border-radius:3px;}
+.ax-h{
+  left:9%;right:34%;top:20%;height:11%;
+  background:linear-gradient(90deg,#E9D6B4,rgba(233,214,180,.35));
+  border-radius:2px;
+}
+.ax-h2{left:9%;right:52%;top:35%;height:6.5%;background:rgba(233,214,180,.30);}
+.ax-l1{left:9%;right:44%;top:47%;height:3%;background:rgba(255,255,255,.13);}
+.ax-l2{left:9%;right:56%;top:53.5%;height:3%;background:rgba(255,255,255,.10);}
+.ax-btn{
+  left:9%;width:23%;top:63%;height:8.5%;border-radius:100px;
+  background:linear-gradient(90deg,#C6964A,#8E6A2E);
+  box-shadow:0 0 26px -6px rgba(198,150,74,.6);
+}
+.ax-panel{
+  right:8%;top:20%;width:24%;height:56%;border-radius:8px;
+  background:linear-gradient(180deg, rgba(198,150,74,.28), rgba(198,150,74,.04));
+  border:1px solid rgba(198,150,74,.30);
+}
+.ax-panel::after{
+  content:'';position:absolute;left:14%;right:14%;top:12%;height:2px;
+  background:rgba(233,214,180,.5);
+  box-shadow:0 12px 0 rgba(233,214,180,.28), 0 24px 0 rgba(233,214,180,.16);
+}
+.ax-strip{
+  left:9%;right:8%;bottom:8%;height:9%;border-radius:4px;
+  background:linear-gradient(90deg,
+    rgba(198,150,74,.20) 0 22%, transparent 22% 26%,
+    rgba(255,255,255,.06) 26% 48%, transparent 48% 52%,
+    rgba(255,255,255,.06) 52% 74%, transparent 74% 78%,
+    rgba(198,150,74,.14) 78% 100%);
+}
+
+/* --- MAISON SOLENNE: near-black + burgundy + champagne ---------- */
+.shot-maison{
+  background:
+    radial-gradient(ellipse 58% 52% at 74% 16%, rgba(122,26,45,.42), transparent 64%),
+    radial-gradient(ellipse 40% 40% at 14% 84%, rgba(224,204,164,.10), transparent 68%),
+    linear-gradient(160deg,#100A0C 0%, #0A0709 60%, #060405 100%);
+}
+.shot-maison::before{
+  content:'';position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 34px, rgba(224,204,164,.035) 34px 35px),
+    repeating-linear-gradient(-45deg, transparent 0 34px, rgba(224,204,164,.025) 34px 35px);
+}
+.ms-rule{left:50%;transform:translateX(-50%);top:16%;width:36%;height:1px;background:rgba(224,204,164,.5);}
+.ms-h{
+  left:22%;right:22%;top:24%;height:12%;border-radius:2px;
+  background:linear-gradient(90deg,rgba(224,204,164,.9),rgba(224,204,164,.45),rgba(224,204,164,.85));
+}
+.ms-h2{left:33%;right:33%;top:41%;height:4.5%;background:rgba(224,204,164,.34);}
+.ms-l1{left:28%;right:28%;top:51%;height:2.6%;background:rgba(255,255,255,.11);}
+.ms-l2{left:35%;right:35%;top:57%;height:2.6%;background:rgba(255,255,255,.08);}
+.ms-btn{
+  left:38%;right:38%;top:66%;height:8%;border-radius:1px;
+  border:1px solid rgba(224,204,164,.62);background:rgba(224,204,164,.05);
+}
+.ms-c{
+  bottom:7%;width:20%;height:16%;border-radius:2px;
+  background:linear-gradient(180deg, rgba(122,26,45,.55), rgba(122,26,45,.12));
+  border:1px solid rgba(224,204,164,.16);
+}
+.ms-c1{left:11%;} .ms-c2{left:40%;} .ms-c3{left:69%;}
+
+/* --- case body -------------------------------------------------- */
+.case-body{padding:28px 30px 32px;}
+.case-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;}
+.case-body h3{font-family:var(--serif);font-size:1.72rem;letter-spacing:-.015em;line-height:1.15;}
+.case-yr{font-size:.72rem;letter-spacing:.16em;color:var(--ink-mute);white-space:nowrap;}
+.case-body p{color:var(--ink-soft);font-size:.9375rem;font-weight:300;margin:10px 0 20px;max-width:44ch;}
+.tags{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{
+  font-size:.7rem;letter-spacing:.11em;text-transform:uppercase;
+  padding:6px 12px;border:1px solid var(--line);border-radius:100px;color:var(--ink-mute);
+  transition:border-color .4s var(--ease),color .4s var(--ease);
+}
+.case:hover .tag{border-color:rgba(111,214,255,.28);color:var(--ink-soft);}
+.case-view{
+  display:flex;align-items:center;gap:9px;margin-top:22px;
+  font-size:.8125rem;font-weight:500;color:var(--accent);
+  opacity:0;transform:translateY(6px);
+  transition:opacity .5s var(--ease), transform .5s var(--ease);
+}
+.case:hover .case-view{opacity:1;transform:none;}
+
+.work-note{
+  margin-top:34px;padding:22px 26px;border:1px dashed var(--line-strong);border-radius:14px;
+  color:var(--ink-mute);font-size:.875rem;display:flex;gap:14px;align-items:flex-start;
+}
+.work-note b{color:var(--ink-soft);font-weight:500;}
+
+/* ================= SERVICES ===================================== */
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);}
+.svc{
+  padding:44px 32px 48px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);
+  position:relative;overflow:hidden;
+  transition:background .55s var(--ease);
+}
+.svc:nth-child(4n){border-right:0;}
+.svc::before{
+  content:'';position:absolute;left:0;right:0;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  transform:scaleX(0);transition:transform .6s var(--ease);
+}
+.svc:hover{background:linear-gradient(180deg, rgba(111,214,255,.045), transparent 70%);}
+.svc:hover::before{transform:scaleX(1);}
+.svc-ico{
+  width:46px;height:46px;border:1px solid var(--line-strong);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;margin-bottom:26px;
+  color:var(--accent);background:rgba(111,214,255,.04);
+  transition:transform .55s var(--ease), border-color .55s var(--ease), box-shadow .55s var(--ease);
+}
+.svc:hover .svc-ico{
+  transform:translateY(-4px);border-color:rgba(111,214,255,.44);
+  box-shadow:0 12px 32px -14px var(--accent);
+}
+.svc h3{font-size:1.0625rem;font-weight:600;letter-spacing:-.005em;margin-bottom:12px;}
+.svc p{color:var(--ink-soft);font-size:.9rem;font-weight:300;margin:0 0 18px;}
+.svc ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;}
+.svc li{
+  font-size:.8125rem;color:var(--ink-mute);padding-left:16px;position:relative;
+}
+.svc li::before{
+  content:'';position:absolute;left:0;top:.62em;width:5px;height:1px;background:var(--accent);opacity:.75;
+}
+
+/* ================= PROCESS ====================================== */
+.process{background:var(--bg-raise);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+.steps::before{
+  content:'';position:absolute;top:34px;left:6%;right:6%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--line-strong),var(--line-strong),transparent);
+}
+.step{position:relative;padding:0 26px 0 0;}
+.step:last-child{padding-right:0;}
+.step-num{
+  position:relative;z-index:2;width:68px;height:68px;border-radius:50%;
+  border:1px solid var(--line-strong);background:var(--bg-raise);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:1.4rem;color:var(--ink-soft);
+  margin-bottom:28px;
+  transition:border-color .5s var(--ease), color .5s var(--ease),
+             background .5s var(--ease), box-shadow .5s var(--ease), transform .5s var(--ease);
+}
+.step:hover .step-num{
+  border-color:var(--accent);color:var(--accent);transform:translateY(-3px);
+  background:rgba(111,214,255,.07);box-shadow:0 0 0 6px rgba(111,214,255,.05);
+}
+.step h3{font-size:1.125rem;font-weight:600;margin-bottom:12px;}
+.step p{color:var(--ink-soft);font-size:.9rem;font-weight:300;margin:0 0 16px;max-width:34ch;}
+.step-t{
+  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);
+  padding-top:14px;border-top:1px solid var(--line);
+}
+
+/* ================= WHY / VALUES ================================= */
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+.why-list{display:flex;flex-direction:column;}
+.why-item{
+  padding:28px 0;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start;
+  transition:padding-left .5s var(--ease);
+}
+.why-item:last-child{border-bottom:1px solid var(--line);}
+.why-item:hover{padding-left:10px;}
+.why-k{
+  font-size:.72rem;letter-spacing:.16em;color:var(--ink-mute);padding-top:5px;
+  transition:color .5s var(--ease);
+}
+.why-item:hover .why-k{color:var(--accent);}
+.why-item h3{font-size:1.0625rem;font-weight:600;margin-bottom:8px;}
+.why-item p{color:var(--ink-soft);font-size:.9rem;font-weight:300;margin:0;max-width:46ch;}
+
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  border-top:1px solid var(--line);margin-top:76px;
+}
+.stat{
+  padding:36px 24px 0 0;border-right:1px solid var(--line);
+}
+.stat:last-child{border-right:0;}
+.stat b{
+  display:block;font-family:var(--serif);font-size:clamp(2rem,3.6vw,2.9rem);
+  line-height:1;letter-spacing:-.02em;color:var(--ink);margin-bottom:12px;
+}
+.stat span{font-size:.875rem;color:var(--ink-soft);font-weight:300;}
+
+/* ================= PRICING ====================================== */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:start;}
+.tier{
+  border:1px solid var(--line);border-radius:18px;padding:38px 32px 36px;
+  background:var(--bg-card);position:relative;
+  display:flex;flex-direction:column;height:100%;
+  transition:transform .55s var(--ease), border-color .55s var(--ease), box-shadow .55s var(--ease);
+}
+.tier:hover{transform:translateY(-6px);border-color:var(--line-strong);}
+.tier-pop{
+  border-color:rgba(111,214,255,.34);
+  background:
+    radial-gradient(ellipse 90% 46% at 50% 0%, rgba(111,214,255,.09), transparent 66%),
+    var(--bg-card);
+  box-shadow:0 30px 80px -50px rgba(111,214,255,.7);
+}
+.tier-pop:hover{border-color:rgba(111,214,255,.55);}
+.pop-flag{
+  position:absolute;top:-1px;left:50%;transform:translate(-50%,-50%);
+  background:var(--accent);color:#04121A;font-size:.66rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;padding:6px 15px;border-radius:100px;
+  white-space:nowrap;
+}
+.tier h3{font-size:1rem;font-weight:600;letter-spacing:.02em;margin-bottom:8px;}
+.tier-for{color:var(--ink-mute);font-size:.8125rem;margin:0 0 26px;min-height:2.6em;}
+.price{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:6px;}
+.price .amt{font-family:var(--serif);font-size:2.9rem;line-height:1;letter-spacing:-.02em;}
+.price .cur{font-family:var(--serif);font-size:1.4rem;color:var(--ink-soft);}
+.price-note{font-size:.75rem;color:var(--ink-mute);letter-spacing:.04em;margin:0 0 28px;}
+.tier ul{list-style:none;margin:0 0 32px;padding:26px 0 0;border-top:1px solid var(--line);
+  display:flex;flex-direction:column;gap:12px;flex:1;}
+.tier li{font-size:.875rem;color:var(--ink-soft);font-weight:300;
+  display:grid;grid-template-columns:auto 1fr;gap:11px;align-items:start;}
+.chk{
+  width:15px;height:15px;flex-shrink:0;margin-top:4px;color:var(--accent);
+}
+.pricing-foot{
+  margin-top:34px;text-align:center;color:var(--ink-mute);font-size:.8125rem;max-width:70ch;
+  margin-left:auto;margin-right:auto;
+}
+.pricing-foot a{color:var(--accent);border-bottom:1px solid rgba(111,214,255,.3);}
+
+/* ================= CONTACT ====================================== */
+.contact{
+  background:var(--bg-raise);border-top:1px solid var(--line);position:relative;overflow:hidden;
+}
+.contact::before{
+  content:'';position:absolute;top:-220px;left:50%;transform:translateX(-50%);
+  width:900px;height:520px;pointer-events:none;
+  background:radial-gradient(ellipse 50% 50% at 50% 50%, rgba(111,214,255,.11), transparent 68%);
+  filter:blur(16px);
+}
+.contact-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:70px;align-items:start;}
+.ci-list{margin-top:44px;display:flex;flex-direction:column;}
+.ci{
+  display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;
+  padding:20px 0;border-top:1px solid var(--line);
+}
+.ci:last-child{border-bottom:1px solid var(--line);}
+.ci-ico{
+  width:34px;height:34px;border-radius:9px;border:1px solid var(--line-strong);
+  display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0;
+}
+.ci dt{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:5px;}
+.ci dd{margin:0;font-size:.9375rem;}
+.ci dd a{transition:color .35s var(--ease);}
+.ci dd a:hover{color:var(--accent);}
+.ci dd small{display:block;color:var(--ink-mute);font-size:.75rem;margin-top:3px;}
+
+/* form */
+.form{
+  border:1px solid var(--line);border-radius:20px;padding:38px;
+  background:rgba(14,17,22,.7);backdrop-filter:blur(10px);
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.field{display:flex;flex-direction:column;gap:9px;margin-bottom:20px;}
+.field label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);}
+.field input,.field select,.field textarea{
+  width:100%;background:rgba(255,255,255,.025);border:1px solid var(--line);
+  border-radius:11px;padding:14px 15px;font-size:.9375rem;color:var(--ink);
+  transition:border-color .35s var(--ease), background .35s var(--ease), box-shadow .35s var(--ease);
+  font-family:var(--sans);
+}
+.field textarea{resize:vertical;min-height:126px;line-height:1.6;}
+.field select{
+  appearance:none;-webkit-appearance:none;cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink-mute) 50%),
+                   linear-gradient(135deg,var(--ink-mute) 50%,transparent 50%);
+  background-position:calc(100% - 20px) calc(1.35em), calc(100% - 15px) calc(1.35em);
+  background-size:5px 5px, 5px 5px;background-repeat:no-repeat;
+}
+.field select option{background:#0E1116;color:var(--ink);}
+.field input::placeholder,.field textarea::placeholder{color:#4E5663;}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:rgba(111,214,255,.5);background:rgba(111,214,255,.035);
+  box-shadow:0 0 0 4px rgba(111,214,255,.07);
+}
+.form-foot{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-top:6px;}
+.form-note{font-size:.75rem;color:var(--ink-mute);max-width:34ch;}
+.form-msg{
+  margin-top:18px;padding:14px 16px;border-radius:11px;font-size:.875rem;
+  border:1px solid rgba(111,214,255,.3);background:rgba(111,214,255,.07);color:var(--accent);
+  display:none;
+}
+.form-msg.show{display:block;animation:fadeUp .5s var(--ease);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ================= FOOTER ======================================= */
+.footer{padding:80px 0 36px;border-top:1px solid var(--line);}
+.f-top{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:44px;padding-bottom:56px;
+}
+.f-brand p{color:var(--ink-mute);font-size:.875rem;font-weight:300;max-width:34ch;margin:20px 0 24px;}
+.f-col h4{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:18px;}
+.f-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;}
+.f-col a{font-size:.9rem;color:var(--ink-soft);transition:color .35s var(--ease), padding-left .35s var(--ease);}
+.f-col a:hover{color:var(--accent);padding-left:5px;}
+.socials{display:flex;gap:10px;}
+.socials a{
+  width:38px;height:38px;border:1px solid var(--line);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;color:var(--ink-soft);
+  transition:border-color .4s var(--ease), color .4s var(--ease),
+             transform .4s var(--ease), background .4s var(--ease);
+}
+.socials a:hover{
+  border-color:var(--accent);color:var(--accent);transform:translateY(-3px);
+  background:rgba(111,214,255,.06);
+}
+.f-bot{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  padding-top:28px;border-top:1px solid var(--line);
+  font-size:.8125rem;color:var(--ink-mute);
+}
+.f-bot .to-top{display:inline-flex;align-items:center;gap:8px;transition:color .35s var(--ease);}
+.f-bot .to-top:hover{color:var(--accent);}
+
+/* ================= SCROLL REVEAL ================================ */
+.rv{opacity:1;transform:none;}
+.rv.in{opacity:1;transform:none;}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;}
+  .rv{opacity:1;transform:none;}
+  html{scroll-behavior:auto;}
+}
+
+/* ================= RESPONSIVE =================================== */
+@media (max-width:1080px){
+  :root{--pad:32px;}
+  .svc-grid{grid-template-columns:repeat(2,1fr);}
+  .svc:nth-child(2n){border-right:0;}
+  .svc:nth-child(4n){border-right:0;}
+  .steps{grid-template-columns:repeat(2,1fr);row-gap:52px;}
+  .steps::before{display:none;}
+  .contact-grid{grid-template-columns:1fr;gap:52px;}
+  .f-top{grid-template-columns:1fr 1fr;gap:38px;}
+}
+@media (max-width:900px){
+  .nav-links,.nav-cta .btn{display:none;}
+  .burger{display:flex;}
+  .sec{padding:96px 0;}
+  .sec-tight{padding:72px 0;}
+  .work-grid{grid-template-columns:1fr;gap:26px;}
+  .tiers{grid-template-columns:1fr;gap:34px;}
+  .tier-pop{order:-1;}
+  .why-grid{grid-template-columns:1fr;gap:36px;}
+}
+@media (max-width:640px){
+  :root{--pad:22px;}
+  .hero{padding:140px 0 80px;min-height:auto;}
+  .hero h1{font-size:clamp(2.6rem,11vw,3.6rem);}
+  .hero-meta{margin-top:56px;}
+  .hero-meta div{flex:1 1 100%;padding:22px 0 0;}
+  .hero-actions{gap:14px;}
+  .hero-actions .btn{width:100%;}
+  .sec-head{margin-bottom:44px;}
+  .svc-grid{grid-template-columns:1fr;}
+  .svc{border-right:0;padding:34px 0 38px;}
+  .steps{grid-template-columns:1fr;row-gap:40px;}
+  .step{padding-right:0;}
+  .stats{grid-template-columns:1fr;}
+  .stat{border-right:0;border-bottom:1px solid var(--line);padding:26px 0;}
+  .stat:last-child{border-bottom:0;}
+  .form{padding:26px 20px;}
+  .form-row{grid-template-columns:1fr;gap:0;}
+  .case-body{padding:24px 22px 28px;}
+  .f-top{grid-template-columns:1fr;gap:34px;}
+  .mobile-menu a{font-size:1.8rem;}
+  .form-foot .btn{width:100%;}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a href="#top" class="brand" aria-label="Axis Digital home">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-txt"><b>Axis</b> <span>Digital</span></span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-primary btn-sm">Start a Project</a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#work">Work</a>
+  <a href="#services">Services</a>
+  <a href="#process">Process</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#contact">Contact</a>
+  <a href="#contact" class="btn btn-primary">Start a Project</a>
+</div>
+
+<main id="top">
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <span class="hero-badge"><span class="pulse" aria-hidden="true"></span> Now taking on new clients</span>
+
+    <h1 class="display">
+      Websites built with<br>
+      precision. <span class="dim">Shipped</span><br>
+      <span class="it">in weeks.</span>
+    </h1>
+
+    <p class="hero-sub">
+      Axis Digital is a boutique studio designing and building high-end websites for
+      small businesses. A modern workflow lets us move at a pace agencies can't —
+      without trading away the craft, the detail, or the strategy behind the pixels.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-primary btn-lg">Start a Project</a>
+      <a href="#work" class="link-arrow">View our work <span class="ar">&#8594;</span></a>
+    </div>
+
+    <dl class="hero-meta">
+      <div><dt>Typical timeline</dt><dd>2&ndash;4 weeks, start to launch</dd></div>
+      <div><dt>Built for</dt><dd>Small businesses &amp; independent brands</dd></div>
+      <div><dt>Every project</dt><dd>Custom designed. Never templated.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ===================== MARQUEE STRIP ===================== -->
+<div class="strip" aria-hidden="true">
+  <div class="marquee">
+    <div class="marquee-set">
+      <span>Web Design</span><i class="dot"></i>
+      <span>Brand Identity</span><i class="dot"></i>
+      <span>Front-End Development</span><i class="dot"></i>
+      <span>Performance &amp; SEO</span><i class="dot"></i>
+      <span>Ongoing Care</span><i class="dot"></i>
+      <span>Conversion Strategy</span><i class="dot"></i>
+    </div>
+    <div class="marquee-set">
+      <span>Web Design</span><i class="dot"></i>
+      <span>Brand Identity</span><i class="dot"></i>
+      <span>Front-End Development</span><i class="dot"></i>
+      <span>Performance &amp; SEO</span><i class="dot"></i>
+      <span>Ongoing Care</span><i class="dot"></i>
+      <span>Conversion Strategy</span><i class="dot"></i>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== WORK ===================== -->
+<section class="sec" id="work">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-head-l">
+        <span class="eyebrow">Selected Work</span>
+        <h2 class="sec-title">Brands we've<br>put on the map</h2>
+        <p class="sec-sub">
+          Two recent builds that show the range &mdash; disciplined and industrial on one end,
+          quiet and refined on the other. Same standard of craft either way.
+        </p>
+      </div>
+      <a href="#contact" class="link-arrow">Want to be next? <span class="ar">&#8594;</span></a>
+    </div>
+
+    <div class="work-grid">
+
+      <!-- AXIOM -->
+      <a href="#contact" class="case rv" aria-label="AXIOM Strength Club case study">
+        <div class="frame">
+          <div class="chrome" aria-hidden="true">
+            <i></i><i></i><i></i>
+            <span class="bar"><em>axiomstrengthclub.com</em></span>
+          </div>
+          <div class="shot">
+            <div class="shot-in shot-axiom" aria-hidden="true">
+              <span class="mk ax-h"></span>
+              <span class="mk ax-h2"></span>
+              <span class="mk ax-l1"></span>
+              <span class="mk ax-l2"></span>
+              <span class="mk ax-btn"></span>
+              <span class="mk ax-panel"></span>
+              <span class="mk ax-strip"></span>
+            </div>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-top">
+            <h3>AXIOM Strength Club</h3>
+            <span class="case-yr">Studio Site</span>
+          </div>
+          <p>
+            A private, invitation-only training studio built on precision programming.
+            Charcoal and bronze, heavy type, and a membership flow designed to feel selective.
+          </p>
+          <div class="tags">
+            <span class="tag">Web Design</span>
+            <span class="tag">Brand Identity</span>
+            <span class="tag">Development</span>
+          </div>
+          <span class="case-view">View project <span aria-hidden="true">&#8594;</span></span>
+        </div>
+      </a>
+
+      <!-- MAISON SOLENNE -->
+      <a href="#contact" class="case rv" aria-label="Maison Solenne case study">
+        <div class="frame">
+          <div class="chrome" aria-hidden="true">
+            <i></i><i></i><i></i>
+            <span class="bar"><em>maisonsolenne.com</em></span>
+          </div>
+          <div class="shot">
+            <div class="shot-in shot-maison" aria-hidden="true">
+              <span class="mk ms-rule"></span>
+              <span class="mk ms-h"></span>
+              <span class="mk ms-h2"></span>
+              <span class="mk ms-l1"></span>
+              <span class="mk ms-l2"></span>
+              <span class="mk ms-btn"></span>
+              <span class="mk ms-c ms-c1"></span>
+              <span class="mk ms-c ms-c2"></span>
+              <span class="mk ms-c ms-c3"></span>
+            </div>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-top">
+            <h3>Maison Solenne</h3>
+            <span class="case-yr">Restaurant</span>
+          </div>
+          <p>
+            A seasonal tasting-menu restaurant. Near-black, burgundy and champagne,
+            with a menu that changes with the harvest and a reservation path that never gets in the way.
+          </p>
+          <div class="tags">
+            <span class="tag">Web Design</span>
+            <span class="tag">Art Direction</span>
+            <span class="tag">Development</span>
+          </div>
+          <span class="case-view">View project <span aria-hidden="true">&#8594;</span></span>
+        </div>
+      </a>
+
+    </div>
+
+    <p class="work-note rv">
+      <span aria-hidden="true" style="color:var(--accent)">&#9679;</span>
+      <span><b>Just launched.</b> Axis Digital is a new studio, and this is the beginning of the portfolio &mdash;
+      which means right now you get an unusual amount of our attention. We're selective about the
+      projects we take on and we'd rather build ten sites we're proud of than a hundred we're not.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ===================== SERVICES ===================== -->
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-head-l">
+        <span class="eyebrow">Services</span>
+        <h2 class="sec-title">Everything your site<br>needs to <span class="it">work</span></h2>
+        <p class="sec-sub">
+          Design, build, launch and look after it. One studio, one point of contact,
+          no handoffs between four different vendors.
+        </p>
+      </div>
+    </div>
+
+    <div class="svc-grid">
+
+      <article class="svc rv">
+        <div class="svc-ico" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M2 8h20"/>
+          </svg>
+        </div>
+        <h3>Website Design &amp; Development</h3>
+        <p>Custom sites designed around your business and hand-built to be fast, responsive and easy to run.</p>
+        <ul>
+          <li>Bespoke UI design</li>
+          <li>Mobile-first responsive build</li>
+          <li>CMS setup so you can edit</li>
+          <li>Accessibility considered throughout</li>
+        </ul>
+      </article>
+
+      <article class="svc rv">
+        <div class="svc-ico" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/><path d="M5.6 5.6l12.8 12.8"/>
+          </svg>
+        </div>
+        <h3>Brand Identity</h3>
+        <p>Logos, palettes, type systems and the rules that keep everything looking like one brand.</p>
+        <ul>
+          <li>Logo &amp; wordmark design</li>
+          <li>Colour &amp; typography system</li>
+          <li>Brand guidelines document</li>
+          <li>Social &amp; print-ready assets</li>
+        </ul>
+      </article>
+
+      <article class="svc rv">
+        <div class="svc-ico" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>
+            <circle cx="12" cy="12" r="3.5"/>
+          </svg>
+        </div>
+        <h3>Maintenance &amp; Support</h3>
+        <p>Updates, backups, fixes and small changes handled monthly so your site never goes stale.</p>
+        <ul>
+          <li>Security &amp; plugin updates</li>
+          <li>Automated backups + uptime checks</li>
+          <li>Content edits on request</li>
+          <li>Priority response for issues</li>
+        </ul>
+      </article>
+
+      <article class="svc rv">
+        <div class="svc-ico" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 17l5-6 4 4 5-7 4 4"/><path d="M3 21h18"/><circle cx="8" cy="11" r="1"/>
+          </svg>
+        </div>
+        <h3>SEO &amp; Performance</h3>
+        <p>Technical groundwork so people actually find the site &mdash; and it loads before they leave.</p>
+        <ul>
+          <li>On-page &amp; technical SEO</li>
+          <li>Core Web Vitals tuning</li>
+          <li>Local search &amp; map listings</li>
+          <li>Analytics &amp; conversion tracking</li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROCESS ===================== -->
+<section class="sec process" id="process">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-head-l">
+        <span class="eyebrow">Process</span>
+        <h2 class="sec-title">Four steps.<br>No surprises.</h2>
+        <p class="sec-sub">
+          You'll always know what stage we're at, what we need from you, and what's coming next.
+        </p>
+      </div>
+    </div>
+
+    <div class="steps">
+
+      <article class="step rv">
+        <div class="step-num">01</div>
+        <h3>Discovery</h3>
+        <p>A conversation about your business, your customers and what the site actually has to achieve. We map the pages, the priorities and the deadline.</p>
+        <div class="step-t">Days 1&ndash;3</div>
+      </article>
+
+      <article class="step rv">
+        <div class="step-num">02</div>
+        <h3>Design</h3>
+        <p>We design the key pages first &mdash; type, colour, layout, motion. You review a real, clickable direction before a line of production code is written.</p>
+        <div class="step-t">Week 1</div>
+      </article>
+
+      <article class="step rv">
+        <div class="step-num">03</div>
+        <h3>Build</h3>
+        <p>The approved design becomes a fast, responsive, hand-checked site. You get a live staging link from day one and can watch it come together.</p>
+        <div class="step-t">Weeks 2&ndash;3</div>
+      </article>
+
+      <article class="step rv">
+        <div class="step-num">04</div>
+        <h3>Launch</h3>
+        <p>Domain, hosting, analytics, SEO basics and a final pass across devices. Then a short walkthrough so you know how to run it yourself.</p>
+        <div class="step-t">Week 3&ndash;4</div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WHY / VALUES ===================== -->
+<section class="sec" id="why">
+  <div class="wrap">
+    <div class="why-grid">
+
+      <div class="rv">
+        <span class="eyebrow">Why Axis</span>
+        <h2 class="sec-title">Small studio.<br><span class="it">Serious</span> standards.</h2>
+        <p class="sec-sub">
+          We're new &mdash; and we're upfront about it. What that buys you is a studio
+          that's genuinely invested in every project, priced sensibly, and reachable
+          without going through an account manager.
+        </p>
+      </div>
+
+      <div class="why-list rv">
+        <div class="why-item">
+          <span class="why-k">01</span>
+          <div>
+            <h3>You talk to the person building it</h3>
+            <p>No account managers, no telephone game. The person who designs your site is the person who builds it and the person who answers your email.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <span class="why-k">02</span>
+          <div>
+            <h3>Custom, never a template</h3>
+            <p>Every site is designed from a blank page around your brand. No drag-and-drop themes that eight other businesses in your town are also using.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <span class="why-k">03</span>
+          <div>
+            <h3>A pace that doesn't cost you craft</h3>
+            <p>A modern, tightly-run workflow compresses the busywork &mdash; so the time goes into design decisions, not admin. Weeks to launch, not quarters.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <span class="why-k">04</span>
+          <div>
+            <h3>Fixed scope, fixed price</h3>
+            <p>You get a written quote before we start. If the scope changes, we tell you what it costs before we do it. No invoices you didn't see coming.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats rv">
+      <div class="stat"><b>100%</b><span>Custom builds &mdash; designed from scratch, never templated</span></div>
+      <div class="stat"><b>2&ndash;4 wks</b><span>Typical turnaround from kickoff to a live site</span></div>
+      <div class="stat"><b>Direct</b><span>Access to your designer, for the life of the project</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRICING ===================== -->
+<section class="sec" id="pricing" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-head-l">
+        <span class="eyebrow">Pricing</span>
+        <h2 class="sec-title">Clear packages.<br>No hourly guesswork.</h2>
+        <p class="sec-sub">
+          Starting points, not final invoices. Every quote is tailored to what your project
+          actually needs &mdash; and you'll have it in writing before we begin.
+        </p>
+      </div>
+    </div>
+
+    <div class="tiers">
+
+      <article class="tier rv">
+        <h3>Starter</h3>
+        <p class="tier-for">A polished one-page site for local businesses that need presence, fast.</p>
+        <div class="price"><span class="cur">$</span><span class="amt">800</span></div>
+        <p class="price-note">Starting price &middot; typically $800&ndash;$1,200</p>
+        <ul>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Single-page custom design</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Mobile &amp; tablet responsive</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Contact form &amp; Google Maps</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Basic on-page SEO setup</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Domain &amp; hosting setup</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>2 rounds of revisions</span></li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost btn-block">Get a quote</a>
+      </article>
+
+      <article class="tier tier-pop rv">
+        <span class="pop-flag">Most Popular</span>
+        <h3>Growth</h3>
+        <p class="tier-for">A full multi-page site for businesses ready to be taken seriously online.</p>
+        <div class="price"><span class="cur">$</span><span class="amt">2,000</span></div>
+        <p class="price-note">Starting price &middot; typically $2,000&ndash;$3,000</p>
+        <ul>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Up to 6 custom-designed pages</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>CMS-ready &mdash; edit your own content</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Blog or gallery module</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Technical SEO &amp; performance pass</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Analytics &amp; conversion tracking</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Light brand refresh included</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>30 days post-launch support</span></li>
+        </ul>
+        <a href="#contact" class="btn btn-primary btn-block">Start a project</a>
+      </article>
+
+      <article class="tier rv">
+        <h3>Custom</h3>
+        <p class="tier-for">E-commerce, booking systems, or anything with real complexity behind it.</p>
+        <div class="price"><span class="amt" style="font-size:2.4rem">Let's talk</span></div>
+        <p class="price-note">Projects typically start around $4,000+</p>
+        <ul>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Unlimited pages &amp; templates</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>E-commerce &amp; payment integration</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Booking, membership or portal features</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Full brand identity system</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Third-party API &amp; CRM integrations</span></li>
+          <li><svg class="chk" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg><span>Ongoing retainer available</span></li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost btn-block">Book a call</a>
+      </article>
+
+    </div>
+
+    <p class="pricing-foot rv">
+      All prices are <strong style="color:var(--ink-soft);font-weight:500">starting points and fully customizable</strong> &mdash;
+      final quotes depend on page count, features and content needs. Domain and hosting fees are billed separately at cost.
+      Payment plans available. <a href="#contact">Ask for a written quote</a>.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="sec contact" id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <div class="rv">
+        <span class="eyebrow">Contact</span>
+        <h2 class="sec-title">Let's build<br>something <span class="it">sharp.</span></h2>
+        <p class="sec-sub">
+          Tell us a little about the project. We'll come back within one business day with
+          honest thoughts, a rough timeline and a price &mdash; no pressure, no sales script.
+        </p>
+
+        <dl class="ci-list">
+          <div class="ci">
+            <span class="ci-ico" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/>
+              </svg>
+            </span>
+            <div><dt>Email</dt><dd><a href="mailto:mohammedmemmo27@gmail.com">mohammedmemmo27@gmail.com</a></dd></div>
+          </div>
+
+          <!-- PLACEHOLDER: replace with the studio's real phone number before going live -->
+          <div class="ci">
+            <span class="ci-ico" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>
+              </svg>
+            </span>
+            <div><dt>Phone</dt><dd>+1 (000) 000-0000 <small>Placeholder &mdash; add your number</small></dd></div>
+          </div>
+
+          <!-- PLACEHOLDER: replace with the studio's real location / service area before going live -->
+          <div class="ci">
+            <span class="ci-ico" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </span>
+            <div><dt>Studio</dt><dd>City, Region <small>Placeholder &mdash; add your city. Working remotely with clients anywhere.</small></dd></div>
+          </div>
+
+          <div class="ci">
+            <span class="ci-ico" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
+              </svg>
+            </span>
+            <div><dt>Response time</dt><dd>Within 1 business day</dd></div>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Demo form: front-end only, no backend wired up yet -->
+      <form class="form rv" id="projectForm" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Your name</label>
+            <input type="text" id="name" name="name" placeholder="Jane Doe" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="jane@business.com" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="ptype">Project type</label>
+            <select id="ptype" name="ptype" required>
+              <option value="" selected disabled>Select one</option>
+              <option>New website</option>
+              <option>Website redesign</option>
+              <option>Brand identity</option>
+              <option>E-commerce build</option>
+              <option>Maintenance &amp; support</option>
+              <option>SEO &amp; performance</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="budget">Budget range</label>
+            <select id="budget" name="budget" required>
+              <option value="" selected disabled>Select one</option>
+              <option>Under $1,000</option>
+              <option>$1,000 &ndash; $2,000</option>
+              <option>$2,000 &ndash; $4,000</option>
+              <option>$4,000 &ndash; $8,000</option>
+              <option>$8,000+</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="msg">Tell us about the project</label>
+          <textarea id="msg" name="msg" placeholder="What does your business do, what do you need the site to achieve, and is there a deadline we should know about?" required></textarea>
+        </div>
+
+        <div class="form-foot">
+          <p class="form-note">We reply to every enquiry personally &mdash; usually same day.</p>
+          <button type="submit" class="btn btn-primary btn-lg">Send enquiry <span aria-hidden="true">&#8594;</span></button>
+        </div>
+
+        <div class="form-msg" id="formMsg" role="status"></div>
+      </form>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="f-top">
+
+      <div class="f-brand">
+        <a href="#top" class="brand" aria-label="Axis Digital home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-txt"><b>Axis</b> <span>Digital</span></span>
+        </a>
+        <p>A boutique web design studio building fast, precise, custom websites for small businesses and independent brands.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-13h4v1.5A6 6 0 0 1 16 8z"/>
+              <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="X">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 3l18 18M21 3L3 21"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Dribbble">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/><path d="M5 7c4.5 3.2 9.5 4 14.5 3.2"/><path d="M3.6 14.5c4.6-1.6 9.4-.6 12.6 3.6"/><path d="M9 3.3c4 4.6 6.3 10 6.8 17"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="f-col">
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#why">Why Axis</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="f-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Web Design &amp; Development</a></li>
+          <li><a href="#services">Brand Identity</a></li>
+          <li><a href="#services">Maintenance &amp; Support</a></li>
+          <li><a href="#services">SEO &amp; Performance</a></li>
+        </ul>
+      </div>
+
+      <div class="f-col">
+        <h4>Get started</h4>
+        <ul>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#contact">Request a quote</a></li>
+          <li><a href="mailto:mohammedmemmo27@gmail.com">Email us</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="f-bot">
+      <span>&copy; <span id="yr">2026</span> Axis Digital. All rights reserved.</span>
+      <a href="#top" class="to-top">Back to top <span aria-hidden="true">&#8593;</span></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  /* --- sticky nav state --- */
+  var nav = document.getElementById('nav');
+  var onScroll = function(){
+    if(window.scrollY > 24){ nav.classList.add('stuck'); }
+    else { nav.classList.remove('stuck'); }
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* --- mobile menu --- */
+  var burger = document.getElementById('burger');
+  var menu   = document.getElementById('mobileMenu');
+  var toggle = function(force){
+    var open = typeof force === 'boolean' ? force : !menu.classList.contains('open');
+    menu.classList.toggle('open', open);
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  burger.addEventListener('click', function(){ toggle(); });
+  Array.prototype.forEach.call(menu.querySelectorAll('a'), function(a){
+    a.addEventListener('click', function(){ toggle(false); });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && menu.classList.contains('open')){ toggle(false); }
+  });
+
+  /* --- scroll reveal --- */
+  var items = document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -60px 0px'});
+
+    Array.prototype.forEach.call(items, function(el, i){
+      // stagger siblings within the same grid for a gentle cascade
+      el.style.transitionDelay = ((i % 4) * 70) + 'ms';
+      io.observe(el);
+    });
+  } else {
+    Array.prototype.forEach.call(items, function(el){ el.classList.add('in'); });
+  }
+
+  /* --- demo contact form (no backend wired up yet) --- */
+  var form = document.getElementById('projectForm');
+  var msg  = document.getElementById('formMsg');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var required = form.querySelectorAll('[required]');
+    var ok = true;
+    Array.prototype.forEach.call(required, function(f){
+      if(!f.value || (f.type === 'email' && !/^\S+@\S+\.\S+$/.test(f.value))){
+        ok = false;
+        f.style.borderColor = 'rgba(255,110,110,.55)';
+      } else {
+        f.style.borderColor = '';
+      }
+    });
+    msg.classList.add('show');
+    if(ok){
+      msg.textContent = 'Thanks — your enquiry is ready to send. This demo form isn’t connected to a mail service yet, so please email mohammedmemmo27@gmail.com directly in the meantime.';
+      msg.style.borderColor = 'rgba(111,214,255,.3)';
+      msg.style.background  = 'rgba(111,214,255,.07)';
+      msg.style.color       = 'var(--accent)';
+    } else {
+      msg.textContent = 'Please fill in all fields with a valid email address.';
+      msg.style.borderColor = 'rgba(255,110,110,.35)';
+      msg.style.background  = 'rgba(255,110,110,.07)';
+      msg.style.color       = '#FF9A9A';
+    }
+  });
+
+  /* --- current year --- */
+  document.getElementById('yr').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

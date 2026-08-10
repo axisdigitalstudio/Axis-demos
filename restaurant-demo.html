@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Maison Solenne — Contemporary Fine Dining</title>
+<meta name="description" content="Maison Solenne is a seasonal tasting-menu restaurant led by Chef Élodie Vasquez. Nine courses, one seating, every evening." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   MAISON SOLENNE — design system
+   ============================================================ */
+:root{
+  --ink:            #0b0b0d;
+  --ink-2:          #101014;
+  --ink-3:          #16161b;
+  --burgundy:       #2a1017;
+  --burgundy-deep:  #1a0a0f;
+  --champagne:      #c8a668;
+  --champagne-lt:   #e6cf9d;
+  --champagne-dim:  rgba(200,166,104,.28);
+  --bone:           #f2ece2;
+  --bone-dim:       #b6b0a6;
+  --muted:          #8b867e;
+  --line:           rgba(242,236,226,.11);
+
+  --serif: "Cormorant Garamond", "Times New Roman", serif;
+  --sans:  "Jost", "Helvetica Neue", Arial, sans-serif;
+
+  --gut: clamp(22px, 5.5vw, 80px);
+  --sect: clamp(88px, 12vw, 168px);
+  --max: 1240px;
+
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body{
+  margin:0;
+  background:var(--ink);
+  color:var(--bone);
+  font-family:var(--sans);
+  font-weight:300;
+  font-size:16px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,svg{ display:block; max-width:100%; }
+a{ color:inherit; text-decoration:none; }
+button,input,select,textarea{ font:inherit; color:inherit; }
+
+/* ---------- type ---------- */
+h1,h2,h3,h4{
+  font-family:var(--serif);
+  font-weight:300;
+  line-height:1.06;
+  letter-spacing:-.015em;
+  margin:0;
+}
+.eyebrow{
+  font-family:var(--sans);
+  font-size:11px;
+  font-weight:400;
+  letter-spacing:.42em;
+  text-transform:uppercase;
+  color:var(--champagne);
+  margin:0 0 22px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.eyebrow::before{
+  content:"";
+  width:34px; height:1px;
+  background:linear-gradient(90deg,transparent,var(--champagne));
+  flex:none;
+}
+.eyebrow.center{ justify-content:center; }
+.eyebrow.center::after{
+  content:"";
+  width:34px; height:1px;
+  background:linear-gradient(90deg,var(--champagne),transparent);
+  flex:none;
+}
+.lede{
+  font-family:var(--serif);
+  font-size:clamp(19px,2.1vw,25px);
+  line-height:1.6;
+  color:var(--bone-dim);
+  font-weight:300;
+}
+p{ margin:0 0 1.15em; }
+p:last-child{ margin-bottom:0; }
+
+/* ---------- layout ---------- */
+.wrap{ width:100%; max-width:var(--max); margin:0 auto; padding-inline:var(--gut); }
+section{ position:relative; }
+.sect{ padding-block:var(--sect); }
+
+/* ---------- ornaments ---------- */
+.rule{
+  height:1px; border:0; margin:0;
+  background:linear-gradient(90deg,transparent,var(--line) 18%,var(--line) 82%,transparent);
+}
+.diamond{
+  display:flex; align-items:center; justify-content:center;
+  gap:14px; margin:0 auto;
+}
+.diamond span{ height:1px; width:min(90px,18vw); background:var(--champagne-dim); }
+.diamond i{
+  width:6px; height:6px; flex:none;
+  background:var(--champagne);
+  transform:rotate(45deg);
+  opacity:.85;
+}
+
+/* ---------- buttons ---------- */
+.btn{
+  --bg:transparent; --fg:var(--bone); --bd:rgba(242,236,226,.28);
+  position:relative;
+  display:inline-flex; align-items:center; justify-content:center; gap:12px;
+  padding:17px 40px;
+  border:1px solid var(--bd);
+  background:var(--bg);
+  color:var(--fg);
+  font-size:11.5px; font-weight:400;
+  letter-spacing:.3em; text-transform:uppercase;
+  cursor:pointer;
+  overflow:hidden;
+  transition:color .5s var(--ease), border-color .5s var(--ease);
+}
+.btn span{ position:relative; z-index:2; }
+.btn::after{
+  content:""; position:absolute; inset:0; z-index:1;
+  background:var(--champagne);
+  transform:translateY(101%);
+  transition:transform .55s var(--ease);
+}
+.btn:hover{ color:var(--ink); border-color:var(--champagne); }
+.btn:hover::after{ transform:translateY(0); }
+.btn-gold{ --bd:var(--champagne); --fg:var(--champagne); }
+.btn-gold:hover{ color:var(--ink); }
+
+.link-u{
+  position:relative;
+  font-size:11.5px; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--champagne);
+  padding-bottom:6px;
+  display:inline-block;
+}
+.link-u::after{
+  content:""; position:absolute; left:0; bottom:0; height:1px; width:100%;
+  background:var(--champagne); transform-origin:right; transform:scaleX(1);
+  transition:transform .45s var(--ease);
+}
+.link-u:hover::after{ transform-origin:left; animation:swipe .7s var(--ease); }
+@keyframes swipe{ 0%{transform:scaleX(1);transform-origin:right} 50%{transform:scaleX(0);transform-origin:right} 51%{transform:scaleX(0);transform-origin:left} 100%{transform:scaleX(1);transform-origin:left} }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:fixed; inset:0 0 auto 0; z-index:100;
+  transition:background .55s var(--ease), backdrop-filter .55s var(--ease), border-color .55s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.nav.is-stuck{
+  background:rgba(11,11,13,.82);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  border-bottom-color:var(--line);
+}
+.nav-in{
+  max-width:var(--max); margin:0 auto; padding-inline:var(--gut);
+  height:88px;
+  display:flex; align-items:center; justify-content:space-between;
+  transition:height .55s var(--ease);
+}
+.nav.is-stuck .nav-in{ height:70px; }
+
+.mark{ display:flex; flex-direction:column; line-height:1; }
+.mark b{
+  font-family:var(--serif); font-weight:400;
+  font-size:22px; letter-spacing:.18em; text-transform:uppercase;
+}
+.mark b em{ font-style:normal; color:var(--champagne); }
+.mark small{
+  font-size:8.5px; letter-spacing:.5em; text-transform:uppercase;
+  color:var(--muted); margin-top:6px; padding-left:2px;
+}
+
+.menu{ display:flex; align-items:center; gap:38px; list-style:none; margin:0; padding:0; }
+.menu a{
+  position:relative;
+  font-size:11px; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--bone-dim);
+  transition:color .35s var(--ease);
+  padding-block:6px;
+}
+.menu a::after{
+  content:""; position:absolute; left:0; bottom:0; height:1px; width:0;
+  background:var(--champagne);
+  transition:width .45s var(--ease);
+}
+.menu a:hover{ color:var(--bone); }
+.menu a:hover::after{ width:100%; }
+.nav-cta{ padding:13px 28px; font-size:10.5px; }
+
+.burger{
+  display:none; background:none; border:0; cursor:pointer;
+  width:34px; height:34px; padding:0; position:relative;
+}
+.burger i{
+  position:absolute; left:5px; right:5px; height:1px; background:var(--bone);
+  transition:transform .4s var(--ease), opacity .3s var(--ease);
+}
+.burger i:nth-child(1){ top:12px; }
+.burger i:nth-child(2){ top:18px; }
+.burger i:nth-child(3){ top:24px; }
+body.nav-open .burger i:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+body.nav-open .burger i:nth-child(2){ opacity:0; }
+body.nav-open .burger i:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+
+.drawer{
+  position:fixed; inset:0; z-index:99;
+  background:linear-gradient(170deg,var(--ink-2),var(--burgundy-deep));
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:6px;
+  opacity:0; visibility:hidden;
+  transition:opacity .5s var(--ease), visibility .5s;
+}
+body.nav-open .drawer{ opacity:1; visibility:visible; }
+.drawer a{
+  font-family:var(--serif); font-size:34px; letter-spacing:.02em;
+  color:var(--bone); padding:12px 0;
+  opacity:0; transform:translateY(14px);
+  transition:opacity .5s var(--ease), transform .5s var(--ease), color .3s;
+}
+.drawer a:hover{ color:var(--champagne); }
+body.nav-open .drawer a{ opacity:1; transform:none; }
+body.nav-open .drawer a:nth-child(1){ transition-delay:.10s }
+body.nav-open .drawer a:nth-child(2){ transition-delay:.16s }
+body.nav-open .drawer a:nth-child(3){ transition-delay:.22s }
+body.nav-open .drawer a:nth-child(4){ transition-delay:.28s }
+body.nav-open .drawer a:nth-child(5){ transition-delay:.34s }
+.drawer .dr-foot{
+  margin-top:34px; font-size:11px; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex; align-items:center;
+  padding-top:120px; padding-bottom:70px;
+  overflow:hidden;
+  isolation:isolate;
+}
+.hero-bg{ position:absolute; inset:0; z-index:-3; background:var(--ink); }
+.hero-bg::before{
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(120% 90% at 78% 12%, rgba(200,166,104,.16), transparent 58%),
+    radial-gradient(95% 80% at 8% 92%, rgba(88,20,34,.55), transparent 62%),
+    linear-gradient(155deg,#121216 0%,#0d0d10 42%,#1b0c12 100%);
+}
+.hero-bg::after{ /* fine film grain, pure CSS */
+  content:""; position:absolute; inset:-40%;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.022) 0 1px, transparent 1px 4px);
+  opacity:.55;
+  animation:drift 26s linear infinite;
+}
+@keyframes drift{ to{ transform:translate3d(-3%,2%,0) } }
+.hero-glow{
+  position:absolute; z-index:-2;
+  width:min(760px,105vw); aspect-ratio:1;
+  right:-14%; top:-16%;
+  background:radial-gradient(circle, rgba(200,166,104,.13), transparent 66%);
+  filter:blur(10px);
+  animation:breathe 11s ease-in-out infinite alternate;
+}
+@keyframes breathe{ to{ transform:scale(1.12); opacity:.7 } }
+.hero-vig{
+  position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:radial-gradient(130% 105% at 50% 45%, transparent 42%, rgba(0,0,0,.72) 100%);
+}
+
+.hero-in{ position:relative; width:100%; }
+.hero h1{
+  font-size:clamp(52px,10.2vw,142px);
+  line-height:.92;
+  letter-spacing:-.03em;
+  max-width:14ch;
+}
+.hero h1 em{
+  font-style:italic;
+  color:var(--champagne-lt);
+  background:linear-gradient(96deg,var(--champagne-lt),var(--champagne) 46%,#8f7440 100%);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hero-sub{
+  max-width:48ch; margin-top:34px;
+  font-size:clamp(15px,1.5vw,18px);
+  color:var(--bone-dim); line-height:1.85;
+}
+.hero-acts{ display:flex; flex-wrap:wrap; gap:18px 26px; align-items:center; margin-top:46px; }
+
+.hero-meta{
+  margin-top:clamp(56px,9vw,96px);
+  padding-top:30px;
+  border-top:1px solid var(--line);
+  display:grid; grid-template-columns:repeat(4,1fr); gap:26px;
+}
+.hero-meta div small{
+  display:block;
+  font-size:9.5px; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:9px;
+}
+.hero-meta div b{
+  font-family:var(--serif); font-weight:400; font-size:clamp(15px,1.6vw,19px);
+  color:var(--bone); letter-spacing:.02em;
+}
+.scroll-hint{
+  position:absolute; left:50%; bottom:26px; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  font-size:9px; letter-spacing:.4em; text-transform:uppercase; color:var(--muted);
+}
+.scroll-hint b{ display:block; width:1px; height:52px; background:linear-gradient(var(--champagne),transparent); }
+
+/* ============================================================
+   STORY
+   ============================================================ */
+.story{ background:linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 100%); }
+.story-grid{
+  display:grid; grid-template-columns:.85fr 1.15fr; gap:clamp(40px,7vw,96px);
+  align-items:start;
+}
+.story h2{ font-size:clamp(36px,5.2vw,66px); }
+.story h2 em{ font-style:italic; color:var(--champagne); }
+.story-body p + p{ margin-top:0; }
+.sig{
+  margin-top:40px; padding-top:26px; border-top:1px solid var(--line);
+  display:flex; align-items:baseline; gap:18px; flex-wrap:wrap;
+}
+.sig b{
+  font-family:var(--serif); font-style:italic; font-size:32px; font-weight:400;
+  color:var(--champagne-lt);
+}
+.sig small{ font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); }
+
+.pillars{
+  margin-top:clamp(56px,8vw,90px);
+  display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+.pillar{
+  background:var(--ink-2); padding:clamp(28px,3.4vw,44px);
+  transition:background .5s var(--ease);
+}
+.pillar:hover{ background:var(--ink-3); }
+.pillar b{
+  font-family:var(--serif); font-size:13px; letter-spacing:.34em;
+  color:var(--champagne); display:block; margin-bottom:16px; text-transform:uppercase;
+}
+.pillar h3{ font-size:24px; margin-bottom:12px; }
+.pillar p{ font-size:14.5px; color:var(--muted); line-height:1.8; }
+
+/* ============================================================
+   MENU
+   ============================================================ */
+.menu-sect{ background:var(--ink-2); }
+.menu-head{ text-align:center; max-width:640px; margin:0 auto clamp(52px,7vw,84px); }
+.menu-head h2{ font-size:clamp(38px,5.6vw,72px); }
+.menu-head p{ margin-top:22px; color:var(--muted); font-size:15px; }
+
+.course{ margin-bottom:clamp(52px,6vw,78px); }
+.course:last-of-type{ margin-bottom:0; }
+.course-label{
+  display:flex; align-items:center; gap:22px; margin-bottom:34px;
+}
+.course-label h3{
+  font-size:13px; letter-spacing:.42em; text-transform:uppercase;
+  font-family:var(--sans); font-weight:400; color:var(--champagne);
+  white-space:nowrap;
+}
+.course-label span{ flex:1; height:1px; background:var(--line); }
+.course-label small{
+  font-family:var(--serif); font-style:italic; font-size:15px; color:var(--muted);
+  white-space:nowrap;
+}
+
+.dishes{ display:grid; grid-template-columns:repeat(2,1fr); gap:2px clamp(36px,5vw,72px); }
+.dish{
+  padding:26px 0;
+  border-bottom:1px solid var(--line);
+  transition:border-color .45s var(--ease);
+}
+.dish:hover{ border-bottom-color:var(--champagne-dim); }
+.dish-top{ display:flex; align-items:baseline; gap:16px; }
+.dish h4{
+  font-size:clamp(21px,2.2vw,26px);
+  transition:color .4s var(--ease);
+  flex:none; max-width:78%;
+}
+.dish:hover h4{ color:var(--champagne-lt); }
+.dish-dots{ flex:1; height:1px; border-bottom:1px dotted rgba(242,236,226,.2); transform:translateY(-5px); }
+.dish-price{
+  font-family:var(--serif); font-size:19px; color:var(--champagne);
+  flex:none; letter-spacing:.03em;
+}
+.dish p{
+  margin-top:10px; font-size:14px; color:var(--muted);
+  line-height:1.8; max-width:46ch;
+}
+.dish .tag{
+  display:inline-block; margin-top:12px;
+  font-size:9px; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--champagne); border:1px solid var(--champagne-dim);
+  padding:4px 11px;
+}
+.menu-foot{
+  margin-top:clamp(56px,7vw,84px); padding-top:38px;
+  border-top:1px solid var(--line);
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:26px;
+}
+.menu-foot p{ font-size:13.5px; color:var(--muted); max-width:52ch; }
+
+/* ============================================================
+   CHEFS
+   ============================================================ */
+.chefs{ background:linear-gradient(180deg,var(--ink-2),var(--burgundy-deep) 160%); }
+.chef-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:clamp(44px,6vw,68px); }
+.chef{
+  background:var(--ink-2);
+  padding:clamp(32px,4vw,54px);
+  display:flex; flex-direction:column; gap:26px;
+  transition:background .55s var(--ease);
+}
+.chef:hover{ background:#14141a; }
+.monogram{
+  width:104px; height:104px; flex:none;
+  display:grid; place-items:center;
+  position:relative;
+  border:1px solid var(--champagne-dim);
+  background:
+    radial-gradient(circle at 32% 26%, rgba(200,166,104,.15), transparent 62%),
+    linear-gradient(150deg,#1b1b21,#241017);
+  transition:border-color .5s var(--ease), transform .6s var(--ease);
+}
+.chef:hover .monogram{ border-color:var(--champagne); transform:translateY(-4px); }
+.monogram::after{
+  content:""; position:absolute; inset:7px; border:1px solid rgba(242,236,226,.07);
+}
+.monogram b{
+  font-family:var(--serif); font-size:34px; font-weight:400;
+  letter-spacing:.06em; color:var(--champagne-lt);
+}
+.chef h3{ font-size:clamp(27px,3vw,34px); }
+.chef .role{
+  display:block; margin-top:10px;
+  font-size:10px; letter-spacing:.34em; text-transform:uppercase; color:var(--champagne);
+}
+.chef p{ font-size:14.5px; color:var(--muted); line-height:1.85; }
+.chef .accolade{
+  margin-top:auto; padding-top:22px; border-top:1px solid var(--line);
+  font-family:var(--serif); font-style:italic; font-size:15px; color:var(--bone-dim);
+}
+
+/* ============================================================
+   GALLERY
+   ============================================================ */
+.gallery{ background:var(--ink); }
+.gal-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-auto-rows:clamp(120px,15vw,180px);
+  gap:12px;
+  margin-top:clamp(44px,6vw,68px);
+}
+.tile{
+  position:relative; overflow:hidden;
+  border:1px solid var(--line);
+  display:flex; align-items:flex-end;
+  padding:22px;
+  isolation:isolate;
+  transition:border-color .5s var(--ease);
+}
+.tile::before{
+  content:""; position:absolute; inset:0; z-index:-2;
+  transition:transform 1.1s var(--ease), filter .7s var(--ease);
+}
+.tile::after{
+  content:""; position:absolute; inset:0; z-index:-1;
+  background:linear-gradient(180deg,transparent 38%,rgba(0,0,0,.72));
+  opacity:.9;
+}
+.tile:hover{ border-color:var(--champagne-dim); }
+.tile:hover::before{ transform:scale(1.07); filter:saturate(1.15) brightness(1.1); }
+.tile b{
+  position:relative; z-index:2;
+  font-family:var(--serif); font-size:19px; font-weight:400; letter-spacing:.02em;
+  color:var(--bone);
+  transform:translateY(8px); opacity:.85;
+  transition:transform .55s var(--ease), opacity .55s var(--ease);
+}
+.tile:hover b{ transform:none; opacity:1; }
+.tile i{
+  position:absolute; z-index:2; top:20px; left:22px;
+  font-style:normal; font-size:9px; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--champagne); opacity:0; transform:translateY(-6px);
+  transition:opacity .5s var(--ease) .05s, transform .5s var(--ease) .05s;
+}
+.tile:hover i{ opacity:1; transform:none; }
+
+.t1{ grid-column:span 2; grid-row:span 2; }
+.t1::before{ background:
+  radial-gradient(90% 70% at 22% 18%, rgba(200,166,104,.26), transparent 62%),
+  linear-gradient(145deg,#2a1017,#120a0d 58%,#1d1116); }
+.t2{ grid-column:span 2; }
+.t2::before{ background:
+  linear-gradient(115deg,#101418,#1b2a26 55%,#0d1512),
+  radial-gradient(circle at 78% 30%, rgba(200,166,104,.2), transparent 60%); }
+.t3::before{ background:
+  repeating-linear-gradient(115deg, rgba(200,166,104,.10) 0 2px, transparent 2px 11px),
+  linear-gradient(160deg,#1a1a20,#0d0d11); }
+.t4::before{ background:
+  radial-gradient(circle at 50% 46%, rgba(230,207,157,.34), rgba(200,166,104,.06) 44%, transparent 68%),
+  linear-gradient(180deg,#15151a,#0c0c0f); }
+.t5{ grid-column:span 2; }
+.t5::before{ background:
+  linear-gradient(90deg,#0f0f13 0%,#241118 46%,#12121a 100%),
+  repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 7px); }
+.t6{ grid-column:span 2; }
+.t6::before{ background:
+  conic-gradient(from 210deg at 68% 40%, rgba(200,166,104,.22), rgba(42,16,23,.9) 38%, #101014 72%, rgba(200,166,104,.12)); }
+
+/* ============================================================
+   TESTIMONIALS
+   ============================================================ */
+.quotes{ background:var(--ink-2); }
+.q-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(28px,3.5vw,44px);
+  margin-top:clamp(48px,6vw,72px);
+}
+.q{
+  border:1px solid var(--line);
+  padding:clamp(30px,3.4vw,42px);
+  background:linear-gradient(170deg,rgba(255,255,255,.018),transparent);
+  display:flex; flex-direction:column;
+  transition:border-color .5s var(--ease), transform .5s var(--ease);
+}
+.q:hover{ border-color:var(--champagne-dim); transform:translateY(-5px); }
+.q .mark-q{
+  font-family:var(--serif); font-size:64px; line-height:.6; color:var(--champagne);
+  opacity:.4; margin-bottom:22px; display:block;
+}
+.q blockquote{
+  margin:0; font-family:var(--serif); font-size:clamp(19px,1.9vw,23px);
+  line-height:1.58; color:var(--bone); font-weight:300;
+}
+.q footer{
+  margin-top:auto; padding-top:26px;
+  display:flex; flex-direction:column; gap:5px;
+}
+.q footer b{ font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:var(--bone); font-weight:400; }
+.q footer small{ font-size:12px; color:var(--muted); letter-spacing:.06em; }
+.stars{ display:flex; gap:5px; margin-bottom:16px; }
+.stars svg{ width:11px; height:11px; fill:var(--champagne); opacity:.9; }
+
+/* ============================================================
+   RESERVATIONS
+   ============================================================ */
+.resv{
+  background:
+    radial-gradient(110% 80% at 88% 6%, rgba(200,166,104,.10), transparent 60%),
+    linear-gradient(175deg,var(--burgundy-deep),var(--ink) 62%);
+}
+.resv-grid{
+  display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(44px,6vw,88px);
+  align-items:start;
+}
+form{ display:grid; gap:22px; margin-top:38px; }
+.row2{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+.field{ position:relative; display:flex; flex-direction:column; }
+.field label{
+  font-size:9.5px; letter-spacing:.32em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:11px;
+}
+.field input,.field select,.field textarea{
+  background:transparent;
+  border:0; border-bottom:1px solid rgba(242,236,226,.18);
+  padding:11px 2px;
+  font-size:15px; font-weight:300;
+  color:var(--bone);
+  border-radius:0;
+  transition:border-color .45s var(--ease);
+  font-family:var(--sans);
+}
+.field textarea{ resize:vertical; min-height:74px; }
+.field select{ appearance:none; -webkit-appearance:none; cursor:pointer; }
+.field.sel::after{
+  content:""; position:absolute; right:6px; bottom:20px;
+  width:6px; height:6px; border-right:1px solid var(--champagne); border-bottom:1px solid var(--champagne);
+  transform:rotate(45deg); pointer-events:none;
+}
+.field select option{ background:var(--ink-2); color:var(--bone); }
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none; border-bottom-color:var(--champagne);
+}
+.field input::placeholder,.field textarea::placeholder{ color:rgba(139,134,126,.6); }
+input[type="date"]::-webkit-calendar-picker-indicator{ filter:invert(1); opacity:.45; cursor:pointer; }
+.form-note{ font-size:12px; color:var(--muted); line-height:1.7; }
+form .btn{ justify-self:start; }
+.form-ok{
+  display:none;
+  border:1px solid var(--champagne-dim);
+  padding:16px 20px; font-size:13px; color:var(--champagne-lt);
+  background:rgba(200,166,104,.06);
+}
+.form-ok.on{ display:block; }
+
+.info{ border-left:1px solid var(--line); padding-left:clamp(24px,3vw,44px); }
+.info-block{ padding-block:26px; border-bottom:1px solid var(--line); }
+.info-block:first-child{ padding-top:0; }
+.info-block:last-child{ border-bottom:0; }
+.info-block small{
+  display:block; font-size:9.5px; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--champagne); margin-bottom:14px;
+}
+.info-block p,.info-block a{ font-size:15px; color:var(--bone-dim); line-height:1.85; }
+.info-block a{ transition:color .35s var(--ease); }
+.info-block a:hover{ color:var(--champagne); }
+.hours{ list-style:none; margin:0; padding:0; }
+.hours li{
+  display:flex; justify-content:space-between; gap:20px;
+  padding:7px 0; font-size:14px; color:var(--bone-dim);
+  border-bottom:1px dotted rgba(242,236,226,.08);
+}
+.hours li:last-child{ border-bottom:0; }
+.hours li span:last-child{ color:var(--muted); }
+.hours li.closed span:last-child{ color:rgba(139,134,126,.65); font-style:italic; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer.site{ background:var(--ink); border-top:1px solid var(--line); }
+.f-top{
+  padding-block:clamp(56px,7vw,84px);
+  display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:clamp(34px,5vw,64px);
+}
+.f-brand .mark b{ font-size:26px; }
+.f-brand p{ margin-top:22px; font-size:14px; color:var(--muted); max-width:34ch; line-height:1.85; }
+.f-col h4{
+  font-family:var(--sans); font-size:9.5px; font-weight:400;
+  letter-spacing:.34em; text-transform:uppercase; color:var(--champagne);
+  margin-bottom:20px;
+}
+.f-col ul{ list-style:none; margin:0; padding:0; display:grid; gap:12px; }
+.f-col a{ font-size:14px; color:var(--bone-dim); transition:color .35s var(--ease), padding-left .35s var(--ease); }
+.f-col a:hover{ color:var(--champagne); padding-left:6px; }
+.socials{ display:flex; gap:12px; margin-top:26px; }
+.socials a{
+  width:38px; height:38px; display:grid; place-items:center;
+  border:1px solid var(--line);
+  transition:border-color .45s var(--ease), background .45s var(--ease), transform .45s var(--ease);
+}
+.socials a svg{ width:15px; height:15px; fill:none; stroke:var(--bone-dim); stroke-width:1.4; transition:stroke .45s var(--ease); }
+.socials a:hover{ border-color:var(--champagne); background:rgba(200,166,104,.08); transform:translateY(-3px); }
+.socials a:hover svg{ stroke:var(--champagne); }
+.f-bot{
+  border-top:1px solid var(--line);
+  padding-block:26px;
+  display:flex; flex-wrap:wrap; gap:14px 30px; align-items:center; justify-content:space-between;
+}
+.f-bot p,.f-bot a{ font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase; }
+.f-bot a:hover{ color:var(--champagne); }
+.f-bot nav{ display:flex; gap:26px; flex-wrap:wrap; }
+
+/* ---------- reveal ---------- */
+.rv{ opacity:1; transform:none; }
+.rv.in{ opacity:1; transform:none; }
+@media (prefers-reduced-motion:reduce){
+  *{ animation:none !important; transition-duration:.01ms !important; }
+  .rv{ opacity:1; transform:none; }
+  html{ scroll-behavior:auto; }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1080px){
+  .story-grid{ grid-template-columns:1fr; gap:34px; }
+  .q-grid{ grid-template-columns:1fr; }
+  .q{ padding:32px; }
+  .f-top{ grid-template-columns:1fr 1fr; }
+  .f-brand{ grid-column:1 / -1; }
+}
+@media (max-width:900px){
+  .menu, .nav-cta{ display:none; }
+  .burger{ display:block; }
+  .dishes{ grid-template-columns:1fr; }
+  .chef-grid{ grid-template-columns:1fr; }
+  .resv-grid{ grid-template-columns:1fr; gap:56px; }
+  .info{ border-left:0; border-top:1px solid var(--line); padding-left:0; padding-top:34px; }
+  .pillars{ grid-template-columns:1fr; }
+  .hero-meta{ grid-template-columns:1fr 1fr; gap:24px 20px; }
+}
+@media (max-width:640px){
+  body{ font-size:15.5px; }
+  .hero{ min-height:auto; padding-top:132px; padding-bottom:86px; }
+  .hero h1{ max-width:none; }
+  .scroll-hint{ display:none; }
+  .gal-grid{ grid-template-columns:repeat(2,1fr); grid-auto-rows:132px; gap:10px; }
+  .t1{ grid-column:span 2; grid-row:span 2; }
+  .t2,.t5,.t6{ grid-column:span 2; }
+  .row2{ grid-template-columns:1fr; }
+  .dish-top{ flex-wrap:wrap; gap:6px 12px; }
+  .dish h4{ max-width:100%; }
+  .dish-dots{ display:none; }
+  .dish-price{ margin-left:auto; }
+  .course-label small{ display:none; }
+  .menu-foot{ flex-direction:column; align-items:flex-start; }
+  .drawer a{ font-size:29px; }
+  .f-top{ grid-template-columns:1fr; }
+  .f-bot{ flex-direction:column; align-items:flex-start; }
+}
+@media (max-width:400px){
+  .hero-meta{ grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a href="#top" class="mark" aria-label="Maison Solenne — home">
+      <b>Maison <em>Solenne</em></b>
+      <small>Est. 2014 · Marchmont</small>
+    </a>
+
+    <nav aria-label="Primary">
+      <ul class="menu">
+        <li><a href="#top">Home</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#reservations">Reservations</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <a href="#reservations" class="btn btn-gold nav-cta"><span>Reserve</span></a>
+
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+      <i></i><i></i><i></i>
+    </button>
+  </div>
+</header>
+
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Menu">
+  <a href="#top">Home</a>
+  <a href="#menu">Menu</a>
+  <a href="#about">About</a>
+  <a href="#reservations">Reservations</a>
+  <a href="#contact">Contact</a>
+  <div class="dr-foot">+44 131 555 0182</div>
+</div>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-vig" aria-hidden="true"></div>
+
+  <div class="wrap hero-in">
+    <p class="eyebrow rv">Nine Courses · One Seating · Every Evening</p>
+
+    <h1 class="rv">A table set by the <em>season</em>, not the calendar.</h1>
+
+    <p class="hero-sub rv">
+      Twenty-four covers beneath low light and old stone. Each night we serve a single tasting
+      menu, written that morning around whatever the coast, the moor and our growers have
+      surrendered. Nothing is repeated for its own sake.
+    </p>
+
+    <div class="hero-acts rv">
+      <a href="#reservations" class="btn"><span>Reserve a Table</span></a>
+      <a href="#menu" class="link-u">View the Current Menu</a>
+    </div>
+
+    <div class="hero-meta rv">
+      <div><small>Format</small><b>Nine-course tasting</b></div>
+      <div><small>Seating</small><b>19:00 · Single service</b></div>
+      <div><small>Covers</small><b>Twenty-four</b></div>
+      <div><small>Recognition</small><b>Two stars, since 2019</b></div>
+    </div>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true"><span>Scroll</span><b></b></div>
+</section>
+
+<!-- ===================== STORY ===================== -->
+<section class="sect story" id="about">
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="rv">
+        <p class="eyebrow">Our Philosophy</p>
+        <h2>Restraint is the <em>hardest</em> discipline.</h2>
+      </div>
+
+      <div class="story-body rv">
+        <p class="lede">
+          We cook within forty miles and within the week — langoustine landed at Eyemouth before dawn,
+          roots pulled from clay we have walked ourselves, herbs cut minutes rather than days ago.
+        </p>
+        <p style="margin-top:26px">
+          Chef Élodie Vasquez builds each menu around a single ingredient at its brief peak, then removes
+          everything that would distract from it. What remains is quiet, precise and unmistakably of this
+          place: three elements on a plate, each one earned. Craft here is measured in what we choose to
+          leave out.
+        </p>
+        <div class="sig">
+          <b>É. Vasquez</b>
+          <small>Chef-Patron</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillars rv">
+      <div class="pillar">
+        <b>I</b>
+        <h3>Grown Nearby</h3>
+        <p>Eleven growers, four boats and one small dairy supply nearly everything we serve. We buy the whole harvest, not the prettiest tenth of it.</p>
+      </div>
+      <div class="pillar">
+        <b>II</b>
+        <h3>Written Daily</h3>
+        <p>The menu is set at ten each morning and printed at four. If a delivery disappoints, the dish does not appear — there is no substitute waiting in the walk-in.</p>
+      </div>
+      <div class="pillar">
+        <b>III</b>
+        <h3>Made by Hand</h3>
+        <p>Butter churned in-house, vinegars aged three years in the cellar, bread proved overnight in the same oak trough since we opened.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule" />
+
+<!-- ===================== MENU ===================== -->
+<section class="sect menu-sect" id="menu">
+  <div class="wrap">
+    <div class="menu-head rv">
+      <p class="eyebrow center">The Table</p>
+      <h2>Autumn Menu</h2>
+      <p>An abridged selection from the current nine courses. The full progression is revealed at the table; the kitchen adapts each evening to the morning's landings and harvest.</p>
+    </div>
+
+    <!-- Starters -->
+    <div class="course rv">
+      <div class="course-label">
+        <h3>Openings</h3>
+        <span></span>
+        <small>Courses one through three</small>
+      </div>
+      <div class="dishes">
+        <article class="dish">
+          <div class="dish-top">
+            <h4>Oyster, Elderflower, Frost</h4>
+            <span class="dish-dots"></span>
+            <span class="dish-price">£26</span>
+          </div>
+          <p>Loch Ryan oyster under a granita of last spring's elderflower, finished with green apple and a single turn of white pepper.</p>
+        </article>
+
+        <article class="dish">
+          <div class="dish-top">
+            <h4>Beetroot Aged in Salt</h4>
+            <span class="dish-dots"></span>
+            <span class="dish-price">£22</span>
+          </div>
+          <p>Buried in coarse salt for eleven weeks, sliced to translucence, dressed with sheep's curd and toasted buckwheat.</p>
+          <span class="tag">Vegetarian</span>
+        </article>
+
+        <article class="dish">
+          <div class="dish-top">
+            <h4>Langoustine &amp; Burnt Butter</h4>
+            <span class="dish-dots"></span>
+            <span class="dish-price">£34</span>
+          </div>
+          <p>Eyemouth langoustine warmed for ninety seconds over embers, its shells reduced to a dark, glossy butter poured at the table.</p>
+        </article>
+
+        <article class="dish">
+          <div class="dish-top">
+            <h4>Cep, Hazelnut, Sorrel</h4>
+            <span class="dish-dots"></span>
+            <span class="dish-price">£24</span>
+          </div>
+          <p>Ceps foraged in the Pentlands, raw and roasted in the same bowl, with cold-pressed hazelnut and wood sorrel picked at noon.</p>
+          <span class="tag">Vegetarian</span>
+        </article>
+      </div>
+    </div>
+
+    <!-- Mains -->
+    <div class="course rv">
+      <div class="course-label">
+        <h3>The Centre</h3>
+        <span></span>
+        <small>Courses four through seven</small>
+      </div>
+      <div class="dishes">
+        <article class="dish">
+          <div class="dish-top">
+            <h4>Turbot on the Bone</h4>
+            <span class="dish-dots"></span>
+            <span class="dish-price">£58</span>
+          </div>
+          <p>Line-caught turbot roasted whole over birch, rested in seaweed butter, served with a sauce of its own bones and aged cider.</p>
+        </article>
+
+        <article class="dish">
+          <div class="dish-top">
+            <h4>Roe Deer, Damson, Juniper</h4>
+            <span class="dish-dots"></span>
+            <span class="dish-price">£62</span>
+          </div>
+          <p>Loin from the Borders hung twenty-one days, glazed in its own jus with damsons from the kitchen garden and a whisper of juniper smoke.</p>
+        </article>
+
+        <article class="dish">
+          <div class="dish-top">
+            <h4>Hogget, Ash, Wild Garlic</h4>
+            <span class="dish-dots"></span>
+            <span class="dish-price">£56</span>
+          </div>
+          <p>Shoulder braised eight hours in hay, pressed overnight, finished under vegetable ash with last May's fermented garlic.</p>
+        </article>
+      </div>
+    </div>
+
+    <!-- Desserts -->
+    <div class="course rv">
+      <div class="course-label">
+        <h3>To Close</h3>
+        <span></span>
+        <small>Courses eight and nine</small>
+      </div>
+      <div class="dishes">
+        <article class="dish">
+          <div class="dish-top">
+            <h4>Quince Poached in Honey</h4>
+            <span class="dish-dots"></span>
+            <span class="dish-price">£19</span>
+          </div>
+          <p>Slow-poached until amber in heather honey from the hill above us, with brown butter ice cream and a crisp of its own skin.</p>
+        </article>
+
+        <article class="dish">
+          <div class="dish-top">
+            <h4>Chocolate, Barley, Smoke</h4>
+            <span class="dish-dots"></span>
+            <span class="dish-price">£21</span>
+          </div>
+          <p>Single-origin Chuao ganache over roasted barley cream, lifted by peat-smoked salt and a spoon of malt caramel.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="menu-foot rv">
+      <p>Nine courses, £185 per guest. Wine pairing £120, or £75 for the non-alcoholic flight — both drawn largely from small growers we visit each year. Dietary requirements are welcomed with seventy-two hours' notice.</p>
+      <a href="#reservations" class="btn btn-gold"><span>Book This Menu</span></a>
+    </div>
+  </div>
+</section>
+
+<hr class="rule" />
+
+<!-- ===================== CHEFS ===================== -->
+<section class="sect chefs">
+  <div class="wrap">
+    <div class="menu-head rv" style="margin-bottom:0">
+      <p class="eyebrow center">The Kitchen</p>
+      <h2>Two Hands, One Pass</h2>
+      <p>A brigade of nine, unchanged for four years. Everyone who cooks your dinner also serves part of it.</p>
+    </div>
+
+    <div class="chef-grid rv">
+      <article class="chef">
+        <div class="monogram" aria-hidden="true"><b>ÉV</b></div>
+        <div>
+          <h3>Élodie Vasquez</h3>
+          <span class="role">Chef-Patron</span>
+        </div>
+        <p>
+          Raised between Biarritz and the Cairngorms, Élodie trained under Pascal Ferrand in Lyon before
+          spending six years on the fish station at Sørvind in Bergen. She opened Maison Solenne in a
+          former corn merchant's hall in 2014 with eleven seats and one commis. She still writes every
+          menu by hand at the corner table before service.
+        </p>
+        <div class="accolade">Two stars since 2019 · Nordic Chef of the Year, 2021</div>
+      </article>
+
+      <article class="chef">
+        <div class="monogram" aria-hidden="true"><b>TO</b></div>
+        <div>
+          <h3>Tomás Oyelaran</h3>
+          <span class="role">Head Pastry Chef &amp; Fermentation</span>
+        </div>
+        <p>
+          Tomás arrived for a three-month stage in 2016 and never left. He keeps the cellar — some
+          two hundred crocks of vinegars, garums and preserved fruit — and treats dessert as the
+          final argument of the meal rather than its apology. His barley cream has not changed
+          in seven years, and never will.
+        </p>
+        <div class="accolade">Pastry Talent of the Year, Guild of Chefs, 2023</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== GALLERY ===================== -->
+<section class="sect gallery">
+  <div class="wrap">
+    <div class="rv">
+      <p class="eyebrow">The Room</p>
+      <h2 style="font-size:clamp(34px,4.8vw,62px);max-width:20ch">Low light, old stone, twenty-four chairs.</h2>
+    </div>
+
+    <div class="gal-grid rv">
+      <div class="tile t1"><i>01</i><b>The Corn Hall</b></div>
+      <div class="tile t2"><i>02</i><b>Chef's Counter</b></div>
+      <div class="tile t3"><i>03</i><b>The Cellar</b></div>
+      <div class="tile t4"><i>04</i><b>Candlelight</b></div>
+      <div class="tile t5"><i>05</i><b>Private Table</b></div>
+      <div class="tile t6"><i>06</i><b>The Garden Terrace</b></div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule" />
+
+<!-- ===================== TESTIMONIALS ===================== -->
+<section class="sect quotes">
+  <div class="wrap">
+    <div class="menu-head rv" style="margin-bottom:0">
+      <p class="eyebrow center">In Their Words</p>
+      <h2>Reflections</h2>
+    </div>
+
+    <div class="q-grid rv">
+      <figure class="q">
+        <div class="stars" aria-label="Five out of five">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+        </div>
+        <span class="mark-q" aria-hidden="true">&ldquo;</span>
+        <blockquote>The turbot arrived and the table simply stopped talking. I have not thought about a single dish this often in a decade of writing about food.</blockquote>
+        <footer>
+          <b>Marianne Duclos</b>
+          <small>Restaurant Critic, The Continental Review</small>
+        </footer>
+      </figure>
+
+      <figure class="q">
+        <div class="stars" aria-label="Five out of five">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+        </div>
+        <span class="mark-q" aria-hidden="true">&ldquo;</span>
+        <blockquote>Three and a half hours that felt like ninety minutes. Not one moment of theatre, and yet the most theatrical meal of my year.</blockquote>
+        <footer>
+          <b>Andrew Keill</b>
+          <small>Guest since 2016</small>
+        </footer>
+      </figure>
+
+      <figure class="q">
+        <div class="stars" aria-label="Five out of five">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+        </div>
+        <span class="mark-q" aria-hidden="true">&ldquo;</span>
+        <blockquote>Vasquez cooks with the confidence to serve you almost nothing, and the skill to make that almost-nothing unforgettable.</blockquote>
+        <footer>
+          <b>Sofia Lindqvist</b>
+          <small>Editor, Nordic Table Quarterly</small>
+        </footer>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RESERVATIONS ===================== -->
+<section class="sect resv" id="reservations">
+  <div class="wrap">
+    <div class="resv-grid">
+      <div class="rv">
+        <p class="eyebrow">Reservations</p>
+        <h2 style="font-size:clamp(34px,4.8vw,60px);max-width:16ch">Join us at seven.</h2>
+        <p style="margin-top:24px;color:var(--muted);font-size:15px;max-width:50ch">
+          Bookings open on the first of each month for the month following. A card is held to secure
+          the table; nothing is charged unless cancelled within forty-eight hours.
+        </p>
+
+        <form id="resform" novalidate>
+          <div class="row2">
+            <div class="field">
+              <label for="fname">Full name</label>
+              <input id="fname" name="fname" type="text" placeholder="Your name" required />
+            </div>
+            <div class="field">
+              <label for="femail">Email</label>
+              <input id="femail" name="femail" type="email" placeholder="you@example.com" required />
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="fdate">Date</label>
+              <input id="fdate" name="fdate" type="date" required />
+            </div>
+            <div class="field sel">
+              <label for="fguests">Guests</label>
+              <select id="fguests" name="fguests">
+                <option>Two guests</option>
+                <option>Three guests</option>
+                <option>Four guests</option>
+                <option>Five guests</option>
+                <option>Six guests</option>
+                <option>Private dining (8&ndash;14)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field sel">
+              <label for="ftime">Seating</label>
+              <select id="ftime" name="ftime">
+                <option>19:00 &mdash; Dining room</option>
+                <option>19:00 &mdash; Chef's counter (6 seats)</option>
+                <option>19:30 &mdash; Garden terrace (summer)</option>
+              </select>
+            </div>
+            <div class="field sel">
+              <label for="fpair">Pairing</label>
+              <select id="fpair" name="fpair">
+                <option>Wine pairing &mdash; £120</option>
+                <option>Non-alcoholic flight &mdash; £75</option>
+                <option>No pairing</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="fnote">Dietary notes or occasion</label>
+            <textarea id="fnote" name="fnote" placeholder="Allergies, restrictions, anniversaries — anything the kitchen should know."></textarea>
+          </div>
+
+          <p class="form-note">Parties larger than six are handled personally by our maître d'. Please call +44 131 555 0182.</p>
+
+          <button type="submit" class="btn btn-gold"><span>Request Reservation</span></button>
+          <div class="form-ok" id="formok" role="status">Thank you — your request has been received. Our maître d' will confirm by email within one working day. <em>(Demo form: nothing was submitted.)</em></div>
+        </form>
+      </div>
+
+      <aside class="info rv" id="contact">
+        <div class="info-block">
+          <small>Address</small>
+          <p>The Old Corn Hall<br />14 Marchmont Wynd<br />Edinburgh EH9 1TZ<br />Scotland</p>
+        </div>
+        <div class="info-block">
+          <small>Contact</small>
+          <p>
+            <a href="tel:+441315550182">+44 131 555 0182</a><br />
+            <a href="mailto:reserve@maisonsolenne.co.uk">reserve@maisonsolenne.co.uk</a>
+          </p>
+        </div>
+        <div class="info-block">
+          <small>Hours</small>
+          <ul class="hours">
+            <li><span>Tuesday &ndash; Thursday</span><span>19:00 &ndash; late</span></li>
+            <li><span>Friday &ndash; Saturday</span><span>18:30 &ndash; late</span></li>
+            <li><span>Sunday</span><span>Lunch, 13:00 &ndash; 16:00</span></li>
+            <li class="closed"><span>Monday</span><span>Closed</span></li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <small>Good to know</small>
+          <p>Smart attire. The full tasting menu is served to the entire table. Children over twelve are warmly welcome. Two steps at the entrance; a level side access is available on request.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site">
+  <div class="wrap f-top">
+    <div class="f-brand">
+      <a href="#top" class="mark">
+        <b>Maison <em>Solenne</em></b>
+        <small>Est. 2014 · Marchmont</small>
+      </a>
+      <p>A nine-course seasonal tasting menu served to twenty-four guests in a former corn merchant's hall in Edinburgh.</p>
+      <div class="socials">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.4" cy="6.6" r=".9" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14.5 8.5h2.2V5.6h-2.6c-2.2 0-3.5 1.4-3.5 3.6v1.7H8.4v2.9h2.2V21h3v-7.2h2.2l.4-2.9h-2.6V9.6c0-.7.3-1.1.9-1.1z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Journal">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 5.5A1.5 1.5 0 015.5 4H18a2 2 0 012 2v13a1 1 0 01-1 1H6.5A2.5 2.5 0 014 17.5z"/>
+            <path d="M8 8.5h8M8 12h8M8 15.5h5"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Newsletter">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="5.5" width="18" height="13" rx="2"/>
+            <path d="M3.6 6.7l8.4 6 8.4-6"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="f-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="#top">Home</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#reservations">Reservations</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="f-col">
+      <h4>Visit</h4>
+      <ul>
+        <li><a href="#contact">The Old Corn Hall</a></li>
+        <li><a href="#contact">14 Marchmont Wynd</a></li>
+        <li><a href="#contact">Edinburgh EH9 1TZ</a></li>
+        <li><a href="tel:+441315550182">+44 131 555 0182</a></li>
+        <li><a href="mailto:reserve@maisonsolenne.co.uk">reserve@maisonsolenne.co.uk</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-bottom:0">
+    <div class="diamond" style="padding-bottom:8px"><span></span><i></i><span></span></div>
+  </div>
+
+  <div class="wrap f-bot">
+    <p>&copy; <span id="yr">2026</span> Maison Solenne. All rights reserved.</p>
+    <nav aria-label="Legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Gift Vouchers</a>
+      <a href="#">Careers</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var nav = document.getElementById('nav');
+  var burger = document.getElementById('burger');
+  var drawer = document.getElementById('drawer');
+
+  /* sticky nav state */
+  var onScroll = function(){
+    if (window.scrollY > 24) nav.classList.add('is-stuck');
+    else nav.classList.remove('is-stuck');
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive:true });
+
+  /* mobile drawer */
+  var setOpen = function(open){
+    document.body.classList.toggle('nav-open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  burger.addEventListener('click', function(){
+    setOpen(!document.body.classList.contains('nav-open'));
+  });
+  drawer.addEventListener('click', function(e){
+    if (e.target.tagName === 'A') setOpen(false);
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') setOpen(false);
+  });
+
+  /* scroll reveal */
+  var items = document.querySelectorAll('.rv');
+  if (typeof window.IntersectionObserver === 'function'){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold:.12, rootMargin:'0px 0px -8% 0px' });
+    items.forEach(function(el, i){
+      el.style.transitionDelay = (Math.min(i, 3) * 90) + 'ms';
+      io.observe(el);
+    });
+  } else {
+    items.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* reservation date: default to tomorrow, min today */
+  var d = document.getElementById('fdate');
+  if (d){
+    var t = new Date();
+    var iso = function(x){ return x.toISOString().slice(0,10); };
+    d.min = iso(t);
+    t.setDate(t.getDate() + 1);
+    d.value = iso(t);
+  }
+
+  /* demo form */
+  var form = document.getElementById('resform');
+  var ok = document.getElementById('formok');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    ok.classList.add('on');
+    ok.scrollIntoView({ behavior:'smooth', block:'center' });
+  });
+
+  document.getElementById('yr').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
