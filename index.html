@@ -48,6 +48,8 @@
   --p5:#3F6E77;   /* northline – teal */
   --p6:#4A5259;   /* axis – graphite */
   --p7:#3C6B57;   /* nerva – watch green */
+  --p8:#B0708A;   /* cadence – dusty rose */
+  --p9:#C2603F;   /* marque – signal orange */
 
   --display:'Newsreader',Georgia,serif;
   --body:'Chivo',system-ui,-apple-system,sans-serif;
@@ -241,7 +243,22 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
 }
 
 /* six distinct CSS marks — no shape reused */
-.m-plates,.m-arc,.m-bottle,.m-elev,.m-flow,.m-axis,.m-dial{position:absolute;inset:0;}
+.m-plates,.m-arc,.m-bottle,.m-elev,.m-flow,.m-axis,.m-dial,.m-breath,.m-car{position:absolute;inset:0;}
+
+/* 8 · cadence - concentric breath rings */
+.m-breath span{position:absolute;left:38px;top:38px;border-radius:50%;
+  border:1.5px solid var(--p8);transform:translate(-50%,-50%);}
+.m-breath .r1{width:70px;height:70px;opacity:.4;}
+.m-breath .r2{width:48px;height:48px;opacity:.65;}
+.m-breath .r3{width:26px;height:26px;background:var(--p8);border:0;opacity:.9;}
+
+/* 9 · marque - car profile */
+.m-car span{position:absolute;background:var(--p9);}
+.m-car .bd{left:2px;right:2px;bottom:18px;height:11px;border-radius:3px 5px 2px 2px;}
+.m-car .rf{left:26px;right:16px;bottom:28px;height:14px;border-radius:11px 4px 0 0;}
+.m-car .wl{width:15px;height:15px;bottom:9px;border-radius:50%;background:transparent;
+  border:2.4px solid var(--p9);}
+.m-car .l1{left:12px;} .m-car .l2{right:12px;}
 
 /* 7 · watch dial - ticks around a rim, two hands */
 .m-dial .rim{position:absolute;left:4px;top:2px;width:74px;height:74px;border-radius:50%;
@@ -500,7 +517,7 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
     <div class="work-head">
       <div>
         <span class="tag">Selected work</span>
-        <h2 class="h-sec">Seven builds, seven different problems.</h2>
+        <h2 class="h-sec">Nine builds, nine different problems.</h2>
         <p class="lede">Each one solves something specific &mdash; filling a quiet weekday, justifying a price, getting the phone to ring.</p>
       </div>
     </div>
@@ -560,6 +577,22 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
         <h3>NERVA</h3>
         <p class="cat">Watch brand &middot; E-commerce</p>
         <p>An independent watch label selling direct. Bilingual, and the hero dial keeps the real time.</p>
+        <a class="view" href="#" data-demo>View demo <span class="arrow">&rarr;</span></a>
+      </article>
+
+      <article class="card">
+        <div class="card-mark"><div class="m-breath"><span class="r1"></span><span class="r2"></span><span class="r3"></span></div></div>
+        <h3>Cadence Pilates</h3>
+        <p class="cat">Studio &middot; Class booking</p>
+        <p>Six reformers, six people. The page breathes at the tempo the classes are taught at.</p>
+        <a class="view" href="#" data-demo>View demo <span class="arrow">&rarr;</span></a>
+      </article>
+
+      <article class="card">
+        <div class="card-mark"><div class="m-car"><span class="bd"></span><span class="rf"></span><span class="wl l1"></span><span class="wl l2"></span></div></div>
+        <h3>Marque</h3>
+        <p class="cat">Reference &middot; Editorial</p>
+        <p>Six German carmakers, twenty-four cars. Filtering physically moves the cards to their new places.</p>
         <a class="view" href="#" data-demo>View demo <span class="arrow">&rarr;</span></a>
       </article>
 
@@ -850,7 +883,9 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
     'meridian-atelier.html',
     'northline-heating-air.html',
     'axis-digital-website.html',
-    'nerva-watches.html'
+    'nerva-watches.html',
+    'cadence-pilates.html',
+    'marque-german-cars.html'
   ];
   var demoLinks = document.querySelectorAll('[data-demo]');
   Array.prototype.forEach.call(demoLinks, function(a, i){
