@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MARQUE — Six German carmakers, twenty-four cars that mattered</title>
+<meta name="description" content="Mercedes-Benz, BMW, Porsche, Audi, Volkswagen and Opel — the cars that defined each marque, the engineering behind them, and why they changed things." />
+<meta name="theme-color" content="#111315" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ==========================================================================
+   MARQUE — six German carmakers
+   Palette   graphite #111315 · silver #C8CDD2 · signal orange #E8552B
+             (motorsport timing screens, not luxury-car brochure)
+   Type      Chakra Petch (squared, instrument-like) · Barlow (body)
+   Motion    built for the subject: a needle sweep on load, cards that
+             travel to new positions when filtered rather than snapping,
+             and detail panels that lift like a bonnet.
+   Signature a timeline plotting all 24 cars by year, so the eras are visible.
+   ========================================================================== */
+
+:root{
+  --graphite:#111315;
+  --graphite-2:#181B1E;
+  --graphite-3:#212528;
+  --black:#0B0C0D;
+
+  --silver:#C8CDD2;
+  --silver-2:#8E979E;
+  --muted:#666E74;
+
+  --signal:#E8552B;
+  --signal-lt:#FF7A54;
+  --signal-deep:#B33A16;
+
+  /* one accent per marque - used for silhouettes and filter states */
+  --mb:#B8C0C6;
+  --bmw:#4E8FCB;
+  --por:#D9A441;
+  --aud:#C4444C;
+  --vw:#4FA07A;
+  --opl:#9A7BC4;
+
+  --rule:rgba(200,205,210,.14);
+  --rule-soft:rgba(200,205,210,.07);
+
+  --head:'Chakra Petch',system-ui,sans-serif;
+  --body:'Barlow',system-ui,-apple-system,sans-serif;
+
+  --shell:1240px;
+  --pad:clamp(18px,4.5vw,52px);
+  --sec:clamp(66px,8vw,116px);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--graphite);color:var(--silver-2);
+  font-family:var(--body);font-size:16px;line-height:1.66;font-weight:300;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3,h4{margin:0;font-family:var(--head);font-weight:600;color:var(--silver);
+  line-height:1.12;letter-spacing:-.01em;}
+p{margin:0 0 1em;} p:last-child{margin-bottom:0;}
+a{color:inherit;text-decoration:none;}
+::selection{background:var(--signal);color:#fff;}
+
+.shell{width:100%;max-width:var(--shell);margin-inline:auto;padding-inline:var(--pad);}
+.sec{padding-block:var(--sec);}
+.skip{position:absolute;top:0;inset-inline-start:0;z-index:400;background:var(--signal);color:#fff;
+  padding:12px 18px;font-family:var(--head);font-weight:600;transform:translateY(-140%);
+  transition:transform .2s var(--ease);}
+.skip:focus{transform:none;}
+:focus-visible{outline:2px solid var(--signal);outline-offset:3px;}
+
+.tag{display:inline-block;font-family:var(--head);font-size:.68rem;font-weight:600;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--signal);margin:0 0 16px;}
+.h2{font-size:clamp(1.7rem,3.6vw,2.5rem);margin-bottom:12px;}
+.lede{max-width:58ch;color:var(--silver-2);font-size:clamp(.98rem,1.2vw,1.04rem);}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  font-family:var(--head);font-weight:600;font-size:.86rem;letter-spacing:.04em;
+  padding:13px 24px;border:1px solid transparent;cursor:pointer;border-radius:2px;
+  transition:background .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease);}
+.btn-signal{background:var(--signal);color:#fff;}
+.btn-signal:hover{background:var(--signal-lt);}
+.btn-line{border-color:var(--rule);color:var(--silver);background:transparent;}
+.btn-line:hover{border-color:var(--signal);color:var(--signal);}
+
+/* ============================== NAV ============================== */
+.nav{position:sticky;top:0;z-index:100;background:rgba(17,19,21,.92);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid transparent;transition:border-color .3s var(--ease);}
+.nav.stuck{border-bottom-color:var(--rule);}
+.nav-in{max-width:var(--shell);margin-inline:auto;padding-inline:var(--pad);height:64px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand b{font-family:var(--head);font-size:1.1rem;font-weight:700;letter-spacing:.2em;color:var(--silver);}
+.brand i{width:22px;height:2px;background:var(--signal);display:block;}
+.links{display:flex;gap:24px;list-style:none;margin:0;padding:0;}
+.links a{font-family:var(--head);font-size:.84rem;font-weight:500;color:var(--silver-2);
+  transition:color .2s var(--ease);}
+.links a:hover{color:var(--signal);}
+.burger{display:none;width:36px;height:32px;border:1px solid var(--rule);border-radius:2px;
+  background:transparent;cursor:pointer;position:relative;padding:0;}
+.burger i{position:absolute;left:8px;right:8px;height:1.5px;background:var(--silver);}
+.burger i:nth-child(1){top:10px;} .burger i:nth-child(2){top:15px;} .burger i:nth-child(3){top:20px;}
+@media(max-width:860px){
+  .links{position:fixed;inset:64px 0 auto 0;background:var(--graphite-2);flex-direction:column;
+    gap:0;padding:4px var(--pad) 18px;border-bottom:1px solid var(--rule);
+    transform:translateY(-10px);opacity:0;visibility:hidden;
+    transition:transform .25s var(--ease),opacity .25s var(--ease),visibility .25s;}
+  body.open .links{transform:none;opacity:1;visibility:visible;}
+  .links li{width:100%;}
+  .links a{display:block;padding:12px 0;border-bottom:1px solid var(--rule-soft);}
+  .burger{display:block;}
+}
+
+/* ============================== HERO ============================== */
+.hero{position:relative;overflow:hidden;padding-block:clamp(40px,6vw,76px) clamp(44px,6vw,72px);}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(48% 40% at 78% 12%, rgba(232,85,43,.10), transparent 62%),
+    repeating-linear-gradient(90deg, rgba(200,205,210,.028) 0 1px, transparent 1px 64px);}
+.hero-in{position:relative;z-index:1;}
+.hero h1{font-size:clamp(2rem,5.2vw,3.5rem);max-width:18ch;}
+.hero h1 em{font-style:normal;color:var(--signal);}
+.hero .sub{margin-top:18px;max-width:52ch;font-size:1.02rem;}
+
+/* the counter sweeps up on load, like a needle */
+.dash{display:flex;flex-wrap:wrap;gap:0;margin-top:34px;border-top:1px solid var(--rule);}
+.dash div{flex:1 1 130px;padding:18px 18px 18px 0;border-inline-end:1px solid var(--rule-soft);}
+.dash div:last-child{border-inline-end:0;}
+.dash b{display:block;font-family:var(--head);font-size:clamp(1.6rem,3.2vw,2.1rem);
+  font-weight:700;color:var(--silver);line-height:1;font-variant-numeric:tabular-nums;}
+.dash span{display:block;font-family:var(--head);font-size:.62rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);margin-top:7px;}
+
+/* ============================== TIMELINE (signature) ============================== */
+.tl-sec{background:var(--graphite-2);border-block:1px solid var(--rule);}
+.tl{position:relative;margin-top:34px;padding:26px 0 8px;overflow-x:auto;overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;}
+.tl-track{position:relative;min-width:1180px;height:224px;}
+.tl-axis{position:absolute;left:0;right:0;bottom:34px;height:1px;background:var(--rule);}
+.tl-decade{position:absolute;bottom:0;transform:translateX(-50%);text-align:center;}
+.tl-decade i{display:block;width:1px;height:12px;background:var(--rule);margin:0 auto 7px;}
+.tl-decade span{font-family:var(--head);font-size:.68rem;letter-spacing:.1em;color:var(--muted);}
+.tl-pt{position:absolute;bottom:34px;transform:translateX(-50%);cursor:pointer;
+  background:none;border:0;padding:0 6px;}
+.tl-pt i{display:block;width:9px;height:9px;border-radius:50%;margin:0 auto;
+  background:var(--dotc,var(--silver-2));transform:translateY(4px);
+  transition:transform .3s var(--ease-out),box-shadow .3s var(--ease);}
+.tl-pt em{position:absolute;left:50%;white-space:nowrap;font-style:normal;
+  font-family:var(--head);font-size:.66rem;color:var(--silver-2);
+  transform:translateX(-50%);transition:color .25s var(--ease);}
+/* three tiers, so a cluster of cars in one decade doesn't overlap */
+.tl-pt.t0 em{bottom:14px;}
+.tl-pt.t1 em{bottom:44px;}
+.tl-pt.t2 em{bottom:74px;}
+/* a leader line down to the dot, so a raised label still reads as its own */
+.tl-pt em::after{content:"";position:absolute;left:50%;top:100%;width:1px;
+  background:var(--rule);}
+.tl-pt.t1 em::after{height:24px;}
+.tl-pt.t2 em::after{height:54px;}
+.tl-pt:hover i,.tl-pt:focus-visible i{transform:translateY(4px) scale(1.5);
+  box-shadow:0 0 0 4px rgba(232,85,43,.22);}
+.tl-pt:hover em,.tl-pt:focus-visible em{color:var(--signal);}
+.tl-hint{margin-top:12px;font-family:var(--head);font-size:.7rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);}
+
+/* ============================== FILTER + GRID ============================== */
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:30px 0 26px;}
+.chip{font-family:var(--head);font-size:.78rem;font-weight:600;letter-spacing:.03em;
+  color:var(--silver-2);background:transparent;border:1px solid var(--rule);border-radius:2px;
+  padding:9px 15px;cursor:pointer;position:relative;overflow:hidden;
+  transition:color .22s var(--ease),border-color .22s var(--ease);}
+.chip::before{content:"";position:absolute;inset:0;background:var(--c,var(--signal));
+  transform:scaleX(0);transform-origin:0 50%;transition:transform .3s var(--ease-out);z-index:-1;}
+.chip{isolation:isolate;}
+.chip:hover{color:var(--silver);border-color:var(--c,var(--signal));}
+.chip[aria-pressed="true"]{color:#0B0C0D;border-color:var(--c,var(--signal));}
+.chip[aria-pressed="true"]::before{transform:scaleX(1);}
+
+.count{font-family:var(--head);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:18px;}
+
+.grid{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);}
+@media(min-width:620px){.grid{grid-template-columns:1fr 1fr;}}
+@media(min-width:1000px){.grid{grid-template-columns:repeat(3,1fr);}}
+
+.car{background:var(--graphite);padding:22px 20px 20px;display:flex;flex-direction:column;
+  text-align:start;border:0;cursor:pointer;font:inherit;color:inherit;
+  transition:background .3s var(--ease),transform .45s var(--ease-out),opacity .3s var(--ease);}
+.car:hover{background:var(--graphite-3);}
+.car.hide{display:none;}
+.car-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px;}
+.car-marque{font-family:var(--head);font-size:.64rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--mc,var(--silver-2));}
+.car-year{font-family:var(--head);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums;}
+
+/* CSS-drawn silhouettes — profile view. The roof shape and overhangs are
+   what distinguish body types, so those carry the difference. */
+.sil{height:82px;position:relative;margin-bottom:16px;}
+.sil span{position:absolute;background:var(--mc,var(--silver-2));}
+.sil .body{bottom:16px;height:15px;border-radius:4px 6px 3px 3px;}
+.sil .roof{bottom:30px;background:var(--mc,var(--silver-2));}
+.sil .wheel{width:22px;height:22px;bottom:6px;border-radius:50%;
+  background:transparent;border:3px solid var(--mc,var(--silver-2));opacity:.95;}
+.sil .w1{left:17%;} .sil .w2{right:17%;}
+
+/* saloon — three distinct boxes, roof centred with a boot behind */
+.b-saloon .body{left:5%;right:5%;}
+.b-saloon .roof{left:29%;right:24%;height:19px;border-radius:7px 8px 0 0;}
+/* coupe — roof pushed back, longer bonnet, faster rear */
+.b-coupe .body{left:5%;right:5%;height:14px;}
+.b-coupe .roof{left:34%;right:17%;height:16px;border-radius:14px 5px 0 0;}
+/* sports — very low body, small cabin, long tail */
+.b-sports .body{left:3%;right:3%;height:12px;bottom:17px;border-radius:8px 9px 3px 3px;}
+.b-sports .roof{left:36%;right:28%;height:12px;bottom:29px;border-radius:13px 8px 0 0;}
+.b-sports .wheel{width:20px;height:20px;}
+/* hatch — short overhangs, upright cabin, steep tailgate */
+.b-hatch .body{left:11%;right:11%;}
+.b-hatch .roof{left:22%;right:13%;height:21px;border-radius:8px 5px 0 0;}
+/* estate — roof runs all the way to the tail */
+.b-estate .body{left:5%;right:4%;}
+.b-estate .roof{left:27%;right:5%;height:20px;border-radius:8px 3px 0 0;}
+/* van — tall slab, cab-over front */
+.b-van .body{left:8%;right:8%;height:13px;}
+.b-van .roof{left:8%;right:8%;height:32px;bottom:28px;border-radius:9px 7px 0 0;}
+.car h3{font-size:1.06rem;margin-bottom:5px;}
+.car .note{font-size:.88rem;color:var(--silver-2);}
+.car .why{margin-top:auto;padding-top:14px;border-top:1px solid var(--rule-soft);
+  font-family:var(--head);font-size:.72rem;letter-spacing:.06em;color:var(--signal);
+  display:flex;align-items:center;gap:7px;}
+.car .why::after{content:"→";transition:transform .3s var(--ease-out);}
+.car:hover .why::after{transform:translateX(4px);}
+
+/* ============================== DETAIL PANEL ============================== */
+.panel{position:fixed;inset:0;z-index:300;display:none;}
+.panel.on{display:block;}
+.panel-bg{position:absolute;inset:0;background:rgba(7,8,9,.78);
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  opacity:0;transition:opacity .35s var(--ease);}
+.panel.on .panel-bg{opacity:1;}
+.panel-in{position:absolute;inset-inline:0;bottom:0;max-height:88vh;overflow-y:auto;
+  background:var(--graphite-2);border-top:2px solid var(--signal);
+  transform:translateY(100%);transition:transform .45s var(--ease-out);}
+.panel.on .panel-in{transform:none;}
+@media(min-width:900px){
+  .panel-in{inset-inline:auto 0;top:0;bottom:0;width:min(560px,100%);max-height:none;
+    border-top:0;border-inline-start:2px solid var(--signal);
+    transform:translateX(100%);}
+}
+.panel-head{position:sticky;top:0;background:var(--graphite-2);z-index:2;
+  padding:20px var(--pad) 14px;border-bottom:1px solid var(--rule);
+  display:flex;justify-content:space-between;align-items:flex-start;gap:16px;}
+.panel-close{background:transparent;border:1px solid var(--rule);border-radius:2px;
+  width:34px;height:34px;cursor:pointer;color:var(--silver);font-size:1.1rem;line-height:1;
+  flex:none;transition:border-color .2s var(--ease),color .2s var(--ease);}
+.panel-close:hover{border-color:var(--signal);color:var(--signal);}
+.panel-body{padding:22px var(--pad) 40px;}
+.p-marque{font-family:var(--head);font-size:.66rem;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--pmc,var(--signal));margin-bottom:6px;display:block;}
+.panel-head h2{font-size:1.5rem;}
+.p-year{font-family:var(--head);font-size:.84rem;color:var(--muted);margin-top:4px;}
+.p-sil{height:120px;position:relative;margin:0 0 24px;
+  background:linear-gradient(180deg,rgba(200,205,210,.045),transparent);
+  border:1px solid var(--rule-soft);border-radius:3px;}
+.p-sil .sil{position:absolute;inset:14px 8% 12px;height:auto;}
+.specs{display:grid;gap:1px;background:var(--rule-soft);border:1px solid var(--rule-soft);
+  margin:22px 0;}
+@media(min-width:440px){.specs{grid-template-columns:1fr 1fr;}}
+.spec{background:var(--graphite-2);padding:12px 14px;}
+.spec dt{font-family:var(--head);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:4px;}
+.spec dd{margin:0;font-family:var(--head);font-size:.94rem;color:var(--silver);}
+.p-why{border-inline-start:2px solid var(--signal);padding-inline-start:15px;margin-top:20px;}
+.p-why b{display:block;font-family:var(--head);font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--signal);margin-bottom:7px;}
+
+/* ============================== MARQUES ============================== */
+.mq-sec{background:var(--graphite-2);border-block:1px solid var(--rule);}
+.mqs{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:34px;}
+@media(min-width:640px){.mqs{grid-template-columns:1fr 1fr;}}
+@media(min-width:1000px){.mqs{grid-template-columns:repeat(3,1fr);}}
+.mq{background:var(--graphite-2);padding:24px 20px;position:relative;overflow:hidden;}
+.mq::before{content:"";position:absolute;top:0;inset-inline-start:0;width:100%;height:2px;
+  background:var(--mc);transform:scaleX(0);transform-origin:0 50%;
+  transition:transform .45s var(--ease-out);}
+.mq:hover::before{transform:scaleX(1);}
+.mq h3{font-size:1.1rem;margin-bottom:3px;}
+.mq .founded{font-family:var(--head);font-size:.7rem;color:var(--muted);margin-bottom:11px;}
+.mq p{font-size:.89rem;margin:0;}
+.mq .known{margin-top:13px;padding-top:11px;border-top:1px solid var(--rule-soft);
+  font-family:var(--head);font-size:.72rem;color:var(--mc);}
+
+/* ============================== FOOTER ============================== */
+.foot{background:var(--black);border-top:1px solid var(--rule);}
+.foot-in{padding-block:28px;display:flex;flex-wrap:wrap;gap:16px 34px;
+  justify-content:space-between;align-items:center;}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap;font-family:var(--head);font-size:.82rem;}
+.foot-links a:hover{color:var(--signal);}
+.foot small{font-family:var(--head);font-size:.72rem;color:var(--muted);}
+
+@keyframes sweep{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion: no-preference){
+  .dash div{animation:sweep .7s var(--ease-out) both;}
+  .dash div:nth-child(1){animation-delay:.05s;}
+  .dash div:nth-child(2){animation-delay:.13s;}
+  .dash div:nth-child(3){animation-delay:.21s;}
+  .dash div:nth-child(4){animation-delay:.29s;}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;}
+  html{scroll-behavior:auto;}
+}
+</style>
+<noscript>
+<style>
+/* Without JS the burger can't open the menu — show the links inline
+   rather than leaving them unreachable. */
+@media(max-width:860px){
+  .links{position:static;transform:none;opacity:1;visibility:visible;
+    flex-direction:row;flex-wrap:wrap;gap:4px 16px;padding:0 0 10px;
+    border-bottom:1px solid var(--rule);}
+  .links li{width:auto;}
+  .links a{border-bottom:0;padding:6px 0;}
+  .nav-in{height:auto;flex-wrap:wrap;padding-block:10px;}
+  .burger{display:none;}
+}
+</style>
+</noscript>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a href="#top" class="brand"><i></i><b>MARQUE</b></a>
+    <ul class="links" id="menu">
+      <li><a href="#timeline">Timeline</a></li>
+      <li><a href="#cars">The cars</a></li>
+      <li><a href="#marques">Marques</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="main"><div id="top"></div>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="shell hero-in">
+    <span class="tag">Germany · 1936 – 2019</span>
+    <h1>Six carmakers. Twenty-four cars that <em>changed what came after</em>.</h1>
+    <p class="sub">Not the fastest or the rarest — the ones that shifted how cars were built. Each entry gives the engineering decision that mattered and what the industry did about it.</p>
+    <div class="dash">
+      <div><b>6</b><span>Marques</span></div>
+      <div><b>24</b><span>Cars</span></div>
+      <div><b>83</b><span>Years covered</span></div>
+      <div><b>1936</b><span>Earliest entry</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TIMELINE ============================ -->
+<section class="sec tl-sec" id="timeline">
+  <div class="shell">
+    <span class="tag">The signature</span>
+    <h2 class="h2">Eighty-three years, plotted.</h2>
+    <p class="lede">Every car below, placed on the year it launched. The clusters are the interesting part — the mid-sixties, and again either side of 1974, when the oil crisis forced small cars and front-wheel drive on everybody.</p>
+
+    <div class="tl">
+      <div class="tl-track" id="tlTrack">
+        <div class="tl-axis"></div>
+      </div>
+    </div>
+    <p class="tl-hint">Tap any point to open that car · scroll sideways to move through the years</p>
+  </div>
+</section>
+
+<!-- ============================ CARS ============================ -->
+<section class="sec" id="cars">
+  <div class="shell">
+    <span class="tag">The cars</span>
+    <h2 class="h2">Filter by marque.</h2>
+    <p class="lede">Cards reorder when you filter rather than jumping, so you can follow where a car goes.</p>
+
+    <div class="bar" id="bar" role="group" aria-label="Filter by marque">
+      <button class="chip" data-f="all" aria-pressed="true">All 24</button>
+      <button class="chip" data-f="mb"  style="--c:var(--mb)"  aria-pressed="false">Mercedes-Benz</button>
+      <button class="chip" data-f="bmw" style="--c:var(--bmw)" aria-pressed="false">BMW</button>
+      <button class="chip" data-f="por" style="--c:var(--por)" aria-pressed="false">Porsche</button>
+      <button class="chip" data-f="aud" style="--c:var(--aud)" aria-pressed="false">Audi</button>
+      <button class="chip" data-f="vw"  style="--c:var(--vw)"  aria-pressed="false">Volkswagen</button>
+      <button class="chip" data-f="opl" style="--c:var(--opl)" aria-pressed="false">Opel</button>
+    </div>
+
+    <p class="count" id="count">Showing all 24 cars</p>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- ============================ MARQUES ============================ -->
+<section class="sec mq-sec" id="marques">
+  <div class="shell">
+    <span class="tag">The six</span>
+    <h2 class="h2">Who they are, in one paragraph each.</h2>
+
+    <div class="mqs">
+      <article class="mq" style="--mc:var(--mb)">
+        <h3>Mercedes-Benz</h3>
+        <p class="founded">Stuttgart · 1926</p>
+        <p>The oldest carmaker still trading, formed when Daimler and Benz merged. Historically the one that introduced a safety idea first and let everyone else copy it a decade later.</p>
+        <p class="known">Known for: engineering that arrives early</p>
+      </article>
+      <article class="mq" style="--mc:var(--bmw)">
+        <h3>BMW</h3>
+        <p class="founded">Munich · 1916</p>
+        <p>Aircraft engines first, motorcycles second, cars third. Nearly bought by Mercedes in 1959 before a saloon aimed at drivers rather than passengers saved it.</p>
+        <p class="known">Known for: rear drive and straight sixes</p>
+      </article>
+      <article class="mq" style="--mc:var(--por)">
+        <h3>Porsche</h3>
+        <p class="founded">Stuttgart · 1931</p>
+        <p>Began as a consultancy designing cars for other companies, including the original Volkswagen. Has spent sixty years refining one rear-engined shape that theory says shouldn't work.</p>
+        <p class="known">Known for: the engine in the wrong place</p>
+      </article>
+      <article class="mq" style="--mc:var(--aud)">
+        <h3>Audi</h3>
+        <p class="founded">Ingolstadt · 1909</p>
+        <p>Four rings for four merged companies. Spent decades as the quiet one until permanent four-wheel drive on a road car rewrote what a rally car was.</p>
+        <p class="known">Known for: quattro, and interiors</p>
+      </article>
+      <article class="mq" style="--mc:var(--vw)">
+        <h3>Volkswagen</h3>
+        <p class="founded">Wolfsburg · 1937</p>
+        <p>Built to put Germany on wheels, then rescued after the war by a British army officer. Has twice made the definitive version of a car type everyone else then imitated.</p>
+        <p class="known">Known for: getting the format right</p>
+      </article>
+      <article class="mq" style="--mc:var(--opl)">
+        <h3>Opel</h3>
+        <p class="founded">Rüsselsheim · 1862</p>
+        <p>Sewing machines, then bicycles, then cars. General Motors' European arm for ninety years, and the one that made technology affordable before the others did.</p>
+        <p class="known">Known for: mass-market firsts</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================ DETAIL PANEL ============================ -->
+<div class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="pTitle" aria-hidden="true">
+  <div class="panel-bg" id="panelBg"></div>
+  <div class="panel-in">
+    <div class="panel-head">
+      <div>
+        <span class="p-marque" id="pMarque"></span>
+        <h2 id="pTitle"></h2>
+        <p class="p-year" id="pYear"></p>
+      </div>
+      <button class="panel-close" id="panelClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="panel-body">
+      <div class="p-sil" id="pSil"></div>
+      <p id="pNote"></p>
+      <dl class="specs" id="pSpecs"></dl>
+      <div class="p-why">
+        <b>Why it mattered</b>
+        <p id="pWhy"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="foot">
+  <div class="shell foot-in">
+    <a href="#top" class="brand"><i></i><b>MARQUE</b></a>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="#timeline">Timeline</a><a href="#cars">The cars</a><a href="#marques">Marques</a>
+    </nav>
+    <small>A reference project &middot; &copy; <span id="yr">2026</span></small>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var MARQUES = {
+    mb:  {name:'Mercedes-Benz', v:'--mb'},
+    bmw: {name:'BMW',           v:'--bmw'},
+    por: {name:'Porsche',       v:'--por'},
+    aud: {name:'Audi',          v:'--aud'},
+    vw:  {name:'Volkswagen',    v:'--vw'},
+    opl: {name:'Opel',          v:'--opl'}
+  };
+
+  var CARS = [
+    {m:'mb', n:'260 D', y:1936, b:'saloon',
+     note:'The first diesel passenger car sold to the public, built on a taxi chassis.',
+     specs:[['Engine','2.5L 4-cyl diesel'],['Power','45 hp'],['Top speed','95 km/h'],['Built','1,967 units']],
+     why:'Diesel was for lorries until this. It used roughly a third less fuel than the petrol equivalent, which mattered enormously to taxi operators — and established diesel as normal in European cars for the next eighty years.'},
+    {m:'mb', n:'300 SL Gullwing', y:1954, b:'sports',
+     note:'A racing car made road legal, with doors that opened upward because the chassis left no room for normal ones.',
+     specs:[['Engine','3.0L straight-six'],['Power','215 hp'],['Top speed','260 km/h'],['Notable','First fuel injection']],
+     why:'The first production car with direct fuel injection, which is why it was the fastest thing on the road in 1954. The doors are remembered; the injection system is what actually changed engines.'},
+    {m:'mb', n:'W116 S-Class', y:1972, b:'saloon',
+     note:'The first car officially called an S-Class, and the first anywhere with anti-lock brakes.',
+     specs:[['Engine','2.8–6.9L'],['Power','156–286 hp'],['First','ABS, 1978'],['Built','473,035']],
+     why:'ABS arrived here as an option in 1978 and is now mandatory almost everywhere. Mercedes declined to patent-block it, which is why every car you have driven has it.'},
+    {m:'mb', n:'190E 2.3-16', y:1983, b:'saloon',
+     note:'A compact saloon with a Cosworth-built sixteen-valve head, made to go touring car racing.',
+     specs:[['Engine','2.3L 16v'],['Power','185 hp'],['0–100','7.5 s'],['Chassis','Multi-link rear']],
+     why:'It introduced the multi-link rear suspension that nearly every performance saloon since has used, and it started the compact executive war with BMW that produced most of the interesting saloons of the nineties.'},
+
+    {m:'bmw', n:'1500 Neue Klasse', y:1962, b:'saloon',
+     note:'The car that saved a company four years from bankruptcy.',
+     specs:[['Engine','1.5L 4-cyl'],['Power','80 hp'],['Layout','Front engine, rear drive'],['Built','23,807']],
+     why:'It invented the sports saloon: a family-sized four-door tuned for the person driving it rather than the people being driven. Every 3 Series, every A4, every C-Class descends from this decision.'},
+    {m:'bmw', n:'2002 tii', y:1971, b:'coupe',
+     note:'A two-door box with a fuel-injected two-litre and almost nothing else.',
+     specs:[['Engine','2.0L injected'],['Power','130 hp'],['Weight','1,010 kg'],['Top speed','185 km/h']],
+     why:'It proved a small light car with a big engine could outsell luxury on merit alone, and it built BMW\u2019s reputation in America. The formula — modest body, serious engine, low weight — is still the enthusiast template.'},
+    {m:'bmw', n:'E30 M3', y:1986, b:'coupe',
+     note:'A homologation special: 5,000 road cars built only so the racing version was allowed to compete.',
+     specs:[['Engine','2.3L S14 4-cyl'],['Power','200 hp'],['Weight','1,200 kg'],['Titles','Most-won touring car']],
+     why:'The most successful touring car in racing history, and the car that made "M" mean something. It set the pattern of a road car built backwards from a race regulation, which the industry copied for twenty years.'},
+    {m:'bmw', n:'i3', y:2013, b:'hatch',
+     note:'A carbon-fibre passenger cell on an aluminium frame, built in a factory running on hydroelectric power.',
+     specs:[['Body','Carbon fibre reinforced plastic'],['Range','130–260 km'],['Weight','1,195 kg'],['Built','250,000+']],
+     why:'The first mass-produced car with a carbon fibre structure. Commercially it underperformed, but it proved carbon could be manufactured at volume — which is why it now appears in cars costing far less than this one did.'},
+
+    {m:'por', n:'356', y:1948, b:'sports',
+     note:'The first car to carry the Porsche name, built from Volkswagen parts in an Austrian sawmill.',
+     specs:[['Engine','1.1L flat-four'],['Power','40 hp'],['Weight','585 kg'],['Built','76,000']],
+     why:'It established that a slow car made light and balanced could be more fun than a fast heavy one — a principle Porsche has argued for ever since, and the reason the company exists at all.'},
+    {m:'por', n:'911', y:1963, b:'sports',
+     note:'The engine hung behind the rear axle, which every engineering textbook says is the wrong place for it.',
+     specs:[['Engine','2.0L flat-six'],['Power','130 hp'],['Layout','Rear engine, rear drive'],['Still built','63 years on']],
+     why:'The longest continuous production run of any sports car. Porsche kept refining a compromised layout instead of abandoning it, and eventually made it work better than the theoretically correct alternatives.'},
+    {m:'por', n:'959', y:1986, b:'sports',
+     note:'Built to race in Group B, which was cancelled before it could. It became a technology demonstrator instead.',
+     specs:[['Engine','2.85L twin-turbo flat-six'],['Power','450 hp'],['Top speed','317 km/h'],['Built','337']],
+     why:'It introduced computer-controlled all-wheel drive, adjustable ride height and tyre pressure monitoring to road cars. Almost everything electronically controlled in a modern performance car appeared here first.'},
+    {m:'por', n:'Cayenne', y:2002, b:'estate',
+     note:'An SUV from a sports car company, which enthusiasts hated on sight.',
+     specs:[['Engine','3.2L V6 – 4.5L V8'],['Power','250–450 hp'],['Weight','2,225 kg'],['Effect','Doubled company revenue']],
+     why:'It funded everything Porsche has made since, including the sports cars the critics wanted protected. Every specialist manufacturer that later built an SUV was following the maths this car proved.'},
+
+    {m:'aud', n:'Quattro', y:1980, b:'coupe',
+     note:'Permanent four-wheel drive in a road car, borrowed from a military vehicle an engineer had driven in snow.',
+     specs:[['Engine','2.1L turbo 5-cyl'],['Power','200 hp'],['Drive','Permanent AWD'],['Rally titles','4 world championships']],
+     why:'It made two-wheel-drive rally cars obsolete within two seasons. The sport changed its rules around it, and all-wheel drive went from exotic to expected on performance cars.'},
+    {m:'aud', n:'100 C3', y:1982, b:'saloon',
+     note:'A drag coefficient of 0.30 at a time when 0.40 was normal, achieved with flush-fitted glass.',
+     specs:[['Cd','0.30'],['Engine','1.8–2.2L'],['Power','90–165 hp'],['Built','832,000']],
+     why:'The most aerodynamic production saloon in the world when launched. It made aerodynamics a mainstream selling point rather than a racing concern, and flush glazing became standard on everything within a decade.'},
+    {m:'aud', n:'A8 D2', y:1994, b:'saloon',
+     note:'The first mass-produced car with an all-aluminium spaceframe body.',
+     specs:[['Structure','Aluminium spaceframe'],['Saving','~40% vs steel body'],['Engine','2.8–4.2L'],['Built','105,092']],
+     why:'It showed aluminium construction could work at scale, not just on hand-built exotics. Weight reduction as an engineering priority — now central to both efficiency and electric range — starts here.'},
+    {m:'aud', n:'R8', y:2006, b:'sports',
+     note:'A mid-engined supercar sharing its structure with the Lamborghini Gallardo.',
+     specs:[['Engine','4.2L V8 / 5.2L V10'],['Power','420–610 hp'],['Layout','Mid engine, AWD'],['Built','~44,000']],
+     why:'It proved a supercar could be usable every day without being slower for it. The idea that this class of car should have good visibility, a working boot and a comfortable ride is largely this car\u2019s doing.'},
+
+    {m:'vw', n:'Type 1 Beetle', y:1938, b:'coupe',
+     note:'Air-cooled, rear-engined, and built essentially unchanged for sixty-five years.',
+     specs:[['Engine','1.1–1.6L flat-four'],['Power','25–50 hp'],['Built','21.5 million'],['Production','1938–2003']],
+     why:'The longest-running single design in car history, and the most-produced car built from one platform. It demonstrated that continuous refinement of one good design could beat constant redesign.'},
+    {m:'vw', n:'Type 2 Transporter', y:1950, b:'van',
+     note:'A flat load floor over the Beetle\u2019s mechanicals, sketched by a Dutch importer on a notepad.',
+     specs:[['Layout','Rear engine, forward control'],['Payload','750 kg'],['Built','10 million+'],['Variants','Van, bus, pickup, camper']],
+     why:'It created the light commercial van as a category — one platform sold as a van, a minibus and a camper. Every Transit, every Sprinter, every Hiace follows the packaging logic invented here.'},
+    {m:'vw', n:'Golf GTI Mk1', y:1976, b:'hatch',
+     note:'An engineering side project, approved for 5,000 cars, that sold over 400,000.',
+     specs:[['Engine','1.6L injected'],['Power','110 hp'],['Weight','810 kg'],['0–100','9.0 s']],
+     why:'It invented the hot hatch: family car practicality with genuine pace, at a price ordinary people could reach. Nearly every affordable performance car of the last fifty years is a response to it.'},
+    {m:'vw', n:'Golf Mk1', y:1974, b:'hatch',
+     note:'Front engine, front drive, transverse layout, hatchback body — the arrangement almost every small car still uses.',
+     specs:[['Layout','Transverse FWD'],['Engine','1.1–1.6L'],['Built','6.9 million'],['Designer','Giorgetto Giugiaro']],
+     why:'It replaced the Beetle and set the template for the modern small car so completely that the layout is now simply assumed. Measured by imitation, it may be the most influential car ever built.'},
+
+    {m:'opl', n:'Kadett A', y:1962, b:'saloon',
+     note:'Opel\u2019s answer to the Beetle, built in a factory constructed specifically for it.',
+     specs:[['Engine','1.0L 4-cyl'],['Power','40 hp'],['Weight','670 kg'],['Built','649,512']],
+     why:'It brought conventional front-engine, water-cooled engineering to the cheapest end of the German market, and forced Volkswagen to eventually abandon the air-cooled rear-engine layout entirely.'},
+    {m:'opl', n:'GT', y:1968, b:'sports',
+     note:'A small coupe with headlights that rotated by hand lever, styled in-house and built in France.',
+     specs:[['Engine','1.1L / 1.9L'],['Power','67–102 hp'],['Cd','0.39'],['Built','103,463']],
+     why:'It showed a mass-market brand could sell a genuinely desirable sports car using ordinary saloon parts. The approach — sports body, existing mechanicals, affordable price — became the standard route for every mainstream maker since.'},
+    {m:'opl', n:'Kadett D', y:1979, b:'hatch',
+     note:'Opel\u2019s first front-wheel-drive car, six years after the Golf proved the format.',
+     specs:[['Layout','Transverse FWD'],['Engine','1.0–1.8L'],['Built','2.1 million'],['Award','Car of the Year 1985 (E)']],
+     why:'It moved General Motors\u2019 entire European small-car operation to front-wheel drive, and the platform underneath went on to be used worldwide — reaching markets on four continents under five different badges.'},
+    {m:'opl', n:'Ampera', y:2011, b:'hatch',
+     note:'An electric car with a petrol generator on board, for when the battery ran out.',
+     specs:[['Electric range','40–80 km'],['Total range','500+ km'],['Award','Car of the Year 2012'],['Built','~10,000']],
+     why:'The first range-extended electric car sold in Europe in volume. It addressed range anxiety a decade before charging networks made it moot, and the plug-in hybrids that now dominate European sales use its logic.'}
+  ];
+
+  /* ---------- silhouette markup ---------- */
+  function sil(body){
+    return '<div class="sil b-' + body + '">' +
+      '<span class="body"></span><span class="roof"></span>' +
+      '<span class="wheel w1"></span><span class="wheel w2"></span></div>';
+  }
+
+  /* ---------- build the grid ---------- */
+  var grid = $('grid');
+  CARS.forEach(function(c, i){
+    var el = document.createElement('button');
+    el.className = 'car';
+    el.setAttribute('data-m', c.m);
+    el.setAttribute('data-i', i);
+    el.setAttribute('type', 'button');
+    el.style.setProperty('--mc', 'var(' + MARQUES[c.m].v + ')');
+    el.innerHTML =
+      '<div class="car-top"><span class="car-marque">' + MARQUES[c.m].name + '</span>' +
+      '<span class="car-year">' + c.y + '</span></div>' +
+      sil(c.b) +
+      '<h3>' + c.n + '</h3>' +
+      '<p class="note">' + c.note + '</p>' +
+      '<span class="why">Why it mattered</span>';
+    grid.appendChild(el);
+  });
+
+  /* ---------- timeline ---------- */
+  var track = $('tlTrack');
+  var years = CARS.map(function(c){ return c.y; });
+  var minY = 1930, maxY = 2020;
+  function pct(y){ return ((y - minY) / (maxY - minY)) * 100; }
+
+  for (var d = 1930; d <= 2020; d += 10){
+    var dm = document.createElement('div');
+    dm.className = 'tl-decade';
+    dm.style.left = pct(d) + '%';
+    dm.innerHTML = '<i></i><span>' + d + '</span>';
+    track.appendChild(dm);
+  }
+  CARS.forEach(function(c, i){
+    var b = document.createElement('button');
+    b.className = 'tl-pt';
+    b.type = 'button';
+    b.style.left = pct(c.y) + '%';
+    b.style.setProperty('--dotc', 'var(' + MARQUES[c.m].v + ')');
+    b.setAttribute('data-i', i);
+    b.setAttribute('aria-label', c.n + ', ' + c.y);
+    b.innerHTML = '<em>' + c.n + '</em><i></i>';
+    b.setAttribute('data-y', c.y);
+    track.appendChild(b);
+  });
+
+  /* Stagger timeline labels: cars close in year get pushed to a higher
+     tier so their names don't sit on top of each other. */
+  (function(){
+    var pts = Array.prototype.slice.call(track.querySelectorAll('.tl-pt'));
+    pts.sort(function(a,b){ return a.getAttribute('data-y') - b.getAttribute('data-y'); });
+    var lastYear = -99, tier = 0;
+    pts.forEach(function(pt){
+      var y = parseInt(pt.getAttribute('data-y'), 10);
+      if (y - lastYear < 6) { tier = (tier + 1) % 3; }
+      else { tier = 0; }
+      pt.classList.add('t' + tier);
+      lastYear = y;
+    });
+  })();
+
+  /* ---------- filtering, with cards travelling to their new places ----------
+     Measure positions, apply the filter, measure again, then animate the
+     difference away. Cards slide from where they were to where they now are. */
+  var chips = document.querySelectorAll('.chip');
+  var count = $('count');
+  var current = 'all';
+
+  function applyFilter(f){
+    var cards = Array.prototype.slice.call(grid.children);
+    var first = cards.map(function(el){ return el.getBoundingClientRect(); });
+
+    cards.forEach(function(el){
+      var show = (f === 'all') || el.getAttribute('data-m') === f;
+      el.classList.toggle('hide', !show);
+    });
+
+    var shown = cards.filter(function(el){ return !el.classList.contains('hide'); });
+    count.textContent = f === 'all'
+      ? 'Showing all 24 cars'
+      : 'Showing ' + shown.length + ' ' + MARQUES[f].name + ' cars';
+
+    if (reduce) return;
+
+    cards.forEach(function(el, i){
+      if (el.classList.contains('hide')) return;
+      var last = el.getBoundingClientRect();
+      var dx = first[i].left - last.left;
+      var dy = first[i].top - last.top;
+      if (!dx && !dy) return;
+      el.style.transition = 'none';
+      el.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+      requestAnimationFrame(function(){
+        el.style.transition = 'transform .5s cubic-bezier(.16,1,.3,1)';
+        el.style.transform = '';
+      });
+    });
+  }
+
+  Array.prototype.forEach.call(chips, function(ch){
+    ch.addEventListener('click', function(){
+      var f = ch.getAttribute('data-f');
+      if (f === current) return;
+      current = f;
+      Array.prototype.forEach.call(chips, function(o){
+        o.setAttribute('aria-pressed', o === ch ? 'true' : 'false');
+      });
+      applyFilter(f);
+    });
+  });
+
+  /* ---------- detail panel ---------- */
+  var panel = $('panel'), lastFocus = null;
+
+  function openCar(i){
+    var c = CARS[i];
+    if (!c) return;
+    $('pMarque').textContent = MARQUES[c.m].name;
+    $('pMarque').style.setProperty('--pmc', 'var(' + MARQUES[c.m].v + ')');
+    $('pTitle').textContent = c.n;
+    $('pYear').textContent = c.y;
+    $('pNote').textContent = c.note;
+    $('pWhy').textContent = c.why;
+
+    var s = $('pSil');
+    s.innerHTML = sil(c.b);
+    s.firstChild.style.setProperty('--mc', 'var(' + MARQUES[c.m].v + ')');
+
+    var dl = $('pSpecs');
+    dl.innerHTML = '';
+    c.specs.forEach(function(sp){
+      var d = document.createElement('div');
+      d.className = 'spec';
+      d.innerHTML = '<dt>' + sp[0] + '</dt><dd>' + sp[1] + '</dd>';
+      dl.appendChild(d);
+    });
+
+    lastFocus = document.activeElement;
+    panel.classList.add('on');
+    panel.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    $('panelClose').focus();
+  }
+
+  function closeCar(){
+    panel.classList.remove('on');
+    panel.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+  }
+
+  grid.addEventListener('click', function(e){
+    var card = e.target.closest('.car');
+    if (card) openCar(parseInt(card.getAttribute('data-i'), 10));
+  });
+  track.addEventListener('click', function(e){
+    var pt = e.target.closest('.tl-pt');
+    if (pt) openCar(parseInt(pt.getAttribute('data-i'), 10));
+  });
+  $('panelClose').addEventListener('click', closeCar);
+  $('panelBg').addEventListener('click', closeCar);
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && panel.classList.contains('on')) closeCar();
+  });
+
+  /* ---------- nav ---------- */
+  var nav = $('nav');
+  function onScroll(){ if (nav) nav.classList.toggle('stuck', window.scrollY > 6); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  var burger = $('burger'), menu = $('menu');
+  if (burger) burger.addEventListener('click', function(){
+    var o = !document.body.classList.contains('open');
+    document.body.classList.toggle('open', o);
+    burger.setAttribute('aria-expanded', o ? 'true' : 'false');
+  });
+  if (menu) menu.addEventListener('click', function(e){
+    if (e.target.tagName === 'A'){
+      document.body.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  $('yr').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
