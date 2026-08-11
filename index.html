@@ -47,6 +47,7 @@
   --p4:#A07845;   /* meridian – ochre */
   --p5:#3F6E77;   /* northline – teal */
   --p6:#4A5259;   /* axis – graphite */
+  --p7:#3C6B57;   /* nerva – watch green */
 
   --display:'Newsreader',Georgia,serif;
   --body:'Chivo',system-ui,-apple-system,sans-serif;
@@ -240,7 +241,20 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
 }
 
 /* six distinct CSS marks — no shape reused */
-.m-plates,.m-arc,.m-bottle,.m-elev,.m-flow,.m-axis{position:absolute;inset:0;}
+.m-plates,.m-arc,.m-bottle,.m-elev,.m-flow,.m-axis,.m-dial{position:absolute;inset:0;}
+
+/* 7 · watch dial - ticks around a rim, two hands */
+.m-dial .rim{position:absolute;left:4px;top:2px;width:74px;height:74px;border-radius:50%;
+  border:1.6px solid var(--p7);opacity:.85;}
+.m-dial .tk{position:absolute;left:4px;top:2px;width:74px;height:74px;border-radius:50%;
+  background:repeating-conic-gradient(from -1deg, var(--p7) 0deg 2deg, transparent 2deg 30deg);
+  -webkit-mask:radial-gradient(circle closest-side, transparent 0 74%, #000 74% 90%, transparent 90%);
+          mask:radial-gradient(circle closest-side, transparent 0 74%, #000 74% 90%, transparent 90%);
+  opacity:.8;}
+.m-dial .hd{position:absolute;left:41px;bottom:39px;width:2px;transform-origin:50% 100%;
+  background:var(--p7);border-radius:1px;}
+.m-dial .hd.a{height:20px;transform:rotate(300deg);}
+.m-dial .hd.b{height:28px;transform:rotate(65deg);}
 
 /* 1 · weight plates, stacked bars */
 .m-plates i{position:absolute;left:0;height:7px;border-radius:2px;background:var(--p1);}
@@ -486,7 +500,7 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
     <div class="work-head">
       <div>
         <span class="tag">Selected work</span>
-        <h2 class="h-sec">Six builds, six different problems.</h2>
+        <h2 class="h-sec">Seven builds, seven different problems.</h2>
         <p class="lede">Each one solves something specific &mdash; filling a quiet weekday, justifying a price, getting the phone to ring.</p>
       </div>
     </div>
@@ -538,6 +552,14 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
         <h3>Axis Digital</h3>
         <p class="cat">This studio &middot; Studio site</p>
         <p>The earlier studio site, built dark and typographic. Kept as a reference for a different register.</p>
+        <a class="view" href="#" data-demo>View demo <span class="arrow">&rarr;</span></a>
+      </article>
+
+      <article class="card">
+        <div class="card-mark"><div class="m-dial"><span class="rim"></span><span class="tk"></span><span class="hd a"></span><span class="hd b"></span></div></div>
+        <h3>NERVA</h3>
+        <p class="cat">Watch brand &middot; E-commerce</p>
+        <p>An independent watch label selling direct. Bilingual, and the hero dial keeps the real time.</p>
         <a class="view" href="#" data-demo>View demo <span class="arrow">&rarr;</span></a>
       </article>
 
@@ -827,7 +849,8 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
     'nocturne-parfums.html',
     'meridian-atelier.html',
     'northline-heating-air.html',
-    'axis-digital-website.html'
+    'axis-digital-website.html',
+    'nerva-watches.html'
   ];
   var demoLinks = document.querySelectorAll('[data-demo]');
   Array.prototype.forEach.call(demoLinks, function(a, i){

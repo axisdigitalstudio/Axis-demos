@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NERVA — Watches built to be worn</title>
+<meta name="description" content="NERVA makes mechanical and quartz watches for people buying their first serious piece. Sapphire, 316L steel, honest specifications. 3,000–6,000 EGP." />
+<meta name="theme-color" content="#0E1C24" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<style>
+/* ==========================================================================
+   NERVA — independent watch brand, Cairo
+   Palette   petrol #0E1C24 · steel #D6DCE0 · lume #C9F2D4 · ivory #EFEAE0
+   Type      Marcellus (display) · Karla (body) · Space Mono (specs)
+             Tajawal for Arabic
+   Signature the hero dial keeps real time. It is the object being sold,
+             so it leads the page instead of a headline over a stat panel.
+   ========================================================================== */
+
+:root{
+  --petrol:#0E1C24;
+  --petrol-2:#14262F;
+  --petrol-3:#1B333E;
+  --ink:#0A1419;
+
+  --steel:#D6DCE0;
+  --steel-2:#9FAEB6;
+  --muted:#6E828C;
+
+  --ivory:#EFEAE0;
+  --lume:#C9F2D4;
+  --lume-deep:#5FA97C;
+
+  --line:rgba(214,220,224,.14);
+  --line-soft:rgba(214,220,224,.07);
+
+  --display:'Marcellus',Georgia,serif;
+  --body:'Karla',system-ui,-apple-system,sans-serif;
+  --spec:'Space Mono',ui-monospace,monospace;
+  --arabic:'Tajawal',system-ui,sans-serif;
+
+  --shell:1200px;
+  --pad:clamp(20px,5vw,52px);
+  --sec:clamp(72px,9vw,128px);
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--petrol);color:var(--steel-2);
+  font-family:var(--body);font-size:16px;line-height:1.65;font-weight:400;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body[dir="rtl"]{font-family:var(--arabic);}
+body[dir="rtl"] h1,body[dir="rtl"] h2,body[dir="rtl"] h3,body[dir="rtl"] .wordmark b{font-family:var(--arabic);}
+
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:400;color:var(--ivory);
+  line-height:1.15;letter-spacing:.005em;}
+p{margin:0 0 1.05em;}
+p:last-child{margin-bottom:0;}
+a{color:inherit;text-decoration:none;}
+::selection{background:var(--lume);color:var(--ink);}
+
+.shell{width:100%;max-width:var(--shell);margin-inline:auto;padding-inline:var(--pad);}
+.sec{padding-block:var(--sec);}
+
+.skip{position:absolute;top:0;inset-inline-start:0;z-index:300;background:var(--lume);color:var(--ink);
+  padding:12px 18px;font-weight:600;transform:translateY(-130%);
+  transition:transform .2s var(--ease);}
+.skip:focus{transform:none;}
+:focus-visible{outline:2px solid var(--lume);outline-offset:3px;}
+
+.eyebrow{
+  font-family:var(--spec);font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--lume-deep);margin:0 0 18px;display:block;
+}
+.h2{font-size:clamp(1.7rem,3.6vw,2.5rem);margin-bottom:14px;}
+.lede{max-width:56ch;color:var(--steel-2);font-size:clamp(.98rem,1.2vw,1.05rem);}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  font-family:var(--body);font-weight:600;font-size:.88rem;letter-spacing:.02em;
+  padding:14px 26px;border-radius:2px;border:1px solid transparent;cursor:pointer;
+  transition:background .24s var(--ease),color .24s var(--ease),border-color .24s var(--ease);
+}
+.btn-lume{background:var(--lume);color:var(--ink);}
+.btn-lume:hover{background:#DDF8E4;}
+.btn-line{background:transparent;color:var(--ivory);border-color:var(--line);}
+.btn-line:hover{border-color:var(--lume);color:var(--lume);}
+
+/* ============================== NAV ============================== */
+.nav{position:sticky;top:0;z-index:100;background:rgba(14,28,36,.9);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;transition:border-color .3s var(--ease);}
+.nav.stuck{border-bottom-color:var(--line);}
+.nav-in{max-width:var(--shell);margin-inline:auto;padding-inline:var(--pad);
+  height:70px;display:flex;align-items:center;justify-content:space-between;gap:18px;}
+.wordmark{display:flex;flex-direction:column;line-height:1;}
+.wordmark b{font-family:var(--display);font-size:1.3rem;letter-spacing:.3em;color:var(--ivory);font-weight:400;}
+.wordmark span{font-family:var(--spec);font-size:.54rem;letter-spacing:.26em;color:var(--muted);
+  text-transform:uppercase;margin-top:6px;}
+.nav-links{display:flex;gap:26px;list-style:none;margin:0;padding:0;}
+.nav-links a{font-size:.86rem;color:var(--steel-2);transition:color .2s var(--ease);}
+.nav-links a:hover{color:var(--ivory);}
+.nav-tools{display:flex;align-items:center;gap:12px;}
+
+.lang{
+  font-family:var(--spec);font-size:.68rem;letter-spacing:.1em;color:var(--steel-2);
+  background:transparent;border:1px solid var(--line);border-radius:2px;
+  padding:7px 11px;cursor:pointer;transition:border-color .2s var(--ease),color .2s var(--ease);
+}
+.lang:hover{border-color:var(--lume);color:var(--lume);}
+
+.bag{
+  display:inline-flex;align-items:center;gap:8px;font-family:var(--spec);font-size:.7rem;
+  color:var(--ivory);background:transparent;border:1px solid var(--line);border-radius:2px;
+  padding:7px 12px;cursor:pointer;transition:border-color .2s var(--ease);
+}
+.bag:hover{border-color:var(--lume);}
+.bag b{color:var(--lume);}
+
+.burger{display:none;width:38px;height:34px;border:1px solid var(--line);border-radius:2px;
+  background:transparent;cursor:pointer;position:relative;padding:0;}
+.burger i{position:absolute;left:9px;right:9px;height:1.4px;background:var(--ivory);}
+.burger i:nth-child(1){top:11px;} .burger i:nth-child(2){top:16px;} .burger i:nth-child(3){top:21px;}
+@media(max-width:880px){
+  .nav-links{position:fixed;inset:70px 0 auto 0;background:var(--petrol-2);flex-direction:column;
+    gap:0;padding:6px var(--pad) 20px;border-bottom:1px solid var(--line);
+    transform:translateY(-12px);opacity:0;visibility:hidden;
+    transition:transform .26s var(--ease),opacity .26s var(--ease),visibility .26s;}
+  body.menu-open .nav-links{transform:none;opacity:1;visibility:visible;}
+  .nav-links li{width:100%;}
+  .nav-links a{display:block;padding:13px 0;border-bottom:1px solid var(--line-soft);}
+  .burger{display:block;}
+}
+
+/* ============================== HERO ============================== */
+.hero{position:relative;overflow:hidden;padding-block:clamp(40px,6vw,74px) clamp(56px,7vw,96px);}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(52% 44% at 72% 18%, rgba(201,242,212,.09), transparent 62%),
+    radial-gradient(60% 50% at 8% 92%, rgba(27,51,62,.7), transparent 60%);
+}
+.hero-grid{position:relative;z-index:1;display:grid;gap:clamp(40px,5vw,58px);align-items:center;}
+@media(min-width:900px){.hero-grid{grid-template-columns:1fr 1fr;}}
+.hero h1{font-size:clamp(2.1rem,4.8vw,3.3rem);max-width:14ch;}
+.hero .sub{margin-top:20px;max-width:44ch;}
+.hero-acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;}
+.hero-specs{display:flex;flex-wrap:wrap;gap:18px 34px;margin-top:32px;padding-top:24px;border-top:1px solid var(--line);}
+.hero-specs div{min-width:104px;}
+.hero-specs dt{font-family:var(--spec);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:5px;}
+.hero-specs dd{margin:0;color:var(--ivory);font-size:.92rem;font-weight:500;}
+
+/* ---------- the live dial ---------- */
+.watch-stage{display:grid;place-items:center;}
+.watch{position:relative;width:min(86vw,380px);aspect-ratio:1;}
+.case{
+  position:absolute;inset:0;border-radius:50%;
+  background:
+    conic-gradient(from 210deg, #E8EDF0 0deg, #97A6AE 55deg, #F2F5F7 120deg, #85939B 200deg,
+                   #DDE4E8 275deg, #93A2AA 330deg, #E8EDF0 360deg);
+  padding:14px;
+  box-shadow:0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.08) inset;
+}
+.dial{
+  position:absolute;inset:14px;border-radius:50%;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 38%, #1B3A47 0%, #10242D 58%, #0A181F 100%);
+}
+/* guilloché — concentric machining, the texture that says "dial" */
+.dial::before{
+  content:"";position:absolute;inset:0;border-radius:50%;opacity:.5;
+  background:repeating-radial-gradient(circle at 50% 50%,
+    rgba(255,255,255,.055) 0 1px, transparent 1px 5px);
+}
+.ticks{position:absolute;inset:0;border-radius:50%;pointer-events:none;}
+.ticks::before{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:repeating-conic-gradient(from -0.7deg,
+    #EDF2F4 0deg 1.4deg, transparent 1.4deg 30deg);
+  -webkit-mask:radial-gradient(circle closest-side, transparent 0 80%, #000 80% 89%, transparent 89%);
+          mask:radial-gradient(circle closest-side, transparent 0 80%, #000 80% 89%, transparent 89%);
+}
+.ticks::after{
+  content:"";position:absolute;inset:0;border-radius:50%;opacity:.55;
+  background:repeating-conic-gradient(from -0.25deg,
+    #9FAEB6 0deg .5deg, transparent .5deg 6deg);
+  -webkit-mask:radial-gradient(circle closest-side, transparent 0 89%, #000 89% 95%, transparent 95%);
+          mask:radial-gradient(circle closest-side, transparent 0 89%, #000 89% 95%, transparent 95%);
+}
+/* the four cardinal indices, heavier - drawn as a separate ring */
+.ticks-cardinal{position:absolute;inset:0;border-radius:50%;pointer-events:none;}
+.ticks-cardinal::before{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:repeating-conic-gradient(from -1.6deg,
+    #FFFFFF 0deg 3.2deg, transparent 3.2deg 90deg);
+  -webkit-mask:radial-gradient(circle closest-side, transparent 0 74%, #000 74% 89%, transparent 89%);
+          mask:radial-gradient(circle closest-side, transparent 0 74%, #000 74% 89%, transparent 89%);
+}
+.brandline{
+  position:absolute;left:0;right:0;top:29%;text-align:center;
+  font-family:var(--display);font-size:clamp(.8rem,2.6vw,1rem);letter-spacing:.42em;
+  color:var(--ivory);text-indent:.42em;
+}
+.brandsub{
+  position:absolute;left:0;right:0;top:38%;text-align:center;
+  font-family:var(--spec);font-size:clamp(.42rem,1.3vw,.52rem);letter-spacing:.28em;
+  color:var(--steel-2);text-transform:uppercase;text-indent:.28em;
+}
+.datewin{
+  position:absolute;left:50%;top:63%;transform:translateX(-50%);
+  min-width:34px;padding:3px 7px;background:#E9EEF1;color:#10242D;border-radius:2px;
+  font-family:var(--spec);font-size:.62rem;text-align:center;letter-spacing:.04em;
+  box-shadow:0 0 0 1px rgba(0,0,0,.35);
+}
+.hand{position:absolute;left:50%;bottom:50%;transform-origin:50% 100%;border-radius:2px;}
+.hand.h{width:6px;height:26%;margin-left:-3px;background:linear-gradient(180deg,var(--lume),#8FCBA4);
+  transform:rotate(300deg);}
+.hand.m{width:4px;height:37%;margin-left:-2px;background:linear-gradient(180deg,var(--lume),#8FCBA4);
+  transform:rotate(60deg);}
+.hand.s{width:1.6px;height:42%;margin-left:-.8px;background:#E0685A;transform:rotate(0deg);}
+.hand.s::after{content:"";position:absolute;left:50%;bottom:-9%;width:5px;height:12%;
+  margin-left:-2.5px;background:#E0685A;border-radius:2px;}
+.pin{position:absolute;left:50%;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;
+  border-radius:50%;background:#EDF2F4;box-shadow:0 0 0 2px #10242D;}
+.crown{position:absolute;top:50%;right:-11px;width:16px;height:32px;margin-top:-16px;border-radius:3px;
+  background:linear-gradient(90deg,#9FAEB6,#E4EAEE,#8E9DA5);}
+.stage-note{
+  margin-top:20px;font-family:var(--spec);font-size:.64rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);text-align:center;
+}
+
+/* ============================== COLLECTION ============================== */
+.collection{border-top:1px solid var(--line);background:var(--petrol-2);}
+.chead{display:flex;justify-content:space-between;align-items:flex-end;gap:26px;flex-wrap:wrap;margin-bottom:40px;}
+.grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr;}}
+@media(min-width:1000px){.grid{grid-template-columns:repeat(3,1fr);}}
+.card{background:var(--petrol-2);padding:26px 22px 22px;display:flex;flex-direction:column;
+  transition:background .3s var(--ease);}
+.card:hover{background:var(--petrol-3);}
+.card-stage{height:170px;display:grid;place-items:center;margin-bottom:20px;}
+
+/* small dials — each model reads differently */
+.w{position:relative;width:132px;height:132px;}
+.w .c{position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 210deg,#E4EAEE,#8E9DA5 60deg,#EFF3F5 150deg,#85939B 250deg,#E4EAEE);
+  padding:7px;box-shadow:0 14px 26px -14px rgba(0,0,0,.9);}
+.w .d{position:absolute;inset:7px;border-radius:50%;overflow:hidden;}
+.w .d::after{content:"";position:absolute;inset:0;border-radius:50%;
+  background:repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,.05) 0 1px, transparent 1px 4px);}
+.w .hh,.w .mm{position:absolute;left:50%;bottom:50%;transform-origin:50% 100%;border-radius:2px;z-index:3;}
+.w .hh{width:3.4px;height:25%;margin-left:-1.7px;}
+.w .mm{width:2.4px;height:35%;margin-left:-1.2px;}
+.w .pn{position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;
+  background:#EDF2F4;z-index:4;}
+.w .idx{position:absolute;left:50%;bottom:50%;width:2px;height:50%;transform-origin:50% 100%;
+  margin-left:-1px;z-index:2;}
+.w .idx i{display:block;width:2px;height:11%;margin-top:8%;border-radius:1px;}
+.w .sub{position:absolute;width:30%;height:30%;border-radius:50%;border:1px solid rgba(255,255,255,.18);z-index:2;}
+.w .bez{position:absolute;inset:0;border-radius:50%;z-index:1;
+  border:7px solid transparent;}
+
+/* per-model dial colour */
+.m-meridian .d{background:radial-gradient(circle at 50% 36%,#1D4152,#0E2833 70%);}
+.m-meridian .hh,.m-meridian .mm{background:var(--lume);}
+.m-meridian .idx i{background:#DCE6EA;}
+.m-sable    .d{background:radial-gradient(circle at 50% 36%,#F0E6D4,#D9C9AE 72%);}
+.m-sable    .hh,.m-sable .mm{background:#3B3227;}
+.m-sable    .idx i{background:#6E6250;}
+.m-deepline .d{background:radial-gradient(circle at 50% 36%,#1E5140,#0C2B22 72%);}
+.m-deepline .hh,.m-deepline .mm{background:var(--lume);}
+.m-deepline .idx i{background:#CFE9D8;}
+.m-deepline .bez{border-color:#22485A;box-shadow:0 0 0 1px rgba(255,255,255,.12) inset;}
+.m-atlas    .d{background:radial-gradient(circle at 50% 36%,#20242A,#0B0E12 72%);}
+.m-atlas    .hh,.m-atlas .mm{background:#E7ECEF;}
+.m-atlas    .idx i{background:#98A4AB;}
+.m-slim     .d{background:radial-gradient(circle at 50% 36%,#FBFBF9,#E4E5E2 74%);}
+.m-slim     .hh,.m-slim .mm{background:#22282C;}
+.m-slim     .idx i{background:#4A5257;}
+
+/* the rectangular one - genuinely a different case, not a recolour */
+.m-quadra .c{border-radius:10px;padding:8px;
+  background:conic-gradient(from 200deg,#E9EEF1,#93A2AA 70deg,#F2F5F7 160deg,#8E9DA5 260deg,#E9EEF1);}
+.m-quadra .d{border-radius:6px;background:linear-gradient(160deg,#F2EDE2,#DCD2BE);}
+.m-quadra .d::after{border-radius:6px;}
+.m-quadra .hh,.m-quadra .mm{background:#2E2A22;}
+.m-quadra .idx i{background:#6B6252;}
+.m-quadra{width:112px;height:150px;}
+
+.card h3{font-size:1.16rem;margin-bottom:4px;}
+.card .ref{font-family:var(--spec);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:12px;}
+.card .desc{font-size:.86rem;margin-bottom:16px;}
+.spec-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
+.chip{font-family:var(--spec);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--steel-2);border:1px solid var(--line);border-radius:2px;padding:4px 8px;}
+.card-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding-top:16px;border-top:1px solid var(--line-soft);}
+.price{font-family:var(--display);font-size:1.24rem;color:var(--ivory);}
+.price span{font-family:var(--spec);font-size:.6rem;color:var(--muted);margin-inline-start:5px;letter-spacing:.1em;}
+.add{font-family:var(--body);font-weight:600;font-size:.76rem;color:var(--ink);background:var(--lume);
+  border:0;border-radius:2px;padding:9px 14px;cursor:pointer;transition:background .2s var(--ease);}
+.add:hover{background:#DDF8E4;}
+
+/* ============================== SPEC DIAGRAM ============================== */
+.anatomy{border-top:1px solid var(--line);}
+.an-grid{display:grid;gap:clamp(36px,5vw,60px);align-items:center;}
+@media(min-width:900px){.an-grid{grid-template-columns:.95fr 1.05fr;}}
+.an-list{list-style:none;margin:26px 0 0;padding:0;border-top:1px solid var(--line);}
+.an-list li{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;
+  padding:16px 0;border-bottom:1px solid var(--line);}
+.an-key{font-family:var(--spec);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--lume-deep);padding-top:3px;min-width:74px;}
+.an-list b{display:block;color:var(--ivory);font-weight:600;font-size:.95rem;margin-bottom:3px;}
+.an-list p{margin:0;font-size:.86rem;}
+
+/* exploded stack — layers of the watch, top to bottom */
+.stack{display:grid;gap:12px;justify-items:center;}
+.layer{
+  width:min(74vw,300px);padding:14px 18px;border:1px solid var(--line);border-radius:3px;
+  background:linear-gradient(180deg,rgba(214,220,224,.06),rgba(214,220,224,.02));
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  transition:border-color .25s var(--ease),transform .25s var(--ease);
+}
+.layer:hover{border-color:var(--lume);transform:translateX(3px);}
+.layer b{color:var(--ivory);font-weight:600;font-size:.9rem;}
+.layer span{font-family:var(--spec);font-size:.62rem;color:var(--muted);letter-spacing:.08em;text-align:end;}
+
+/* ============================== ASSURANCE ============================== */
+.assure{background:var(--petrol-2);border-top:1px solid var(--line);}
+.a-grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:34px;}
+@media(min-width:780px){.a-grid{grid-template-columns:repeat(3,1fr);}}
+.a-cell{background:var(--petrol-2);padding:26px 22px;}
+.a-cell h3{font-size:1.02rem;margin-bottom:8px;}
+.a-cell p{font-size:.86rem;margin:0;}
+
+/* ============================== ORDER ============================== */
+.order{border-top:1px solid var(--line);}
+.o-grid{display:grid;gap:clamp(32px,5vw,56px);}
+@media(min-width:860px){.o-grid{grid-template-columns:1fr 1fr;}}
+.bagbox{border:1px solid var(--line);border-radius:3px;background:var(--petrol-2);}
+.bagbox h3{font-size:1rem;padding:16px 18px;border-bottom:1px solid var(--line-soft);margin:0;}
+.bag-list{list-style:none;margin:0;padding:0;min-height:96px;}
+.bag-list li{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:13px 18px;border-bottom:1px solid var(--line-soft);font-size:.88rem;}
+.bag-list .nm{color:var(--ivory);}
+.bag-list button{background:transparent;border:0;color:var(--muted);cursor:pointer;
+  font-family:var(--spec);font-size:.68rem;padding:4px 6px;}
+.bag-list button:hover{color:#E0685A;}
+.bag-empty{padding:30px 18px;color:var(--muted);font-size:.86rem;text-align:center;}
+.bag-total{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;
+  border-top:1px solid var(--line);font-family:var(--spec);font-size:.78rem;color:var(--ivory);}
+.bag-cta{padding:16px 18px;}
+.bag-cta .btn{width:100%;}
+.o-note{margin-top:14px;font-size:.8rem;color:var(--muted);}
+
+.field{margin-bottom:14px;}
+.field label{display:block;font-family:var(--spec);font-size:.62rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.field input,.field textarea{width:100%;background:rgba(214,220,224,.05);color:var(--ivory);
+  border:1px solid var(--line);border-radius:2px;padding:12px 13px;font:inherit;font-size:.92rem;}
+.field textarea{min-height:92px;resize:vertical;}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--lume);}
+.field.bad input,.field.bad textarea{border-color:#E0685A;}
+.field .err{display:none;color:#F0968A;font-size:.75rem;margin-top:5px;}
+.field.bad .err{display:block;}
+.fstat{display:none;margin-top:14px;padding:12px 14px;border-radius:2px;font-size:.87rem;}
+.fstat.show{display:block;}
+.fstat.ok{background:rgba(95,169,124,.16);color:var(--lume);border:1px solid rgba(95,169,124,.4);}
+.fstat.no{background:rgba(224,104,90,.12);color:#F0968A;border:1px solid rgba(224,104,90,.34);}
+
+/* ============================== FOOTER ============================== */
+.foot{border-top:1px solid var(--line);background:var(--ink);}
+.foot-in{padding-block:32px;display:flex;flex-wrap:wrap;gap:18px 36px;
+  justify-content:space-between;align-items:center;}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap;font-size:.85rem;}
+.foot-links a:hover{color:var(--lume);}
+.foot small{font-family:var(--spec);font-size:.66rem;color:var(--muted);letter-spacing:.06em;}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;}
+  html{scroll-behavior:auto;}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-en="Skip to content" data-ar="تخطي إلى المحتوى">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a href="#top" class="wordmark"><b>NERVA</b><span data-en="Cairo" data-ar="القاهرة">Cairo</span></a>
+    <ul class="nav-links" id="menu">
+      <li><a href="#collection" data-en="Collection" data-ar="المجموعة">Collection</a></li>
+      <li><a href="#anatomy" data-en="What's inside" data-ar="المكوّنات">What's inside</a></li>
+      <li><a href="#assurance" data-en="Guarantee" data-ar="الضمان">Guarantee</a></li>
+      <li><a href="#order" data-en="Order" data-ar="اطلب">Order</a></li>
+    </ul>
+    <div class="nav-tools">
+      <button class="lang" id="lang" aria-label="Switch language">العربية</button>
+      <button class="bag" id="bagBtn"><span data-en="Bag" data-ar="الحقيبة">Bag</span> <b id="bagN">0</b></button>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="shell hero-grid">
+    <div>
+      <span class="eyebrow" data-en="Independent · Assembled in Cairo" data-ar="مستقلة · تُجمَّع في القاهرة">Independent · Assembled in Cairo</span>
+      <h1 data-en="A serious watch, without the markup." data-ar="ساعة جادة، بدون مبالغة في السعر.">A serious watch, without the markup.</h1>
+      <p class="sub" data-en="NERVA builds watches for the person buying their first proper piece. Sapphire crystal, 316L steel, movements we name openly — and a price that isn't paying for someone else's advertising." data-ar="نصنع ساعات لمن يشتري أول قطعة حقيقية له. زجاج سافير، ستيل ٣١٦ إل، وحركات نذكر اسمها بوضوح — وسعر لا يدفع ثمن إعلانات غيرنا.">NERVA builds watches for the person buying their first proper piece. Sapphire crystal, 316L steel, movements we name openly — and a price that isn't paying for someone else's advertising.</p>
+      <div class="hero-acts">
+        <a href="#collection" class="btn btn-lume" data-en="See the collection" data-ar="شاهد المجموعة">See the collection</a>
+        <a href="#anatomy" class="btn btn-line" data-en="What you're paying for" data-ar="مقابل ماذا تدفع">What you're paying for</a>
+      </div>
+      <dl class="hero-specs">
+        <div><dt data-en="Range" data-ar="النطاق">Range</dt><dd>3,000 – 6,000 EGP</dd></div>
+        <div><dt data-en="Warranty" data-ar="الضمان">Warranty</dt><dd data-en="2 years" data-ar="سنتان">2 years</dd></div>
+        <div><dt data-en="Delivery" data-ar="التوصيل">Delivery</dt><dd data-en="2–4 days, nationwide" data-ar="٢–٤ أيام لكل المحافظات">2–4 days, nationwide</dd></div>
+      </dl>
+    </div>
+
+    <div class="watch-stage">
+      <div class="watch" id="watch" role="img" aria-label="NERVA Meridian Chronograph showing the current time">
+        <div class="case" aria-hidden="true"></div>
+        <div class="crown" aria-hidden="true"></div>
+        <div class="dial" aria-hidden="true">
+          <span class="brandline">NERVA</span>
+          <span class="brandsub">Meridian · Automatic</span>
+          <div class="ticks"></div>
+          <div class="ticks-cardinal"></div>
+          <div class="datewin" id="dateWin">11</div>
+          <div class="hand h" id="hH"></div>
+          <div class="hand m" id="hM"></div>
+          <div class="hand s" id="hS"></div>
+          <div class="pin"></div>
+        </div>
+      </div>
+      <p class="stage-note" id="stageNote" data-en="Showing 10:10 — the classic pose" data-ar="تشير إلى ١٠:١٠ — الوضع التقليدي">Showing 10:10 — the classic pose</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ COLLECTION ============================ -->
+<section class="sec collection" id="collection">
+  <div class="shell">
+    <div class="chead">
+      <div>
+        <span class="eyebrow" data-en="The collection" data-ar="المجموعة">The collection</span>
+        <h2 class="h2" data-en="Six watches. No filler." data-ar="ست ساعات. بلا حشو.">Six watches. No filler.</h2>
+        <p class="lede" data-en="Every model exists because it does something the others don't. Specifications are listed in full, including the movement — most brands at this price won't tell you." data-ar="كل موديل موجود لأنه يقدّم ما لا يقدّمه غيره. المواصفات كاملة، بما فيها الحركة — أغلب الماركات في هذا السعر لا تذكرها.">Every model exists because it does something the others don't. Specifications are listed in full, including the movement — most brands at this price won't tell you.</p>
+      </div>
+    </div>
+
+    <div class="grid">
+
+      <article class="card">
+        <div class="card-stage">
+          <div class="w m-meridian"><div class="c"></div><div class="d"></div>
+            <div class="idx" style="transform:rotate(0deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(90deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(180deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(270deg)"><i></i></div>
+            <div class="hh" style="transform:rotate(300deg)"></div><div class="mm" style="transform:rotate(60deg)"></div><div class="pn"></div>
+          </div>
+        </div>
+        <h3>Meridian Automatic</h3>
+        <p class="ref">NRV-01 · 40mm</p>
+        <p class="desc" data-en="Petrol-blue guilloché dial, self-winding. The one to buy if you only buy one." data-ar="مينا أزرق بترولي بنقش جيوشيه، وحركة أوتوماتيك. اشترِ هذه إن كنت ستشتري واحدة فقط.">Petrol-blue guilloché dial, self-winding. The one to buy if you only buy one.</p>
+        <div class="spec-row"><span class="chip">Miyota 8215</span><span class="chip">Sapphire</span><span class="chip">50m</span></div>
+        <div class="card-foot">
+          <span class="price">5,900<span>EGP</span></span>
+          <button class="add" data-name="Meridian Automatic" data-price="5900" data-en="Add" data-ar="أضف">Add</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-stage">
+          <div class="w m-sable"><div class="c"></div><div class="d"></div>
+            <div class="idx" style="transform:rotate(0deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(90deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(180deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(270deg)"><i></i></div>
+            <div class="hh" style="transform:rotate(300deg)"></div><div class="mm" style="transform:rotate(60deg)"></div><div class="pn"></div>
+          </div>
+        </div>
+        <h3>Sable 38</h3>
+        <p class="ref">NRV-02 · 38mm</p>
+        <p class="desc" data-en="Sand dial, two hands, nothing else. Sits flat under a cuff." data-ar="مينا رملي، عقربان فقط، ولا شيء غير ذلك. ينزلق بسهولة تحت الكُم.">Sand dial, two hands, nothing else. Sits flat under a cuff.</p>
+        <div class="spec-row"><span class="chip">Seiko VJ21</span><span class="chip">Sapphire</span><span class="chip">30m</span></div>
+        <div class="card-foot">
+          <span class="price">3,400<span>EGP</span></span>
+          <button class="add" data-name="Sable 38" data-price="3400" data-en="Add" data-ar="أضف">Add</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-stage">
+          <div class="w m-deepline"><div class="c"></div><div class="d"></div><div class="bez"></div>
+            <div class="idx" style="transform:rotate(0deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(90deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(180deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(270deg)"><i></i></div>
+            <div class="hh" style="transform:rotate(300deg)"></div><div class="mm" style="transform:rotate(60deg)"></div><div class="pn"></div>
+          </div>
+        </div>
+        <h3>Deepline 200</h3>
+        <p class="ref">NRV-03 · 42mm</p>
+        <p class="desc" data-en="Green dial, timing bezel, 200m. Actually rated for the water, not styled for it." data-ar="مينا أخضر، إطار توقيت، ومقاومة ٢٠٠ متر. مصنّفة فعليًا للماء لا شكلًا فقط.">Green dial, timing bezel, 200m. Actually rated for the water, not styled for it.</p>
+        <div class="spec-row"><span class="chip">Miyota 8215</span><span class="chip">Sapphire</span><span class="chip">200m</span></div>
+        <div class="card-foot">
+          <span class="price">5,200<span>EGP</span></span>
+          <button class="add" data-name="Deepline 200" data-price="5200" data-en="Add" data-ar="أضف">Add</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-stage">
+          <div class="w m-quadra"><div class="c"></div><div class="d"></div>
+            <div class="hh" style="transform:rotate(300deg)"></div><div class="mm" style="transform:rotate(60deg)"></div><div class="pn"></div>
+          </div>
+        </div>
+        <h3>Quadra</h3>
+        <p class="ref">NRV-04 · 28×38mm</p>
+        <p class="desc" data-en="Rectangular case, champagne dial. The dress option, and the only one that isn't round." data-ar="علبة مستطيلة ومينا شامبانيا. الخيار الرسمي، وهي الوحيدة غير الدائرية.">Rectangular case, champagne dial. The dress option, and the only one that isn't round.</p>
+        <div class="spec-row"><span class="chip">Seiko VJ21</span><span class="chip">Sapphire</span><span class="chip">30m</span></div>
+        <div class="card-foot">
+          <span class="price">4,100<span>EGP</span></span>
+          <button class="add" data-name="Quadra" data-price="4100" data-en="Add" data-ar="أضف">Add</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-stage">
+          <div class="w m-atlas"><div class="c"></div><div class="d"></div>
+            <div class="sub" style="left:35%;top:52%"></div>
+            <div class="idx" style="transform:rotate(0deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(90deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(270deg)"><i></i></div>
+            <div class="hh" style="transform:rotate(300deg)"></div><div class="mm" style="transform:rotate(60deg)"></div><div class="pn"></div>
+          </div>
+        </div>
+        <h3>Atlas Open Heart</h3>
+        <p class="ref">NRV-05 · 41mm</p>
+        <p class="desc" data-en="A cut-away dial showing the balance wheel turning. Mechanical, visibly so." data-ar="مينا مفتوح يكشف عجلة التوازن وهي تدور. ميكانيكية، وتظهر ذلك.">A cut-away dial showing the balance wheel turning. Mechanical, visibly so.</p>
+        <div class="spec-row"><span class="chip">Miyota 82S0</span><span class="chip">Sapphire</span><span class="chip">50m</span></div>
+        <div class="card-foot">
+          <span class="price">6,000<span>EGP</span></span>
+          <button class="add" data-name="Atlas Open Heart" data-price="6000" data-en="Add" data-ar="أضف">Add</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-stage">
+          <div class="w m-slim"><div class="c"></div><div class="d"></div>
+            <div class="idx" style="transform:rotate(0deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(30deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(60deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(90deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(120deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(150deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(180deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(210deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(240deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(270deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(300deg)"><i></i></div>
+            <div class="idx" style="transform:rotate(330deg)"><i></i></div>
+            <div class="hh" style="transform:rotate(300deg)"></div><div class="mm" style="transform:rotate(60deg)"></div><div class="pn"></div>
+          </div>
+        </div>
+        <h3>Slim 36</h3>
+        <p class="ref">NRV-06 · 36mm · 7mm thick</p>
+        <p class="desc" data-en="White dial, twelve markers, 7mm thin. The quietest watch we make." data-ar="مينا أبيض، اثنا عشر مؤشرًا، وسماكة ٧ مم. أهدأ ساعاتنا.">White dial, twelve markers, 7mm thin. The quietest watch we make.</p>
+        <div class="spec-row"><span class="chip">Seiko VJ21</span><span class="chip">Sapphire</span><span class="chip">30m</span></div>
+        <div class="card-foot">
+          <span class="price">3,000<span>EGP</span></span>
+          <button class="add" data-name="Slim 36" data-price="3000" data-en="Add" data-ar="أضف">Add</button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ANATOMY ============================ -->
+<section class="sec anatomy" id="anatomy">
+  <div class="shell an-grid">
+    <div>
+      <span class="eyebrow" data-en="What you're paying for" data-ar="مقابل ماذا تدفع">What you're paying for</span>
+      <h2 class="h2" data-en="Five layers, top to bottom." data-ar="خمس طبقات، من أعلى لأسفل.">Five layers, top to bottom.</h2>
+      <p class="lede" data-en="A watch is a stack of parts, and the price is decided by which ones you skimp on. Here is every layer in a NERVA, and what a cheaper watch usually substitutes." data-ar="الساعة طبقات، والسعر يتحدد بما يُوفَّر منها. هذه كل طبقة في ساعة NERVA، وما تستبدله الساعات الأرخص عادة.">A watch is a stack of parts, and the price is decided by which ones you skimp on. Here is every layer in a NERVA, and what a cheaper watch usually substitutes.</p>
+
+      <ul class="an-list">
+        <li><span class="an-key">01 · Glass</span><div>
+          <b data-en="Sapphire crystal" data-ar="زجاج سافير">Sapphire crystal</b>
+          <p data-en="Scratches only against harder stone. Cheaper watches use mineral glass, which scuffs in a month against a doorframe." data-ar="لا يُخدش إلا بحجر أقسى منه. الساعات الأرخص تستخدم زجاجًا معدنيًا يتخدش خلال شهر.">Scratches only against harder stone. Cheaper watches use mineral glass, which scuffs in a month against a doorframe.</p></div></li>
+        <li><span class="an-key">02 · Case</span><div>
+          <b data-en="316L stainless steel" data-ar="ستانلس ستيل ٣١٦ إل">316L stainless steel</b>
+          <p data-en="The surgical grade. It doesn't turn a green ring on your wrist in Cairo summer the way plated brass does." data-ar="الدرجة الطبية. لا يترك أثرًا أخضر على المعصم في صيف القاهرة كما يفعل النحاس المطلي.">The surgical grade. It doesn't turn a green ring on your wrist in Cairo summer the way plated brass does.</p></div></li>
+        <li><span class="an-key">03 · Movement</span><div>
+          <b data-en="Miyota or Seiko, named" data-ar="ميوتا أو سيكو، بالاسم">Miyota or Seiko, named</b>
+          <p data-en="Japanese movements, listed by reference on every product. Any watchmaker can service them and parts are easy to find." data-ar="حركات يابانية مذكورة برقمها في كل منتج. أي صانع ساعات يستطيع صيانتها وقطع الغيار متوفرة.">Japanese movements, listed by reference on every product. Any watchmaker can service them and parts are easy to find.</p></div></li>
+        <li><span class="an-key">04 · Seal</span><div>
+          <b data-en="Screw-down caseback" data-ar="غطاء خلفي لولبي">Screw-down caseback</b>
+          <p data-en="Rated and tested, not decorative. The Deepline is pressure-tested to 200m; the dress models are 30m, and we say so." data-ar="مصنّف ومُختبر لا للزينة. Deepline مختبرة حتى ٢٠٠ متر، والموديلات الرسمية ٣٠ مترًا، ونقولها بوضوح.">Rated and tested, not decorative. The Deepline is pressure-tested to 200m; the dress models are 30m, and we say so.</p></div></li>
+        <li><span class="an-key">05 · Strap</span><div>
+          <b data-en="Quick-release, standard width" data-ar="سوار سريع الفك بمقاس قياسي">Quick-release, standard width</b>
+          <p data-en="20mm and 18mm, changeable by hand in seconds. No proprietary fitting that forces you back to us." data-ar="مقاس ٢٠ و١٨ مم، يُغيَّر باليد في ثوانٍ. بدون تركيبة خاصة تجبرك على العودة إلينا.">20mm and 18mm, changeable by hand in seconds. No proprietary fitting that forces you back to us.</p></div></li>
+      </ul>
+    </div>
+
+    <div class="stack" aria-hidden="true">
+      <div class="layer"><b>Sapphire crystal</b><span>1.8mm · AR coated</span></div>
+      <div class="layer"><b>Dial &amp; hands</b><span>Guilloché · Swiss Lume</span></div>
+      <div class="layer"><b>Movement</b><span>Miyota 8215 · 21j</span></div>
+      <div class="layer"><b>316L case</b><span>40mm · 11.2mm</span></div>
+      <div class="layer"><b>Screw caseback</b><span>Tested 50m</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ASSURANCE ============================ -->
+<section class="sec assure" id="assurance">
+  <div class="shell">
+    <span class="eyebrow" data-en="Buying from us" data-ar="الشراء منّا">Buying from us</span>
+    <h2 class="h2" data-en="The parts people worry about." data-ar="ما يقلق الناس عادة.">The parts people worry about.</h2>
+    <div class="a-grid">
+      <div class="a-cell">
+        <h3 data-en="Two-year warranty" data-ar="ضمان سنتان">Two-year warranty</h3>
+        <p data-en="Covers the movement and any manufacturing fault. Bring the watch and the card; we repair or replace. Water damage on a 30m model isn't covered — that's on the rating, and we print it on the box." data-ar="يغطي الحركة وأي عيب تصنيع. أحضر الساعة والبطاقة، ونقوم بالإصلاح أو الاستبدال. تلف الماء في موديل ٣٠ مترًا غير مغطى — وهذا مذكور على العلبة.">Covers the movement and any manufacturing fault. Bring the watch and the card; we repair or replace. Water damage on a 30m model isn't covered — that's on the rating, and we print it on the box.</p>
+      </div>
+      <div class="a-cell">
+        <h3 data-en="Seven days to change your mind" data-ar="سبعة أيام لتغيير رأيك">Seven days to change your mind</h3>
+        <p data-en="Unworn, in the box, with the tag. Full refund including the delivery you paid. A watch has to feel right on your own wrist, not in a photograph." data-ar="غير ملبوسة، في علبتها، ومعها البطاقة. استرداد كامل بما فيه التوصيل. الساعة يجب أن تناسب معصمك أنت، لا الصورة.">Unworn, in the box, with the tag. Full refund including the delivery you paid. A watch has to feel right on your own wrist, not in a photograph.</p>
+      </div>
+      <div class="a-cell">
+        <h3 data-en="Pay when it arrives" data-ar="ادفع عند الاستلام">Pay when it arrives</h3>
+        <p data-en="Cash on delivery anywhere in Egypt, or transfer if you prefer. Open the box in front of the courier and refuse it if it isn't right." data-ar="الدفع عند الاستلام في كل المحافظات، أو تحويل إن أردت. افتح العلبة أمام المندوب ولك أن ترفضها إن لم تعجبك.">Cash on delivery anywhere in Egypt, or transfer if you prefer. Open the box in front of the courier and refuse it if it isn't right.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ORDER ============================ -->
+<section class="sec order" id="order">
+  <div class="shell">
+    <span class="eyebrow" data-en="Order" data-ar="الطلب">Order</span>
+    <h2 class="h2" data-en="Send the order, we confirm by message." data-ar="أرسل الطلب، ونؤكده برسالة.">Send the order, we confirm by message.</h2>
+    <p class="lede" data-en="Add what you want, then send it through WhatsApp or the form. We reply with availability and a delivery date, and you pay when it reaches you." data-ar="أضف ما تريد ثم أرسله عبر واتساب أو النموذج. نرد بالتوفر وموعد التوصيل، وتدفع عند الاستلام.">Add what you want, then send it through WhatsApp or the form. We reply with availability and a delivery date, and you pay when it reaches you.</p>
+
+    <div class="o-grid" style="margin-top:34px">
+      <div>
+        <div class="bagbox">
+          <h3 data-en="Your bag" data-ar="حقيبتك">Your bag</h3>
+          <ul class="bag-list" id="bagList"></ul>
+          <div class="bag-empty" id="bagEmpty" data-en="Nothing added yet." data-ar="لم تُضف أي قطعة بعد.">Nothing added yet.</div>
+          <div class="bag-total"><span data-en="Total" data-ar="الإجمالي">Total</span><span id="bagTotal">0 EGP</span></div>
+          <div class="bag-cta">
+            <a class="btn btn-lume" id="waBtn" href="#" target="_blank" rel="noopener" data-en="Send order on WhatsApp" data-ar="أرسل الطلب على واتساب">Send order on WhatsApp</a>
+          </div>
+        </div>
+        <p class="o-note" data-en="Opens WhatsApp with your list already written. Nothing is charged here." data-ar="يفتح واتساب وقائمتك مكتوبة بالفعل. لا يتم خصم أي مبلغ هنا.">Opens WhatsApp with your list already written. Nothing is charged here.</p>
+      </div>
+
+      <form id="oform" novalidate>
+        <div class="field">
+          <label for="f-name" data-en="Name" data-ar="الاسم">Name</label>
+          <input type="text" id="f-name" name="name" autocomplete="name" />
+          <span class="err" data-en="Please add your name." data-ar="من فضلك اكتب اسمك.">Please add your name.</span>
+        </div>
+        <div class="field">
+          <label for="f-phone" data-en="Phone" data-ar="رقم الهاتف">Phone</label>
+          <input type="tel" id="f-phone" name="phone" autocomplete="tel" />
+          <span class="err" data-en="A phone number is how we confirm the order." data-ar="نحتاج رقم الهاتف لتأكيد الطلب.">A phone number is how we confirm the order.</span>
+        </div>
+        <div class="field">
+          <label for="f-addr" data-en="Delivery address" data-ar="عنوان التوصيل">Delivery address</label>
+          <textarea id="f-addr" name="address"></textarea>
+          <span class="err" data-en="Street, area and city is enough." data-ar="الشارع والمنطقة والمدينة تكفي.">Street, area and city is enough.</span>
+        </div>
+        <button type="submit" class="btn btn-line" style="width:100%" data-en="Send order" data-ar="إرسال الطلب">Send order</button>
+        <div class="fstat" id="ostat" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="shell foot-in">
+    <a href="#top" class="wordmark"><b>NERVA</b><span data-en="Cairo" data-ar="القاهرة">Cairo</span></a>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="#collection" data-en="Collection" data-ar="المجموعة">Collection</a>
+      <a href="#anatomy" data-en="What's inside" data-ar="المكوّنات">What's inside</a>
+      <a href="#assurance" data-en="Guarantee" data-ar="الضمان">Guarantee</a>
+      <a href="#order" data-en="Order" data-ar="اطلب">Order</a>
+    </nav>
+    <small>&copy; <span id="yr">2026</span> NERVA</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+
+  /* ---------------- live time ----------------
+     The hands are set to 10:10 in CSS so a no-JS visitor still sees a
+     properly posed watch. If JS runs and motion is allowed, it keeps
+     real time instead. */
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hH = $('hH'), hM = $('hM'), hS = $('hS'), dw = $('dateWin'), note = $('stageNote');
+
+  function tick(){
+    var n = new Date();
+    var s = n.getSeconds(), m = n.getMinutes(), h = n.getHours() % 12;
+    if (hS) hS.style.transform = 'rotate(' + (s * 6) + 'deg)';
+    if (hM) hM.style.transform = 'rotate(' + (m * 6 + s * 0.1) + 'deg)';
+    if (hH) hH.style.transform = 'rotate(' + (h * 30 + m * 0.5) + 'deg)';
+    if (dw) dw.textContent = n.getDate();
+  }
+  if (!reduce && hS){
+    tick();
+    setInterval(tick, 1000);
+    if (note){
+      note.setAttribute('data-en', 'Keeping the actual time, right now');
+      note.setAttribute('data-ar', 'تعرض الوقت الحقيقي الآن');
+      note.textContent = 'Keeping the actual time, right now';
+    }
+  }
+
+  /* ---------------- language ---------------- */
+  var lang = 'en';
+  var langBtn = $('lang');
+  function applyLang(){
+    var nodes = document.querySelectorAll('[data-en]');
+    Array.prototype.forEach.call(nodes, function(el){
+      var v = el.getAttribute(lang === 'en' ? 'data-en' : 'data-ar');
+      if (v) el.textContent = v;
+    });
+    document.body.setAttribute('dir', lang === 'en' ? 'ltr' : 'rtl');
+    document.documentElement.setAttribute('lang', lang === 'en' ? 'en' : 'ar');
+    if (langBtn) langBtn.textContent = lang === 'en' ? 'العربية' : 'English';
+    renderBag();
+  }
+  if (langBtn){
+    langBtn.addEventListener('click', function(){
+      lang = (lang === 'en') ? 'ar' : 'en';
+      applyLang();
+    });
+  }
+
+  /* ---------------- menu ---------------- */
+  var burger = $('burger'), menu = $('menu');
+  function setMenu(open){
+    document.body.classList.toggle('menu-open', open);
+    if (burger) burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  if (burger) burger.addEventListener('click', function(){
+    setMenu(!document.body.classList.contains('menu-open'));
+  });
+  if (menu) menu.addEventListener('click', function(e){
+    if (e.target.tagName === 'A') setMenu(false);
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setMenu(false); });
+
+  var nav = $('nav');
+  function onScroll(){ if (nav) nav.classList.toggle('stuck', window.scrollY > 6); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  /* ---------------- bag ---------------- */
+  var WHATSAPP = '201111089255';   /* replace with the shop's number */
+  var bag = [];
+
+  function fmt(n){ return n.toLocaleString('en-US'); }
+
+  function renderBag(){
+    var list = $('bagList'), empty = $('bagEmpty'), total = $('bagTotal'), n = $('bagN');
+    if (!list) return;
+    list.innerHTML = '';
+    var sum = 0;
+    bag.forEach(function(item, i){
+      sum += item.price;
+      var li = document.createElement('li');
+      var nm = document.createElement('span');
+      nm.className = 'nm';
+      nm.textContent = item.name + ' — ' + fmt(item.price) + ' EGP';
+      var rm = document.createElement('button');
+      rm.type = 'button';
+      rm.textContent = lang === 'en' ? 'Remove' : 'إزالة';
+      rm.addEventListener('click', function(){ bag.splice(i,1); renderBag(); });
+      li.appendChild(nm); li.appendChild(rm);
+      list.appendChild(li);
+    });
+    if (empty) empty.style.display = bag.length ? 'none' : 'block';
+    if (total) total.textContent = fmt(sum) + ' EGP';
+    if (n) n.textContent = bag.length;
+
+    var wa = $('waBtn');
+    if (wa){
+      var lines = bag.map(function(b){ return '• ' + b.name + ' — ' + fmt(b.price) + ' EGP'; });
+      var msg = (lang === 'en' ? 'Hello NERVA, I would like to order:' : 'مرحبًا NERVA، أود طلب:')
+              + '\n' + (lines.join('\n') || '-')
+              + '\n' + (lang === 'en' ? 'Total: ' : 'الإجمالي: ') + fmt(sum) + ' EGP';
+      wa.setAttribute('href', 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(msg));
+    }
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.add'), function(btn){
+    btn.addEventListener('click', function(){
+      bag.push({ name: btn.getAttribute('data-name'), price: parseInt(btn.getAttribute('data-price'), 10) });
+      renderBag();
+      var original = btn.textContent;
+      btn.textContent = lang === 'en' ? 'Added' : 'أُضيفت';
+      setTimeout(function(){ btn.textContent = original; }, 1200);
+    });
+  });
+
+  var bagBtn = $('bagBtn');
+  if (bagBtn) bagBtn.addEventListener('click', function(){
+    var o = $('order'); if (o) o.scrollIntoView({behavior: reduce ? 'auto' : 'smooth'});
+  });
+
+  /* ---------------- order form ---------------- */
+  var form = $('oform'), ostat = $('ostat');
+  function bad(el, is){ el.closest('.field').classList.toggle('bad', is); }
+  if (form){
+    ['f-name','f-phone','f-addr'].forEach(function(id){
+      var el = $(id);
+      if (el) el.addEventListener('input', function(){ bad(el, false); });
+    });
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var ok = true;
+      [['f-name',1],['f-phone',6],['f-addr',4]].forEach(function(c){
+        var el = $(c[0]);
+        var good = el.value.trim().length >= c[1];
+        bad(el, !good);
+        if (!good && ok){ el.focus(); ok = false; }
+      });
+      if (!ok) return;
+      if (!bag.length){
+        ostat.className = 'fstat show no';
+        ostat.textContent = lang === 'en'
+          ? 'Add a watch to the bag first, then send the order.'
+          : 'أضف ساعة إلى الحقيبة أولًا ثم أرسل الطلب.';
+        return;
+      }
+      ostat.className = 'fstat show ok';
+      ostat.textContent = lang === 'en'
+        ? 'Order received. We reply on WhatsApp within a few hours to confirm stock and delivery.'
+        : 'تم استلام الطلب. سنرد على واتساب خلال ساعات لتأكيد التوفر والتوصيل.';
+      form.reset();
+    });
+  }
+
+  $('yr').textContent = new Date().getFullYear();
+  renderBag();
+})();
+</script>
+</body>
+</html>
