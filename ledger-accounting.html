@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nassar &amp; Halim — Chartered Accountants and Tax Advisers, Cairo</title>
+<meta name="description" content="A Cairo accounting practice for owner-managed Egyptian companies. Bookkeeping, VAT, payroll, e-invoicing and corporate returns. Licensed auditors, RAA register 3184. Retainers from 4,500 EGP a month." />
+<meta name="theme-color" content="#EEF1F4" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+<style>
+/* ==========================================================================
+   NASSAR & HALIM — chartered accountants and tax advisers, Cairo
+   Register  clinical-trust. Cool canvas, strong grid, plain language.
+   Palette   fog #EEF1F4 · paper #FFFFFF · ink #101820 · verdigris #14615C
+   Type      Space Grotesk (headings, labels, figures)
+             Spectral (body — a serif built for screen reading, so the long
+             explanations read like a well-set document rather than a page
+             of UI copy)
+   Motion    almost none. Nav settles, calendar rows lift under the cursor,
+             FAQ opens on a measured curve. Nothing bounces.
+   Signature the filing year — twelve months of Egyptian deadlines drawn as
+             a grid, so an owner can see the two-month VAT lag and the
+             15 June exception without being told.
+   ========================================================================== */
+
+:root{
+  /* --ink means "text colour", --canvas means "page colour". Both are
+     roles, not brightness values, so the scheme survives inversion. */
+  --ink:#101820;
+  --ink-2:#3A4653;
+  --ink-3:#6B7887;
+  --ink-inv:#F7F9FA;
+
+  --canvas:#EEF1F4;
+  --canvas-2:#E3E8ED;
+  --surface:#FFFFFF;
+  --surface-sunk:#E8ECF0;
+  --surface-deep:#141C25;
+
+  --line:#D3DAE1;
+  --line-soft:#E2E7EC;
+  --line-strong:#AFBAC5;
+
+  --accent:#14615C;
+  --accent-deep:#0D4642;
+  --accent-tint:#DCE9E7;
+
+  /* filing classes — desaturated so the calendar reads as a document,
+     not a dashboard */
+  --f-vat:#14615C;
+  --f-pay:#2E4A87;
+  --f-qtr:#6A4675;
+  --f-ann:#1B2A38;
+  --f-inv:#96602C;
+
+  --sans:'Space Grotesk','Helvetica Neue',Arial,sans-serif;
+  --serif:'Spectral',Georgia,'Times New Roman',serif;
+
+  --shell:1220px;
+  --pad:clamp(18px,4.5vw,52px);
+  --sec:clamp(64px,7.5vw,112px);
+
+  --ease:cubic-bezier(.32,.06,.16,1);
+  --ease-out:cubic-bezier(.16,.68,.24,1);
+  --t:.34s;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:104px;}
+body{
+  margin:0;background:var(--canvas);color:var(--ink-2);
+  font-family:var(--serif);font-size:17px;line-height:1.66;font-weight:400;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3,h4{margin:0;font-family:var(--sans);color:var(--ink);font-weight:500;
+  line-height:1.14;letter-spacing:-.018em;}
+p{margin:0 0 1em;}
+p:last-child{margin-bottom:0;}
+a{color:inherit;text-decoration:none;}
+ul,ol{margin:0;padding:0;list-style:none;}
+img,svg{max-width:100%;}
+::selection{background:var(--accent);color:var(--ink-inv);}
+
+.shell{width:100%;max-width:var(--shell);margin-inline:auto;padding-inline:var(--pad);}
+.sec{padding-block:var(--sec);}
+.rule{height:1px;background:var(--line);border:0;margin:0;}
+
+.skip{position:absolute;top:8px;inset-inline-start:8px;z-index:400;
+  background:var(--accent);color:var(--ink-inv);font-family:var(--sans);
+  font-size:.82rem;font-weight:600;padding:11px 16px;
+  transform:translateY(-250%);transition:transform .2s var(--ease-out);}
+.skip:focus{transform:none;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px;}
+/* the skip link's target takes focus but should not draw a ring around the
+   whole document */
+[tabindex="-1"]:focus{outline:none;}
+
+/* ---------- shared type atoms ---------- */
+.eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--sans);
+  font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 20px;}
+.eyebrow::before{content:"";width:22px;height:1px;background:currentColor;flex:none;}
+.h2{font-size:clamp(1.7rem,3.4vw,2.5rem);margin-bottom:16px;}
+.h3{font-size:clamp(1.12rem,1.7vw,1.3rem);margin-bottom:8px;}
+.lede{max-width:62ch;font-size:clamp(1.02rem,1.25vw,1.14rem);color:var(--ink-2);}
+.small{font-size:.9rem;line-height:1.6;color:var(--ink-3);}
+.mono{font-family:var(--sans);font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum" 1;}
+.sec-head{max-width:70ch;margin-bottom:clamp(32px,4vw,52px);}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--sans);font-size:.88rem;font-weight:600;letter-spacing:.01em;
+  padding:14px 24px;border:1px solid var(--accent);border-radius:2px;cursor:pointer;
+  background:var(--accent);color:var(--ink-inv);
+  transition:background-color var(--t) var(--ease),color var(--t) var(--ease),
+             border-color var(--t) var(--ease);}
+.btn:hover{background:var(--accent-deep);border-color:var(--accent-deep);}
+.btn-line{background:transparent;color:var(--ink);border-color:var(--line-strong);}
+.btn-line:hover{background:var(--surface);border-color:var(--ink);color:var(--ink);}
+
+.link-arrow{font-family:var(--sans);font-size:.86rem;font-weight:600;color:var(--accent);
+  display:inline-flex;align-items:center;gap:8px;}
+.link-arrow svg{transition:transform var(--t) var(--ease-out);}
+.link-arrow:hover svg{transform:translateX(4px);}
+
+/* ============================== NAV ============================== */
+.nav{position:sticky;top:0;z-index:200;background:rgba(238,241,244,.92);
+  backdrop-filter:saturate(1.2) blur(10px);-webkit-backdrop-filter:saturate(1.2) blur(10px);
+  border-bottom:1px solid var(--line);}
+.nav-in{max-width:var(--shell);margin-inline:auto;padding-inline:var(--pad);
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  height:80px;transition:height .4s var(--ease);}
+.nav.stuck .nav-in{height:62px;}
+.mark{display:flex;align-items:center;gap:11px;flex:none;}
+.mark-glyph{width:30px;height:30px;flex:none;border:1px solid var(--ink);
+  display:grid;place-items:center;transition:width .4s var(--ease),height .4s var(--ease);}
+.nav.stuck .mark-glyph{width:26px;height:26px;}
+.mark-glyph svg{display:block;}
+.mark-txt{display:block;font-family:var(--sans);font-weight:600;font-size:.94rem;
+  letter-spacing:.06em;color:var(--ink);line-height:1.1;}
+.mark-sub{display:block;font-family:var(--sans);font-size:.6rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-3);margin-top:3px;
+  transition:letter-spacing .4s var(--ease);}
+/* the wordmark tightens rather than fading — nothing on this page is allowed
+   to become unreadable because a script added a class */
+.nav.stuck .mark-sub{letter-spacing:.1em;}
+
+.nav-links{display:flex;align-items:center;gap:26px;font-family:var(--sans);
+  font-size:.85rem;font-weight:500;color:var(--ink-2);}
+.nav-links a{position:relative;padding-block:4px;transition:color var(--t) var(--ease);}
+.nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:var(--accent);transform:scaleX(0);transform-origin:0 50%;
+  transition:transform var(--t) var(--ease-out);}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a:hover::after{transform:scaleX(1);}
+
+.nav-right{display:flex;align-items:center;gap:18px;flex:none;}
+.nav-tel{display:flex;align-items:center;gap:8px;font-family:var(--sans);
+  font-size:.9rem;font-weight:600;color:var(--ink);white-space:nowrap;}
+.nav-tel svg{flex:none;color:var(--accent);}
+.nav .btn{padding:11px 18px;font-size:.82rem;}
+
+/* the link row becomes a contained scroller on small screens — no hamburger,
+   because a menu that needs JavaScript is a menu that can fail */
+.nav-scroll{min-width:0;}
+@media (max-width:1080px){
+  .nav-in{flex-wrap:wrap;height:auto;padding-block:12px;row-gap:8px;}
+  .nav.stuck .nav-in{height:auto;padding-block:8px;}
+  .nav-scroll{order:3;width:100%;overflow-x:auto;scrollbar-width:none;
+    -ms-overflow-style:none;border-top:1px solid var(--line-soft);padding-top:9px;}
+  .nav-scroll::-webkit-scrollbar{display:none;}
+  .nav-links{gap:20px;white-space:nowrap;padding-right:4px;}
+  .nav-cta{display:none;}
+}
+@media (max-width:420px){
+  .mark-sub{display:none;}
+  .nav-tel span{display:none;}
+  .nav-tel{width:38px;height:38px;justify-content:center;border:1px solid var(--line);}
+}
+
+/* ============================== HERO ============================== */
+.hero{padding-top:clamp(48px,6vw,80px);padding-bottom:clamp(40px,5vw,72px);}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+  gap:clamp(30px,4vw,64px);align-items:start;}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr;}}
+.hero h1{font-size:clamp(2.05rem,5.2vw,3.5rem);letter-spacing:-.03em;
+  margin-bottom:22px;font-weight:500;}
+.hero h1 em{font-style:normal;color:var(--accent);}
+.hero-lede{font-size:clamp(1.06rem,1.5vw,1.24rem);max-width:54ch;color:var(--ink-2);}
+.hero-cred{margin-top:26px;padding-top:22px;border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:10px 26px;font-family:var(--sans);
+  font-size:.8rem;color:var(--ink-2);}
+.hero-cred li{display:flex;align-items:center;gap:8px;}
+.hero-cred li::before{content:"";width:6px;height:6px;background:var(--accent);flex:none;}
+.hero-acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;}
+
+/* the hero panel: this month's obligations, drawn as a filing slip */
+.hero-side{display:flex;flex-direction:column;gap:18px;min-width:0;}
+.hero-aside-note{border:1px solid var(--line);border-left:3px solid var(--accent);
+  padding:18px 20px;background:transparent;}
+.hero-aside-note p{font-size:.97rem;color:var(--ink-2);margin-bottom:12px;}
+.hero-aside-note strong{color:var(--ink);font-weight:600;}
+.slip{background:var(--surface);border:1px solid var(--line);
+  box-shadow:0 1px 0 var(--line-soft),0 18px 40px -34px rgba(16,24,32,.5);}
+.slip-top{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding:16px 20px;border-bottom:1px solid var(--line);background:var(--surface-sunk);}
+.slip-top h2{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;
+  font-weight:600;color:var(--ink);}
+.slip-top .mono{font-size:.78rem;color:var(--ink-3);letter-spacing:.08em;}
+.slip-body{padding:6px 20px 18px;}
+.slip-row{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:baseline;
+  padding:13px 0;border-bottom:1px solid var(--line-soft);}
+.slip-row:last-child{border-bottom:0;}
+.tick{width:8px;height:8px;margin-top:6px;flex:none;align-self:start;}
+.slip-row .what{font-size:.97rem;color:var(--ink);line-height:1.4;}
+.slip-row .what small{display:block;font-family:var(--sans);font-size:.72rem;
+  color:var(--ink-3);margin-top:3px;letter-spacing:.02em;}
+.slip-row .when{font-family:var(--sans);font-size:.8rem;font-weight:600;
+  color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums;}
+.slip-foot{padding:14px 20px;border-top:1px solid var(--line);background:var(--surface-sunk);
+  font-family:var(--sans);font-size:.72rem;color:var(--ink-3);line-height:1.5;}
+
+/* ============================== PROOF BAR ============================== */
+.proof{background:var(--surface-deep);color:var(--ink-inv);}
+.proof-in{display:grid;grid-template-columns:repeat(5,1fr);}
+@media (max-width:960px){.proof-in{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:430px){.proof-in{grid-template-columns:1fr;}}
+.proof-cell{padding:26px clamp(16px,2.4vw,30px);border-left:1px solid rgba(247,249,250,.14);
+  display:flex;flex-direction:column;}
+.proof-cell:first-child{border-left:0;}
+@media (max-width:960px){
+  .proof-cell{border-left:0;border-top:1px solid rgba(247,249,250,.14);}
+  .proof-cell:nth-child(2n){border-left:1px solid rgba(247,249,250,.14);}
+  .proof-cell:nth-child(-n+2){border-top:0;}
+}
+@media (max-width:430px){
+  .proof-cell:nth-child(2n){border-left:0;}
+  .proof-cell:nth-child(2){border-top:1px solid rgba(247,249,250,.14);}
+}
+.proof-n{font-family:var(--sans);font-size:clamp(1.5rem,2.6vw,2.1rem);font-weight:500;
+  color:var(--ink-inv);letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums;}
+/* a registration number is longer than a count — it gets its own size so the
+   five figures still sit on one line each */
+.proof-n.long{font-size:clamp(1.1rem,1.9vw,1.5rem);letter-spacing:.01em;}
+.proof-l{font-family:var(--sans);font-size:.72rem;letter-spacing:.08em;
+  color:rgba(247,249,250,.62);margin-top:auto;padding-top:12px;line-height:1.45;}
+
+/* ============================== SERVICES ============================== */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);}
+@media (max-width:1000px){.svc-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:660px){.svc-grid{grid-template-columns:1fr;}}
+.svc{background:var(--surface);padding:clamp(22px,2.6vw,32px);display:flex;
+  flex-direction:column;gap:12px;transition:background-color var(--t) var(--ease);}
+.svc:hover{background:var(--surface-sunk);}
+.svc-no{font-family:var(--sans);font-size:.7rem;font-weight:600;letter-spacing:.14em;
+  color:var(--ink-3);}
+.svc h3{font-size:1.16rem;}
+.svc p{font-size:.97rem;color:var(--ink-2);}
+.svc-inc{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px;}
+.svc-inc li{font-family:var(--sans);font-size:.7rem;letter-spacing:.03em;color:var(--ink-2);
+  border:1px solid var(--line);padding:4px 8px;background:var(--canvas);}
+.svc-price{margin-top:auto;padding-top:16px;border-top:1px solid var(--line-soft);
+  display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.svc-price .amt{font-family:var(--sans);font-size:1.02rem;font-weight:600;color:var(--ink);
+  font-variant-numeric:tabular-nums;}
+.svc-price .unit{font-family:var(--sans);font-size:.72rem;color:var(--ink-3);
+  letter-spacing:.04em;text-align:right;}
+.price-note{margin-top:22px;font-size:.92rem;color:var(--ink-3);max-width:74ch;}
+
+/* ============================== CALENDAR ============================== */
+.cal-sec{background:var(--surface);border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);}
+.cal-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,320px);
+  gap:clamp(22px,3vw,48px);align-items:end;margin-bottom:clamp(26px,3vw,38px);}
+@media (max-width:860px){.cal-head{grid-template-columns:1fr;align-items:start;}}
+.cal-now{border:1px solid var(--line);background:var(--canvas);padding:16px 18px;}
+.cal-now .lab{font-family:var(--sans);font-size:.66rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;}
+.cal-now .val{font-family:var(--sans);font-size:1.05rem;font-weight:600;color:var(--ink);}
+.cal-now .sub{font-size:.9rem;color:var(--ink-2);margin-top:6px;line-height:1.5;}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin-bottom:18px;}
+.legend li{display:flex;align-items:center;gap:8px;font-family:var(--sans);
+  font-size:.74rem;color:var(--ink-2);letter-spacing:.02em;}
+.key{width:11px;height:11px;flex:none;border:1px solid rgba(16,24,32,.16);}
+.k-vat{background:var(--f-vat);}
+.k-pay{background:var(--f-pay);}
+.k-qtr{background:var(--f-qtr);}
+.k-ann{background:var(--f-ann);}
+.k-inv{background:var(--f-inv);}
+
+.cal-scroll{overflow-x:auto;overflow-y:hidden;border:1px solid var(--line);
+  background:var(--surface);-webkit-overflow-scrolling:touch;}
+.cal-scroll:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.cal{min-width:1000px;}
+.cal-r{display:grid;grid-template-columns:150px repeat(12,minmax(66px,1fr));
+  border-bottom:1px solid var(--line-soft);transition:background-color .28s var(--ease);}
+.cal-r:last-child{border-bottom:0;}
+.cal-body .cal-r:hover{background:var(--canvas);}
+.cal-lab{padding:14px 14px 14px 16px;border-right:1px solid var(--line);
+  display:flex;flex-direction:column;gap:5px;justify-content:center;}
+.cal-lab .nm{font-family:var(--sans);font-size:.82rem;font-weight:600;color:var(--ink);
+  display:flex;align-items:center;gap:8px;line-height:1.25;}
+.cal-lab .fr{font-family:var(--sans);font-size:.66rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);}
+.cal-c{padding:10px 6px;border-left:1px solid var(--line-soft);min-height:64px;
+  display:flex;flex-direction:column;gap:4px;align-items:stretch;justify-content:center;
+  transition:background-color .28s var(--ease);}
+
+.cal-months{background:var(--surface-sunk);border-bottom:1px solid var(--line);}
+.cal-months .cal-lab{background:transparent;}
+.mo{padding:12px 4px;border-left:1px solid var(--line-soft);text-align:center;
+  font-family:var(--sans);font-size:.74rem;font-weight:600;letter-spacing:.08em;
+  color:var(--ink-2);text-transform:uppercase;transition:color .28s var(--ease);}
+.mo b{display:block;font-weight:500;font-size:.6rem;letter-spacing:.1em;color:var(--ink-3);
+  margin-top:3px;}
+
+/* current month — set by script; without script the calendar is still complete,
+   it simply isn't pointing at today */
+.mo.is-now{color:var(--ink-inv);background:var(--accent);}
+.mo.is-now b{color:rgba(247,249,250,.72);}
+.cal-c.is-now{background:var(--accent-tint);}
+.cal-body .cal-r:hover .cal-c.is-now{background:#CFE0DD;}
+
+.chip{font-family:var(--sans);font-size:.66rem;font-weight:600;letter-spacing:.02em;
+  line-height:1.3;padding:5px 6px;text-align:center;color:var(--ink-inv);
+  border-radius:1px;}
+.chip small{display:block;font-weight:500;font-size:.6rem;opacity:.82;letter-spacing:.04em;}
+.c-vat{background:var(--f-vat);}
+.c-pay{background:var(--f-pay);}
+.c-qtr{background:var(--f-qtr);}
+.c-ann{background:var(--f-ann);}
+.c-inv{background:var(--f-inv);}
+.chip-ghost{background:transparent;color:var(--ink-3);border:1px dashed var(--line-strong);}
+.chip-flag{box-shadow:inset 0 0 0 2px var(--ink),0 0 0 1px var(--ink);}
+.band{grid-column:2 / -1;margin:10px 6px;border:1px solid var(--f-inv);
+  background:repeating-linear-gradient(135deg,rgba(150,96,44,.14) 0 7px,transparent 7px 14px);
+  display:flex;align-items:center;justify-content:center;padding:9px 12px;
+  font-family:var(--sans);font-size:.72rem;font-weight:600;color:var(--f-inv);
+  letter-spacing:.04em;text-align:center;}
+.cal-hint{display:none;font-family:var(--sans);font-size:.72rem;color:var(--ink-3);
+  margin-top:10px;letter-spacing:.04em;}
+@media (max-width:1080px){.cal-hint{display:block;}}
+
+.cal-notes{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-top:clamp(26px,3vw,40px);}
+@media (max-width:940px){.cal-notes{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:620px){.cal-notes{grid-template-columns:1fr;}}
+.note{background:var(--surface);padding:clamp(20px,2.4vw,28px);}
+.note h4{font-size:1rem;margin-bottom:8px;display:flex;align-items:flex-start;gap:9px;}
+.note h4 .key{margin-top:5px;}
+.note p{font-size:.94rem;color:var(--ink-2);}
+.note p:last-child{margin-bottom:0;}
+.note strong{color:var(--ink);font-weight:600;}
+.cal-caveat{margin-top:20px;font-size:.88rem;color:var(--ink-3);max-width:80ch;}
+
+/* ============================== PROCESS ============================== */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);}
+@media (max-width:1000px){.steps{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:620px){.steps{grid-template-columns:1fr;}}
+.step{background:var(--surface);padding:clamp(22px,2.6vw,30px);display:flex;
+  flex-direction:column;gap:12px;}
+.step-n{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-size:.7rem;
+  font-weight:600;letter-spacing:.16em;color:var(--accent);text-transform:uppercase;}
+.step-n i{font-style:normal;width:26px;height:26px;border:1px solid var(--accent);
+  display:grid;place-items:center;font-size:.72rem;color:var(--accent);flex:none;}
+.step h3{font-size:1.1rem;}
+.step p{font-size:.95rem;color:var(--ink-2);}
+.step-need{margin-top:auto;padding-top:14px;border-top:1px solid var(--line-soft);}
+.step-need .lab{font-family:var(--sans);font-size:.64rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:9px;}
+.step-need li{position:relative;padding-left:16px;font-size:.9rem;color:var(--ink-2);
+  margin-bottom:6px;line-height:1.5;}
+.step-need li:last-child{margin-bottom:0;}
+.step-need li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:1px;
+  background:var(--line-strong);}
+.step-when{font-family:var(--sans);font-size:.72rem;color:var(--ink-3);letter-spacing:.04em;}
+
+/* ============================== TEAM ============================== */
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);}
+@media (max-width:900px){.team{grid-template-columns:1fr;}}
+.person{background:var(--surface);padding:clamp(22px,2.6vw,32px);
+  display:flex;flex-direction:column;}
+.person-top{display:flex;align-items:center;gap:16px;margin-bottom:18px;}
+.mono-tile{width:58px;height:58px;flex:none;border:1px solid var(--ink);
+  display:grid;place-items:center;font-family:var(--sans);font-size:1.06rem;font-weight:600;
+  letter-spacing:.04em;color:var(--ink);background:var(--canvas);}
+.person h3{font-size:1.14rem;margin-bottom:4px;}
+.person .role{font-family:var(--sans);font-size:.74rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--accent);}
+.person p{font-size:.95rem;color:var(--ink-2);}
+/* credentials sit on a common line across the three cards — in this register
+   the grid is the argument */
+.creds{margin-top:auto;padding-top:14px;border-top:1px solid var(--line-soft);}
+.person p + .creds{margin-top:16px;}
+@media (min-width:901px){.person p + .creds{margin-top:auto;}}
+.creds li{display:grid;grid-template-columns:auto 1fr;gap:10px;font-family:var(--sans);
+  font-size:.78rem;color:var(--ink-2);padding:6px 0;line-height:1.45;}
+.creds li span:first-child{color:var(--ink-3);letter-spacing:.08em;font-size:.66rem;
+  text-transform:uppercase;padding-top:2px;min-width:74px;}
+
+/* ============================== FAQ ============================== */
+.faq{border-top:1px solid var(--line);max-width:100%;}
+.q{border-bottom:1px solid var(--line);}
+.q summary{list-style:none;cursor:pointer;padding:22px 44px 22px 0;position:relative;
+  font-family:var(--sans);font-size:clamp(1rem,1.5vw,1.1rem);font-weight:500;color:var(--ink);
+  line-height:1.35;transition:color var(--t) var(--ease);}
+.q summary::-webkit-details-marker{display:none;}
+.q summary:hover{color:var(--accent);}
+.q summary::after,.q summary::before{content:"";position:absolute;right:8px;
+  background:var(--ink-3);transition:transform var(--t) var(--ease),
+  background-color var(--t) var(--ease);}
+.q summary::before{top:calc(50% - .5px);width:15px;height:1px;}
+.q summary::after{top:calc(50% - 7.5px);right:15px;width:1px;height:15px;}
+.q[open] summary::after{transform:rotate(90deg);}
+.q[open] summary{color:var(--accent);}
+.q[open] summary::before,.q[open] summary::after{background:var(--accent);}
+.q-body{padding:0 0 24px;max-width:78ch;}
+.q-body p{font-size:1rem;}
+.q-body strong{color:var(--ink);font-weight:600;}
+@supports (interpolate-size: allow-keywords){
+  .q::details-content{block-size:0;overflow:hidden;
+    transition:block-size .38s var(--ease-out),content-visibility .38s var(--ease-out) allow-discrete;}
+  .q[open]::details-content{block-size:auto;}
+}
+
+/* ============================== CONTACT ============================== */
+.contact-sec{background:var(--surface);border-top:1px solid var(--line);}
+.contact-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);
+  gap:clamp(30px,4vw,64px);align-items:start;}
+@media (max-width:900px){.contact-grid{grid-template-columns:1fr;}}
+.contact-facts{border:1px solid var(--line);background:var(--canvas);}
+.fact{padding:16px 20px;border-bottom:1px solid var(--line);}
+.fact:last-child{border-bottom:0;}
+.fact .lab{font-family:var(--sans);font-size:.64rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;}
+.fact .val{font-family:var(--sans);font-size:.95rem;color:var(--ink);font-weight:500;
+  line-height:1.5;}
+.fact .val a:hover{color:var(--accent);}
+
+form{display:grid;gap:18px;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media (max-width:600px){.frow{grid-template-columns:1fr;}}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0;}
+.field label,.fset-legend{font-family:var(--sans);font-size:.74rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);}
+.field .hint{font-family:var(--sans);font-size:.7rem;color:var(--ink-3);letter-spacing:.02em;}
+input,select,textarea{width:100%;font-family:var(--serif);font-size:1rem;color:var(--ink);
+  background:var(--surface);border:1px solid var(--line-strong);border-radius:2px;
+  padding:12px 13px;transition:border-color var(--t) var(--ease),
+  box-shadow var(--t) var(--ease);}
+select{font-family:var(--sans);font-size:.92rem;appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),
+    linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);
+  background-position:calc(100% - 18px) 21px,calc(100% - 13px) 21px;
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:38px;}
+textarea{resize:vertical;min-height:112px;line-height:1.6;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
+  box-shadow:0 0 0 3px var(--accent-tint);}
+.field.bad input,.field.bad select{border-color:#9E2B25;box-shadow:0 0 0 3px rgba(158,43,37,.1);}
+.err{font-family:var(--sans);font-size:.72rem;color:#9E2B25;display:none;}
+.field.bad .err,fieldset.bad .err{display:block;}
+fieldset.bad{border-color:#9E2B25;}
+
+fieldset{border:1px solid var(--line);border-radius:2px;padding:16px;margin:0;min-width:0;}
+legend{padding:0 8px;}
+.needs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:12px;}
+@media (max-width:600px){.needs{grid-template-columns:1fr;}}
+.check{display:flex;align-items:flex-start;gap:9px;font-size:.94rem;color:var(--ink-2);
+  cursor:pointer;line-height:1.4;}
+.check input{width:16px;height:16px;flex:none;margin-top:3px;accent-color:var(--accent);
+  padding:0;}
+.consent{display:flex;align-items:flex-start;gap:10px;font-size:.9rem;color:var(--ink-3);}
+.consent input{width:16px;height:16px;flex:none;margin-top:3px;accent-color:var(--accent);padding:0;}
+.fstat{font-family:var(--sans);font-size:.88rem;line-height:1.55;padding:14px 16px;
+  border:1px solid var(--accent);background:var(--accent-tint);color:var(--accent-deep);
+  display:none;}
+.fstat.show{display:block;}
+.form-acts{display:flex;flex-wrap:wrap;align-items:center;gap:16px;}
+.form-acts .small{max-width:34ch;}
+
+/* ============================== FOOTER ============================== */
+.foot{background:var(--surface-deep);color:rgba(247,249,250,.7);
+  padding-block:clamp(46px,5vw,66px);}
+.foot h2,.foot h3{color:var(--ink-inv);}
+.foot-top{display:grid;grid-template-columns:minmax(0,1.3fr) repeat(3,minmax(0,1fr));
+  gap:clamp(26px,3vw,44px);padding-bottom:34px;border-bottom:1px solid rgba(247,249,250,.14);}
+@media (max-width:940px){.foot-top{grid-template-columns:1fr 1fr;}}
+@media (max-width:560px){.foot-top{grid-template-columns:1fr;}}
+.foot .mark-glyph{border-color:rgba(247,249,250,.5);}
+.foot .mark-txt{color:var(--ink-inv);}
+.foot .mark-sub{color:rgba(247,249,250,.5);}
+.foot-blurb{margin-top:18px;font-size:.95rem;max-width:42ch;color:rgba(247,249,250,.7);}
+.foot-col h3{font-family:var(--sans);font-size:.7rem;letter-spacing:.16em;
+  text-transform:uppercase;margin-bottom:14px;color:rgba(247,249,250,.55);font-weight:600;}
+.foot-col li{margin-bottom:9px;font-size:.94rem;line-height:1.5;}
+.foot-col a{transition:color var(--t) var(--ease);}
+.foot-col a:hover{color:var(--ink-inv);}
+.reg{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:rgba(247,249,250,.14);border:1px solid rgba(247,249,250,.14);margin-top:34px;}
+@media (max-width:860px){.reg{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:430px){.reg{grid-template-columns:1fr;}}
+.reg div{background:var(--surface-deep);padding:16px 18px;}
+.reg .lab{font-family:var(--sans);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(247,249,250,.5);margin-bottom:6px;}
+.reg .val{font-family:var(--sans);font-size:.9rem;color:var(--ink-inv);
+  font-variant-numeric:tabular-nums;letter-spacing:.02em;}
+.foot-base{margin-top:30px;display:flex;flex-wrap:wrap;gap:12px 26px;
+  justify-content:space-between;align-items:center;font-size:.84rem;
+  color:rgba(247,249,250,.5);font-family:var(--sans);}
+.foot-base a:hover{color:var(--ink-inv);}
+
+/* ---------- scroll-linked reveal, applied only where supported and only to
+     content that is already fully visible in the default state ---------- */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{animation:settle linear both;animation-timeline:view();
+      animation-range:entry 0% entry 42%;}
+    @keyframes settle{from{opacity:.35;transform:translateY(12px);}
+      to{opacity:1;transform:none;}}
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-delay:0s !important;
+    animation-iteration-count:1 !important;transition-duration:.001ms !important;
+    transition-delay:0s !important;scroll-behavior:auto !important;}
+  html{scroll-behavior:auto;}
+}
+</style>
+<noscript><style>
+  /* belt and braces: nothing on this page depends on script to be readable,
+     and if a reveal animation ever did, this forces it visible */
+  .reveal{opacity:1 !important;transform:none !important;animation:none !important;}
+</style></noscript>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ============================== NAV ============================== -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="mark" href="#top" aria-label="Nassar &amp; Halim — home">
+      <span class="mark-glyph" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.1">
+          <path d="M2 13.2h12M2 2.8h12M4.6 2.8v10.4M11.4 2.8v10.4M2 8h12"/>
+        </svg>
+      </span>
+      <span>
+        <span class="mark-txt">NASSAR &amp; HALIM</span>
+        <span class="mark-sub">Chartered accountants</span>
+      </span>
+    </a>
+
+    <nav class="nav-scroll" aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#calendar">The filing year</a></li>
+        <li><a href="#process">How we work</a></li>
+        <li><a href="#team">The practice</a></li>
+        <li><a href="#faq">Questions</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-right">
+      <a class="nav-tel" href="tel:+20227351180" aria-label="Telephone the practice on 02 2735 1180">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <path d="M3 2.6h3l1.2 3-1.6 1.2a8.5 8.5 0 0 0 3.6 3.6l1.2-1.6 3 1.2v3a1 1 0 0 1-1.1 1C6.9 13.6 2.4 9.1 2 3.7A1 1 0 0 1 3 2.6Z"/>
+        </svg>
+        <span>02 2735 1180</span>
+      </a>
+      <a class="btn nav-cta" href="#contact">Request a quote</a>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <span id="top"></span>
+
+  <!-- ============================== HERO ============================== -->
+  <section class="shell hero">
+    <div class="hero-grid">
+      <div>
+        <h1>Bookkeeping, tax and payroll for Egyptian companies that intend to stay <em>compliant</em>.</h1>
+        <p class="hero-lede">We keep the books of owner-managed businesses in Cairo and Giza — trading companies, clinics, contractors, agencies and consultancies with two to two hundred staff. We file what is due, when it is due, and we tell you the number before you have to ask.</p>
+        <ul class="hero-cred">
+          <li>Licensed auditors, RAA register 3184</li>
+          <li>ESAA members since 2007</li>
+          <li>ETA-accredited tax agents</li>
+        </ul>
+        <div class="hero-acts">
+          <a class="btn" href="#contact">Request a quote</a>
+          <a class="btn btn-line" href="#calendar">See the filing year</a>
+        </div>
+      </div>
+
+      <div class="hero-side">
+      <aside class="slip reveal" aria-labelledby="slip-h">
+        <div class="slip-top">
+          <h2 id="slip-h">Falling due this month</h2>
+          <span class="mono" id="slip-month">Current month</span>
+        </div>
+        <div class="slip-body">
+          <div class="slip-row">
+            <span class="tick" style="background:var(--f-pay)" aria-hidden="true"></span>
+            <span class="what">Salary tax and social insurance<small>For last month's payroll</small></span>
+            <span class="when">By the 15th</span>
+          </div>
+          <div class="slip-row">
+            <span class="tick" style="background:var(--f-vat)" aria-hidden="true"></span>
+            <span class="what">VAT return, Form 10<small>Covering the month two months back</small></span>
+            <span class="when">Month end</span>
+          </div>
+          <div class="slip-row">
+            <span class="tick" style="background:var(--f-inv)" aria-hidden="true"></span>
+            <span class="what">Electronic invoices to the ETA portal<small>Every invoice, as it is issued</small></span>
+            <span class="when">Continuous</span>
+          </div>
+          <div class="slip-row">
+            <span class="tick" style="background:var(--f-qtr)" aria-hidden="true"></span>
+            <span class="what">Form 41 withholding return<small>January, April, July and October</small></span>
+            <span class="when">Quarterly</span>
+          </div>
+        </div>
+        <p class="slip-foot">Every month of the Egyptian year carries at least two filings. The quiet months are the ones where people forget.</p>
+      </aside>
+
+      <div class="hero-aside-note reveal">
+        <p><strong>First meeting: ninety minutes, no charge.</strong> At your office or ours. We look at the records as they actually are, and tell you where you stand before anyone signs anything.</p>
+        <a class="link-arrow" href="#process">What we need from you
+          <svg width="15" height="10" viewBox="0 0 15 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <path d="M0 5h13M9 1l4 4-4 4"/>
+          </svg>
+        </a>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== PROOF ============================== -->
+  <section class="proof" aria-label="The practice in numbers">
+    <div class="shell" style="padding-inline:0">
+      <div class="proof-in">
+        <div class="proof-cell">
+          <div class="proof-n">19</div>
+          <div class="proof-l">Years in practice, Cairo</div>
+        </div>
+        <div class="proof-cell">
+          <div class="proof-n">214</div>
+          <div class="proof-l">Companies on retainer</div>
+        </div>
+        <div class="proof-cell">
+          <div class="proof-n">3184</div>
+          <div class="proof-l">RAA auditors' register no.</div>
+        </div>
+        <div class="proof-cell">
+          <div class="proof-n long">418-227-905</div>
+          <div class="proof-l">Tax registration no.</div>
+        </div>
+        <div class="proof-cell">
+          <div class="proof-n">31</div>
+          <div class="proof-l">Audits defended, 2019&ndash;2025</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== SERVICES ============================== -->
+  <section class="sec shell" id="services">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Services and fees</p>
+      <h2 class="h2">Six pieces of work. Priced before we start.</h2>
+      <p class="lede">Fees are quoted per month or per filing and fixed for the year. If the volume of transactions moves outside the band we agreed, we tell you and re-quote — we do not issue surprise invoices.</p>
+    </div>
+
+    <div class="svc-grid">
+      <article class="svc">
+        <p class="svc-no">01</p>
+        <h3>Bookkeeping and VAT returns</h3>
+        <p>Your ledgers kept monthly, reconciled to bank, and the monthly VAT return prepared, reviewed with you and filed. Includes input tax matched against your suppliers' electronic invoices.</p>
+        <ul class="svc-inc">
+          <li>Monthly close</li><li>Bank reconciliation</li><li>Form 10</li>
+        </ul>
+        <div class="svc-price">
+          <span class="amt">4,500 EGP</span>
+          <span class="unit">per month<br />up to 150 entries</span>
+        </div>
+      </article>
+
+      <article class="svc">
+        <p class="svc-no">02</p>
+        <h3>Payroll and social insurance</h3>
+        <p>Payslips, salary tax calculated under the current brackets, the monthly remittance, social insurance filings, and the January annual reconciliation. Joiners and leavers handled with the insurance office.</p>
+        <ul class="svc-inc">
+          <li>Payslips</li><li>Form 4</li><li>NOSI filings</li>
+        </ul>
+        <div class="svc-price">
+          <span class="amt">2,000 EGP</span>
+          <span class="unit">per month<br />+ 75 EGP per employee</span>
+        </div>
+      </article>
+
+      <article class="svc">
+        <p class="svc-no">03</p>
+        <h3>E-invoicing and ETA integration</h3>
+        <p>We register your company on the Egyptian Tax Authority portal, obtain the digital signature token, map your item codes to GS1 or EGS, connect your invoicing system and train whoever raises invoices.</p>
+        <ul class="svc-inc">
+          <li>Portal onboarding</li><li>Code mapping</li><li>E-receipt</li>
+        </ul>
+        <div class="svc-price">
+          <span class="amt">9,500 EGP</span>
+          <span class="unit">setup, then<br />1,500 EGP per month</span>
+        </div>
+      </article>
+
+      <article class="svc">
+        <p class="svc-no">04</p>
+        <h3>Annual accounts and corporate return</h3>
+        <p>Statutory financial statements prepared under EAS, signed by a licensed auditor, and the corporate income tax return filed within four months of your year end. Includes the depreciation and provisions schedules the inspector will ask for.</p>
+        <ul class="svc-inc">
+          <li>EAS statements</li><li>Auditor's report</li><li>Tax return</li>
+        </ul>
+        <div class="svc-price">
+          <span class="amt">22,000 EGP</span>
+          <span class="unit">per year<br />companies under 20m turnover</span>
+        </div>
+      </article>
+
+      <article class="svc">
+        <p class="svc-no">05</p>
+        <h3>Withholding and stamp tax</h3>
+        <p>The quarterly Form 41 return covering tax withheld from your local suppliers, plus stamp tax on advertising, insurance and banking transactions. Filed on time even in quarters where you withheld nothing.</p>
+        <ul class="svc-inc">
+          <li>Form 41</li><li>Stamp tax</li><li>Supplier schedules</li>
+        </ul>
+        <div class="svc-price">
+          <span class="amt">1,600 EGP</span>
+          <span class="unit">per quarterly<br />filing</span>
+        </div>
+      </article>
+
+      <article class="svc">
+        <p class="svc-no">06</p>
+        <h3>Tax inspection and appeals</h3>
+        <p>We answer the inspector, assemble the file, attend the internal committee and, where the assessment is wrong, take it to the appeal committee. We act for clients we did not previously keep books for.</p>
+        <ul class="svc-inc">
+          <li>Inspection file</li><li>Committee attendance</li><li>Appeals</li>
+        </ul>
+        <div class="svc-price">
+          <span class="amt">from 25,000 EGP</span>
+          <span class="unit">per case<br />or 3,500 EGP per hour</span>
+        </div>
+      </article>
+    </div>
+
+    <p class="price-note">Fees exclude 14% VAT and any government charges. Retainer clients are not billed for telephone calls, letters to the bank, or the quarter-hour questions that make up most of the work.</p>
+  </section>
+
+  <!-- ============================== SIGNATURE: THE FILING YEAR ============================== -->
+  <section class="cal-sec sec" id="calendar">
+    <div class="shell">
+      <div class="cal-head">
+        <div class="reveal">
+          <p class="eyebrow">The signature diagram</p>
+          <h2 class="h2">The filing year</h2>
+          <p class="lede">Every obligation an ordinary Egyptian company carries, laid out across the twelve months of a 31 December year end. Most owners know about the annual return. Almost nobody has seen the whole shape of the year at once.</p>
+        </div>
+        <div class="cal-now" id="calNow">
+          <p class="lab">Reading the grid</p>
+          <p class="val" id="calNowVal">The current month is marked</p>
+          <p class="sub" id="calNowSub">Each column is a calendar month. Each chip is something that must reach a government system that month — the label says which period it covers, not when the work happened.</p>
+        </div>
+      </div>
+
+      <ul class="legend" aria-label="Filing types">
+        <li><span class="key k-vat" aria-hidden="true"></span> Value added tax</li>
+        <li><span class="key k-pay" aria-hidden="true"></span> Payroll and social insurance</li>
+        <li><span class="key k-qtr" aria-hidden="true"></span> Quarterly forms</li>
+        <li><span class="key k-ann" aria-hidden="true"></span> Annual</li>
+        <li><span class="key k-inv" aria-hidden="true"></span> E-invoicing</li>
+      </ul>
+
+      <div class="cal-scroll" tabindex="0" role="group" aria-label="Calendar of Egyptian filing deadlines, scrollable horizontally">
+        <div class="cal">
+          <!-- month header -->
+          <div class="cal-r cal-months">
+            <div class="cal-lab"><span class="fr">Month &rarr;</span></div>
+            <div class="mo" data-m="0">Jan<b>Q1</b></div>
+            <div class="mo" data-m="1">Feb<b>Q1</b></div>
+            <div class="mo" data-m="2">Mar<b>Q1</b></div>
+            <div class="mo" data-m="3">Apr<b>Q2</b></div>
+            <div class="mo" data-m="4">May<b>Q2</b></div>
+            <div class="mo" data-m="5">Jun<b>Q2</b></div>
+            <div class="mo" data-m="6">Jul<b>Q3</b></div>
+            <div class="mo" data-m="7">Aug<b>Q3</b></div>
+            <div class="mo" data-m="8">Sep<b>Q3</b></div>
+            <div class="mo" data-m="9">Oct<b>Q4</b></div>
+            <div class="mo" data-m="10">Nov<b>Q4</b></div>
+            <div class="mo" data-m="11">Dec<b>Q4</b></div>
+          </div>
+
+          <div class="cal-body">
+            <!-- VAT -->
+            <div class="cal-r">
+              <div class="cal-lab">
+                <span class="nm"><span class="key k-vat" aria-hidden="true"></span> VAT return</span>
+                <span class="fr">Monthly · Form 10</span>
+              </div>
+              <div class="cal-c" data-m="0"><span class="chip c-vat">Nov<small>by 31 Jan</small></span></div>
+              <div class="cal-c" data-m="1"><span class="chip c-vat">Dec<small>by 28 Feb</small></span></div>
+              <div class="cal-c" data-m="2"><span class="chip c-vat">Jan<small>by 31 Mar</small></span></div>
+              <div class="cal-c" data-m="3"><span class="chip c-vat">Feb<small>by 30 Apr</small></span></div>
+              <div class="cal-c" data-m="4"><span class="chip c-vat">Mar<small>by 31 May</small></span></div>
+              <div class="cal-c" data-m="5"><span class="chip c-vat chip-flag">Apr<small>by 15 Jun</small></span></div>
+              <div class="cal-c" data-m="6"><span class="chip c-vat">May<small>by 31 Jul</small></span></div>
+              <div class="cal-c" data-m="7"><span class="chip c-vat">Jun<small>by 31 Aug</small></span></div>
+              <div class="cal-c" data-m="8"><span class="chip c-vat">Jul<small>by 30 Sep</small></span></div>
+              <div class="cal-c" data-m="9"><span class="chip c-vat">Aug<small>by 31 Oct</small></span></div>
+              <div class="cal-c" data-m="10"><span class="chip c-vat">Sep<small>by 30 Nov</small></span></div>
+              <div class="cal-c" data-m="11"><span class="chip c-vat">Oct<small>by 31 Dec</small></span></div>
+            </div>
+
+            <!-- payroll -->
+            <div class="cal-r">
+              <div class="cal-lab">
+                <span class="nm"><span class="key k-pay" aria-hidden="true"></span> Payroll taxes</span>
+                <span class="fr">Monthly · by the 15th</span>
+              </div>
+              <div class="cal-c" data-m="0">
+                <span class="chip c-pay">15th<small>Dec payroll</small></span>
+                <span class="chip c-pay chip-flag">Annual<small>salary reconciliation</small></span>
+              </div>
+              <div class="cal-c" data-m="1"><span class="chip c-pay">15th<small>Jan payroll</small></span></div>
+              <div class="cal-c" data-m="2"><span class="chip c-pay">15th<small>Feb payroll</small></span></div>
+              <div class="cal-c" data-m="3"><span class="chip c-pay">15th<small>Mar payroll</small></span></div>
+              <div class="cal-c" data-m="4"><span class="chip c-pay">15th<small>Apr payroll</small></span></div>
+              <div class="cal-c" data-m="5"><span class="chip c-pay">15th<small>May payroll</small></span></div>
+              <div class="cal-c" data-m="6"><span class="chip c-pay">15th<small>Jun payroll</small></span></div>
+              <div class="cal-c" data-m="7"><span class="chip c-pay">15th<small>Jul payroll</small></span></div>
+              <div class="cal-c" data-m="8"><span class="chip c-pay">15th<small>Aug payroll</small></span></div>
+              <div class="cal-c" data-m="9"><span class="chip c-pay">15th<small>Sep payroll</small></span></div>
+              <div class="cal-c" data-m="10"><span class="chip c-pay">15th<small>Oct payroll</small></span></div>
+              <div class="cal-c" data-m="11"><span class="chip c-pay">15th<small>Nov payroll</small></span></div>
+            </div>
+
+            <!-- quarterly -->
+            <div class="cal-r">
+              <div class="cal-lab">
+                <span class="nm"><span class="key k-qtr" aria-hidden="true"></span> Quarterly forms</span>
+                <span class="fr">Form 41 · stamp tax</span>
+              </div>
+              <div class="cal-c" data-m="0"><span class="chip c-qtr">Q4<small>within 30 days</small></span></div>
+              <div class="cal-c" data-m="1"></div>
+              <div class="cal-c" data-m="2"></div>
+              <div class="cal-c" data-m="3"><span class="chip c-qtr">Q1<small>within 30 days</small></span></div>
+              <div class="cal-c" data-m="4"></div>
+              <div class="cal-c" data-m="5"></div>
+              <div class="cal-c" data-m="6"><span class="chip c-qtr">Q2<small>within 30 days</small></span></div>
+              <div class="cal-c" data-m="7"></div>
+              <div class="cal-c" data-m="8"></div>
+              <div class="cal-c" data-m="9"><span class="chip c-qtr">Q3<small>within 30 days</small></span></div>
+              <div class="cal-c" data-m="10"></div>
+              <div class="cal-c" data-m="11"></div>
+            </div>
+
+            <!-- annual -->
+            <div class="cal-r">
+              <div class="cal-lab">
+                <span class="nm"><span class="key k-ann" aria-hidden="true"></span> Annual cycle</span>
+                <span class="fr">31 December year end</span>
+              </div>
+              <div class="cal-c" data-m="0"><span class="chip chip-ghost">Books closed<small>cut-off fixed</small></span></div>
+              <div class="cal-c" data-m="1"><span class="chip c-ann">Audit<small>fieldwork</small></span></div>
+              <div class="cal-c" data-m="2"><span class="chip c-ann">Statements<small>signed</small></span></div>
+              <div class="cal-c" data-m="3"><span class="chip c-ann chip-flag">Tax return<small>by 30 Apr</small></span></div>
+              <div class="cal-c" data-m="4"></div>
+              <div class="cal-c" data-m="5"><span class="chip chip-ghost">Register<small>renewals</small></span></div>
+              <div class="cal-c" data-m="6"></div>
+              <div class="cal-c" data-m="7"></div>
+              <div class="cal-c" data-m="8"></div>
+              <div class="cal-c" data-m="9"><span class="chip chip-ghost">Planning<small>estimate the bill</small></span></div>
+              <div class="cal-c" data-m="10"></div>
+              <div class="cal-c" data-m="11"><span class="chip c-ann">Stock count<small>31 Dec</small></span></div>
+            </div>
+
+            <!-- e-invoicing band -->
+            <div class="cal-r">
+              <div class="cal-lab">
+                <span class="nm"><span class="key k-inv" aria-hidden="true"></span> E-invoicing</span>
+                <span class="fr">Continuous · ETA portal</span>
+              </div>
+              <div class="band">Every invoice submitted as it is issued — no filing date, no grace period, and no input tax deduction on a supplier invoice that never reached the portal</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="cal-hint">Scroll the grid sideways to reach December &rarr;</p>
+
+      <div class="cal-notes">
+        <div class="note">
+          <h4><span class="key k-vat" aria-hidden="true"></span> VAT is monthly, and it runs two months behind</h4>
+          <p>Owners who have traded in Europe or the Gulf assume a quarterly return. In Egypt it is <strong>monthly</strong> — and the deadline is the end of the <em>second</em> month after the period. January's return is due 31 March. That lag is why a company can look compliant in March while two months of unreconciled sales sit underneath.</p>
+        </div>
+        <div class="note">
+          <h4><span class="key k-vat" aria-hidden="true"></span> April is the exception nobody remembers</h4>
+          <p>The April return does not follow the rule. It is due by <strong>15 June</strong>, two weeks early, so that the state's own year closes clean. It is the single most commonly missed date in the Egyptian calendar, and the penalty runs from the fifteenth, not the thirtieth.</p>
+        </div>
+        <div class="note">
+          <h4><span class="key k-qtr" aria-hidden="true"></span> Form 41 is due even when it is empty</h4>
+          <p>The quarterly withholding return covers tax deducted from local suppliers — typically 0.5% to 5% on payments above 300 EGP. If you withheld nothing that quarter, you still file. <strong>A nil return is a filing, not a non-event</strong>, and the fine for silence is the same as for lateness.</p>
+        </div>
+        <div class="note">
+          <h4><span class="key k-pay" aria-hidden="true"></span> The 15th is two obligations, not one</h4>
+          <p>Salary tax and social insurance contributions both fall due in the first half of the following month, but they go to two different authorities with two different reference numbers. Paying one on time and the other late is the most common payroll error we inherit.</p>
+        </div>
+        <div class="note">
+          <h4><span class="key k-ann" aria-hidden="true"></span> The return follows the audit, not the calendar</h4>
+          <p>The corporate return is due <strong>four months after year end</strong> — 30 April for a December year end. But it cannot be filed until the financial statements are signed by a licensed auditor, and an auditor cannot sign in a fortnight. Work that starts in April finishes late.</p>
+        </div>
+        <div class="note">
+          <h4><span class="key k-inv" aria-hidden="true"></span> Your signature token expires</h4>
+          <p>The e-invoicing certificate on the USB token has a fixed life. When it lapses your company cannot issue a valid invoice at all — not late, <strong>not at all</strong> — and renewal takes days, not hours. We diarise it a month out for every client we onboard.</p>
+        </div>
+      </div>
+
+      <p class="cal-caveat">This grid describes a company with a 31 December financial year and no special regime. Free zone companies, investment-law entities, simplified-regime microbusinesses and anyone with a non-calendar year end sit on a different clock. Deadlines that land on an official holiday move to the next working day. Ask us before you rely on it.</p>
+    </div>
+  </section>
+
+  <!-- ============================== PROCESS ============================== -->
+  <section class="sec shell" id="process">
+    <div class="sec-head reveal">
+      <p class="eyebrow">How we work</p>
+      <h2 class="h2">Onboarding takes about three weeks.</h2>
+      <p class="lede">Most of that is us reading what already exists. Below is the whole sequence, and exactly what we need from you at each stage — so nothing stalls waiting on a document you did not know we wanted.</p>
+    </div>
+
+    <div class="steps">
+      <article class="step">
+        <p class="step-n"><i>1</i> Meeting</p>
+        <h3>We look at where you are</h3>
+        <p>Ninety minutes, at your office or ours. We go through the business, the current state of the records, and anything outstanding with the tax authority. No charge, and no obligation.</p>
+        <div class="step-need">
+          <p class="lab">Bring with you</p>
+          <ul>
+            <li>Commercial register and tax card</li>
+            <li>Last filed VAT return, if any</li>
+            <li>A rough headcount and payroll figure</li>
+          </ul>
+        </div>
+        <p class="step-when">Week one</p>
+      </article>
+
+      <article class="step">
+        <p class="step-n"><i>2</i> Review</p>
+        <h3>We read the file before we quote</h3>
+        <p>We reconstruct your compliance position: what has been filed, what has not, and what exposure sits in the gap. You get a written summary and a fixed fee. If the backlog needs clearing first, that is quoted separately and plainly.</p>
+        <div class="step-need">
+          <p class="lab">Send us</p>
+          <ul>
+            <li>Bank statements, last 12 months</li>
+            <li>Trial balance or the accounting file</li>
+            <li>Any assessment or inspection letters</li>
+          </ul>
+        </div>
+        <p class="step-when">Week one to two</p>
+      </article>
+
+      <article class="step">
+        <p class="step-n"><i>3</i> Handover</p>
+        <h3>We take custody of the calendar</h3>
+        <p>Engagement letter signed, authorities notified, portal access transferred. We set up the ETA credentials, agree the monthly document deadline with whoever sends us paperwork, and put every date in the year on a schedule you can see.</p>
+        <div class="step-need">
+          <p class="lab">You provide</p>
+          <ul>
+            <li>Signed engagement letter</li>
+            <li>Power of attorney for the tax office</li>
+            <li>ETA portal and e-signature token</li>
+          </ul>
+        </div>
+        <p class="step-when">Week two to three</p>
+      </article>
+
+      <article class="step">
+        <p class="step-n"><i>4</i> Running</p>
+        <h3>The month closes on the same day</h3>
+        <p>Documents by the 5th, management figures by the 12th, filings on their dates. You get one report a month and a call before anything is submitted in your name. Nothing goes to a government system without you seeing the number first.</p>
+        <div class="step-need">
+          <p class="lab">Each month, from you</p>
+          <ul>
+            <li>Sales and purchase invoices</li>
+            <li>Bank statements and petty cash</li>
+            <li>Payroll changes: joiners, leavers, bonuses</li>
+          </ul>
+        </div>
+        <p class="step-when">Ongoing</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============================== TEAM ============================== -->
+  <section class="sec shell" id="team">
+    <div class="sec-head reveal">
+      <p class="eyebrow">The practice</p>
+      <h2 class="h2">Three people sign the work.</h2>
+      <p class="lede">A partner is responsible for your file from the first meeting onwards. You will not be handed to a junior you have never met, and you will not be told to email a general address.</p>
+    </div>
+
+    <div class="team">
+      <article class="person">
+        <div class="person-top">
+          <div class="mono-tile" aria-hidden="true">RN</div>
+          <div>
+            <h3>Rania Nassar</h3>
+            <p class="role">Managing partner</p>
+          </div>
+        </div>
+        <p>Signs the audit reports and leads the annual accounts work. Twenty-two years in practice, nine of them in the audit division of an international firm before founding the practice in 2007.</p>
+        <ul class="creds">
+          <li><span>Licence</span><span>Licensed auditor, RAA register 3184</span></li>
+          <li><span>Member</span><span>Egyptian Society of Accountants &amp; Auditors</span></li>
+          <li><span>Degree</span><span>B.Com Accounting, Cairo University; FCCA</span></li>
+        </ul>
+      </article>
+
+      <article class="person">
+        <div class="person-top">
+          <div class="mono-tile" aria-hidden="true">TH</div>
+          <div>
+            <h3>Tarek Halim</h3>
+            <p class="role">Partner, tax</p>
+          </div>
+        </div>
+        <p>Handles inspections, assessments and appeals. Appears before internal and appeal committees roughly forty times a year, and has argued transfer pricing and permanent establishment cases for clients with foreign parents.</p>
+        <ul class="creds">
+          <li><span>Licence</span><span>Accredited tax agent, ETA register 11-4470</span></li>
+          <li><span>Degree</span><span>LL.B, Ain Shams University</span></li>
+          <li><span>Diploma</span><span>Postgraduate diploma in tax law</span></li>
+        </ul>
+      </article>
+
+      <article class="person">
+        <div class="person-top">
+          <div class="mono-tile" aria-hidden="true">MF</div>
+          <div>
+            <h3>Mai Fahmy</h3>
+            <p class="role">Head of payroll and compliance</p>
+          </div>
+        </div>
+        <p>Runs payroll for 214 client companies and roughly 4,100 employees. Deals with the social insurance offices directly, including inspections, and rebuilds payroll records for companies arriving with none.</p>
+        <ul class="creds">
+          <li><span>Member</span><span>Egyptian Society of Accountants &amp; Auditors</span></li>
+          <li><span>Degree</span><span>B.Com Accounting, Alexandria University</span></li>
+          <li><span>Certified</span><span>Social insurance law no. 148 of 2019</span></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============================== FAQ ============================== -->
+  <section class="sec shell" id="faq">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Questions</p>
+      <h2 class="h2">The five things people ask before they call.</h2>
+      <p class="lede">Money and trust, mostly. Answered here so you do not have to sit through a meeting to find out.</p>
+    </div>
+
+    <div class="faq">
+      <details class="q" id="q1">
+        <summary>What will this actually cost me?</summary>
+        <div class="q-body">
+          <p>A company with one bank account, under 150 transactions a month and eight employees pays about <strong>7,100 EGP a month</strong> — bookkeeping and VAT at 4,500, payroll at 2,000 plus 600 for the headcount — and 22,000 EGP once a year for the accounts and corporate return. Quarterly filings are 1,600 EGP each.</p>
+          <p>That is the whole fee. We do not bill for calls, emails, bank letters or the ten-minute questions. If your volumes fall outside the band, we tell you before the work starts, not after.</p>
+        </div>
+      </details>
+
+      <details class="q" id="q2">
+        <summary>Do you handle e-invoicing, including setting it up from scratch?</summary>
+        <div class="q-body">
+          <p>Yes, both. If you are not yet on the ETA system we register the company, obtain the digital signature token, map your products to EGS or GS1 codes, connect whatever you invoice from — ERP, an accounting package or a spreadsheet — and train the person who raises invoices. Setup is 9,500 EGP and usually takes two weeks, most of it waiting on the certificate.</p>
+          <p>If you are already integrated, we monitor submissions, chase rejected documents, and check that your suppliers' invoices actually reached the portal. <strong>Input tax you cannot trace to a valid electronic invoice is input tax you will lose at inspection.</strong></p>
+        </div>
+      </details>
+
+      <details class="q" id="q3">
+        <summary>My books are a mess and I am behind on filings. Will you take me on?</summary>
+        <div class="q-body">
+          <p>Yes. Roughly a third of new clients arrive with a backlog, and a fair number arrive with an assessment already issued. We do not lecture about it.</p>
+          <p>What we do is reconstruct the position first: what was filed, what was not, and what the exposure is with penalties and delay interest. You get that in writing with a fixed price to clear it before you commit to a retainer. Clearing a year of neglected books typically runs 15,000 to 60,000 EGP depending on volume — and in most cases it is cheaper than the penalties that accrue while you decide.</p>
+        </div>
+      </details>
+
+      <details class="q" id="q4">
+        <summary>Are you actually licensed, and can I check?</summary>
+        <div class="q-body">
+          <p>Yes, and yes. The practice is entered on the Register of Accountants and Auditors under <strong>number 3184</strong>, and Rania Nassar holds the individual audit licence under that entry — only a licensed auditor may sign statutory financial statements in Egypt. Tarek Halim is an accredited tax agent, ETA register 11-4470. Both registrations are public and verifiable at the relevant authority.</p>
+          <p>We also carry professional indemnity insurance, and we will show you the certificate before you sign anything.</p>
+        </div>
+      </details>
+
+      <details class="q" id="q5">
+        <summary>What happens if I get audited?</summary>
+        <div class="q-body">
+          <p>We take it. You forward the notice and stop replying to the inspector yourself — most damage in an Egyptian inspection is done by informal answers given early.</p>
+          <p>We assemble the file, respond in writing, attend the internal committee with you or in your place under power of attorney, and negotiate the assessment. If it remains wrong, we take it to the appeal committee. For retainer clients this is included up to the internal committee stage; appeal work is quoted separately, usually from 25,000 EGP.</p>
+          <p>Between 2019 and 2025 we defended thirty-one inspections. We will tell you honestly which parts of a claim are arguable and which are not — a defence built on a weak position costs more than the tax.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============================== CONTACT ============================== -->
+  <section class="contact-sec sec" id="contact">
+    <div class="shell">
+      <div class="contact-grid">
+        <div>
+          <div class="sec-head" style="margin-bottom:24px">
+            <p class="eyebrow">Request a quote</p>
+            <h2 class="h2">Tell us the shape of the business.</h2>
+            <p class="lede">Six fields. A partner reads it, and you get a fee range by the next working day — not a call from someone trying to book a meeting.</p>
+          </div>
+          <div class="contact-facts">
+            <div class="fact">
+              <p class="lab">Telephone</p>
+              <p class="val"><a href="tel:+20227351180">02 2735 1180</a></p>
+            </div>
+            <div class="fact">
+              <p class="lab">Email</p>
+              <p class="val"><a href="mailto:office@nassarhalim.example">office@nassarhalim.example</a></p>
+            </div>
+            <div class="fact">
+              <p class="lab">Office</p>
+              <p class="val">14 Sherif Street, 3rd floor<br />Downtown, Cairo</p>
+            </div>
+            <div class="fact">
+              <p class="lab">Hours</p>
+              <p class="val">Sunday to Thursday, 09:00&ndash;17:00</p>
+            </div>
+          </div>
+        </div>
+
+        <form id="quoteForm" novalidate>
+          <div class="frow">
+            <div class="field" id="f-name">
+              <label for="q-name">Your name</label>
+              <input type="text" id="q-name" name="name" autocomplete="name" />
+              <span class="err">Please tell us who you are.</span>
+            </div>
+            <div class="field" id="f-company">
+              <label for="q-company">Company name</label>
+              <input type="text" id="q-company" name="company" autocomplete="organization" />
+              <span class="hint">Or "not registered yet"</span>
+            </div>
+          </div>
+
+          <div class="frow">
+            <div class="field" id="f-phone">
+              <label for="q-phone">Telephone</label>
+              <input type="tel" id="q-phone" name="phone" autocomplete="tel" inputmode="tel" />
+              <span class="err">A number we can reach you on.</span>
+            </div>
+            <div class="field" id="f-email">
+              <label for="q-email">Email</label>
+              <input type="email" id="q-email" name="email" autocomplete="email" />
+              <span class="err">Please check the email address.</span>
+            </div>
+          </div>
+
+          <div class="frow">
+            <div class="field" id="f-type">
+              <label for="q-type">Business type</label>
+              <select id="q-type" name="type">
+                <option value="">Select one</option>
+                <option>Limited liability company (LLC)</option>
+                <option>Joint stock company (SAE)</option>
+                <option>Sole establishment</option>
+                <option>Independent professional</option>
+                <option>Branch or representative office</option>
+                <option>Free zone or investment law entity</option>
+                <option>Not registered yet</option>
+              </select>
+              <span class="err">Please choose a business type.</span>
+            </div>
+            <div class="field" id="f-turnover">
+              <label for="q-turnover">Annual turnover</label>
+              <select id="q-turnover" name="turnover">
+                <option value="">Select a band</option>
+                <option>Under 500,000 EGP</option>
+                <option>500,000 &ndash; 2m EGP</option>
+                <option>2m &ndash; 10m EGP</option>
+                <option>10m &ndash; 50m EGP</option>
+                <option>Over 50m EGP</option>
+                <option>Not trading yet</option>
+              </select>
+              <span class="err">A band is enough — it sets the fee.</span>
+            </div>
+          </div>
+
+          <fieldset id="f-needs">
+            <legend class="fset-legend">What do you need help with</legend>
+            <div class="needs">
+              <label class="check"><input type="checkbox" name="need" value="Bookkeeping and VAT" /> Bookkeeping and VAT returns</label>
+              <label class="check"><input type="checkbox" name="need" value="Payroll" /> Payroll and social insurance</label>
+              <label class="check"><input type="checkbox" name="need" value="E-invoicing" /> E-invoicing and ETA setup</label>
+              <label class="check"><input type="checkbox" name="need" value="Annual accounts" /> Annual accounts and tax return</label>
+              <label class="check"><input type="checkbox" name="need" value="Inspection" /> An inspection or assessment</label>
+              <label class="check"><input type="checkbox" name="need" value="Backlog" /> Clearing a backlog</label>
+            </div>
+            <span class="err" style="margin-top:10px">Choose at least one.</span>
+          </fieldset>
+
+          <div class="field">
+            <label for="q-msg">Anything we should know</label>
+            <textarea id="q-msg" name="message" rows="4" placeholder="Outstanding filings, an assessment already issued, how many employees, what system you invoice from."></textarea>
+          </div>
+
+          <label class="consent"><input type="checkbox" id="q-consent" name="consent" /> I understand this form is a demonstration and that nothing is submitted or stored.</label>
+
+          <div class="form-acts">
+            <button class="btn" type="submit">Send the enquiry</button>
+            <p class="small">We reply within one working day. Sunday to Thursday.</p>
+          </div>
+
+          <p class="fstat" id="quoteStat" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============================== FOOTER ============================== -->
+<footer class="foot">
+  <div class="shell">
+    <div class="foot-top">
+      <div>
+        <div class="mark">
+          <span class="mark-glyph" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.1">
+              <path d="M2 13.2h12M2 2.8h12M4.6 2.8v10.4M11.4 2.8v10.4M2 8h12"/>
+            </svg>
+          </span>
+          <span>
+            <span class="mark-txt">NASSAR &amp; HALIM</span>
+            <span class="mark-sub">Chartered accountants</span>
+          </span>
+        </div>
+        <p class="foot-blurb">A Cairo practice keeping the books and filings of owner-managed Egyptian companies since 2007.</p>
+      </div>
+
+      <div class="foot-col">
+        <h3>Services</h3>
+        <ul>
+          <li><a href="#services">Bookkeeping and VAT</a></li>
+          <li><a href="#services">Payroll</a></li>
+          <li><a href="#services">E-invoicing</a></li>
+          <li><a href="#services">Annual accounts</a></li>
+          <li><a href="#services">Inspections and appeals</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h3>Practice</h3>
+        <ul>
+          <li><a href="#calendar">The filing year</a></li>
+          <li><a href="#process">How we work</a></li>
+          <li><a href="#team">The people</a></li>
+          <li><a href="#faq">Questions</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h3>Contact</h3>
+        <ul>
+          <li><a href="tel:+20227351180">02 2735 1180</a></li>
+          <li><a href="mailto:office@nassarhalim.example">office@nassarhalim.example</a></li>
+          <li>14 Sherif Street, 3rd floor<br />Downtown, Cairo</li>
+          <li>Sunday to Thursday, 09:00&ndash;17:00</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="reg">
+      <div>
+        <p class="lab">Auditors' register</p>
+        <p class="val">RAA no. 3184</p>
+      </div>
+      <div>
+        <p class="lab">Tax registration</p>
+        <p class="val">418-227-905</p>
+      </div>
+      <div>
+        <p class="lab">Commercial register</p>
+        <p class="val">Cairo 92 447</p>
+      </div>
+      <div>
+        <p class="lab">Tax agent licence</p>
+        <p class="val">ETA 11-4470</p>
+      </div>
+    </div>
+
+    <div class="foot-base">
+      <p>&copy; <span id="yr">2026</span> Nassar &amp; Halim. Nothing on this page is tax advice for a specific business.</p>
+      <p>A fictional practice, designed and built by <a href="https://axisdigital.studio">Axis Digital</a>.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  var byId = function(id){ return document.getElementById(id); };
+
+  /* ---- nav settles on scroll ---- */
+  var nav = byId('nav');
+  if (nav){
+    var settle = function(){ nav.classList.toggle('stuck', window.scrollY > 8); };
+    settle();
+    window.addEventListener('scroll', settle, {passive:true});
+  }
+
+  /* ---- mark the current month in the filing year ---- */
+  var now = new Date();
+  var m = now.getMonth();
+  var months = ['January','February','March','April','May','June',
+                'July','August','September','October','November','December'];
+
+  var cells = document.querySelectorAll('[data-m="' + m + '"]');
+  Array.prototype.forEach.call(cells, function(el){ el.classList.add('is-now'); });
+
+  var slipMonth = byId('slip-month');
+  if (slipMonth) slipMonth.textContent = months[m] + ' ' + now.getFullYear();
+
+  /* what this particular month carries, in plain words */
+  var vatCovers = months[(m + 10) % 12];
+  var payCovers = months[(m + 11) % 12];
+  var notes = [];
+  notes.push('Payroll tax and social insurance for ' + payCovers + ' by the 15th');
+  notes.push(m === 5
+    ? 'the April VAT return by 15 June — the one date that breaks the pattern'
+    : 'the VAT return for ' + vatCovers + ' by the end of the month');
+  if (m === 0 || m === 3 || m === 6 || m === 9){
+    notes.push('Form 41 for the quarter just ended, within 30 days');
+  }
+  if (m === 0) notes.push('the annual salary tax reconciliation');
+  if (m === 3) notes.push('the corporate income tax return by 30 April');
+  if (m === 11) notes.push('the year-end stock count on 31 December');
+
+  var val = byId('calNowVal');
+  var sub = byId('calNowSub');
+  if (val) val.textContent = months[m] + ' ' + now.getFullYear() + ' is marked below';
+  if (sub){
+    var line;
+    if (notes.length === 1){
+      line = notes[0];
+    } else {
+      var last = notes.pop();
+      line = notes.join(', then ') + ', and ' + last;
+    }
+    sub.textContent = 'A company on a December year end owes ' +
+      line.charAt(0).toLowerCase() + line.slice(1) + '.';
+  }
+
+  /* ---- one question open at a time: a list, not a wall ---- */
+  var qs = document.querySelectorAll('.q');
+  Array.prototype.forEach.call(qs, function(d){
+    d.addEventListener('toggle', function(){
+      if (!d.open) return;
+      Array.prototype.forEach.call(qs, function(o){ if (o !== d) o.open = false; });
+    });
+  });
+
+  /* ---- quote form ---- */
+  var form = byId('quoteForm');
+  var stat = byId('quoteStat');
+
+  var mark = function(id, bad){
+    var f = byId(id);
+    if (f) f.classList.toggle('bad', bad);
+  };
+
+  ['q-name','q-phone','q-email','q-type','q-turnover'].forEach(function(id){
+    var el = byId(id);
+    if (!el) return;
+    var clear = function(){ mark('f-' + id.slice(2), false); };
+    el.addEventListener('input', clear);
+    el.addEventListener('change', clear);
+  });
+
+  var needBoxes = document.querySelectorAll('input[name="need"]');
+  Array.prototype.forEach.call(needBoxes, function(b){
+    b.addEventListener('change', function(){ mark('f-needs', false); });
+  });
+
+  if (form) form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var firstBad = null;
+    var fail = function(fieldId, focusId){
+      mark(fieldId, true);
+      if (!firstBad) firstBad = byId(focusId);
+    };
+
+    var name = byId('q-name');
+    var phone = byId('q-phone');
+    var email = byId('q-email');
+    var type = byId('q-type');
+    var turnover = byId('q-turnover');
+
+    if (!name || name.value.trim().length < 2) fail('f-name','q-name'); else mark('f-name', false);
+
+    var digits = phone ? phone.value.replace(/[^0-9]/g,'') : '';
+    if (digits.length < 8) fail('f-phone','q-phone'); else mark('f-phone', false);
+
+    var addr = email ? email.value.trim() : '';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(addr)) fail('f-email','q-email'); else mark('f-email', false);
+
+    if (!type || !type.value) fail('f-type','q-type'); else mark('f-type', false);
+    if (!turnover || !turnover.value) fail('f-turnover','q-turnover'); else mark('f-turnover', false);
+
+    var chosen = 0;
+    Array.prototype.forEach.call(needBoxes, function(b){ if (b.checked) chosen++; });
+    if (!chosen){
+      mark('f-needs', true);
+      if (!firstBad && needBoxes.length) firstBad = needBoxes[0];
+    } else {
+      mark('f-needs', false);
+    }
+
+    if (firstBad){
+      if (stat) stat.classList.remove('show');
+      if (typeof firstBad.focus === 'function') firstBad.focus();
+      return;
+    }
+
+    if (stat){
+      stat.classList.add('show');
+      stat.textContent = 'Thank you, ' + name.value.trim().split(' ')[0] +
+        '. A partner would normally read this and send a fee range by the next working day. ' +
+        'This is a demonstration site, so nothing has been sent or stored.';
+    }
+    form.reset();
+  });
+
+  /* ---- year ---- */
+  var yr = byId('yr');
+  if (yr) yr.textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
