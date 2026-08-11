@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CADENCE — Reformer Pilates, Cairo</title>
+<meta name="description" content="A six-reformer Pilates studio in Cairo. Small classes, controlled movement, instructors who watch you rather than the clock. From 250 EGP." />
+<meta name="theme-color" content="#241C22" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Epilogue:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ==========================================================================
+   CADENCE — reformer Pilates studio
+   Palette   plum #241C22 · chalk #F2EAE6 · rose #E0907E · sand #C9A88F
+   Type      Prata (display) · Epilogue (body)
+   Motion    paced to breath, not to habit. The hero breathes on a 4s cycle,
+             buttons stretch like a spring under load, and reveals are
+             scroll-linked via native CSS timelines with a visible fallback.
+   Signature the spring-tension guide - what each reformer spring is for.
+   ========================================================================== */
+
+:root{
+  --plum:#241C22;
+  --plum-2:#2E242B;
+  --plum-3:#3A2E36;
+  --ink:#1A1418;
+
+  --chalk:#F2EAE6;
+  --chalk-2:#D9CCC6;
+  --muted:#9A8A90;
+
+  --rose:#E0907E;
+  --rose-lt:#EFB5A6;
+  --rose-deep:#B06A5A;
+  --sand:#C9A88F;
+
+  --line:rgba(242,234,230,.13);
+  --line-soft:rgba(242,234,230,.06);
+
+  --display:'Prata',Georgia,serif;
+  --body:'Epilogue',system-ui,-apple-system,sans-serif;
+
+  --shell:1180px;
+  --pad:clamp(20px,5vw,54px);
+  --sec:clamp(76px,9vw,132px);
+
+  /* one easing family, used everywhere - motion should feel like one hand */
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --breath:4.4s;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--plum);color:var(--chalk-2);
+  font-family:var(--body);font-size:16px;line-height:1.68;font-weight:300;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:400;color:var(--chalk);line-height:1.16;}
+p{margin:0 0 1.05em;} p:last-child{margin-bottom:0;}
+a{color:inherit;text-decoration:none;}
+::selection{background:var(--rose);color:var(--ink);}
+
+.shell{width:100%;max-width:var(--shell);margin-inline:auto;padding-inline:var(--pad);}
+.sec{padding-block:var(--sec);}
+.skip{position:absolute;top:0;inset-inline-start:0;z-index:300;background:var(--rose);color:var(--ink);
+  padding:12px 18px;font-weight:600;transform:translateY(-130%);transition:transform .2s var(--ease);}
+.skip:focus{transform:none;}
+:focus-visible{outline:2px solid var(--rose);outline-offset:3px;}
+
+.eyebrow{display:block;font-size:.66rem;font-weight:600;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--rose);margin:0 0 18px;}
+.h2{font-size:clamp(1.8rem,3.8vw,2.7rem);margin-bottom:14px;}
+.lede{max-width:56ch;font-size:clamp(1rem,1.2vw,1.06rem);color:var(--chalk-2);}
+
+/* ---------- scroll progress: a thin line that fills as you read ---------- */
+.progress{position:fixed;top:0;left:0;height:2px;width:100%;z-index:200;
+  background:var(--rose);transform-origin:0 50%;transform:scaleX(0);}
+@supports (animation-timeline: scroll()){
+  .progress{animation:fill linear;animation-timeline:scroll(root);}
+  @keyframes fill{to{transform:scaleX(1);}}
+}
+
+/* ---------- buttons: spring tension on hover ---------- */
+.btn{
+  position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--body);font-weight:600;font-size:.88rem;letter-spacing:.01em;
+  padding:15px 30px;border-radius:100px;border:1px solid transparent;cursor:pointer;
+  overflow:hidden;isolation:isolate;
+  transition:color .35s var(--ease),border-color .35s var(--ease),
+             transform .5s var(--ease-spring),letter-spacing .5s var(--ease);
+}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;
+  background:var(--rose);transform:scaleY(0);transform-origin:50% 100%;
+  transition:transform .45s var(--ease);}
+.btn:hover{transform:translateY(-2px);letter-spacing:.03em;}
+.btn:active{transform:translateY(0) scale(.985);transition-duration:.09s;}
+.btn-solid{background:var(--rose);color:var(--ink);}
+.btn-solid::before{background:var(--rose-lt);transform:scaleY(0);}
+.btn-solid:hover::before{transform:scaleY(1);}
+.btn-line{border-color:var(--line);color:var(--chalk);}
+.btn-line:hover{color:var(--ink);border-color:var(--rose);}
+.btn-line:hover::before{transform:scaleY(1);}
+
+.link-u{position:relative;color:var(--rose);font-weight:600;font-size:.9rem;}
+.link-u::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:1px;
+  background:currentColor;transform:scaleX(0);transform-origin:100% 50%;
+  transition:transform .4s var(--ease);}
+.link-u:hover::after{transform:scaleX(1);transform-origin:0 50%;}
+
+/* ============================== NAV ============================== */
+.nav{position:sticky;top:0;z-index:100;background:rgba(36,28,34,.86);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;transition:border-color .4s var(--ease);}
+.nav.stuck{border-bottom-color:var(--line);}
+.nav-in{max-width:var(--shell);margin-inline:auto;padding-inline:var(--pad);height:72px;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  transition:height .45s var(--ease);}
+.nav.stuck .nav-in{height:62px;}
+.brand{display:flex;align-items:baseline;gap:10px;}
+.brand b{font-family:var(--display);font-size:1.32rem;letter-spacing:.14em;color:var(--chalk);font-weight:400;}
+.brand span{font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);}
+.links{display:flex;gap:28px;list-style:none;margin:0;padding:0;}
+.links a{position:relative;font-size:.88rem;color:var(--chalk-2);padding-block:4px;
+  transition:color .3s var(--ease);}
+.links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;
+  background:var(--rose);transform:scaleX(0);transform-origin:100% 50%;
+  transition:transform .4s var(--ease);}
+.links a:hover{color:var(--chalk);}
+.links a:hover::after{transform:scaleX(1);transform-origin:0 50%;}
+.burger{display:none;width:40px;height:36px;border:1px solid var(--line);border-radius:100px;
+  background:transparent;cursor:pointer;position:relative;padding:0;}
+.burger i{position:absolute;left:11px;right:11px;height:1.4px;background:var(--chalk);
+  transition:transform .4s var(--ease),opacity .25s var(--ease);}
+.burger i:nth-child(1){top:12px;} .burger i:nth-child(2){top:17px;} .burger i:nth-child(3){top:22px;}
+body.open .burger i:nth-child(1){transform:translateY(5px) rotate(45deg);}
+body.open .burger i:nth-child(2){opacity:0;transform:scaleX(.4);}
+body.open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);}
+@media(max-width:880px){
+  .links{position:fixed;inset:72px 0 auto 0;background:var(--plum-2);flex-direction:column;
+    gap:0;padding:8px var(--pad) 22px;border-bottom:1px solid var(--line);
+    clip-path:inset(0 0 100% 0);transition:clip-path .5s var(--ease);}
+  body.open .links{clip-path:inset(0 0 0 0);}
+  .links li{width:100%;}
+  .links a{display:block;padding:14px 0;border-bottom:1px solid var(--line-soft);font-size:1rem;}
+  .nav-cta{display:none;}
+  .burger{display:block;}
+}
+
+/* ============================== HERO ============================== */
+.hero{position:relative;overflow:hidden;padding-block:clamp(44px,6vw,84px) clamp(60px,7vw,104px);}
+.hero-grid{display:grid;gap:clamp(38px,5vw,60px);align-items:center;position:relative;z-index:2;}
+@media(min-width:920px){.hero-grid{grid-template-columns:1.02fr .98fr;}}
+.hero h1{font-size:clamp(2.2rem,5.2vw,3.5rem);max-width:13ch;}
+.hero h1 .em{color:var(--rose);}
+.hero .sub{margin-top:22px;max-width:44ch;}
+.acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;}
+.meta{display:flex;flex-wrap:wrap;gap:18px 36px;margin-top:34px;padding-top:24px;border-top:1px solid var(--line);}
+.meta div{min-width:110px;}
+.meta dt{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.meta dd{margin:0;color:var(--chalk);font-size:.95rem;font-weight:500;}
+
+/* ---------- the breathing figure ----------
+   A four-and-a-half second cycle: in through the nose, out through the mouth.
+   It is the tempo the classes are taught at, so the page moves at it too. */
+.breath-stage{display:grid;place-items:center;position:relative;min-height:min(78vw,400px);}
+.ring{position:absolute;border-radius:50%;border:1px solid var(--line);}
+.ring.r1{width:min(74vw,380px);aspect-ratio:1;}
+.ring.r2{width:min(56vw,286px);aspect-ratio:1;border-color:rgba(224,144,126,.22);}
+.ring.r3{width:min(38vw,196px);aspect-ratio:1;border-color:rgba(224,144,126,.34);}
+.core{position:relative;width:min(26vw,132px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 42% 36%, var(--rose-lt), var(--rose) 52%, var(--rose-deep));
+  box-shadow:0 0 60px -10px rgba(224,144,126,.5);}
+.breath-label{position:absolute;bottom:-2px;left:0;right:0;height:1.2em;text-align:center;
+  font-size:.64rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);}
+/* stacked so the two cues cross-fade in place instead of nudging the line */
+.breath-label span{position:absolute;left:0;right:0;top:0;}
+@keyframes breathe{
+  0%,100%{transform:scale(.86);}
+  45%{transform:scale(1.06);}
+  55%{transform:scale(1.06);}
+}
+@keyframes breathe-ring{
+  0%,100%{transform:scale(.94);opacity:.55;}
+  45%,55%{transform:scale(1.04);opacity:1;}
+}
+@keyframes cue{
+  0%,42%{opacity:1;}
+  46%,96%{opacity:0;}
+  100%{opacity:1;}
+}
+.core{animation:breathe var(--breath) cubic-bezier(.45,0,.55,1) infinite;}
+.ring.r3{animation:breathe-ring var(--breath) cubic-bezier(.45,0,.55,1) infinite;}
+.ring.r2{animation:breathe-ring var(--breath) cubic-bezier(.45,0,.55,1) infinite .12s;}
+.ring.r1{animation:breathe-ring var(--breath) cubic-bezier(.45,0,.55,1) infinite .24s;}
+.cue-in{animation:cue var(--breath) steps(1,end) infinite;}
+.cue-out{animation:cue var(--breath) steps(1,end) infinite;animation-direction:reverse;}
+
+/* ============================== MARQUEE ============================== */
+.strip{border-block:1px solid var(--line);overflow:hidden;padding-block:16px;
+  background:linear-gradient(180deg,rgba(242,234,230,.02),transparent);}
+.mq{display:flex;width:max-content;animation:slide 30s linear infinite;}
+.mq-set{display:flex;align-items:center;gap:42px;padding-inline-end:42px;}
+.mq span{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.mq i{width:5px;height:5px;border-radius:50%;background:var(--rose);opacity:.7;flex:none;}
+@keyframes slide{to{transform:translateX(-50%);}}
+.strip:hover .mq{animation-play-state:paused;}
+
+/* ============================== CLASSES ============================== */
+.classes{background:var(--plum-2);border-block:1px solid var(--line);}
+.grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:44px;}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr;}}
+@media(min-width:1020px){.grid{grid-template-columns:repeat(4,1fr);}}
+.cl{background:var(--plum-2);padding:28px 24px 24px;position:relative;overflow:hidden;
+  transition:background .45s var(--ease);}
+.cl::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:2px;
+  background:var(--rose);transform:scaleY(0);transform-origin:50% 100%;
+  transition:transform .5s var(--ease);}
+.cl:hover{background:var(--plum-3);}
+.cl:hover::before{transform:scaleY(1);transform-origin:50% 0;}
+.cl-n{font-size:.64rem;letter-spacing:.2em;color:var(--rose);margin-bottom:16px;display:block;}
+.cl h3{font-size:1.2rem;margin-bottom:8px;}
+.cl p{font-size:.86rem;margin-bottom:16px;}
+.cl-meta{display:flex;flex-wrap:wrap;gap:6px;}
+.tagp{font-size:.62rem;letter-spacing:.06em;color:var(--chalk-2);border:1px solid var(--line);
+  border-radius:100px;padding:4px 11px;transition:border-color .4s var(--ease);}
+.cl:hover .tagp{border-color:rgba(224,144,126,.4);}
+
+/* ============================== SPRINGS (signature) ============================== */
+.springs-sec{position:relative;}
+.sp-grid{display:grid;gap:clamp(36px,5vw,64px);align-items:center;}
+@media(min-width:920px){.sp-grid{grid-template-columns:.95fr 1.05fr;}}
+.spring{display:grid;grid-template-columns:116px 1fr auto;gap:18px;align-items:center;
+  padding:18px 0;border-bottom:1px solid var(--line);}
+.spring:first-of-type{border-top:1px solid var(--line);}
+/* the coil's LENGTH is the data - full, three quarter, half, quarter -
+   so the diagram is readable without reading the labels */
+.coil{height:26px;border-radius:100px;position:relative;justify-self:start;
+  background:repeating-linear-gradient(115deg, currentColor 0 3px, transparent 3px 9px);
+  transition:transform .55s var(--ease-spring);transform-origin:0 50%;}
+.spring:hover .coil{transform:scaleX(1.14);}
+.s-red{width:116px;} .s-blue{width:87px;} .s-yellow{width:58px;} .s-green{width:29px;}
+.s-red{color:#D8695C;} .s-blue{color:#6E8FB5;} .s-yellow{color:#D9B36A;} .s-green{color:#7FA98A;}
+@media(max-width:560px){.s-red{width:80px;}.s-blue{width:60px;}.s-yellow{width:40px;}.s-green{width:20px;}}
+.spring b{display:block;color:var(--chalk);font-weight:600;font-size:.96rem;margin-bottom:2px;}
+.spring p{margin:0;font-size:.84rem;}
+.spring .load{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+@media(max-width:560px){
+  .spring{grid-template-columns:84px 1fr;}
+  .spring .load{grid-column:2;}
+}
+
+/* ============================== SCHEDULE ============================== */
+.sched{background:var(--plum-2);border-block:1px solid var(--line);}
+.day{border-bottom:1px solid var(--line);}
+.day:first-of-type{border-top:1px solid var(--line);}
+.day summary{list-style:none;cursor:pointer;padding:20px 40px 20px 0;position:relative;
+  display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;}
+.day summary::-webkit-details-marker{display:none;}
+.day summary b{font-family:var(--display);font-size:1.15rem;color:var(--chalk);font-weight:400;}
+.day summary .cnt{font-size:.74rem;color:var(--muted);letter-spacing:.06em;}
+.day summary::after{content:"";position:absolute;inset-inline-end:6px;top:50%;width:10px;height:10px;
+  border:solid var(--rose);border-width:0 1.4px 1.4px 0;
+  transform:translateY(-70%) rotate(45deg);transition:transform .45s var(--ease-spring);}
+.day[open] summary::after{transform:translateY(-30%) rotate(-135deg);}
+.slots{display:grid;gap:1px;background:var(--line);border-top:1px solid var(--line);
+  padding:0;margin:0 0 0;list-style:none;}
+@media(min-width:700px){.slots{grid-template-columns:repeat(3,1fr);}}
+.slot{background:var(--plum-2);padding:15px 18px;display:flex;justify-content:space-between;
+  align-items:center;gap:12px;transition:background .35s var(--ease);}
+.slot:hover{background:var(--plum-3);}
+.slot time{font-family:var(--display);font-size:1rem;color:var(--chalk);}
+.slot span{font-size:.76rem;color:var(--muted);}
+.slot .full{color:var(--rose-deep);}
+
+/* ============================== PRICING ============================== */
+.tiers{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:42px;}
+@media(min-width:820px){.tiers{grid-template-columns:repeat(3,1fr);}}
+.tier{background:var(--plum);padding:32px 26px;display:flex;flex-direction:column;position:relative;
+  transition:background .45s var(--ease),transform .5s var(--ease);}
+.tier:hover{background:var(--plum-2);}
+.tier.best{background:var(--plum-2);}
+.flag{position:absolute;top:0;inset-inline-end:0;font-size:.6rem;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink);background:var(--rose);padding:5px 12px;border-radius:0 0 0 8px;}
+.tier h3{font-size:1.25rem;margin-bottom:5px;}
+.tier .for{font-size:.83rem;color:var(--muted);margin-bottom:20px;}
+.amt{display:flex;align-items:baseline;gap:7px;margin-bottom:6px;}
+.amt b{font-family:var(--display);font-size:2.1rem;color:var(--chalk);font-weight:400;}
+.amt small{font-size:.7rem;color:var(--muted);letter-spacing:.1em;}
+.per{font-size:.78rem;color:var(--rose);margin-bottom:22px;}
+.tier ul{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:11px;}
+.tier li{display:grid;grid-template-columns:auto 1fr;gap:11px;font-size:.87rem;align-items:start;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--rose);margin-top:9px;}
+.tier .btn{margin-top:auto;width:100%;}
+
+/* ============================== BOOK ============================== */
+.book{border-top:1px solid var(--line);}
+.b-grid{display:grid;gap:clamp(30px,5vw,52px);}
+@media(min-width:860px){.b-grid{grid-template-columns:1fr 1fr;}}
+.field{margin-bottom:15px;}
+.field label{display:block;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:7px;}
+.field input,.field select,.field textarea{width:100%;background:rgba(242,234,230,.05);
+  color:var(--chalk);border:1px solid var(--line);border-radius:8px;padding:13px 14px;
+  font:inherit;font-size:.93rem;transition:border-color .35s var(--ease),background .35s var(--ease);}
+.field textarea{min-height:96px;resize:vertical;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--rose);
+  background:rgba(242,234,230,.08);}
+.field select option{background:var(--plum-2);color:var(--chalk);}
+.field.bad input,.field.bad select{border-color:var(--rose-deep);}
+.field .err{display:none;color:var(--rose-lt);font-size:.76rem;margin-top:6px;}
+.field.bad .err{display:block;}
+.fstat{display:none;margin-top:16px;padding:13px 15px;border-radius:8px;font-size:.88rem;}
+.fstat.show{display:block;}
+.fstat.ok{background:rgba(224,144,126,.14);color:var(--rose-lt);border:1px solid rgba(224,144,126,.34);}
+.fstat.no{background:rgba(176,106,90,.14);color:var(--rose-lt);border:1px solid rgba(176,106,90,.4);}
+.first-note{border:1px solid var(--line);border-radius:12px;padding:22px 22px;background:var(--plum-2);}
+.first-note h3{font-size:1.05rem;margin-bottom:10px;}
+.first-note p{font-size:.87rem;}
+.first-note ul{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:10px;}
+.first-note li{display:grid;grid-template-columns:auto 1fr;gap:11px;font-size:.86rem;align-items:start;}
+
+/* ============================== FOOTER ============================== */
+.foot{background:var(--ink);border-top:1px solid var(--line);}
+.foot-in{padding-block:34px;display:flex;flex-wrap:wrap;gap:18px 38px;
+  justify-content:space-between;align-items:center;}
+.foot-links{display:flex;gap:22px;flex-wrap:wrap;font-size:.86rem;}
+.foot-links a:hover{color:var(--rose);}
+.foot small{font-size:.76rem;color:var(--muted);}
+
+/* ---------- scroll-linked reveal ----------
+   Native CSS timelines. Where unsupported the element simply stays in its
+   normal, visible state - nothing here is gated behind script. */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .rise{animation:rise linear both;animation-timeline:view();animation-range:entry 6% cover 26%;}
+    @keyframes rise{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:none;}}
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;}
+  html{scroll-behavior:auto;}
+  .core,.ring{transform:none!important;}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a href="#top" class="brand"><b>CADENCE</b><span>Pilates</span></a>
+    <ul class="links" id="menu">
+      <li><a href="#classes">Classes</a></li>
+      <li><a href="#springs">The springs</a></li>
+      <li><a href="#schedule">Schedule</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <div class="nav-cta"><a href="#book" class="btn btn-solid">Book first class</a></div>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="main"><div id="top"></div>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="shell hero-grid">
+    <div>
+      <span class="eyebrow">Six reformers · Maadi, Cairo</span>
+      <h1>Movement you can <span class="em">feel yourself</span> getting better at.</h1>
+      <p class="sub">Six reformers, never more than six people. The instructor watches you, corrects you by name, and remembers what you were working on last week.</p>
+      <div class="acts">
+        <a href="#book" class="btn btn-solid">Book your first class</a>
+        <a href="#schedule" class="btn btn-line">See the schedule</a>
+      </div>
+      <dl class="meta">
+        <div><dt>Class size</dt><dd>Six, maximum</dd></div>
+        <div><dt>First class</dt><dd>250 EGP</dd></div>
+        <div><dt>Session</dt><dd>50 minutes</dd></div>
+      </dl>
+    </div>
+
+    <div class="breath-stage" aria-hidden="true">
+      <span class="ring r1"></span>
+      <span class="ring r2"></span>
+      <span class="ring r3"></span>
+      <span class="core"></span>
+      <span class="breath-label">
+        <span class="cue-in">Inhale</span><span class="cue-out">Exhale</span>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ MARQUEE ============================ -->
+<div class="strip" aria-hidden="true">
+  <div class="mq">
+    <div class="mq-set">
+      <span>Reformer</span><i></i><span>Mat</span><i></i><span>Pre-natal</span><i></i><span>Post-natal</span><i></i>
+      <span>Rehab</span><i></i><span>Athletic</span><i></i><span>Beginners</span><i></i><span>Private</span><i></i>
+    </div>
+    <div class="mq-set">
+      <span>Reformer</span><i></i><span>Mat</span><i></i><span>Pre-natal</span><i></i><span>Post-natal</span><i></i>
+      <span>Rehab</span><i></i><span>Athletic</span><i></i><span>Beginners</span><i></i><span>Private</span><i></i>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ CLASSES ============================ -->
+<section class="sec classes" id="classes">
+  <div class="shell">
+    <div class="rise">
+      <span class="eyebrow">What we teach</span>
+      <h2 class="h2">Four classes, one method.</h2>
+      <p class="lede">Everything here is classical reformer work. The difference between the classes is pace and load, not a different system with a new name.</p>
+    </div>
+
+    <div class="grid">
+      <article class="cl rise">
+        <span class="cl-n">01</span>
+        <h3>Foundation</h3>
+        <p>Your first six weeks. Footwork, breathing, and learning where your ribs are. Slow enough to be corrected properly.</p>
+        <div class="cl-meta"><span class="tagp">50 min</span><span class="tagp">New to Pilates</span></div>
+      </article>
+      <article class="cl rise">
+        <span class="cl-n">02</span>
+        <h3>Flow</h3>
+        <p>Continuous sequences with less setup between exercises. The class most members settle into and stay in.</p>
+        <div class="cl-meta"><span class="tagp">50 min</span><span class="tagp">6 weeks+</span></div>
+      </article>
+      <article class="cl rise">
+        <span class="cl-n">03</span>
+        <h3>Restore</h3>
+        <p>Lighter springs, longer holds. Built for backs, desk shoulders, and the weeks when everything aches.</p>
+        <div class="cl-meta"><span class="tagp">50 min</span><span class="tagp">All levels</span></div>
+      </article>
+      <article class="cl rise">
+        <span class="cl-n">04</span>
+        <h3>Pre &amp; Post-natal</h3>
+        <p>Taught by instructors certified in it specifically. Modified through every trimester and afterwards.</p>
+        <div class="cl-meta"><span class="tagp">45 min</span><span class="tagp">Cleared by doctor</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ SPRINGS ============================ -->
+<section class="sec springs-sec" id="springs">
+  <div class="shell sp-grid">
+    <div class="rise">
+      <span class="eyebrow">The signature</span>
+      <h2 class="h2">Springs aren't difficulty settings.</h2>
+      <p class="lede">Most people assume more springs means a harder class. It's the opposite as often as not — heavy springs support you, light springs make you do the work. Here's what each one is actually for.</p>
+      <p style="margin-top:18px;font-size:.88rem;color:var(--muted);">Your instructor will call these by colour during class. Now you'll know why.</p>
+    </div>
+
+    <div class="rise">
+      <div class="spring">
+        <span class="coil s-red"></span>
+        <div><b>Red — full tension</b><p>Heaviest. Used for footwork and pressing, where it carries weight so your joints don't.</p></div>
+        <span class="load">Supports</span>
+      </div>
+      <div class="spring">
+        <span class="coil s-blue"></span>
+        <div><b>Blue — three quarters</b><p>The everyday spring. Enough resistance to build strength without losing control of the movement.</p></div>
+        <span class="load">Builds</span>
+      </div>
+      <div class="spring">
+        <span class="coil s-yellow"></span>
+        <div><b>Yellow — half</b><p>Arms, shoulders, anything above the ribcage. Light enough that form fails before the muscle does.</p></div>
+        <span class="load">Refines</span>
+      </div>
+      <div class="spring">
+        <span class="coil s-green"></span>
+        <div><b>Green — quarter</b><p>Almost nothing to push against, which is exactly the point. This is where stability gets tested.</p></div>
+        <span class="load">Exposes</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ SCHEDULE ============================ -->
+<section class="sec sched" id="schedule">
+  <div class="shell">
+    <div class="rise">
+      <span class="eyebrow">This week</span>
+      <h2 class="h2">Six spots per class. That's the whole model.</h2>
+      <p class="lede">Classes open for booking eight days ahead. If a slot shows full, add yourself to the waitlist — cancellations are common and we text the next person in line.</p>
+    </div>
+
+    <div style="margin-top:38px">
+      <details class="day" open>
+        <summary><b>Sunday</b> <span class="cnt">4 classes · 2 spots left</span></summary>
+        <ul class="slots">
+          <li class="slot"><time>07:00</time><span>Flow</span></li>
+          <li class="slot"><time>09:30</time><span>Foundation</span></li>
+          <li class="slot"><time>18:00</time><span class="full">Flow · full</span></li>
+          <li class="slot"><time>19:30</time><span>Restore</span></li>
+        </ul>
+      </details>
+      <details class="day">
+        <summary><b>Monday</b> <span class="cnt">4 classes · 5 spots left</span></summary>
+        <ul class="slots">
+          <li class="slot"><time>07:00</time><span>Restore</span></li>
+          <li class="slot"><time>10:00</time><span>Pre-natal</span></li>
+          <li class="slot"><time>17:30</time><span>Foundation</span></li>
+          <li class="slot"><time>19:00</time><span>Flow</span></li>
+        </ul>
+      </details>
+      <details class="day">
+        <summary><b>Tuesday</b> <span class="cnt">3 classes · 1 spot left</span></summary>
+        <ul class="slots">
+          <li class="slot"><time>08:00</time><span class="full">Flow · full</span></li>
+          <li class="slot"><time>18:00</time><span class="full">Flow · full</span></li>
+          <li class="slot"><time>19:30</time><span>Restore</span></li>
+        </ul>
+      </details>
+      <details class="day">
+        <summary><b>Wednesday</b> <span class="cnt">4 classes · 6 spots left</span></summary>
+        <ul class="slots">
+          <li class="slot"><time>07:00</time><span>Flow</span></li>
+          <li class="slot"><time>09:30</time><span>Post-natal</span></li>
+          <li class="slot"><time>17:30</time><span>Foundation</span></li>
+          <li class="slot"><time>19:00</time><span>Flow</span></li>
+        </ul>
+      </details>
+      <details class="day">
+        <summary><b>Thursday</b> <span class="cnt">3 classes · 4 spots left</span></summary>
+        <ul class="slots">
+          <li class="slot"><time>08:00</time><span>Restore</span></li>
+          <li class="slot"><time>17:30</time><span>Flow</span></li>
+          <li class="slot"><time>19:00</time><span>Foundation</span></li>
+        </ul>
+      </details>
+      <details class="day">
+        <summary><b>Saturday</b> <span class="cnt">3 classes · 2 spots left</span></summary>
+        <ul class="slots">
+          <li class="slot"><time>09:00</time><span>Flow</span></li>
+          <li class="slot"><time>10:30</time><span class="full">Foundation · full</span></li>
+          <li class="slot"><time>12:00</time><span>Restore</span></li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PRICING ============================ -->
+<section class="sec" id="pricing">
+  <div class="shell">
+    <div class="rise">
+      <span class="eyebrow">Pricing</span>
+      <h2 class="h2">No joining fee, no contract.</h2>
+      <p class="lede">Packs expire, because unused credits sitting in an account help nobody. Cancel a booking eight hours ahead and the credit goes back.</p>
+    </div>
+
+    <div class="tiers">
+      <div class="tier rise">
+        <h3>Single</h3>
+        <p class="for">Trying it, or dropping in</p>
+        <div class="amt"><b>250</b><small>EGP</small></div>
+        <p class="per">per class</p>
+        <ul>
+          <li><span class="dot"></span><span>Any class you're cleared for</span></li>
+          <li><span class="dot"></span><span>Book up to 8 days ahead</span></li>
+          <li><span class="dot"></span><span>Grip socks included first time</span></li>
+        </ul>
+        <a href="#book" class="btn btn-line">Book one</a>
+      </div>
+
+      <div class="tier best rise">
+        <span class="flag">Most taken</span>
+        <h3>Eight pack</h3>
+        <p class="for">Twice a week, roughly</p>
+        <div class="amt"><b>1,700</b><small>EGP</small></div>
+        <p class="per">212 per class · valid 10 weeks</p>
+        <ul>
+          <li><span class="dot"></span><span>Eight classes, any type</span></li>
+          <li><span class="dot"></span><span>Priority booking window</span></li>
+          <li><span class="dot"></span><span>One free guest pass</span></li>
+          <li><span class="dot"></span><span>Pause once for up to 2 weeks</span></li>
+        </ul>
+        <a href="#book" class="btn btn-solid">Start with eight</a>
+      </div>
+
+      <div class="tier rise">
+        <h3>Unlimited</h3>
+        <p class="for">Three or more a week</p>
+        <div class="amt"><b>3,200</b><small>EGP</small></div>
+        <p class="per">per month</p>
+        <ul>
+          <li><span class="dot"></span><span>Every class, every day</span></li>
+          <li><span class="dot"></span><span>Earliest booking window</span></li>
+          <li><span class="dot"></span><span>One private session monthly</span></li>
+          <li><span class="dot"></span><span>Cancel any month, no fee</span></li>
+        </ul>
+        <a href="#book" class="btn btn-line">Go unlimited</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ BOOK ============================ -->
+<section class="sec book" id="book">
+  <div class="shell b-grid">
+    <div class="rise">
+      <span class="eyebrow">Book</span>
+      <h2 class="h2">First class, 250 EGP.</h2>
+      <p class="lede">Tell us when suits and we'll confirm by WhatsApp within a few hours. If you've never done reformer before, we'll put you in Foundation.</p>
+
+      <div class="first-note" style="margin-top:26px">
+        <h3>What the first class is like</h3>
+        <p>Arrive ten minutes early. You'll be shown the machine before anyone touches it, and the instructor will ask about injuries and anything a doctor has told you.</p>
+        <ul>
+          <li><span class="dot"></span><span>Wear anything you can move in — leggings and a fitted top</span></li>
+          <li><span class="dot"></span><span>Grip socks are required; your first pair is on us</span></li>
+          <li><span class="dot"></span><span>Don't eat in the hour before</span></li>
+          <li><span class="dot"></span><span>You will be sore in places you didn't expect</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <form id="bform" novalidate>
+      <div class="field">
+        <label for="b-name">Name</label>
+        <input type="text" id="b-name" autocomplete="name" />
+        <span class="err">Please add your name.</span>
+      </div>
+      <div class="field">
+        <label for="b-phone">Phone</label>
+        <input type="tel" id="b-phone" autocomplete="tel" />
+        <span class="err">We confirm bookings by WhatsApp, so we need a number.</span>
+      </div>
+      <div class="field">
+        <label for="b-class">Which class</label>
+        <select id="b-class">
+          <option>Foundation — new to Pilates</option>
+          <option>Flow</option>
+          <option>Restore</option>
+          <option>Pre or post-natal</option>
+          <option>Not sure — advise me</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="b-when">Preferred days and times</label>
+        <input type="text" id="b-when" placeholder="e.g. weekday mornings, or Sunday evening" />
+        <span class="err">Give us a rough window and we'll find a slot.</span>
+      </div>
+      <div class="field">
+        <label for="b-notes">Injuries or anything we should know</label>
+        <textarea id="b-notes" placeholder="Optional — but useful. Backs, knees, pregnancy, recent surgery."></textarea>
+      </div>
+      <button type="submit" class="btn btn-solid" style="width:100%">Request this booking</button>
+      <div class="fstat" id="bstat" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="shell foot-in">
+    <a href="#top" class="brand"><b>CADENCE</b><span>Pilates</span></a>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="#classes">Classes</a><a href="#springs">The springs</a>
+      <a href="#schedule">Schedule</a><a href="#pricing">Pricing</a><a href="#book">Book</a>
+    </nav>
+    <small>&copy; <span id="yr">2026</span> Cadence Pilates · Maadi, Cairo</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* sticky nav */
+  var nav = $('nav');
+  function onScroll(){ if (nav) nav.classList.toggle('stuck', window.scrollY > 6); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  /* progress bar fallback where CSS scroll timelines aren't supported */
+  var bar = document.querySelector('.progress');
+  var supportsTimeline = window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()');
+  if (bar && !supportsTimeline && !reduce){
+    var tick = function(){
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      var p = h > 0 ? window.scrollY / h : 0;
+      bar.style.transform = 'scaleX(' + p + ')';
+    };
+    tick();
+    window.addEventListener('scroll', tick, {passive:true});
+    window.addEventListener('resize', tick);
+  }
+
+  /* menu */
+  var burger = $('burger'), menu = $('menu');
+  function setOpen(o){
+    document.body.classList.toggle('open', o);
+    if (burger) burger.setAttribute('aria-expanded', o ? 'true' : 'false');
+  }
+  if (burger) burger.addEventListener('click', function(){
+    setOpen(!document.body.classList.contains('open'));
+  });
+  if (menu) menu.addEventListener('click', function(e){
+    if (e.target.tagName === 'A') setOpen(false);
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setOpen(false); });
+
+  /* one day open at a time - reads as a schedule, not a wall */
+  var days = document.querySelectorAll('.day');
+  Array.prototype.forEach.call(days, function(d){
+    d.addEventListener('toggle', function(){
+      if (!d.open) return;
+      Array.prototype.forEach.call(days, function(o){ if (o !== d) o.open = false; });
+    });
+  });
+
+  /* booking form */
+  var form = $('bform'), stat = $('bstat');
+  function mark(el, bad){ el.closest('.field').classList.toggle('bad', bad); }
+  ['b-name','b-phone','b-when'].forEach(function(id){
+    var el = $(id);
+    if (el) el.addEventListener('input', function(){ mark(el, false); });
+  });
+  if (form) form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var ok = true;
+    [['b-name',1],['b-phone',6],['b-when',3]].forEach(function(c){
+      var el = $(c[0]);
+      var good = el.value.trim().length >= c[1];
+      mark(el, !good);
+      if (!good && ok){ el.focus(); ok = false; }
+    });
+    if (!ok) return;
+    stat.className = 'fstat show ok';
+    stat.textContent = 'Got it. We\u2019ll message you on WhatsApp within a few hours to confirm the slot. This is a demo form, so nothing is actually sent.';
+    form.reset();
+  });
+
+  $('yr').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
