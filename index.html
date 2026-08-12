@@ -50,6 +50,7 @@
   --p7:#3C6B57;   /* nerva – watch green */
   --p8:#B0708A;   /* cadence – dusty rose */
   --p9:#C2603F;   /* marque – signal orange */
+  --p10:#B5622F;  /* dune & tide – ember */
 
   --display:'Newsreader',Georgia,serif;
   --body:'Chivo',system-ui,-apple-system,sans-serif;
@@ -243,7 +244,15 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
 }
 
 /* six distinct CSS marks — no shape reused */
-.m-plates,.m-arc,.m-bottle,.m-elev,.m-flow,.m-axis,.m-dial,.m-breath,.m-car{position:absolute;inset:0;}
+.m-plates,.m-arc,.m-bottle,.m-elev,.m-flow,.m-axis,.m-dial,.m-breath,.m-car,.m-dune{position:absolute;inset:0;}
+
+/* 10 · dune & tide - layered horizon with a sun */
+.m-dune .sun{position:absolute;left:22px;top:12px;width:18px;height:18px;border-radius:50%;
+  background:var(--p10);opacity:.85;}
+.m-dune .h1{position:absolute;left:0;right:0;bottom:8px;height:20px;background:var(--p10);
+  opacity:.35;clip-path:polygon(0 60%,25% 40%,50% 55%,75% 35%,100% 50%,100% 100%,0 100%);}
+.m-dune .h2{position:absolute;left:0;right:0;bottom:0;height:16px;background:var(--p10);
+  opacity:.7;clip-path:polygon(0 50%,20% 65%,45% 40%,68% 60%,100% 42%,100% 100%,0 100%);}
 
 /* 8 · cadence - concentric breath rings */
 .m-breath span{position:absolute;left:38px;top:38px;border-radius:50%;
@@ -517,7 +526,7 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
     <div class="work-head">
       <div>
         <span class="tag">Selected work</span>
-        <h2 class="h-sec">Nine builds, nine different problems.</h2>
+        <h2 class="h-sec">Ten builds, ten different problems.</h2>
         <p class="lede">Each one solves something specific &mdash; filling a quiet weekday, justifying a price, getting the phone to ring.</p>
       </div>
     </div>
@@ -593,6 +602,14 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
         <h3>Marque</h3>
         <p class="cat">Reference &middot; Editorial</p>
         <p>Six German carmakers, twenty-four cars. Filtering physically moves the cards to their new places.</p>
+        <a class="view" href="#" data-demo>View demo <span class="arrow">&rarr;</span></a>
+      </article>
+
+      <article class="card">
+        <div class="card-mark"><div class="m-dune"><span class="sun"></span><span class="h1"></span><span class="h2"></span></div></div>
+        <h3>Dune &amp; Tide</h3>
+        <p class="cat">Travel &amp; expeditions &middot; Booking</p>
+        <p>Small-group desert and Red Sea trips. The route draws itself on scroll, and the seasonal chart tells the truth about when not to go.</p>
         <a class="view" href="#" data-demo>View demo <span class="arrow">&rarr;</span></a>
       </article>
 
@@ -885,7 +902,8 @@ body.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg);
     'axis-digital-website.html',
     'nerva-watches.html',
     'cadence-pilates.html',
-    'marque-german-cars.html'
+    'marque-german-cars.html',
+    'dune-tide-travel.html'
   ];
   var demoLinks = document.querySelectorAll('[data-demo]');
   Array.prototype.forEach.call(demoLinks, function(a, i){
