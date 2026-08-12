@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DUNE &amp; TIDE — Small-group desert &amp; Red Sea expeditions</title>
+<meta name="description" content="Small-group trips into the White Desert, Siwa and the Red Sea. Six people, one guide, no crowds. Based in Egypt." />
+<meta name="theme-color" content="#1B2540" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ==========================================================================
+   DUNE & TIDE — adventure travel operator
+   Palette   night indigo #1B2540 · sand #EDE3D0 · ember #D97742
+   Type      Libre Caslon Display (headlines) · Nunito Sans (body)
+   Motion    built for the subject: dune layers parallax at different
+             scroll speeds, and a route line that draws itself as you
+             scroll, via scroll-linked stroke-dashoffset.
+   Signature a seasonal planner - real temperature-by-month data per
+             destination, because desert heat genuinely varies a lot.
+   ========================================================================== */
+
+:root{
+  --night:#1B2540;
+  --night-2:#212C4C;
+  --night-3:#2A3660;
+  --black:#12182C;
+
+  --sand:#EDE3D0;
+  --sand-2:#D9CBAE;
+  --muted:#8D93AE;
+
+  --ember:#D97742;
+  --ember-lt:#E8975E;
+  --ember-deep:#A85423;
+
+  --rule:rgba(237,227,208,.14);
+  --rule-soft:rgba(237,227,208,.07);
+
+  --display:'Libre Caslon Display',Georgia,serif;
+  --body:'Nunito Sans',system-ui,-apple-system,sans-serif;
+
+  --shell:1180px;
+  --pad:clamp(20px,5vw,52px);
+  --sec:clamp(74px,9vw,130px);
+  --ease:cubic-bezier(.25,.66,.33,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--night);color:var(--sand-2);
+  font-family:var(--body);font-size:16px;line-height:1.68;font-weight:400;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:400;color:var(--sand);line-height:1.15;}
+p{margin:0 0 1.05em;} p:last-child{margin-bottom:0;}
+a{color:inherit;text-decoration:none;}
+::selection{background:var(--ember);color:#fff;}
+
+.shell{width:100%;max-width:var(--shell);margin-inline:auto;padding-inline:var(--pad);}
+.sec{padding-block:var(--sec);}
+.skip{position:absolute;top:0;inset-inline-start:0;z-index:400;background:var(--ember);color:#fff;
+  padding:12px 18px;font-weight:700;transform:translateY(-140%);transition:transform .2s var(--ease);}
+.skip:focus{transform:none;}
+:focus-visible{outline:2px solid var(--ember);outline-offset:3px;}
+
+.tag{display:block;font-size:.7rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ember);margin:0 0 16px;}
+.h2{font-size:clamp(1.8rem,3.6vw,2.6rem);margin-bottom:12px;}
+.lede{max-width:58ch;color:var(--sand-2);font-size:clamp(.98rem,1.2vw,1.05rem);}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  font-weight:700;font-size:.9rem;padding:14px 27px;border-radius:100px;border:1px solid transparent;
+  cursor:pointer;transition:background .24s var(--ease),color .24s var(--ease),
+    border-color .24s var(--ease),transform .3s var(--ease);}
+.btn-ember{background:var(--ember);color:#fff;}
+.btn-ember:hover{background:var(--ember-lt);transform:translateY(-1px);}
+.btn-line{border-color:var(--rule);color:var(--sand);background:transparent;}
+.btn-line:hover{border-color:var(--ember);color:var(--ember-lt);}
+
+/* ============================== NAV ============================== */
+.nav{position:sticky;top:0;z-index:100;background:rgba(27,37,64,.88);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid transparent;transition:border-color .3s var(--ease);}
+.nav.stuck{border-bottom-color:var(--rule);}
+.nav-in{max-width:var(--shell);margin-inline:auto;padding-inline:var(--pad);height:70px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.brand{display:flex;align-items:baseline;gap:8px;}
+.brand b{font-family:var(--display);font-size:1.2rem;color:var(--sand);}
+.brand i{width:5px;height:5px;border-radius:50%;background:var(--ember);}
+.links{display:flex;gap:26px;list-style:none;margin:0;padding:0;}
+.links a{font-size:.88rem;color:var(--sand-2);transition:color .2s var(--ease);}
+.links a:hover{color:var(--ember-lt);}
+.burger{display:none;width:38px;height:34px;border:1px solid var(--rule);border-radius:100px;
+  background:transparent;cursor:pointer;position:relative;padding:0;}
+.burger i{position:absolute;left:9px;right:9px;height:1.4px;background:var(--sand);}
+.burger i:nth-child(1){top:11px;} .burger i:nth-child(2){top:16px;} .burger i:nth-child(3){top:21px;}
+@media(max-width:880px){
+  .links{position:fixed;inset:70px 0 auto 0;background:var(--night-2);flex-direction:column;
+    gap:0;padding:6px var(--pad) 20px;border-bottom:1px solid var(--rule);
+    transform:translateY(-12px);opacity:0;visibility:hidden;
+    transition:transform .26s var(--ease),opacity .26s var(--ease),visibility .26s;}
+  body.open .links{transform:none;opacity:1;visibility:visible;}
+  .links li{width:100%;}
+  .links a{display:block;padding:13px 0;border-bottom:1px solid var(--rule-soft);}
+  .nav-cta{display:none;}
+  .burger{display:block;}
+}
+
+/* ============================== HERO (parallax dunes) ============================== */
+.hero{position:relative;overflow:hidden;padding-block:clamp(56px,9vw,110px) clamp(70px,9vw,120px);
+  isolation:isolate;}
+.dunes{position:absolute;inset:0;z-index:-1;pointer-events:none;}
+.dune{position:absolute;left:-10%;right:-10%;bottom:0;height:60%;
+  background:linear-gradient(180deg, transparent, var(--dc));
+  clip-path:polygon(0 62%, 8% 54%, 20% 60%, 34% 46%, 48% 58%, 62% 44%, 76% 56%, 90% 48%, 100% 58%, 100% 100%, 0 100%);
+  will-change:transform;}
+.d1{--dc:var(--night-2);height:52%;opacity:.9;}
+.d2{--dc:var(--night-3);height:40%;opacity:.75;
+  clip-path:polygon(0 70%, 12% 60%, 26% 68%, 40% 52%, 55% 66%, 70% 50%, 85% 64%, 100% 54%, 100% 100%, 0 100%);}
+.d3{--dc:#334176;height:28%;opacity:.55;
+  clip-path:polygon(0 76%, 15% 66%, 30% 74%, 46% 60%, 62% 72%, 78% 58%, 100% 70%, 100% 100%, 0 100%);}
+.stars{position:absolute;inset:0;opacity:.5;
+  background-image:radial-gradient(1.4px 1.4px at 12% 18%, var(--sand), transparent),
+    radial-gradient(1px 1px at 28% 9%, var(--sand), transparent),
+    radial-gradient(1.6px 1.6px at 47% 22%, var(--sand), transparent),
+    radial-gradient(1px 1px at 63% 12%, var(--sand), transparent),
+    radial-gradient(1.3px 1.3px at 81% 20%, var(--sand), transparent),
+    radial-gradient(1px 1px at 92% 8%, var(--sand), transparent),
+    radial-gradient(1.4px 1.4px at 36% 6%, var(--sand), transparent),
+    radial-gradient(1px 1px at 70% 26%, var(--sand), transparent);}
+
+.hero-in{position:relative;z-index:1;}
+.hero h1{font-size:clamp(2.2rem,5.4vw,3.6rem);max-width:16ch;}
+.hero h1 em{font-style:italic;color:var(--ember-lt);}
+.hero .sub{margin-top:20px;max-width:48ch;font-size:1.04rem;}
+.acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;}
+.dash{display:flex;flex-wrap:wrap;gap:0;margin-top:36px;padding-top:24px;border-top:1px solid var(--rule);}
+.dash div{padding:0 26px 0 0;margin-right:26px;border-right:1px solid var(--rule-soft);}
+.dash div:last-child{border-right:0;}
+.dash b{display:block;font-family:var(--display);font-size:1.5rem;color:var(--sand);}
+.dash span{display:block;font-size:.78rem;color:var(--muted);margin-top:5px;}
+
+/* ============================== ROUTE LINE (signature motion) ============================== */
+.route-sec{background:var(--night-2);border-block:1px solid var(--rule);}
+.route-wrap{position:relative;margin-top:36px;overflow-x:hidden;}
+.route-svg{width:100%;height:auto;display:block;}
+.route-path{fill:none;stroke:var(--ember);stroke-width:2.5;stroke-linecap:round;
+  stroke-dasharray:1400;stroke-dashoffset:1400;}
+@supports (animation-timeline: view()){
+  @media(prefers-reduced-motion: no-preference){
+    .route-path{animation:draw linear both;animation-timeline:view();
+      animation-range:entry 0% cover 70%;}
+    @keyframes draw{to{stroke-dashoffset:0;}}
+  }
+}
+.route-dot{fill:var(--sand);}
+.route-lbl{position:absolute;transform:translate(-50%,-50%);text-align:center;width:120px;}
+@media(max-width:520px){
+  .route-lbl{width:92px;}
+  .route-lbl b{font-size:.82rem;}
+  .route-lbl span{font-size:.66rem;}
+}
+.route-lbl b{display:block;font-family:var(--display);font-size:.94rem;color:var(--sand);}
+.route-lbl span{display:block;font-size:.72rem;color:var(--muted);margin-top:3px;}
+.route-note{margin-top:18px;font-size:.9rem;color:var(--muted);max-width:60ch;}
+
+/* ============================== TRIPS ============================== */
+.grid{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:40px;}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr;}}
+@media(min-width:1020px){.grid{grid-template-columns:repeat(3,1fr);}}
+.trip{background:var(--night);padding:0;display:flex;flex-direction:column;overflow:hidden;
+  transition:background .35s var(--ease);}
+.trip:hover{background:var(--night-2);}
+.trip-vis{height:120px;position:relative;overflow:hidden;
+  background:linear-gradient(180deg, var(--vc,#2A3660) 0%, var(--night) 100%);}
+.trip-vis::before{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 55%, rgba(0,0,0,.25));}
+.trip-vis .shape{position:absolute;left:-6%;right:-6%;bottom:0;height:55%;
+  background:var(--night-3);
+  clip-path:polygon(0 60%, 20% 44%, 42% 58%, 65% 38%, 85% 54%, 100% 44%, 100% 100%, 0 100%);}
+.trip-body{padding:22px 22px 20px;display:flex;flex-direction:column;flex:1;}
+.trip-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px;}
+.trip h3{font-size:1.14rem;}
+.trip .days{font-size:.76rem;color:var(--ember-lt);font-weight:600;white-space:nowrap;}
+.trip p{font-size:.88rem;margin-bottom:16px;}
+.trip-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
+.pill{font-size:.66rem;font-weight:600;color:var(--sand-2);border:1px solid var(--rule);
+  border-radius:100px;padding:4px 11px;}
+.trip-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding-top:15px;border-top:1px solid var(--rule-soft);}
+.price{font-family:var(--display);font-size:1.15rem;color:var(--sand);}
+.price span{font-size:.66rem;color:var(--muted);margin-left:5px;}
+.trip .see{font-size:.78rem;font-weight:700;color:var(--ember-lt);display:inline-flex;align-items:center;gap:6px;}
+.trip .see::after{content:"→";transition:transform .3s var(--ease);}
+.trip:hover .see::after{transform:translateX(4px);}
+
+/* ============================== SEASONAL (signature 2) ============================== */
+.season-sec{background:var(--night-2);border-block:1px solid var(--rule);}
+.season{margin-top:36px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.szable{border-collapse:collapse;min-width:760px;width:100%;}
+.szable th,.szable td{padding:11px 12px;text-align:center;font-size:.82rem;border:1px solid var(--rule-soft);}
+.szable thead th{font-family:var(--display);font-weight:400;color:var(--sand);
+  background:var(--night-3);font-size:.86rem;}
+.szable .dest{text-align:left;font-weight:700;color:var(--sand);background:var(--night-3);
+  white-space:nowrap;position:sticky;left:0;}
+.hcell{position:relative;color:var(--night);font-weight:700;}
+.hcell.best{background:#7FBF8A;}
+.hcell.good{background:#E8C468;}
+.hcell.hot{background:var(--ember);color:#fff;}
+.hcell.harsh{background:#B33A16;color:#fff;}
+.season-legend{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:16px;}
+.slg{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;color:var(--sand-2);}
+.sw{width:13px;height:13px;border-radius:3px;flex:none;}
+.sw.b{background:#7FBF8A;} .sw.g{background:#E8C468;}
+.sw.h{background:var(--ember);} .sw.x{background:#B33A16;}
+
+/* ============================== PROCESS ============================== */
+.steps{margin-top:36px;border-top:1px solid var(--rule);}
+.st{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:22px 0;
+  border-bottom:1px solid var(--rule);align-items:start;}
+.st-n{font-family:var(--display);font-size:1.2rem;color:var(--ember-lt);min-width:32px;}
+.st h3{font-size:1.02rem;margin-bottom:5px;}
+.st p{font-size:.92rem;margin:0;max-width:60ch;}
+
+/* ============================== TESTIMONIALS ============================== */
+.q-grid{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:36px;}
+@media(min-width:860px){.q-grid{grid-template-columns:repeat(3,1fr);}}
+.q{background:var(--night);padding:26px 22px;}
+.q blockquote{margin:0 0 16px;font-family:var(--display);font-size:1.02rem;color:var(--sand);
+  font-style:italic;line-height:1.5;}
+.q footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--rule-soft);padding-top:12px;}
+.q footer b{color:var(--sand-2);display:block;margin-bottom:2px;font-weight:600;}
+
+/* ============================== FAQ ============================== */
+.faq{max-width:760px;margin-top:32px;border-top:1px solid var(--rule);}
+.qa{border-bottom:1px solid var(--rule);}
+.qa summary{cursor:pointer;list-style:none;padding:19px 34px 19px 0;position:relative;
+  font-family:var(--display);font-size:1.02rem;color:var(--sand);}
+.qa summary::-webkit-details-marker{display:none;}
+.qa summary::after{content:"";position:absolute;inset-inline-end:6px;top:50%;width:9px;height:9px;
+  border:solid var(--muted);border-width:0 1.5px 1.5px 0;
+  transform:translateY(-70%) rotate(45deg);transition:transform .3s var(--ease);}
+.qa[open] summary::after{transform:translateY(-30%) rotate(-135deg);}
+.qa .a{padding:0 0 20px;font-size:.94rem;max-width:62ch;color:var(--sand-2);}
+
+/* ============================== BOOK ============================== */
+.book{border-top:1px solid var(--rule);}
+.b-grid{display:grid;gap:clamp(30px,4vw,52px);}
+@media(min-width:860px){.b-grid{grid-template-columns:.9fr 1.1fr;}}
+.field{margin-bottom:15px;}
+.field label{display:block;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:7px;}
+.field input,.field select,.field textarea{width:100%;background:rgba(237,227,208,.05);color:var(--sand);
+  border:1px solid var(--rule);border-radius:8px;padding:13px 14px;font:inherit;font-size:.93rem;
+  transition:border-color .3s var(--ease);}
+.field textarea{min-height:92px;resize:vertical;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--ember);}
+.field select option{background:var(--night);color:var(--sand);}
+.field.bad input,.field.bad select{border-color:#E08A78;}
+.field .err{display:none;color:#F0A897;font-size:.78rem;margin-top:6px;}
+.field.bad .err{display:block;}
+.two{display:grid;gap:14px;}
+@media(min-width:560px){.two{grid-template-columns:1fr 1fr;}}
+.fstat{display:none;margin-top:16px;padding:13px 15px;border-radius:8px;font-size:.9rem;}
+.fstat.show{display:block;}
+.fstat.ok{background:rgba(217,119,66,.16);color:var(--ember-lt);border:1px solid rgba(217,119,66,.36);}
+
+.direct{border:1px solid var(--rule);border-radius:12px;padding:20px;margin-top:22px;background:var(--night-2);}
+.direct .k{display:block;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.direct a{font-weight:700;color:var(--sand);}
+.direct a:hover{color:var(--ember-lt);}
+.direct .row + .row{margin-top:14px;padding-top:14px;border-top:1px solid var(--rule-soft);}
+
+/* ============================== FOOTER ============================== */
+.foot{background:var(--black);border-top:1px solid var(--rule);}
+.foot-in{padding-block:30px;display:flex;flex-wrap:wrap;gap:16px 34px;
+  justify-content:space-between;align-items:center;}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap;font-size:.85rem;}
+.foot-links a:hover{color:var(--ember-lt);}
+.foot small{font-size:.76rem;color:var(--muted);}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;}
+  html{scroll-behavior:auto;}
+  .dune{transform:none!important;}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a href="#top" class="brand"><b>DUNE &amp; TIDE</b><i></i></a>
+    <ul class="links" id="menu">
+      <li><a href="#trips">Trips</a></li>
+      <li><a href="#season">When to go</a></li>
+      <li><a href="#process">How it works</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-cta"><a href="#book" class="btn btn-ember">Check dates</a></div>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="main"><div id="top"></div>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="dunes" aria-hidden="true">
+    <div class="stars"></div>
+    <div class="dune d3" data-speed="0.15"></div>
+    <div class="dune d2" data-speed="0.3"></div>
+    <div class="dune d1" data-speed="0.5"></div>
+  </div>
+  <div class="shell hero-in">
+    <span class="tag">Egypt · Desert &amp; Red Sea</span>
+    <h1>Six people. One guide. <em>No crowds.</em></h1>
+    <p class="sub">Small-group trips into the White Desert, Siwa's salt lakes, and the reefs off the Red Sea coast. We cap every group at six so nobody spends the trip waiting their turn.</p>
+    <div class="acts">
+      <a href="#trips" class="btn btn-ember">See the trips</a>
+      <a href="#season" class="btn btn-line">Best time to go</a>
+    </div>
+    <div class="dash">
+      <div><b>6</b><span>Max group size</span></div>
+      <div><b>3</b><span>Regions covered</span></div>
+      <div><b>9 yrs</b><span>Running trips</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ROUTE (signature 1) ============================ -->
+<section class="sec route-sec" id="route">
+  <div class="shell">
+    <span class="tag">A typical route</span>
+    <h2 class="h2">Cairo to the White Desert, four days.</h2>
+    <p class="lede">The line draws itself as you scroll — it's the actual route the White Desert trip follows, stop by stop.</p>
+
+    <div class="route-wrap">
+      <svg class="route-svg" viewBox="0 0 900 220" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Route map from Cairo to the White Desert">
+        <path class="route-path" d="M60,60 C160,20 220,140 320,110 S480,40 560,90 S720,170 840,120" />
+        <circle class="route-dot" cx="60" cy="60" r="6"></circle>
+        <circle class="route-dot" cx="320" cy="110" r="5"></circle>
+        <circle class="route-dot" cx="560" cy="90" r="5"></circle>
+        <circle class="route-dot" cx="840" cy="120" r="6"></circle>
+      </svg>
+      <div class="route-lbl" style="left:6.7%;top:27%;"><b>Cairo</b><span>Depart, 6am</span></div>
+      <div class="route-lbl" style="left:35.5%;top:50%;"><b>Bahariya Oasis</b><span>Lunch stop</span></div>
+      <div class="route-lbl" style="left:62.2%;top:41%;"><b>Black Desert</b><span>Camp, night one</span></div>
+      <div class="route-lbl" style="left:93.3%;top:55%;"><b>White Desert</b><span>Two nights</span></div>
+    </div>
+    <p class="route-note">About six hours of driving spread across two days, with the rest spent walking, climbing the chalk formations, and sitting still after dark — which is most of the point.</p>
+  </div>
+</section>
+
+<!-- ============================ TRIPS ============================ -->
+<section class="sec" id="trips">
+  <div class="shell">
+    <span class="tag">The trips</span>
+    <h2 class="h2">Four routes, run a few times a month.</h2>
+    <p class="lede">Every trip includes transport from Cairo, a licensed guide, camping equipment, and all meals from the first lunch to the last breakfast.</p>
+
+    <div class="grid">
+      <article class="trip" style="--vc:#2A3660">
+        <div class="trip-vis"><div class="shape"></div></div>
+        <div class="trip-body">
+          <div class="trip-top"><h3>White Desert</h3><span class="days">4 days</span></div>
+          <p>Chalk formations carved by wind into shapes with their own names, camped among them overnight.</p>
+          <div class="trip-meta"><span class="pill">Camping</span><span class="pill">No experience needed</span></div>
+          <div class="trip-foot"><span class="price">6,800<span>EGP pp</span></span><a href="#book" class="see">Check dates</a></div>
+        </div>
+      </article>
+
+      <article class="trip" style="--vc:#3A4A2E">
+        <div class="trip-vis"><div class="shape"></div></div>
+        <div class="trip-body">
+          <div class="trip-top"><h3>Siwa Oasis</h3><span class="days">5 days</span></div>
+          <p>Salt lakes you float in without trying, and a night in the dunes outside town under no light pollution at all.</p>
+          <div class="trip-meta"><span class="pill">Hotel + camp</span><span class="pill">Long drive</span></div>
+          <div class="trip-foot"><span class="price">9,200<span>EGP pp</span></span><a href="#book" class="see">Check dates</a></div>
+        </div>
+      </article>
+
+      <article class="trip" style="--vc:#1E4A52">
+        <div class="trip-vis"><div class="shape"></div></div>
+        <div class="trip-body">
+          <div class="trip-top"><h3>Red Sea Reef</h3><span class="days">3 days</span></div>
+          <p>Boat-based diving and snorkelling off Marsa Alam, small enough that the guide knows everyone's comfort level.</p>
+          <div class="trip-meta"><span class="pill">PADI available</span><span class="pill">Boat included</span></div>
+          <div class="trip-foot"><span class="price">7,400<span>EGP pp</span></span><a href="#book" class="see">Check dates</a></div>
+        </div>
+      </article>
+
+      <article class="trip" style="--vc:#4A2E3A">
+        <div class="trip-vis"><div class="shape"></div></div>
+        <div class="trip-body">
+          <div class="trip-top"><h3>Sinai Highlands</h3><span class="days">4 days</span></div>
+          <p>Trekking with Bedouin guides through the high desert around St. Catherine, ending with the summit at sunrise.</p>
+          <div class="trip-meta"><span class="pill">Moderate fitness</span><span class="pill">Camping</span></div>
+          <div class="trip-foot"><span class="price">6,200<span>EGP pp</span></span><a href="#book" class="see">Check dates</a></div>
+        </div>
+      </article>
+
+      <article class="trip" style="--vc:#2A3660">
+        <div class="trip-vis"><div class="shape"></div></div>
+        <div class="trip-body">
+          <div class="trip-top"><h3>Black &amp; White Combined</h3><span class="days">5 days</span></div>
+          <p>Both deserts on one trip, with an extra night to actually rest between the driving days.</p>
+          <div class="trip-meta"><span class="pill">Camping</span><span class="pill">Our most booked</span></div>
+          <div class="trip-foot"><span class="price">8,600<span>EGP pp</span></span><a href="#book" class="see">Check dates</a></div>
+        </div>
+      </article>
+
+      <article class="trip" style="--vc:#5A3A1E">
+        <div class="trip-vis"><div class="shape"></div></div>
+        <div class="trip-body">
+          <div class="trip-top"><h3>Private Departure</h3><span class="days">Custom</span></div>
+          <p>Any of the above, run just for your group, on your dates. Same guides, same equipment, your own schedule.</p>
+          <div class="trip-meta"><span class="pill">2–6 people</span><span class="pill">Quoted per group</span></div>
+          <div class="trip-foot"><span class="price">Quoted<span>per group</span></span><a href="#book" class="see">Enquire</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ SEASONAL (signature 2) ============================ -->
+<section class="sec season-sec" id="season">
+  <div class="shell">
+    <span class="tag">The signature</span>
+    <h2 class="h2">When it's actually good to go.</h2>
+    <p class="lede">Desert heat is not the same everywhere in Egypt, and it is not the same in June as it is in December. This is the real seasonal picture, not a marketing calendar.</p>
+
+    <div class="season">
+      <table class="szable">
+        <thead>
+          <tr><th class="dest">Destination</th><th>Dec–Feb</th><th>Mar–Apr</th><th>May–Jun</th><th>Jul–Aug</th><th>Sep–Oct</th><th>Nov</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="dest">White Desert</td>
+            <td class="hcell best">Best</td><td class="hcell good">Good</td>
+            <td class="hcell hot">Hot</td><td class="hcell harsh">Avoid</td>
+            <td class="hcell good">Good</td><td class="hcell best">Best</td>
+          </tr>
+          <tr>
+            <td class="dest">Siwa Oasis</td>
+            <td class="hcell good">Good</td><td class="hcell best">Best</td>
+            <td class="hcell hot">Hot</td><td class="hcell harsh">Avoid</td>
+            <td class="hcell hot">Hot</td><td class="hcell good">Good</td>
+          </tr>
+          <tr>
+            <td class="dest">Red Sea Reef</td>
+            <td class="hcell good">Good</td><td class="hcell best">Best</td>
+            <td class="hcell best">Best</td><td class="hcell hot">Warm sea</td>
+            <td class="hcell best">Best</td><td class="hcell good">Good</td>
+          </tr>
+          <tr>
+            <td class="dest">Sinai Highlands</td>
+            <td class="hcell hot">Cold nights</td><td class="hcell best">Best</td>
+            <td class="hcell good">Good</td><td class="hcell good">Good</td>
+            <td class="hcell best">Best</td><td class="hcell good">Good</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="season-legend">
+      <span class="slg"><span class="sw b"></span> Best conditions</span>
+      <span class="slg"><span class="sw g"></span> Good, worth it</span>
+      <span class="slg"><span class="sw h"></span> Hot but manageable</span>
+      <span class="slg"><span class="sw x"></span> We don't recommend it</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PROCESS ============================ -->
+<section class="sec" id="process">
+  <div class="shell">
+    <span class="tag">How it works</span>
+    <h2 class="h2">Booking to camp, in four steps.</h2>
+
+    <div class="steps">
+      <div class="st">
+        <span class="st-n">01</span>
+        <div><h3>Pick a date</h3><p>Trips run most weekends and a couple of weekday departures a month. Check the calendar or ask us to fit your dates.</p></div>
+      </div>
+      <div class="st">
+        <span class="st-n">02</span>
+        <div><h3>Reserve with a deposit</h3><p>30% holds your place. The rest is due a week before departure, once the group is confirmed at six.</p></div>
+      </div>
+      <div class="st">
+        <span class="st-n">03</span>
+        <div><h3>We send a kit list</h3><p>What to bring, what we provide, and what the weather will actually be like — specific to your trip and dates, not generic advice.</p></div>
+      </div>
+      <div class="st">
+        <span class="st-n">04</span>
+        <div><h3>Meet at pickup</h3><p>We collect everyone from one point in Cairo. From there it's our vehicles, our guide, and no more logistics on you.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TESTIMONIALS ============================ -->
+<section class="sec" style="background:var(--night-2);border-block:1px solid var(--rule);">
+  <div class="shell">
+    <span class="tag">From the last group</span>
+    <h2 class="h2">What six days in a desert actually feels like.</h2>
+    <div class="q-grid">
+      <div class="q">
+        <blockquote>Our guide knew the formations by name and told us which ones to see at sunset versus sunrise. That's not something you get from a big tour bus.</blockquote>
+        <footer><b>Rana K.</b>White Desert, October</footer>
+      </div>
+      <div class="q">
+        <blockquote>Six people meant everyone could actually ask questions instead of straining to hear over a group of thirty.</blockquote>
+        <footer><b>Youssef M.</b>Siwa Oasis, March</footer>
+      </div>
+      <div class="q">
+        <blockquote>They told us honestly that July was a bad month for Siwa and suggested the reef trip instead. I trusted them more after that, not less.</blockquote>
+        <footer><b>Dina F.</b>Red Sea Reef, July</footer>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FAQ ============================ -->
+<section class="sec" id="faq">
+  <div class="shell">
+    <span class="tag">Questions</span>
+    <h2 class="h2">Before you book.</h2>
+    <div class="faq">
+      <details class="qa" open>
+        <summary>Do I need camping or desert experience?</summary>
+        <div class="a">No. Most people on our trips have never camped before. The guide handles the tent, the fire and the route — you handle showing up and being reasonably fit for walking.</div>
+      </details>
+      <details class="qa">
+        <summary>What's actually included?</summary>
+        <div class="a">Transport from the Cairo pickup point, the guide, camping equipment, and every meal from the first lunch to the last breakfast. Not included: alcohol, and anything personal like extra snacks.</div>
+      </details>
+      <details class="qa">
+        <summary>What if the group doesn't fill up?</summary>
+        <div class="a">We run with a minimum of four. If it doesn't reach that by a week out, you get a full refund or the option to move to the next date — your choice.</div>
+      </details>
+      <details class="qa">
+        <summary>Is it safe to travel alone and join a group?</summary>
+        <div class="a">Most people book solo. Groups of six with one guide mean you're never actually alone, and roughly half our travellers come without a companion.</div>
+      </details>
+      <details class="qa">
+        <summary>What's the cancellation policy?</summary>
+        <div class="a">Full refund up to two weeks before departure. Inside two weeks, the deposit isn't refundable but can be moved to a different date once.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ BOOK ============================ -->
+<section class="sec book" id="book">
+  <div class="shell b-grid">
+    <div>
+      <span class="tag">Check dates</span>
+      <h2 class="h2">Tell us the trip and roughly when.</h2>
+      <p class="lede">We'll reply with the next available date and a link to reserve. If your dates don't line up with a scheduled trip, we'll quote a private departure instead.</p>
+      <div class="direct">
+        <div class="row"><span class="k">Call or WhatsApp</span><a href="tel:+201111089255">+20 111 108 9255</a></div>
+        <div class="row"><span class="k">Email</span><a href="mailto:hello.axisdigitalstudio@gmail.com">hello.axisdigitalstudio@gmail.com</a></div>
+      </div>
+    </div>
+
+    <form id="bform" novalidate>
+      <div class="two">
+        <div class="field">
+          <label for="b-name">Name</label>
+          <input type="text" id="b-name" autocomplete="name" />
+          <span class="err">Please add your name.</span>
+        </div>
+        <div class="field">
+          <label for="b-phone">Phone</label>
+          <input type="tel" id="b-phone" autocomplete="tel" />
+          <span class="err">We confirm by phone or WhatsApp.</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="b-trip">Which trip</label>
+        <select id="b-trip">
+          <option>White Desert — 4 days</option>
+          <option>Siwa Oasis — 5 days</option>
+          <option>Red Sea Reef — 3 days</option>
+          <option>Sinai Highlands — 4 days</option>
+          <option>Black &amp; White Combined — 5 days</option>
+          <option>Private departure</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="b-when">Preferred dates</label>
+        <input type="text" id="b-when" placeholder="e.g. a weekend in late October" />
+        <span class="err">Give us a rough window.</span>
+      </div>
+      <div class="field">
+        <label for="b-size">How many people</label>
+        <input type="text" id="b-size" placeholder="e.g. just me, or a group of 4" />
+      </div>
+      <button type="submit" class="btn btn-ember" style="width:100%">Request this trip</button>
+      <div class="fstat" id="bstat" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="shell foot-in">
+    <a href="#top" class="brand"><b>DUNE &amp; TIDE</b><i></i></a>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="#trips">Trips</a><a href="#season">When to go</a>
+      <a href="#process">How it works</a><a href="#faq">FAQ</a>
+    </nav>
+    <small>&copy; <span id="yr">2026</span> Dune &amp; Tide · Cairo, Egypt</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* sticky nav */
+  var nav = $('nav');
+  function onScroll(){ if (nav) nav.classList.toggle('stuck', window.scrollY > 6); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  /* menu */
+  var burger = $('burger'), menu = $('menu');
+  function setOpen(o){
+    document.body.classList.toggle('open', o);
+    if (burger) burger.setAttribute('aria-expanded', o ? 'true' : 'false');
+  }
+  if (burger) burger.addEventListener('click', function(){ setOpen(!document.body.classList.contains('open')); });
+  if (menu) menu.addEventListener('click', function(e){ if (e.target.tagName === 'A') setOpen(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setOpen(false); });
+
+  /* parallax dune layers - each moves at its own fraction of scroll.
+     This is a progressive enhancement only: with JS off or motion
+     reduced, the dunes sit still in their default drawn position,
+     which is already a complete image. */
+  if (!reduce){
+    var layers = Array.prototype.slice.call(document.querySelectorAll('.dune'));
+    var ticking = false;
+    function updateParallax(){
+      var y = window.scrollY;
+      layers.forEach(function(el){
+        var speed = parseFloat(el.getAttribute('data-speed')) || 0.2;
+        el.style.transform = 'translateY(' + (y * speed * -0.25) + 'px)';
+      });
+      ticking = false;
+    }
+    window.addEventListener('scroll', function(){
+      if (!ticking){ requestAnimationFrame(updateParallax); ticking = true; }
+    }, {passive:true});
+  }
+
+  /* one FAQ open at a time */
+  var qas = document.querySelectorAll('.qa');
+  Array.prototype.forEach.call(qas, function(d){
+    d.addEventListener('toggle', function(){
+      if (!d.open) return;
+      Array.prototype.forEach.call(qas, function(o){ if (o !== d) o.open = false; });
+    });
+  });
+
+  /* booking form */
+  var form = $('bform'), stat = $('bstat');
+  function mark(el, bad){ el.closest('.field').classList.toggle('bad', bad); }
+  ['b-name','b-phone','b-when'].forEach(function(id){
+    var el = $(id);
+    if (el) el.addEventListener('input', function(){ mark(el, false); });
+  });
+  if (form) form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var ok = true;
+    [['b-name',1],['b-phone',6],['b-when',3]].forEach(function(c){
+      var el = $(c[0]);
+      var good = el.value.trim().length >= c[1];
+      mark(el, !good);
+      if (!good && ok){ el.focus(); ok = false; }
+    });
+    if (!ok) return;
+    stat.className = 'fstat show ok';
+    stat.textContent = 'Got it \u2014 we\u2019ll reply on WhatsApp with the next available date. This is a demo form, so nothing is actually sent.';
+    form.reset();
+  });
+
+  $('yr').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
