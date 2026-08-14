@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FRAME — Photography Studio, Cairo</title>
+<meta name="description" content="A photography studio in Cairo shooting portraits, product and events. Book a session, or a day rate for the studio itself." />
+<meta name="theme-color" content="#0C0C0C" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ==========================================================================
+   FRAME — photography studio
+   Palette   near-black #0C0C0C · paper #F3F1EC · safelight red #B33A2E
+             (the actual colour of a darkroom safelight — not decoration)
+   Type      EB Garamond (display) · Work Sans (body/UI)
+   Signature a real working lightbox: click a frame, arrow-key through the
+             set, a counter tracks position. The gallery IS the product.
+   ========================================================================== */
+
+:root{
+  --ink:#0C0C0C;
+  --ink-2:#161616;
+  --ink-3:#212121;
+  --paper:#F3F1EC;
+  --paper-dim:#C9C6BD;
+  --muted:#7A776E;
+
+  --safelight:#B33A2E;
+  --safelight-lt:#D45C4C;
+  --safelight-wash:rgba(179,58,46,.1);
+
+  --line:rgba(243,241,236,.13);
+  --line-soft:rgba(243,241,236,.06);
+
+  --display:'EB Garamond',Georgia,serif;
+  --body:'Work Sans',system-ui,-apple-system,sans-serif;
+
+  --shell:1200px;
+  --pad:clamp(18px,4.5vw,52px);
+  --sec:clamp(70px,8vw,120px);
+  --ease:cubic-bezier(.25,.66,.33,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--ink);color:var(--paper-dim);
+  font-family:var(--body);font-size:16px;line-height:1.66;font-weight:300;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:400;color:var(--paper);line-height:1.08;}
+p{margin:0 0 1em;} p:last-child{margin-bottom:0;}
+a{color:inherit;text-decoration:none;}
+::selection{background:var(--safelight);color:#fff;}
+
+.shell{width:100%;max-width:var(--shell);margin-inline:auto;padding-inline:var(--pad);}
+.sec{padding-block:var(--sec);}
+.skip{position:absolute;top:0;inset-inline-start:0;z-index:400;background:var(--safelight);color:#fff;
+  padding:12px 18px;font-weight:600;transform:translateY(-140%);transition:transform .2s var(--ease);}
+.skip:focus{transform:none;}
+:focus-visible{outline:2px solid var(--safelight-lt);outline-offset:3px;}
+
+.tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--body);font-size:.68rem;
+  font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--safelight-lt);margin:0 0 16px;}
+.tag i{width:20px;height:1px;background:var(--safelight);}
+.h2{font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:12px;}
+.lede{max-width:58ch;color:var(--paper-dim);font-size:clamp(.98rem,1.2vw,1.04rem);}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  font-family:var(--body);font-weight:600;font-size:.86rem;padding:14px 27px;
+  border:1px solid transparent;cursor:pointer;transition:background .22s var(--ease),
+  color .22s var(--ease),border-color .22s var(--ease);}
+.btn-red{background:var(--safelight);color:#fff;}
+.btn-red:hover{background:var(--safelight-lt);}
+.btn-line{border-color:var(--line);color:var(--paper);background:transparent;}
+.btn-line:hover{border-color:var(--safelight-lt);color:var(--safelight-lt);}
+
+/* ============================== NAV ============================== */
+.nav{position:sticky;top:0;z-index:100;background:rgba(12,12,12,.9);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid transparent;transition:border-color .3s var(--ease);}
+.nav.stuck{border-bottom-color:var(--line);}
+.nav-in{max-width:var(--shell);margin-inline:auto;padding-inline:var(--pad);height:68px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.brand{font-family:var(--display);font-size:1.34rem;letter-spacing:.06em;color:var(--paper);
+  display:flex;align-items:center;gap:8px;}
+.brand i{width:6px;height:6px;border-radius:50%;background:var(--safelight);}
+.links{display:flex;gap:26px;list-style:none;margin:0;padding:0;}
+.links a{font-size:.85rem;color:var(--paper-dim);transition:color .2s var(--ease);}
+.links a:hover{color:var(--paper);}
+.burger{display:none;width:38px;height:34px;border:1px solid var(--line);border-radius:2px;
+  background:transparent;cursor:pointer;position:relative;padding:0;}
+.burger i{position:absolute;left:9px;right:9px;height:1.4px;background:var(--paper);}
+.burger i:nth-child(1){top:11px;} .burger i:nth-child(2){top:16px;} .burger i:nth-child(3){top:21px;}
+@media(max-width:900px){
+  .links{position:fixed;inset:68px 0 auto 0;background:var(--ink-2);flex-direction:column;gap:0;
+    padding:6px var(--pad) 20px;border-bottom:1px solid var(--line);
+    transform:translateY(-12px);opacity:0;visibility:hidden;
+    transition:transform .26s var(--ease),opacity .26s var(--ease),visibility .26s;}
+  body.open .links{transform:none;opacity:1;visibility:visible;}
+  .links li{width:100%;}
+  .links a{display:block;padding:13px 0;border-bottom:1px solid var(--line-soft);}
+  .nav-cta{display:none;}
+  .burger{display:block;}
+}
+
+/* ============================== HERO ============================== */
+.hero{position:relative;padding-block:clamp(40px,6vw,72px) clamp(52px,7vw,88px);}
+.hero-grid{display:grid;gap:clamp(34px,4.5vw,54px);align-items:center;}
+@media(min-width:960px){.hero-grid{grid-template-columns:1fr 1fr;}}
+.hero h1{font-size:clamp(2.1rem,4.6vw,3.3rem);max-width:15ch;}
+.hero h1 em{font-style:italic;color:var(--safelight-lt);}
+.hero .sub{margin-top:20px;max-width:46ch;}
+.acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;}
+.dash{display:flex;flex-wrap:wrap;gap:0;margin-top:32px;padding-top:22px;border-top:1px solid var(--line);}
+.dash div{padding-right:24px;margin-right:24px;border-right:1px solid var(--line-soft);}
+.dash div:last-child{border-right:0;}
+.dash b{display:block;font-family:var(--display);font-size:1.4rem;color:var(--paper);}
+.dash span{display:block;font-size:.72rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.04em;}
+
+/* hero frame — a photo "shot" as a duotone block with viewfinder corners,
+   the visual language used throughout instead of real photography */
+.shot{position:relative;aspect-ratio:4/5;overflow:hidden;}
+.shot .tone{position:absolute;inset:0;
+  background:linear-gradient(150deg,#3a3632 0%,#1c1a17 46%,#0c0c0c 100%);}
+.shot .tone::after{content:"";position:absolute;inset:0;opacity:.5;
+  background-image:radial-gradient(circle at 30% 24%, rgba(243,241,236,.06), transparent 45%);}
+.corner{position:absolute;width:22px;height:22px;border-color:var(--paper);opacity:.85;}
+.corner.tl{top:14px;left:14px;border-top:1.5px solid;border-left:1.5px solid;}
+.corner.tr{top:14px;right:14px;border-top:1.5px solid;border-right:1.5px solid;}
+.corner.bl{bottom:14px;left:14px;border-bottom:1.5px solid;border-left:1.5px solid;}
+.corner.br{bottom:14px;right:14px;border-bottom:1.5px solid;border-right:1.5px solid;}
+.shot .cap{position:absolute;left:14px;bottom:14px;font-family:var(--body);font-size:.62rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--paper);opacity:.75;}
+.shot .fno{position:absolute;right:14px;top:14px;font-family:var(--display);font-style:italic;
+  font-size:.9rem;color:var(--paper);opacity:.8;}
+
+/* ============================== MARQUEE ============================== */
+.strip{border-block:1px solid var(--line);overflow:hidden;padding-block:15px;background:var(--ink-2);}
+.mq{display:flex;width:max-content;animation:slide 28s linear infinite;}
+.mq-set{display:flex;align-items:center;gap:36px;padding-inline-end:36px;}
+.mq span{font-family:var(--display);font-style:italic;font-size:1rem;color:var(--muted);white-space:nowrap;}
+.mq i{width:4px;height:4px;border-radius:50%;background:var(--safelight);flex:none;}
+@keyframes slide{to{transform:translateX(-50%);}}
+.strip:hover .mq{animation-play-state:paused;}
+
+/* ============================== GALLERY (signature) ============================== */
+.gwrap{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:38px;}
+@media(min-width:640px){.gwrap{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:980px){.gwrap{grid-template-columns:repeat(3,1fr);}}
+.gitem{position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;border:0;padding:0;
+  background:var(--ink);display:block;width:100%;}
+.gitem .tone{position:absolute;inset:0;transition:transform .5s var(--ease);}
+.gitem:hover .tone{transform:scale(1.045);}
+.gitem .meta{position:absolute;left:0;right:0;bottom:0;padding:14px;
+  background:linear-gradient(0deg, rgba(12,12,12,.86), transparent 70%);
+  display:flex;justify-content:space-between;align-items:flex-end;gap:10px;}
+.gitem .meta b{font-family:var(--display);font-size:.98rem;color:var(--paper);font-weight:400;}
+.gitem .meta span{font-family:var(--body);font-size:.66rem;color:var(--paper-dim);text-transform:uppercase;letter-spacing:.06em;}
+.gitem .expand{position:absolute;top:12px;right:12px;width:28px;height:28px;border:1px solid rgba(243,241,236,.4);
+  border-radius:50%;display:grid;place-items:center;opacity:0;transition:opacity .3s var(--ease);}
+.gitem:hover .expand{opacity:1;}
+.gitem .expand::before{content:"";width:9px;height:9px;border:1.4px solid var(--paper);border-radius:1px;}
+
+/* lightbox */
+.lightbox{position:fixed;inset:0;z-index:300;display:none;}
+.lightbox.on{display:block;}
+.lb-bg{position:absolute;inset:0;background:rgba(6,6,6,.94);opacity:0;transition:opacity .3s var(--ease);}
+.lightbox.on .lb-bg{opacity:1;}
+.lb-stage{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:70px 20px 90px;}
+.lb-frame{position:relative;width:min(84vw,560px);aspect-ratio:4/5;
+  transform:scale(.97);opacity:0;transition:transform .32s var(--ease),opacity .32s var(--ease);}
+.lightbox.on .lb-frame{transform:scale(1);opacity:1;}
+.lb-frame .tone{position:absolute;inset:0;}
+.lb-info{margin-top:20px;text-align:center;}
+.lb-info b{display:block;font-family:var(--display);font-size:1.3rem;color:var(--paper);font-weight:400;}
+.lb-info span{display:block;font-size:.76rem;color:var(--muted);margin-top:5px;text-transform:uppercase;letter-spacing:.06em;}
+.lb-count{position:absolute;top:22px;left:50%;transform:translateX(-50%);font-family:var(--body);
+  font-size:.72rem;color:var(--muted);letter-spacing:.1em;}
+.lb-close{position:absolute;top:18px;right:20px;width:38px;height:38px;border:1px solid var(--line);
+  border-radius:50%;background:transparent;color:var(--paper);cursor:pointer;font-size:1.1rem;
+  transition:border-color .2s var(--ease);}
+.lb-close:hover{border-color:var(--safelight-lt);}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--line);background:rgba(12,12,12,.6);color:var(--paper);cursor:pointer;
+  font-size:1.2rem;transition:border-color .2s var(--ease),background .2s var(--ease);}
+.lb-nav:hover{border-color:var(--safelight-lt);background:var(--ink-2);}
+.lb-prev{left:14px;} .lb-next{right:14px;}
+@media(max-width:640px){.lb-nav{width:38px;height:38px;}.lb-prev{left:6px;}.lb-next{right:6px;}}
+.lb-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:.7rem;
+  color:var(--muted);letter-spacing:.04em;}
+
+/* ============================== PACKAGES ============================== */
+.pkgs{background:var(--ink-2);border-block:1px solid var(--line);}
+.pgrid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:38px;}
+@media(min-width:820px){.pgrid{grid-template-columns:repeat(3,1fr);}}
+.pk{background:var(--ink-2);padding:28px 24px;display:flex;flex-direction:column;position:relative;}
+.pk.best{background:var(--ink-3);}
+.pflag{position:absolute;top:0;right:0;font-size:.62rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:#fff;background:var(--safelight);padding:5px 12px;}
+.pk h3{font-size:1.28rem;margin-bottom:4px;}
+.pk .for{font-size:.82rem;color:var(--muted);margin-bottom:18px;}
+.pamt{display:flex;align-items:baseline;gap:6px;margin-bottom:4px;}
+.pamt b{font-family:var(--display);font-size:2rem;color:var(--paper);}
+.pamt small{font-size:.68rem;color:var(--muted);}
+.pper{font-size:.78rem;color:var(--safelight-lt);margin-bottom:20px;}
+.pk ul{list-style:none;margin:0 0 24px;padding:0;display:grid;gap:10px;}
+.pk li{display:grid;grid-template-columns:auto 1fr;gap:10px;font-size:.87rem;align-items:start;}
+.pdot{width:5px;height:5px;border-radius:50%;background:var(--safelight);margin-top:8px;}
+.pk .btn{margin-top:auto;width:100%;}
+
+/* ============================== PROCESS ============================== */
+.steps{margin-top:34px;border-top:1px solid var(--line);}
+.st{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:22px 0;border-bottom:1px solid var(--line);align-items:start;}
+.st-n{font-family:var(--display);font-style:italic;font-size:1.3rem;color:var(--safelight-lt);min-width:32px;}
+.st h3{font-size:1.02rem;font-family:var(--body);font-weight:600;color:var(--paper);margin-bottom:5px;}
+.st p{font-size:.9rem;margin:0;max-width:60ch;}
+
+/* ============================== TESTIMONIALS ============================== */
+.q-grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:36px;}
+@media(min-width:860px){.q-grid{grid-template-columns:repeat(3,1fr);}}
+.q{background:var(--ink);padding:24px 22px;}
+.q blockquote{margin:0 0 16px;font-family:var(--display);font-style:italic;font-size:1.04rem;color:var(--paper);line-height:1.5;}
+.q footer{font-size:.78rem;color:var(--muted);border-top:1px solid var(--line-soft);padding-top:11px;}
+.q footer b{color:var(--paper-dim);display:block;margin-bottom:2px;font-family:var(--body);font-weight:600;}
+
+/* ============================== BOOK ============================== */
+.book{border-top:1px solid var(--line);}
+.b-grid{display:grid;gap:clamp(30px,4vw,52px);}
+@media(min-width:860px){.b-grid{grid-template-columns:.9fr 1.1fr;}}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:6px;}
+.field input,.field select,.field textarea{width:100%;background:rgba(243,241,236,.05);color:var(--paper);
+  border:1px solid var(--line);border-radius:2px;padding:12px 13px;font:inherit;font-size:.92rem;
+  transition:border-color .3s var(--ease);}
+.field textarea{min-height:88px;resize:vertical;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--safelight-lt);}
+.field select option{background:var(--ink);color:var(--paper);}
+.field.bad input,.field.bad select{border-color:var(--safelight);}
+.field .err{display:none;color:var(--safelight-lt);font-size:.76rem;margin-top:5px;}
+.field.bad .err{display:block;}
+.two{display:grid;gap:14px;}
+@media(min-width:560px){.two{grid-template-columns:1fr 1fr;}}
+.fstat{display:none;margin-top:15px;padding:12px 14px;border-radius:2px;font-size:.88rem;}
+.fstat.show{display:block;}
+.fstat.ok{background:rgba(179,58,46,.14);color:var(--safelight-lt);border:1px solid rgba(179,58,46,.32);}
+
+.direct{border:1px solid var(--line);border-radius:2px;padding:20px;margin-top:22px;background:var(--ink-2);}
+.direct .k{display:block;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.direct a{font-weight:600;color:var(--paper);}
+.direct a:hover{color:var(--safelight-lt);}
+.direct .row + .row{margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft);}
+
+/* ============================== FOOTER ============================== */
+.foot{background:#000;border-top:1px solid var(--line);}
+.foot-in{padding-block:28px;display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;align-items:center;}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap;font-size:.85rem;}
+.foot-links a:hover{color:var(--safelight-lt);}
+.foot small{font-size:.75rem;color:var(--muted);}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;}
+  html{scroll-behavior:auto;}
+}
+</style>
+<noscript>
+<style>
+@media(max-width:900px){
+  .links{position:static;transform:none;opacity:1;visibility:visible;
+    flex-direction:row;flex-wrap:wrap;gap:4px 16px;padding:0 0 10px;border-bottom:1px solid var(--line);}
+  .links li{width:auto;}
+  .links a{border-bottom:0;padding:6px 0;}
+  .nav-in{height:auto;flex-wrap:wrap;padding-block:10px;}
+  .burger{display:none;}
+}
+</style>
+</noscript>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a href="#top" class="brand">FRAME<i></i></a>
+    <ul class="links" id="menu">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#book">Book</a></li>
+    </ul>
+    <div class="nav-cta"><a href="#book" class="btn btn-red">Book a session</a></div>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+  </div>
+</header>
+
+<main id="main"><div id="top"></div>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="shell hero-grid">
+    <div>
+      <span class="tag"><i></i>Photography · Cairo</span>
+      <h1>We shoot for the frame that <em>doesn't need cropping.</em></h1>
+      <p class="sub">Portraits, product and events, shot to be used as they come out of camera — not saved for someone to fix later.</p>
+      <div class="acts">
+        <a href="#book" class="btn btn-red">Book a session</a>
+        <a href="#work" class="btn btn-line">See the work</a>
+      </div>
+      <div class="dash">
+        <div><b>6 yrs</b><span>Shooting in Cairo</span></div>
+        <div><b>340+</b><span>Sessions delivered</span></div>
+        <div><b>48h</b><span>Turnaround</span></div>
+      </div>
+    </div>
+
+    <div class="shot" aria-hidden="true">
+      <div class="tone"></div>
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <span class="fno">f/1.8</span>
+      <span class="cap">Portrait — natural light</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ MARQUEE ============================ -->
+<div class="strip" aria-hidden="true">
+  <div class="mq">
+    <div class="mq-set">
+      <span>Portrait</span><i></i><span>Product</span><i></i><span>Event</span><i></i>
+      <span>Editorial</span><i></i><span>Studio Rental</span><i></i><span>Brand Content</span><i></i>
+    </div>
+    <div class="mq-set">
+      <span>Portrait</span><i></i><span>Product</span><i></i><span>Event</span><i></i>
+      <span>Editorial</span><i></i><span>Studio Rental</span><i></i><span>Brand Content</span><i></i>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ WORK / GALLERY (signature) ============================ -->
+<section class="sec" id="work">
+  <div class="shell">
+    <span class="tag"><i></i>The signature</span>
+    <h2 class="h2">A gallery you can actually move through.</h2>
+    <p class="lede">Click any frame. Arrow keys move between shots, same as a real contact sheet review — because that's a more honest test of a set than a static grid.</p>
+
+    <div class="gwrap" id="gallery">
+      <button class="gitem" data-i="0" style="--a:150deg,#3a3632,#1c1a17,#0c0c0c">
+        <div class="tone" style="background:linear-gradient(150deg,#3a3632,#1c1a17 46%,#0c0c0c)"></div>
+        <span class="expand" aria-hidden="true"></span>
+        <div class="meta"><b>Nadia, portrait</b><span>50mm · f/1.8</span></div>
+      </button>
+      <button class="gitem" data-i="1">
+        <div class="tone" style="background:linear-gradient(160deg,#4a3a30,#22180f 50%,#0c0c0c)"></div>
+        <span class="expand" aria-hidden="true"></span>
+        <div class="meta"><b>Product, watch detail</b><span>100mm macro</span></div>
+      </button>
+      <button class="gitem" data-i="2">
+        <div class="tone" style="background:linear-gradient(140deg,#2e3438,#161a1c 48%,#0c0c0c)"></div>
+        <span class="expand" aria-hidden="true"></span>
+        <div class="meta"><b>Zamalek rooftop, event</b><span>24mm · low light</span></div>
+      </button>
+      <button class="gitem" data-i="3">
+        <div class="tone" style="background:linear-gradient(155deg,#443228,#201510 47%,#0c0c0c)"></div>
+        <span class="expand" aria-hidden="true"></span>
+        <div class="meta"><b>Karim, editorial</b><span>85mm · studio strobe</span></div>
+      </button>
+      <button class="gitem" data-i="4">
+        <div class="tone" style="background:linear-gradient(145deg,#33302c,#1a1815 49%,#0c0c0c)"></div>
+        <span class="expand" aria-hidden="true"></span>
+        <div class="meta"><b>Café brand shoot</b><span>35mm · daylight</span></div>
+      </button>
+      <button class="gitem" data-i="5">
+        <div class="tone" style="background:linear-gradient(165deg,#3d2c28,#1e1210 46%,#0c0c0c)"></div>
+        <span class="expand" aria-hidden="true"></span>
+        <div class="meta"><b>Studio, day rate</b><span>Available to rent</span></div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Photo viewer">
+  <div class="lb-bg" id="lbBg"></div>
+  <div class="lb-stage">
+    <span class="lb-count" id="lbCount">1 / 6</span>
+    <button class="lb-close" id="lbClose" aria-label="Close">&times;</button>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous photo">&lsaquo;</button>
+    <div class="lb-frame" id="lbFrame">
+      <div class="tone" id="lbTone"></div>
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+    </div>
+    <button class="lb-nav lb-next" id="lbNext" aria-label="Next photo">&rsaquo;</button>
+    <div class="lb-info"><b id="lbTitle"></b><span id="lbMeta"></span></div>
+    <span class="lb-hint">Arrow keys to move &middot; Esc to close</span>
+  </div>
+</div>
+
+<!-- ============================ PACKAGES ============================ -->
+<section class="sec pkgs" id="packages">
+  <div class="shell">
+    <span class="tag"><i></i>Packages</span>
+    <h2 class="h2">Priced by the session, not by the hour you don't track.</h2>
+    <p class="lede">Every package includes a same-week edit turnaround and full-resolution delivery. No watermarks, no waiting on a "premium unlock."</p>
+
+    <div class="pgrid">
+      <div class="pk">
+        <h3>Portrait</h3>
+        <p class="for">One person, one location</p>
+        <div class="pamt"><b>2,200</b><small>EGP</small></div>
+        <p class="pper">90 min · 20 edited frames</p>
+        <ul>
+          <li><span class="pdot"></span><span>One outfit change</span></li>
+          <li><span class="pdot"></span><span>Studio or outdoor location</span></li>
+          <li><span class="pdot"></span><span>Full-res digital delivery</span></li>
+        </ul>
+        <a href="#book" class="btn btn-line">Book Portrait</a>
+      </div>
+
+      <div class="pk best">
+        <span class="pflag">Most booked</span>
+        <h3>Brand Content</h3>
+        <p class="for">Product or small brand shoot</p>
+        <div class="pamt"><b>5,800</b><small>EGP</small></div>
+        <p class="pper">Half-day · 40 edited frames</p>
+        <ul>
+          <li><span class="pdot"></span><span>Up to 6 products or setups</span></li>
+          <li><span class="pdot"></span><span>Lifestyle and flat-lay coverage</span></li>
+          <li><span class="pdot"></span><span>Usage rights for ads included</span></li>
+          <li><span class="pdot"></span><span>48-hour turnaround</span></li>
+        </ul>
+        <a href="#book" class="btn btn-red">Book Brand Content</a>
+      </div>
+
+      <div class="pk">
+        <h3>Event</h3>
+        <p class="for">Launches, gatherings, up to 4 hours</p>
+        <div class="pamt"><b>7,500</b><small>EGP</small></div>
+        <p class="pper">4 hrs · full gallery delivered</p>
+        <ul>
+          <li><span class="pdot"></span><span>One photographer, roaming coverage</span></li>
+          <li><span class="pdot"></span><span>Full gallery, unedited + 60 edited</span></li>
+          <li><span class="pdot"></span><span>Delivered within one week</span></li>
+        </ul>
+        <a href="#book" class="btn btn-line">Book Event</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PROCESS ============================ -->
+<section class="sec" id="process">
+  <div class="shell">
+    <span class="tag"><i></i>How it runs</span>
+    <h2 class="h2">Booking to delivery.</h2>
+    <div class="steps">
+      <div class="st"><span class="st-n">01</span><div><h3>Brief call</h3><p>Fifteen minutes on what the shoot is for — a portfolio, an ad campaign, a memory. That changes how we shoot it.</p></div></div>
+      <div class="st"><span class="st-n">02</span><div><h3>Location and light</h3><p>We scout or confirm the space beforehand. No arriving to figure out the light on the day.</p></div></div>
+      <div class="st"><span class="st-n">03</span><div><h3>The shoot</h3><p>We shoot loose and review as we go, so nobody leaves unsure whether we got the shot.</p></div></div>
+      <div class="st"><span class="st-n">04</span><div><h3>Edit and deliver</h3><p>A same-week edit, delivered as a private online gallery you can download from directly.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TESTIMONIALS ============================ -->
+<section class="sec" style="background:var(--ink-2);border-block:1px solid var(--line);">
+  <div class="shell">
+    <span class="tag"><i></i>From recent shoots</span>
+    <h2 class="h2">What clients actually say.</h2>
+    <div class="q-grid">
+      <div class="q"><blockquote>Delivered the full gallery in two days, not the two weeks I was warned to expect elsewhere.</blockquote><footer><b>Salma R.</b>Portrait session</footer></div>
+      <div class="q"><blockquote>Understood exactly what "for ads" meant without me over-explaining the brief.</blockquote><footer><b>Tarek H.</b>Brand content, retail launch</footer></div>
+      <div class="q"><blockquote>Caught moments at the event I didn't even know happened until I saw the gallery.</blockquote><footer><b>Mona F.</b>Product launch event</footer></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ BOOK ============================ -->
+<section class="sec book" id="book">
+  <div class="shell b-grid">
+    <div>
+      <span class="tag"><i></i>Book</span>
+      <h2 class="h2">Tell us what you need shot.</h2>
+      <p class="lede">Send the details and we'll reply with availability within one working day.</p>
+      <div class="direct">
+        <div class="row"><span class="k">Call or WhatsApp</span><a href="tel:+201111089255">+20 111 108 9255</a></div>
+        <div class="row"><span class="k">Email</span><a href="mailto:hello.axisdigitalstudio@gmail.com">hello.axisdigitalstudio@gmail.com</a></div>
+      </div>
+    </div>
+
+    <form id="bform" novalidate>
+      <div class="two">
+        <div class="field"><label for="b-name">Name</label><input type="text" id="b-name" autocomplete="name" /><span class="err">Please add your name.</span></div>
+        <div class="field"><label for="b-phone">Phone</label><input type="tel" id="b-phone" autocomplete="tel" /><span class="err">We confirm by phone or WhatsApp.</span></div>
+      </div>
+      <div class="field">
+        <label for="b-type">Type of shoot</label>
+        <select id="b-type">
+          <option>Portrait</option><option>Brand / Product</option><option>Event</option><option>Not sure yet</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="b-when">Preferred date</label>
+        <input type="text" id="b-when" placeholder="e.g. a weekday next week" />
+        <span class="err">Give us a rough window.</span>
+      </div>
+      <button type="submit" class="btn btn-red" style="width:100%">Request availability</button>
+      <div class="fstat" id="bstat" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="shell foot-in">
+    <a href="#top" class="brand">FRAME<i></i></a>
+    <nav class="foot-links" aria-label="Footer"><a href="#work">Work</a><a href="#packages">Packages</a><a href="#process">Process</a><a href="#book">Book</a></nav>
+    <small>&copy; <span id="yr">2026</span> FRAME &middot; Cairo</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+
+  var nav = $('nav');
+  function onScroll(){ if (nav) nav.classList.toggle('stuck', window.scrollY > 6); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  var burger = $('burger'), menu = $('menu');
+  function setOpen(o){
+    document.body.classList.toggle('open', o);
+    if (burger) burger.setAttribute('aria-expanded', o ? 'true' : 'false');
+  }
+  if (burger) burger.addEventListener('click', function(){ setOpen(!document.body.classList.contains('open')); });
+  if (menu) menu.addEventListener('click', function(e){ if (e.target.tagName === 'A') setOpen(false); });
+
+  /* ---------- lightbox gallery ---------- */
+  var PHOTOS = [
+    { title: 'Nadia, portrait', meta: '50mm · f/1.8', bg: 'linear-gradient(150deg,#3a3632,#1c1a17 46%,#0c0c0c)' },
+    { title: 'Product, watch detail', meta: '100mm macro', bg: 'linear-gradient(160deg,#4a3a30,#22180f 50%,#0c0c0c)' },
+    { title: 'Zamalek rooftop, event', meta: '24mm · low light', bg: 'linear-gradient(140deg,#2e3438,#161a1c 48%,#0c0c0c)' },
+    { title: 'Karim, editorial', meta: '85mm · studio strobe', bg: 'linear-gradient(155deg,#443228,#201510 47%,#0c0c0c)' },
+    { title: 'Café brand shoot', meta: '35mm · daylight', bg: 'linear-gradient(145deg,#33302c,#1a1815 49%,#0c0c0c)' },
+    { title: 'Studio, day rate', meta: 'Available to rent', bg: 'linear-gradient(165deg,#3d2c28,#1e1210 46%,#0c0c0c)' }
+  ];
+
+  var lb = $('lightbox'), lbTone = $('lbTone'), lbTitle = $('lbTitle'), lbMeta = $('lbMeta'), lbCount = $('lbCount');
+  var current = 0, lastFocus = null;
+
+  function show(i){
+    current = (i + PHOTOS.length) % PHOTOS.length;
+    var p = PHOTOS[current];
+    lbTone.style.background = p.bg;
+    lbTitle.textContent = p.title;
+    lbMeta.textContent = p.meta;
+    lbCount.textContent = (current + 1) + ' / ' + PHOTOS.length;
+  }
+
+  function open(i){
+    lastFocus = document.activeElement;
+    show(i);
+    lb.classList.add('on');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    $('lbClose').focus();
+  }
+  function close(){
+    lb.classList.remove('on');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+  }
+
+  $('gallery').addEventListener('click', function(e){
+    var item = e.target.closest('.gitem');
+    if (item) open(parseInt(item.getAttribute('data-i'), 10));
+  });
+  $('lbClose').addEventListener('click', close);
+  $('lbBg').addEventListener('click', close);
+  $('lbPrev').addEventListener('click', function(){ show(current - 1); });
+  $('lbNext').addEventListener('click', function(){ show(current + 1); });
+
+  document.addEventListener('keydown', function(e){
+    if (!lb.classList.contains('on')) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowLeft') show(current - 1);
+    else if (e.key === 'ArrowRight') show(current + 1);
+  });
+
+  /* basic swipe for touch devices */
+  var touchX = null;
+  lb.addEventListener('touchstart', function(e){ touchX = e.touches[0].clientX; }, {passive:true});
+  lb.addEventListener('touchend', function(e){
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 40) show(current + (dx < 0 ? 1 : -1));
+    touchX = null;
+  }, {passive:true});
+
+  /* ---------- booking form ---------- */
+  var form = $('bform'), stat = $('bstat');
+  function bad(el, is){ el.closest('.field').classList.toggle('bad', is); }
+  ['b-name','b-phone','b-when'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', function(){ bad(el, false); });
+  });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var ok = true;
+    [['b-name',1],['b-phone',6],['b-when',3]].forEach(function(c){
+      var el = $(c[0]);
+      var good = el.value.trim().length >= c[1];
+      bad(el, !good);
+      if (!good && ok){ el.focus(); ok = false; }
+    });
+    if (!ok) return;
+    stat.className = 'fstat show ok';
+    stat.textContent = 'Got it — we\u2019ll reply with availability within one working day.';
+    form.reset();
+  });
+
+  $('yr').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
