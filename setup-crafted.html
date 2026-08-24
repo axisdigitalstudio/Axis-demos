@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Setup Crafted — Upload your design, see it printed</title>
-<meta name="description" content="Custom UV printing in Cairo. Upload your design and see it on a mouse pad, phone case, coasters, an acrylic poster or a desk sign. Prices on WhatsApp." />
+<title>Printora — Upload your design, see it printed</title>
+<meta name="description" content="Custom UV printing in Cairo. Upload your design and see it on a mouse pad, phone case, coasters, an acrylic poster, a desk sign or a QR sign. Prices on WhatsApp." />
 <meta name="theme-color" content="#F7F6F3" />
-<meta property="og:title" content="Setup Crafted — Upload your design, see it printed" />
+<meta property="og:title" content="Printora — Upload your design, see it printed" />
 <meta property="og:description" content="Custom UV printing in Cairo. Upload your design and preview it on the product." />
 <meta property="og:type" content="website" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,7 +16,7 @@
 
 <style>
 /* ==========================================================================
-   SETUP CRAFTED — custom UV printing, Cairo
+   PRINTORA — custom UV printing, Cairo
    The uploader is the product. It is the first thing on the page, the photos
    below it are only there to show what comes back, and everything else was
    cut. Prices are a conversation, not a table.
@@ -98,7 +98,8 @@ body[dir="rtl"] .eyebrow{letter-spacing:normal;}
   font-size:.98rem;letter-spacing:-.02em;color:var(--ink);}
 .wm-mark{width:24px;height:24px;border-radius:7px;background:var(--ink);display:grid;place-items:center;flex:none;}
 .wm-mark svg{width:14px;height:14px;}
-.wm span{color:var(--mute);font-weight:500;}
+.wm .wm-name{color:var(--mute);font-weight:500;letter-spacing:-.01em;}
+.wm .wm-name b{color:var(--ink);font-weight:700;}
 .nav-right{display:flex;align-items:center;gap:8px;margin-inline-start:auto;}
 .lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;font-size:.75rem;font-weight:600;}
 .lang button{padding:7px 11px;color:var(--mute);transition:.2s;}
@@ -118,9 +119,17 @@ body[dir="rtl"] .eyebrow{letter-spacing:normal;}
   position:relative;margin-top:clamp(18px,3vw,28px);
   border-radius:var(--r);overflow:hidden;
   background:radial-gradient(128% 122% at 50% 2%,#E4E1DA 0%,#BEBAB2 44%,#8F8B83 100%);
-  height:min(46svh,400px);box-shadow:0 24px 54px -28px rgba(13,15,19,.5);
+  height:min(42svh,360px);box-shadow:0 24px 54px -28px rgba(13,15,19,.5);
 }
-@media(min-width:700px){.stage-wrap{height:min(44svh,400px);max-width:760px;margin-inline:auto;}}
+@media(min-width:700px){.stage-wrap{height:min(40svh,380px);max-width:760px;margin-inline:auto;}}
+/* short laptops and small phones: keep the upload button above the fold */
+@media(max-height:820px){
+  .studio{padding-top:10px;}
+  .studio h1{font-size:clamp(1.7rem,4.2vw,2.4rem);}
+  .studio .sub{font-size:.9rem;margin-top:7px;}
+  .stage-wrap{height:min(37svh,300px);margin-top:16px;}
+  .btn.big{padding:15px 30px;font-size:1rem;}
+}
 #gl{width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab;}
 #gl:active{cursor:grabbing;}
 .stage-drop{
@@ -131,8 +140,9 @@ body[dir="rtl"] .eyebrow{letter-spacing:normal;}
 }
 .stage-wrap.dragging .stage-drop{opacity:1;}
 .stage-hint{
-  position:absolute;left:0;right:0;bottom:12px;text-align:center;
-  font-size:.72rem;color:rgba(20,22,26,.5);pointer-events:none;
+  position:absolute;top:12px;inset-inline-end:14px;
+  padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.55);
+  font-size:.68rem;font-weight:500;color:rgba(20,22,26,.6);pointer-events:none;
 }
 .stage-fallback{position:absolute;inset:0;display:none;place-items:center;padding:28px;text-align:center;
   color:rgba(20,22,26,.62);font-size:.92rem;}
@@ -186,6 +196,64 @@ body[dir="rtl"] .eyebrow{letter-spacing:normal;}
 .gcard b{font-family:var(--display);font-size:.98rem;font-weight:600;color:var(--ink);}
 .gcard span{font-size:.76rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);}
 body[dir="rtl"] .gcard span{letter-spacing:normal;}
+
+/* size + QR options under the product chips */
+.sizes{display:none;gap:7px;margin-top:9px;justify-content:center;flex-wrap:wrap;}
+.sizes.on{display:flex;}
+.sizes button{
+  padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);
+  color:var(--mute);font-size:.8rem;font-weight:500;white-space:nowrap;transition:.22s var(--ease);
+}
+.sizes button:hover{border-color:rgba(20,22,26,.28);color:var(--ink);}
+.sizes button.on{background:var(--ink);color:#fff;border-color:var(--ink);}
+.qr-row{display:none;align-items:center;gap:2px;margin:10px auto 0;width:min(100%,300px);
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 8px 6px 14px;}
+.qr-row.on{display:flex;}
+.qr-at{font-family:var(--display);font-weight:600;color:var(--mute);}
+.qr-row input{flex:1;min-width:0;border:0;background:none;outline:none;font:inherit;
+  font-size:.92rem;color:var(--ink);padding:5px 6px;direction:ltr;}
+
+/* ---------- QR band ---------------------------------------------------- */
+.qrband{padding-block:clamp(18px,3vw,34px);}
+.qrband-in{
+  display:grid;grid-template-columns:1fr;gap:24px;align-items:center;
+  background:var(--ink);color:rgba(255,255,255,.66);
+  border-radius:calc(var(--r) + 6px);padding:clamp(26px,4vw,44px);
+}
+@media(min-width:820px){.qrband-in{grid-template-columns:1.25fr .75fr;}}
+.qrband h2{color:#fff;font-size:clamp(1.5rem,3.4vw,2.2rem);margin-top:12px;}
+.qrband p{margin-top:12px;font-size:.95rem;max-width:44ch;}
+.qrband .btn{margin-top:20px;color:#fff;border-color:rgba(255,255,255,.24);}
+.qrband .btn:hover{background:rgba(255,255,255,.08);box-shadow:none;}
+.tagnew{display:inline-block;padding:5px 12px;border-radius:999px;background:var(--accent);
+  color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;}
+body[dir="rtl"] .tagnew{letter-spacing:normal;}
+.qrband-art{display:grid;place-items:center;}
+.qrband-card{
+  width:min(240px,72vw);padding:20px 18px 16px;border-radius:14px;text-align:center;
+  background:rgba(255,255,255,.94);color:var(--ink);
+  box-shadow:0 24px 50px -22px rgba(0,0,0,.7);
+  transform:rotate(-3deg);
+}
+.qrband-card b{display:block;font-family:var(--display);font-size:.78rem;letter-spacing:.06em;}
+.qrband-card canvas{width:100%;height:auto;margin:10px 0 8px;image-rendering:pixelated;}
+.qrband-card span{font-family:var(--display);font-size:.86rem;font-weight:600;direction:ltr;unicode-bidi:isolate;display:block;}
+
+/* ---------- why -------------------------------------------------------- */
+.why{padding-block:clamp(52px,8vw,86px);}
+.why-grid{display:grid;grid-template-columns:1fr;gap:12px;}
+@media(min-width:640px){.why-grid{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:1000px){.why-grid{grid-template-columns:repeat(4,1fr);}}
+.why-card{
+  background:var(--card);border:1px solid var(--line-2);border-radius:var(--r);
+  padding:22px 20px 24px;transform-style:preserve-3d;will-change:transform;
+  box-shadow:0 14px 34px -28px rgba(20,22,26,.35);
+}
+.why-card i{display:grid;place-items:center;width:38px;height:38px;border-radius:11px;
+  background:var(--accent);margin-bottom:14px;}
+.why-card i svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:1.7;}
+.why-card h3{font-size:1.04rem;letter-spacing:-.02em;}
+.why-card p{margin-top:7px;font-size:.9rem;color:var(--mute);}
 
 /* ---------- steps ------------------------------------------------------ */
 .steps{padding-block:var(--sec);}
@@ -241,7 +309,7 @@ body[dir="rtl"] .step em{letter-spacing:normal;}
 <header class="nav" id="nav">
   <a class="wm" href="#top">
     <span class="wm-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V5m0 0-4 4m4-4 4 4"/><path d="M5 19h14"/></svg></span>
-    <span style="color:var(--ink)">SETUP</span><span>CRAFTED</span>
+    <span class="wm-name"><b>PRINT</b>ORA</span>
   </a>
   <div class="nav-right">
     <div class="lang" role="group" aria-label="Language">
@@ -273,6 +341,12 @@ body[dir="rtl"] .step em{letter-spacing:normal;}
     </div>
 
     <div class="surfaces" id="surfaces" role="tablist" aria-label="Product"></div>
+    <div class="sizes" id="sizes" role="group" aria-label="Size"></div>
+    <div class="qr-row" id="qrRow">
+      <span class="qr-at">@</span>
+      <input type="text" id="qrHandle" value="printora.eg" maxlength="32" spellcheck="false"
+             autocomplete="off" aria-label="Instagram handle" />
+    </div>
 
     <div class="upload-row">
       <button class="btn big" id="uploadBtn">
@@ -287,6 +361,57 @@ body[dir="rtl"] .step em{letter-spacing:normal;}
         </button>
       </div>
       <p class="upload-note" data-en="PNG, JPG or PDF export. <b>Your file stays on your device.</b>" data-ar="PNG أو JPG. <b>ملفك بيفضل على جهازك.</b>">PNG, JPG or PDF export. <b>Your file stays on your device.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= WHY -->
+<section class="why">
+  <div class="shell">
+    <div class="sec-head rise">
+      <span class="eyebrow"><i></i><span data-en="Why us" data-ar="ليه إحنا">Why us</span></span>
+      <h2 data-en="Why order from Printora?" data-ar="ليه تطلب من Printora؟">Why order from Printora?</h2>
+    </div>
+    <div class="why-grid">
+      <article class="why-card rise">
+        <i><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/></svg></i>
+        <h3 data-en="Preview before printing" data-ar="معاينة قبل الطباعة">Preview before printing</h3>
+        <p data-en="You approve the design before anything is printed." data-ar="أنت توافق على التصميم قبل ما تُطبع أي حاجة.">You approve the design before anything is printed.</p>
+      </article>
+      <article class="why-card rise" data-d="1">
+        <i><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="3.6"/><path d="m6 6 2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></svg></i>
+        <h3 data-en="True-to-design printing" data-ar="طباعة مطابقة لتصميمك">True-to-design printing</h3>
+        <p data-en="Your artwork is printed with high-detail UV printing." data-ar="تصميمك يُطبع بطباعة UV عالية الدقة.">Your artwork is printed with high-detail UV printing.</p>
+      </article>
+      <article class="why-card rise" data-d="2">
+        <i><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h11v9H3z"/><path d="M14 11h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg></i>
+        <h3 data-en="Delivered across Egypt" data-ar="توصيل لكل مصر">Delivered across Egypt</h3>
+        <p data-en="3&ndash;5 day delivery, anywhere in the country." data-ar="التوصيل خلال 3&ndash;5 أيام لأي مكان في مصر.">3&ndash;5 day delivery, anywhere in the country.</p>
+      </article>
+      <article class="why-card rise" data-d="3">
+        <i><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/></svg></i>
+        <h3 data-en="Cash on delivery" data-ar="الدفع عند الاستلام">Cash on delivery</h3>
+        <p data-en="No payment upfront. Pay when it reaches you." data-ar="مفيش دفع مقدم. تدفع لما توصلك.">No payment upfront. Pay when it reaches you.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== QR BAND -->
+<section class="qrband">
+  <div class="shell qrband-in rise">
+    <div>
+      <span class="tagnew" data-en="New" data-ar="جديد">New</span>
+      <h2 data-en="QR signs for your business." data-ar="لافتات QR لمحلك.">QR signs for your business.</h2>
+      <p data-en="A small clear acrylic sign on your counter: scan to follow us. For cafés, restaurants, salons, barbers and gyms." data-ar="لافتة أكريليك شفافة صغيرة على الكاونتر: امسح للمتابعة. للكافيهات والمطاعم والصالونات والحلاقين والجيم.">A small clear acrylic sign on your counter: scan to follow us. For caf&eacute;s, restaurants, salons, barbers and gyms.</p>
+      <button class="btn line" id="tryQr" data-en="Try it with your handle" data-ar="جرّبها باسم حسابك">Try it with your handle</button>
+    </div>
+    <div class="qrband-art" aria-hidden="true">
+      <div class="qrband-card">
+        <b data-en="SCAN TO FOLLOW" data-ar="امسح للمتابعة">SCAN TO FOLLOW</b>
+        <canvas id="qrMini" width="240" height="240"></canvas>
+        <span>@yourbusiness</span>
+      </div>
     </div>
   </div>
 </section>
@@ -342,19 +467,14 @@ body[dir="rtl"] .step em{letter-spacing:normal;}
       <span data-en="Ask on WhatsApp" data-ar="اسأل على واتساب">Ask on WhatsApp</span>
     </a>
     <p class="num">010 1404 0477</p>
-    <div class="price-meta">
-      <span data-en="Cash on delivery" data-ar="الدفع عند الاستلام">Cash on delivery</span>
-      <span data-en="All Egypt" data-ar="كل مصر">All Egypt</span>
-      <span data-en="Preview before printing" data-ar="معاينة قبل الطباعة">Preview before printing</span>
-    </div>
   </div>
 </section>
 </main>
 
 <footer class="foot">
   <div class="shell foot-in">
-    <span>&copy; <span id="yr">2026</span> Setup Crafted &mdash; <span data-en="Cairo, Egypt" data-ar="القاهرة، مصر">Cairo, Egypt</span></span>
-    <span><span data-en="Demo by" data-ar="نموذج من">Demo by</span> <a href="https://axisdigitalstudio.github.io/Axis-demos/" target="_blank" rel="noopener">Axis Digital</a></span>
+    <span>&copy; <span id="yr">2026</span> Printora &mdash; <span data-en="Cairo, Egypt" data-ar="القاهرة، مصر">Cairo, Egypt</span></span>
+    <span><span data-en="Website created by" data-ar="الموقع من تنفيذ">Website created by</span> <a href="https://axisdigitalstudio.github.io/Axis-demos/" target="_blank" rel="noopener">Axis Digital</a></span>
   </div>
 </footer>
 
@@ -408,7 +528,7 @@ function buildGallery(){
       '<figcaption><b>' + e[lang] + "</b><span>" + e.tag[lang] + "</span></figcaption>" +
       "</figure></article>";
   }).join("");
-  tilted = Array.prototype.slice.call(document.querySelectorAll(".gcard, .step"));
+  tilted = Array.prototype.slice.call(document.querySelectorAll(".gcard, .step, .why-card"));
 }
 
 /* -- reveal ---------------------------------------------------------------
@@ -477,24 +597,46 @@ requestFrame();
 const SC = window.SC;
 
 const SURFACES = [
-  { key:"mousepad", en:"Mouse pad", ar:"ماوس باد", shape:"rect", w:1.34, h:1.10, r:0.05,
+  { key:"mousepad", en:"Mouse pad", ar:"ماوس باد", shape:"rect", r:0.05, tilt:-0.62,
     depth:0.022, clear:false, base:"#20242B", edge:0x15171B, fg:"rgba(255,255,255,.62)", rough:0.72, coat:0.2,
+    sizes:[{ cm:[30,30], en:"30 × 30 cm", ar:"30 × 30 سم" }, { cm:[100,50], en:"100 × 50 cm", ar:"100 × 50 سم" }],
     icon:'<rect x="3" y="6" width="18" height="12" rx="3"/>' },
+
   { key:"phone", en:"Phone case", ar:"جراب موبايل", shape:"rect", w:0.68, h:1.38, r:0.15,
-    depth:0.055, clear:true, fg:"rgba(22,26,32,.82)", rough:0.10, coat:1,
+    depth:0.058, clear:true, fg:"rgba(22,26,32,.82)", rough:0.10, coat:1, camera:true,
     icon:'<rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M10.5 5.2h3"/>' },
-  { key:"coaster", en:"Coasters", ar:"قواعد أكواب", shape:"circle", w:1.00, h:1.00, r:0.5,
+
+  { key:"coaster", en:"Coasters", ar:"قواعد أكواب", shape:"circle", w:1.00, h:1.00, r:0.5, tilt:-0.55,
     depth:0.055, clear:false, base:"#EDE6D9", edge:0x5A4634, fg:"rgba(30,34,40,.5)", rough:0.6, coat:0.3,
-    icon:'<circle cx="12" cy="12" r="8.5"/>' },
-  { key:"poster", en:"Acrylic poster", ar:"بوستر أكريليك", shape:"rect", w:1.06, h:1.40, r:0.015,
-    depth:0.030, clear:true, fg:"rgba(22,26,32,.82)", rough:0.06, coat:1,
+    stack:true, icon:'<circle cx="12" cy="12" r="8.5"/>' },
+
+  { key:"poster", en:"Acrylic poster", ar:"بوستر أكريليك", shape:"rect", r:0.015,
+    depth:0.030, clear:true, fg:"rgba(22,26,32,.82)", rough:0.06, coat:1, mounts:true,
+    sizes:[{ cm:[28,43], en:"Small · 28 × 43 cm", ar:"صغير · 28 × 43 سم" },
+           { cm:[46,61], en:"Medium · 46 × 61 cm", ar:"وسط · 46 × 61 سم" },
+           { cm:[61,91], en:"Large · 61 × 91 cm", ar:"كبير · 61 × 91 سم" }],
     icon:'<rect x="5" y="3" width="14" height="18" rx="1.4"/>' },
-  { key:"sign", en:"Desk sign", ar:"لافتة مكتب", shape:"rect", w:1.42, h:0.78, r:0.02,
-    depth:0.095, clear:true, fg:"rgba(22,26,32,.82)", rough:0.06, coat:1,
-    icon:'<rect x="3" y="6" width="18" height="10" rx="1.4"/><path d="M6 19h12"/>' }
+
+  { key:"sign", en:"Desk sign", ar:"لافتة مكتب", shape:"rect", w:1.42, h:0.72, r:0.02,
+    depth:0.095, clear:true, fg:"rgba(22,26,32,.82)", rough:0.06, coat:1, stand:"wood",
+    icon:'<rect x="3" y="6" width="18" height="10" rx="1.4"/><path d="M6 19h12"/>' },
+
+  { key:"qr", en:"QR sign", ar:"لافتة QR", shape:"rect", w:0.88, h:1.12, r:0.02,
+    depth:0.075, clear:true, fg:"rgba(22,26,32,.82)", rough:0.06, coat:1, stand:"wood", qr:true,
+    icon:'<rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><path d="M14 14h2v2h-2zM18 14h2.5M14 18h2M18.5 17.5v3M20.5 20.5h.01"/>' }
 ];
+/* real proportions, framed to a consistent size in the viewer */
+function dims(s){
+  if (!s.sizes) return { w:s.w, h:s.h };
+  const cm = s.sizes[sizeIndex[s.key] || 0].cm;
+  const k = 1.42 / Math.max(cm[0], cm[1]);
+  return { w:cm[0] * k, h:cm[1] * k };
+}
 
 const stageWrap = document.getElementById("stageWrap");
+const sizesEl   = document.getElementById("sizes");
+const qrRowEl   = document.getElementById("qrRow");
+const qrInput   = document.getElementById("qrHandle");
 const canvas    = document.getElementById("gl");
 const surfEl    = document.getElementById("surfaces");
 const fileEl    = document.getElementById("file");
@@ -502,6 +644,8 @@ const chipEl    = document.getElementById("fileChip");
 const nameEl    = document.getElementById("fileName");
 
 let current = SURFACES[0], userImg = null;
+const sizeIndex = { mousepad:0, poster:1 };
+let qrHandle = "printora.eg";
 
 /* -- the chips (built before three.js, so they exist either way) ---------- */
 function buildChips(){
@@ -520,6 +664,29 @@ function buildChips(){
         const on = o.dataset.key === s.key;
         o.classList.toggle("on", on); o.setAttribute("aria-selected", on);
       });
+      buildOptions();
+      if (window.__flipTo) window.__flipTo(s);
+    });
+  });
+  buildOptions();
+}
+
+/* size chips and the handle field only exist for the products that use them */
+function buildOptions(){
+  const L = SC.getLang(), s = current;
+  qrRowEl.classList.toggle("on", !!s.qr);
+  if (!s.sizes){ sizesEl.classList.remove("on"); sizesEl.innerHTML = ""; return; }
+  sizesEl.classList.add("on");
+  const active = sizeIndex[s.key] || 0;
+  sizesEl.innerHTML = s.sizes.map(function(z, i){
+    return "<button" + (i === active ? ' class="on"' : "") + ' data-i="' + i + '">' + z[L] + "</button>";
+  }).join("");
+  Array.prototype.forEach.call(sizesEl.children, function(b){
+    b.addEventListener("click", function(){
+      const i = +b.dataset.i;
+      if (i === (sizeIndex[s.key] || 0)) return;
+      sizeIndex[s.key] = i;
+      Array.prototype.forEach.call(sizesEl.children, function(o){ o.classList.toggle("on", o === b); });
       if (window.__flipTo) window.__flipTo(s);
     });
   });
@@ -533,7 +700,8 @@ function roundRectPath(x, w, h, r){
   if (x.roundRect) x.roundRect(0, 0, w, h, r); else x.rect(0, 0, w, h);
 }
 function paintFace(s, img){
-  const ar = s.shape === "circle" ? 1 : s.w / s.h;
+  const d = dims(s);
+  const ar = s.shape === "circle" ? 1 : d.w / d.h;
   const W = 1024, H = Math.max(64, Math.round(W / ar));
   const c = document.createElement("canvas");
   c.width = W; c.height = H;
@@ -550,6 +718,8 @@ function paintFace(s, img){
       x.fillStyle = g; x.fillRect(0, 0, W, H);
     }
   }
+
+  if (s.qr){ paintQR(x, W, H, img); return c; }
 
   if (img){
     const sc = Math.max(W / img.width, H / img.height);
@@ -584,6 +754,56 @@ function paintFace(s, img){
     x.fillText(SC.getLang() === "en" ? "YOUR DESIGN HERE" : "تصميمك هنا", cx, cy + u * 1.35);
   }
   return c;
+}
+
+/* -- the QR sign draws a real, scannable code ----------------------------- */
+let QR = null;
+try { QR = (await import("./assets/vendor/qrcode.mjs")).default; } catch (e) { console.warn("qr unavailable", e); }
+
+function paintQR(x, W, H, logo){
+  const L = SC.getLang();
+  const handle = (qrHandle || "").replace(/^@+/, "").trim() || "printora.eg";
+  x.fillStyle = "rgba(255,255,255,.9)"; x.fillRect(0, 0, W, H);
+
+  const top = H * 0.10;
+  x.fillStyle = "#15171B"; x.textAlign = "center"; x.textBaseline = "top";
+  x.font = "700 " + Math.round(W * 0.082) + "px 'Space Grotesk', sans-serif";
+  x.fillText(L === "en" ? "SCAN TO FOLLOW" : "امسح للمتابعة", W / 2, top);
+
+  const q = Math.round(W * 0.56);
+  const qx = (W - q) / 2, qy = top + W * 0.145;
+
+  if (QR){
+    let code = null;
+    try {
+      code = QR(0, "M");
+      code.addData("https://instagram.com/" + handle);
+      code.make();
+    } catch (e) { code = null; }
+    if (code){
+      const n = code.getModuleCount(), cell = q / n;
+      x.fillStyle = "#15171B";
+      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++){
+        if (code.isDark(r, c)) x.fillRect(qx + c * cell, qy + r * cell, cell + 0.6, cell + 0.6);
+      }
+      if (logo){
+        /* a small quiet zone so the uploaded mark can sit in the middle */
+        const ls = q * 0.24, lx = qx + (q - ls) / 2, ly = qy + (q - ls) / 2;
+        x.fillStyle = "#ffffff"; x.fillRect(lx - ls * 0.12, ly - ls * 0.12, ls * 1.24, ls * 1.24);
+        const sc = Math.min(ls / logo.width, ls / logo.height);
+        x.drawImage(logo, lx + (ls - logo.width * sc) / 2, ly + (ls - logo.height * sc) / 2,
+                    logo.width * sc, logo.height * sc);
+      }
+    }
+  }
+
+  const by = qy + q + H * 0.045;
+  x.fillStyle = "#15171B";
+  x.font = "600 " + Math.round(W * 0.072) + "px 'Space Grotesk', sans-serif";
+  x.fillText("@" + handle, W / 2, by);
+  x.fillStyle = "rgba(21,23,27,.5)";
+  x.font = "500 " + Math.round(W * 0.042) + "px 'Inter', sans-serif";
+  x.fillText(L === "en" ? "INSTAGRAM" : "إنستجرام", W / 2, by + W * 0.085);
 }
 
 /* -- load three.js -------------------------------------------------------- */
@@ -659,21 +879,37 @@ if (THREE) {
 
   const holder = new THREE.Group();
   scene.add(holder);
-  let mesh = null, geo = null, radius = 1;
+  let geo = null, radius = 1;
 
-  function roundedShape(s){
+  function roundedRect(path, w, h, r){
+    r = Math.min(r, w / 2, h / 2);
+    path.moveTo(-w / 2 + r, -h / 2);
+    path.lineTo(w / 2 - r, -h / 2); path.quadraticCurveTo(w / 2, -h / 2, w / 2, -h / 2 + r);
+    path.lineTo(w / 2, h / 2 - r);  path.quadraticCurveTo(w / 2, h / 2, w / 2 - r, h / 2);
+    path.lineTo(-w / 2 + r, h / 2); path.quadraticCurveTo(-w / 2, h / 2, -w / 2, h / 2 - r);
+    path.lineTo(-w / 2, -h / 2 + r);path.quadraticCurveTo(-w / 2, -h / 2, -w / 2 + r, -h / 2);
+    return path;
+  }
+  function roundedShape(s, d){
     const shape = new THREE.Shape();
-    if (s.shape === "circle"){ shape.absarc(0, 0, s.w / 2, 0, Math.PI * 2, false); return shape; }
-    const w = s.w, h = s.h, r = Math.min(s.r, w / 2, h / 2);
-    shape.moveTo(-w / 2 + r, -h / 2);
-    shape.lineTo(w / 2 - r, -h / 2); shape.quadraticCurveTo(w / 2, -h / 2, w / 2, -h / 2 + r);
-    shape.lineTo(w / 2, h / 2 - r);  shape.quadraticCurveTo(w / 2, h / 2, w / 2 - r, h / 2);
-    shape.lineTo(-w / 2 + r, h / 2); shape.quadraticCurveTo(-w / 2, h / 2, -w / 2, h / 2 - r);
-    shape.lineTo(-w / 2, -h / 2 + r);shape.quadraticCurveTo(-w / 2, -h / 2, -w / 2 + r, -h / 2);
+    if (s.shape === "circle"){ shape.absarc(0, 0, d.w / 2, 0, Math.PI * 2, false); return shape; }
+    roundedRect(shape, d.w, d.h, s.r);
+    if (s.camera){
+      /* the cut-out is what makes a slab read as a phone case */
+      const cw = d.w * 0.46, ch = cw * 0.86;
+      const hole = new THREE.Path();
+      roundedRect(hole, cw, ch, cw * 0.26);
+      hole.autoClose = true;
+      const tx = -d.w / 2 + cw / 2 + d.w * 0.10, ty = d.h / 2 - ch / 2 - d.h * 0.055;
+      hole.curves.forEach(function(cv){
+        ["v1","v2","v0"].forEach(function(k){ if (cv[k]){ cv[k].x += tx; cv[k].y += ty; } });
+      });
+      shape.holes.push(hole);
+    }
     return shape;
   }
-  function buildGeo(s){
-    const g = new THREE.ExtrudeGeometry(roundedShape(s), {
+  function buildGeo(s, d){
+    const g = new THREE.ExtrudeGeometry(roundedShape(s, d), {
       depth:s.depth, bevelEnabled:true,
       bevelThickness:Math.min(0.010, s.depth * 0.26),
       bevelSize:Math.min(0.014, s.depth * 0.30),
@@ -692,13 +928,63 @@ if (THREE) {
     return g;
   }
 
+  const woodMat  = new THREE.MeshPhysicalMaterial({ color:0x4A3729, roughness:0.55, metalness:0.05,
+    clearcoat:0.35, clearcoatRoughness:0.4, envMapIntensity:0.9 });
+  const steelMat = new THREE.MeshPhysicalMaterial({ color:0xD8DCE0, roughness:0.22, metalness:1,
+    envMapIntensity:1.5 });
+
+  const product = new THREE.Group();
+  holder.add(product);
+
+  function disposeProduct(){
+    for (let i = product.children.length - 1; i >= 0; i--){
+      const o = product.children[i];
+      if (o.geometry) o.geometry.dispose();
+      product.remove(o);
+    }
+  }
+
   function applySurface(s){
-    const ng = buildGeo(s);
-    if (mesh){ holder.remove(mesh); geo.dispose(); }
-    geo = ng;
-    radius = geo.boundingSphere.radius;
-    mesh = new THREE.Mesh(geo, geo.groups.length > 1 ? [faceMat, edgeMat] : faceMat);
-    holder.add(mesh);
+    const d = dims(s);
+    disposeProduct();
+    geo = buildGeo(s, d);
+    const panel = new THREE.Mesh(geo, geo.groups.length > 1 ? [faceMat, edgeMat] : faceMat);
+    product.add(panel);
+
+    /* the parts around the printed panel are what sell it as a real object */
+    if (s.stand){
+      const bw = d.w * 0.80, bh = 0.14, bd = Math.max(0.24, s.depth * 3.0);
+      const base = new THREE.Mesh(new THREE.BoxGeometry(bw, bh, bd), woodMat);
+      base.position.y = -d.h / 2 - bh / 2 + 0.055;
+      product.add(base);
+      const slot = new THREE.Mesh(new THREE.BoxGeometry(bw * 0.88, 0.010, s.depth * 1.25),
+        new THREE.MeshBasicMaterial({ color:0x0d0f13 }));
+      slot.position.set(0, base.position.y + bh / 2 - 0.004, 0);
+      product.add(slot);
+    }
+    if (s.mounts){
+      const g2 = new THREE.CylinderGeometry(0.028, 0.028, s.depth * 2.6, 20);
+      const ox = d.w / 2 - d.w * 0.085, oy = d.h / 2 - d.h * 0.062;
+      [[-1,1],[1,1],[-1,-1],[1,-1]].forEach(function(q){
+        const m = new THREE.Mesh(g2, steelMat);
+        m.rotation.x = Math.PI / 2;
+        m.position.set(ox * q[0], oy * q[1], 0);
+        product.add(m);
+      });
+    }
+    if (s.stack){
+      const g3 = buildGeo(s, d);
+      const back = new THREE.Mesh(g3, g3.groups.length > 1 ? [faceMat, edgeMat] : faceMat);
+      back.position.set(-d.w * 0.42, -d.h * 0.16, -s.depth * 1.25);
+      back.rotation.z = -0.16;
+      product.add(back);
+    }
+
+    product.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(product);
+    const sph = box.getBoundingSphere(new THREE.Sphere());
+    product.position.sub(sph.center);
+    radius = sph.radius;
 
     if (faceMat.map) faceMat.map.dispose();
     const tex = new THREE.CanvasTexture(paintFace(s, userImg));
@@ -715,8 +1001,9 @@ if (THREE) {
     edgeMat.roughness = s.clear ? 0.05 : 0.55;
     edgeMat.needsUpdate = true;
 
-    shadow.scale.set(s.w * 2.3, s.w * 1.5, 1);
-    shadow.position.y = -(s.h / 2) - s.depth * 0.5;
+    st.restX = s.tilt != null ? s.tilt : -0.14;
+    shadow.scale.set(radius * 2.5, radius * 1.7, 1);
+    shadow.position.y = box.min.y - sph.center.y - 0.02;
     fitCamera();
   }
   function refreshFace(){
@@ -732,13 +1019,13 @@ if (THREE) {
     const dV = radius / Math.sin(vFov / 2);
     const hFov = 2 * Math.atan(Math.tan(vFov / 2) * camera.aspect);
     const dH = radius / Math.sin(hFov / 2);
-    const d = Math.max(dV, dH) * 1.14;
-    camera.position.set(0, radius * 0.26, d);
+    const d = Math.max(dV, dH) * 1.30;
+    camera.position.set(0, radius * 0.16, d);
     camera.lookAt(0, 0, 0);
   }
 
   /* -- turn, drag, and the flip between surfaces -------------------------- */
-  const st = { ry:0.34, rx:-0.14, vel:0, drag:false, lx:0, ly:0, auto:true };
+  const st = { ry:0.34, rx:-0.14, restX:-0.14, vel:0, drag:false, lx:0, ly:0, auto:true };
   let flip = 0, pending = null;
 
   window.__flipTo = function(s){ pending = s; flip = 1; };
@@ -785,7 +1072,38 @@ if (THREE) {
     stageWrap.addEventListener(ev, function(e){ e.preventDefault(); stageWrap.classList.remove("dragging"); });
   });
   stageWrap.addEventListener("drop", function(e){ loadFile(e.dataTransfer.files[0]); });
-  document.addEventListener("langchange", function(){ if (!userImg) refreshFace(); });
+  document.addEventListener("langchange", function(){ refreshFace(); buildOptions(); });
+
+  /* the flat card in the QR band uses the same encoder */
+  (function miniQR(){
+    const c = document.getElementById("qrMini");
+    if (!c || !QR) return;
+    const x = c.getContext("2d");
+    let code;
+    try { code = QR(0, "M"); code.addData("https://instagram.com/yourbusiness"); code.make(); }
+    catch (e) { return; }
+    const n = code.getModuleCount(), cell = c.width / n;
+    x.fillStyle = "#ffffff"; x.fillRect(0, 0, c.width, c.height);
+    x.fillStyle = "#15171B";
+    for (let r = 0; r < n; r++) for (let k = 0; k < n; k++){
+      if (code.isDark(r, k)) x.fillRect(k * cell, r * cell, cell + 0.5, cell + 0.5);
+    }
+  })();
+
+  const tryQr = document.getElementById("tryQr");
+  if (tryQr) tryQr.addEventListener("click", function(){
+    const btn = surfEl.querySelector('button[data-key="qr"]');
+    if (btn && !btn.classList.contains("on")) btn.click();
+    document.getElementById("top").scrollIntoView({ behavior:"smooth" });
+    setTimeout(function(){ qrInput.focus({ preventScroll:true }); }, 700);
+  });
+
+  let qrTimer = 0;
+  qrInput.addEventListener("input", function(){
+    qrHandle = qrInput.value;
+    clearTimeout(qrTimer);
+    qrTimer = setTimeout(function(){ if (current.qr) refreshFace(); }, 180);
+  });
 
   /* -- loop --------------------------------------------------------------- */
   function resize(){
@@ -836,7 +1154,7 @@ if (THREE) {
         /* sway around front-on rather than turning right away from the viewer */
         st.ry += (Math.sin(t * 0.42) * 0.40 - st.ry) * Math.min(1, dt * 1.6);
       }
-      st.rx += (-0.14 - st.rx) * Math.min(1, dt * 1.4);
+      st.rx += (st.restX - st.rx) * Math.min(1, dt * 1.4);
     }
     holder.rotation.set(st.rx + Math.sin(t * 0.5) * 0.012, st.ry, Math.sin(t * 0.33) * 0.010);
     shadow.rotation.z = -st.ry;
