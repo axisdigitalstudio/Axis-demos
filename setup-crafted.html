@@ -1,0 +1,1931 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Setup Crafted — Your setup should look like you</title>
+<meta name="description" content="Custom printing for desk setups in Egypt. Desk mats, mousepads, LED acrylic signs, coasters, wall panels, phone skins, sticker sheets and nameplates — printed on demand from your own artwork. Cairo. 3–5 day delivery." />
+<meta name="theme-color" content="#07080B" />
+<meta property="og:title" content="Setup Crafted — Your setup should look like you" />
+<meta property="og:description" content="On-demand custom printing on desk mats, acrylic signs, wall panels and more. Upload your art, we print it. Cairo, Egypt." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2307080B'/%3E%3Cpath d='M7 20.5 16 8l9 12.5H7Z' fill='none' stroke='%23FF2D95' stroke-width='2'/%3E%3Cpath d='M7 24h18' stroke='%2325D8F0' stroke-width='2'/%3E%3C/svg%3E" />
+
+<style>
+/* ==========================================================================
+   SETUP CRAFTED — custom printing studio, Cairo
+   ---------------------------------------------------------------------------
+   Palette    void #07080B · carbon #0B0D12 · magenta #FF2D95 · cyan #25D8F0
+              violet #8B5CF6 · warm #E9C88A (the "desk" register)
+   Type       Space Grotesk (display) · Inter (body) · Space Mono (specs)
+              Cairo for Arabic
+   Signature  One WebGL object carries the whole page. It enters as the hero
+              piece, then becomes each of the eight products in turn as the
+              catalog scrolls — bending like a desk mat, thickening into cast
+              acrylic, catching a different rim light each time. The products
+              are the argument, so they are literally the thing that moves.
+   ========================================================================== */
+
+:root{
+  --void:#07080B;
+  --carbon:#0B0D12;
+  --panel:#11141B;
+  --panel-2:#171B24;
+
+  --ink:#F2F4F8;
+  --mute:#98A1B4;
+  --dim:#5E6779;
+
+  --mag:#FF2D95;
+  --cy:#25D8F0;
+  --vio:#8B5CF6;
+  --warm:#E9C88A;
+
+  --line:rgba(255,255,255,.085);
+  --line-2:rgba(255,255,255,.04);
+
+  --display:'Space Grotesk',system-ui,sans-serif;
+  --body:'Inter',system-ui,-apple-system,sans-serif;
+  --spec:'Space Mono',ui-monospace,monospace;
+  --arabic:'Cairo',system-ui,sans-serif;
+
+  --shell:1240px;
+  --pad:clamp(20px,5vw,56px);
+  --sec:clamp(84px,10vw,150px);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-io:cubic-bezier(.65,.02,.24,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  background:var(--void);
+  color:var(--mute);
+  font-family:var(--body);
+  font-size:16px;line-height:1.66;font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:clip;
+}
+@supports not (overflow-x:clip){body{overflow-x:hidden;}}
+body[dir="rtl"]{font-family:var(--arabic);}
+body[dir="rtl"] h1,body[dir="rtl"] h2,body[dir="rtl"] h3,body[dir="rtl"] .wm{font-family:var(--arabic);}
+body.is-locked{overflow:hidden;}
+
+h1,h2,h3,h4{margin:0;font-family:var(--display);color:var(--ink);font-weight:600;line-height:1.03;letter-spacing:-.028em;}
+p{margin:0;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
+::selection{background:var(--mag);color:#fff;}
+
+.shell{width:min(100% - var(--pad)*2,var(--shell));margin-inline:auto;}
+.band{padding-block:var(--sec);position:relative;}
+
+.h1{font-size:clamp(2.9rem,8.2vw,6.4rem);}
+.h2{font-size:clamp(2rem,4.6vw,3.5rem);}
+.h3{font-size:clamp(1.2rem,2vw,1.6rem);letter-spacing:-.018em;}
+.lede{font-size:clamp(1.02rem,1.5vw,1.2rem);line-height:1.62;color:var(--mute);max-width:56ch;}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--spec);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--dim);
+}
+.eyebrow::before{content:"";width:22px;height:1px;background:linear-gradient(90deg,var(--mag),var(--cy));}
+body[dir="rtl"] .eyebrow{letter-spacing:normal;font-family:var(--arabic);}
+
+.num{font-family:var(--spec);font-size:.7rem;letter-spacing:.14em;color:var(--dim);}
+.ltr{direction:ltr;unicode-bidi:isolate;}
+body[dir="rtl"] .hero-stat b,body[dir="rtl"] .cat-idx b,body[dir="rtl"] .cat-price{direction:ltr;unicode-bidi:isolate;text-align:start;}
+
+/* ---------- buttons ---------------------------------------------------- */
+.btn{
+  --bg:var(--ink);--fg:#07080B;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:14px 24px;border-radius:999px;
+  background:var(--bg);color:var(--fg);
+  font-family:var(--display);font-size:.9rem;font-weight:600;letter-spacing:-.01em;
+  border:1px solid transparent;
+  transition:transform .32s var(--ease),box-shadow .32s var(--ease),background .3s;
+  will-change:transform;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(255,45,149,.24);}
+.btn.ghost{--bg:transparent;--fg:var(--ink);border-color:var(--line);}
+.btn.ghost:hover{border-color:rgba(255,255,255,.28);box-shadow:none;background:rgba(255,255,255,.04);}
+.btn.neon{--bg:linear-gradient(100deg,var(--mag),var(--vio) 58%,var(--cy));--fg:#fff;}
+.btn svg{flex:none;}
+
+/* ---------- nav -------------------------------------------------------- */
+.nav{
+  position:fixed;inset:0 0 auto;z-index:60;
+  display:flex;align-items:center;gap:20px;
+  padding:14px var(--pad);
+  transition:background .4s var(--ease),border-color .4s,backdrop-filter .4s;
+  border-bottom:1px solid transparent;
+}
+.nav.stuck{
+  background:rgba(7,8,11,.72);
+  backdrop-filter:blur(18px) saturate(1.3);
+  -webkit-backdrop-filter:blur(18px) saturate(1.3);
+  border-bottom-color:var(--line-2);
+}
+.wm{display:flex;align-items:center;gap:11px;font-family:var(--display);font-weight:700;letter-spacing:-.02em;color:var(--ink);font-size:1rem;}
+.wm-mark{width:26px;height:26px;flex:none;position:relative;}
+.wm-mark i{position:absolute;inset:0;border:1.5px solid var(--mag);border-radius:5px;transform:rotate(0deg);transition:transform .6s var(--ease);}
+.wm-mark i:nth-child(2){border-color:var(--cy);opacity:.75;}
+.wm:hover .wm-mark i:nth-child(1){transform:rotate(-12deg) scale(.92);}
+.wm:hover .wm-mark i:nth-child(2){transform:rotate(12deg) scale(.92);}
+.wm b{font-weight:700;}
+.wm span{color:var(--dim);font-weight:500;}
+
+.nav-links{display:flex;gap:4px;margin-inline-start:auto;}
+.nav-links a{
+  padding:8px 14px;border-radius:999px;font-size:.86rem;font-weight:500;color:var(--mute);
+  transition:color .25s,background .25s;
+}
+.nav-links a:hover{color:var(--ink);background:rgba(255,255,255,.05);}
+.nav-tools{display:flex;align-items:center;gap:10px;}
+.lang{
+  display:flex;align-items:center;border:1px solid var(--line);border-radius:999px;overflow:hidden;
+  font-family:var(--spec);font-size:.68rem;letter-spacing:.08em;
+}
+.lang button{padding:7px 11px;color:var(--dim);transition:.25s;}
+.lang button.on{background:rgba(255,255,255,.09);color:var(--ink);}
+.nav .btn{padding:11px 19px;font-size:.84rem;}
+.burger{display:none;width:40px;height:40px;border:1px solid var(--line);border-radius:12px;align-items:center;justify-content:center;}
+.burger span{display:block;width:16px;height:1.5px;background:var(--ink);position:relative;transition:.3s;}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0;width:16px;height:1.5px;background:var(--ink);transition:.3s;}
+.burger span::before{top:-5px;}
+.burger span::after{top:5px;}
+body.menu-open .burger span{background:transparent;}
+body.menu-open .burger span::before{transform:translateY(5px) rotate(45deg);}
+body.menu-open .burger span::after{transform:translateY(-5px) rotate(-45deg);}
+
+@media(max-width:940px){
+  .nav-links{
+    position:fixed;inset:64px 0 auto;flex-direction:column;gap:0;
+    background:rgba(7,8,11,.97);backdrop-filter:blur(20px);
+    padding:14px var(--pad) 26px;border-bottom:1px solid var(--line);
+    transform:translateY(-125%);transition:transform .48s var(--ease);
+  }
+  body.menu-open .nav-links{transform:none;}
+  .nav-links a{padding:14px 0;font-size:1.15rem;font-family:var(--display);border-bottom:1px solid var(--line-2);border-radius:0;}
+  .nav-links a:hover{background:none;}
+  .burger{display:flex;margin-inline-start:auto;order:9;}
+  .nav-tools{margin-inline-start:auto;}
+  .nav .btn.neon{display:none;}
+}
+
+/* ---------- progress rail --------------------------------------------- */
+.prog{position:fixed;top:0;left:0;height:2px;z-index:70;width:0;
+  background:linear-gradient(90deg,var(--mag),var(--vio),var(--cy));box-shadow:0 0 12px rgba(255,45,149,.55);}
+
+/* ---------- the WebGL stage ------------------------------------------- */
+#gl-main{
+  position:fixed;inset:0;z-index:0;width:100%;height:100%;
+  pointer-events:none;opacity:0;transition:opacity .6s var(--ease);
+}
+#gl-main.live{opacity:1;}
+.stage-wrap{position:relative;z-index:1;}
+
+/* ---------- preloader --------------------------------------------------*/
+.pre{position:fixed;inset:0;z-index:200;background:var(--void);display:grid;place-items:center;
+  transition:opacity .7s var(--ease),visibility .7s;}
+.pre.done{opacity:0;visibility:hidden;}
+.pre-in{text-align:center;}
+.pre-mark{width:54px;height:54px;margin:0 auto 22px;position:relative;}
+.pre-mark i{position:absolute;inset:0;border:1.5px solid var(--mag);border-radius:11px;animation:spinA 2.4s var(--ease-io) infinite;}
+.pre-mark i:nth-child(2){border-color:var(--cy);animation-name:spinB;}
+@keyframes spinA{0%{transform:rotate(0) scale(1)}50%{transform:rotate(135deg) scale(.72)}100%{transform:rotate(360deg) scale(1)}}
+@keyframes spinB{0%{transform:rotate(0) scale(.72)}50%{transform:rotate(-135deg) scale(1)}100%{transform:rotate(-360deg) scale(.72)}}
+.pre-txt{font-family:var(--spec);font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);}
+.pre-bar{width:150px;height:1px;background:var(--line);margin:16px auto 0;overflow:hidden;}
+.pre-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--mag),var(--cy));transition:width .3s;}
+
+/* ---------- hero -------------------------------------------------------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;
+  padding:clamp(96px,14vh,150px) 0 clamp(38px,7vh,72px);overflow:hidden;}
+.hero-veil{position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(120% 78% at 50% 110%,rgba(255,45,149,.18),transparent 62%),
+    linear-gradient(90deg,rgba(7,8,11,.95) 0%,rgba(7,8,11,.86) 24%,rgba(7,8,11,.42) 50%,rgba(7,8,11,.04) 72%,transparent 86%),
+    linear-gradient(180deg,rgba(7,8,11,.78) 0%,rgba(7,8,11,.20) 30%,rgba(7,8,11,.50) 74%,var(--void) 100%);
+}
+body[dir="rtl"] .hero-veil{transform:scaleX(-1);}
+.hero .shell{position:relative;z-index:2;width:min(100% - var(--pad)*2,var(--shell));}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(24px,4vw,56px);align-items:end;}
+.hero h1{font-size:clamp(2.7rem,7.6vw,6rem);letter-spacing:-.04em;line-height:.94;margin:20px 0 0;}
+.hero h1 .ln{display:block;overflow:hidden;}
+.hero h1 .ln i{display:block;font-style:normal;transform:translateY(105%);}
+.hero h1 em{font-style:normal;background:linear-gradient(96deg,var(--mag),var(--vio) 46%,var(--cy));
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero-sub{margin-top:22px;max-width:46ch;font-size:clamp(1rem,1.5vw,1.14rem);}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;}
+.hero-side{display:flex;flex-direction:column;gap:16px;align-items:flex-end;text-align:end;padding-bottom:6px;}
+.hero-stat b{display:block;font-family:var(--display);font-size:clamp(1.5rem,2.6vw,2.1rem);color:var(--ink);letter-spacing:-.03em;line-height:1;}
+.hero-stat span{font-family:var(--spec);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);}
+@media(max-width:560px){.hero-stat span{font-size:.56rem;letter-spacing:.1em;}.hero-side{gap:18px;}}
+body[dir="rtl"] .hero-stat span{letter-spacing:normal;}
+.hero-scroll{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  font-family:var(--spec);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);}
+.hero-scroll i{display:block;width:1px;height:36px;background:linear-gradient(180deg,var(--mag),transparent);}
+@media(max-width:820px){
+  .hero-veil{background:
+    radial-gradient(120% 60% at 50% 108%,rgba(255,45,149,.16),transparent 62%),
+    linear-gradient(180deg,rgba(7,8,11,.55) 0%,rgba(7,8,11,.28) 24%,rgba(7,8,11,.86) 56%,var(--void) 100%);}
+  body[dir="rtl"] .hero-veil{transform:none;}
+  .hero{align-items:flex-end;min-height:100svh;}
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-side{flex-direction:row;gap:26px;align-items:flex-start;text-align:start;margin-top:26px;}
+  .hero-scroll{display:none;}
+}
+
+/* ---------- ticker ------------------------------------------------------ */
+.ticker{border-block:1px solid var(--line-2);overflow:hidden;position:relative;z-index:1;background:rgba(7,8,11,.5);}
+.ticker-in{display:flex;width:max-content;animation:slide 46s linear infinite;}
+.ticker span{display:inline-flex;align-items:center;gap:26px;padding:16px 26px;white-space:nowrap;
+  font-family:var(--display);font-size:clamp(.94rem,1.5vw,1.15rem);font-weight:500;color:var(--dim);letter-spacing:-.01em;}
+.ticker span::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--mag);opacity:.8;}
+.ticker span:nth-child(2n)::after{background:var(--cy);}
+@keyframes slide{to{transform:translateX(-50%);}}
+.ticker:hover .ticker-in{animation-play-state:paused;}
+
+/* ---------- manifesto --------------------------------------------------- */
+.mani{position:relative;z-index:1;padding-block:clamp(96px,15vw,180px);}
+.mani-txt{font-family:var(--display);font-weight:500;font-size:clamp(1.6rem,4vw,3.1rem);
+  line-height:1.18;letter-spacing:-.032em;color:var(--dim);max-width:19ch;}
+.mani-txt .w{display:inline-block;transition:color .5s var(--ease);}
+.mani-txt .w.on{color:var(--ink);}
+.mani-txt .hl.on{color:var(--mag);}
+.mani-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(32px,6vw,80px);align-items:end;}
+.mani-notes{display:grid;gap:20px;}
+.mani-note{border-top:1px solid var(--line);padding-top:14px;}
+.mani-note b{display:block;font-family:var(--display);color:var(--ink);font-size:.96rem;font-weight:600;margin-bottom:4px;}
+.mani-note p{font-size:.9rem;line-height:1.6;}
+@media(max-width:820px){.mani-grid{grid-template-columns:1fr;}.mani-txt{max-width:none;}}
+
+/* ---------- catalog (pinned 3D) ----------------------------------------- */
+.catalog{position:relative;z-index:1;padding-top:18svh;}
+.cat-pin{position:sticky;top:0;height:100svh;display:flex;align-items:center;overflow:hidden;}
+.cat-pin .shell{width:min(100% - var(--pad)*2,var(--shell));display:grid;
+  grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:40px;align-items:center;height:100%;}
+.cat-copywrap{position:relative;min-height:min(460px,62svh);display:flex;align-items:center;}
+.cat-item{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  opacity:0;pointer-events:none;will-change:opacity,transform;}
+.cat-item.on{pointer-events:auto;}
+.cat-idx{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;}
+.cat-idx b{font-family:var(--spec);font-size:2.4rem;font-weight:700;color:transparent;
+  -webkit-text-stroke:1px var(--acc,var(--mag));line-height:1;letter-spacing:-.04em;}
+.cat-idx span{font-family:var(--spec);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);}
+.cat-item h3{font-size:clamp(1.9rem,4.2vw,3.1rem);letter-spacing:-.035em;line-height:1;}
+.cat-ar{font-family:var(--arabic);font-size:clamp(1rem,1.7vw,1.28rem);color:var(--acc,var(--mag));
+  margin-top:8px;font-weight:600;opacity:.9;}
+.cat-item p.d{margin-top:16px;font-size:clamp(.95rem,1.25vw,1.05rem);line-height:1.62;max-width:42ch;}
+.cat-specs{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border:1px solid rgba(255,255,255,.15);
+  border-radius:999px;font-family:var(--spec);font-size:.67rem;letter-spacing:.06em;color:var(--mute);
+  background:rgba(255,255,255,.022);}
+.chip i{width:5px;height:5px;border-radius:50%;background:var(--acc,var(--mag));flex:none;}
+.cat-foot{display:flex;align-items:flex-end;gap:22px;margin-top:28px;flex-wrap:wrap;}
+.cat-price{font-family:var(--display);font-size:1.02rem;color:var(--ink);font-weight:600;}
+.cat-price{line-height:1.25;}
+.cat-price s{font-family:var(--spec);font-size:.62rem;color:var(--dim);text-decoration:none;
+  letter-spacing:.12em;text-transform:uppercase;display:block;font-weight:400;margin-top:5px;}
+.cat-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:600;
+  font-size:.9rem;color:var(--ink);border-bottom:1px solid var(--acc,var(--mag));padding-bottom:3px;
+  transition:gap .3s var(--ease);}
+.cat-link:hover{gap:14px;}
+
+.cat-fallback{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);display:none;}
+.cat-fallback img{width:100%;height:100%;object-fit:cover;aspect-ratio:16/10;opacity:0;position:absolute;inset:0;transition:opacity .5s;}
+.cat-fallback img.on{opacity:1;position:relative;}
+.no-gl .cat-fallback{display:block;}
+
+.cat-rail{position:absolute;inset-inline-end:var(--pad);top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:9px;z-index:3;}
+.cat-rail button{width:26px;height:2px;background:rgba(255,255,255,.16);border-radius:2px;transition:.35s var(--ease);}
+.cat-rail button.on{background:linear-gradient(90deg,var(--mag),var(--cy));width:40px;}
+.cat-rail button:hover{background:rgba(255,255,255,.4);}
+
+.cat-hint{position:absolute;bottom:24px;inset-inline-start:var(--pad);z-index:3;
+  font-family:var(--spec);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
+  display:flex;align-items:center;gap:10px;}
+.cat-hint i{width:26px;height:1px;background:var(--line);position:relative;overflow:hidden;}
+.cat-hint i::after{content:"";position:absolute;inset:0;background:var(--mag);animation:sweep 2.6s var(--ease-io) infinite;}
+@keyframes sweep{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+
+@media(max-width:900px){
+  .cat-pin .shell{grid-template-columns:1fr;align-content:end;padding-bottom:clamp(46px,10vh,90px);}
+  .cat-copywrap{min-height:auto;height:min(340px,44svh);align-items:flex-end;}
+  .cat-item{justify-content:flex-end;}
+  .cat-rail{inset-inline-end:auto;inset-inline-start:var(--pad);top:auto;bottom:22px;transform:none;flex-direction:row;}
+  .cat-rail button{width:16px;}
+  .cat-rail button.on{width:28px;}
+  .cat-hint{display:none;}
+  .cat-item p.d{max-width:none;}
+}
+
+/* ---------- opaque lower page ------------------------------------------- */
+.solid{position:relative;z-index:2;background:var(--void);}
+
+/* ---------- print tech --------------------------------------------------- */
+.tech{background:linear-gradient(180deg,var(--void),var(--carbon) 40%,var(--void));}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:clamp(24px,5vw,64px);
+  align-items:end;margin-bottom:clamp(42px,6vw,74px);}
+.sec-head .h2{margin-top:16px;}
+@media(max-width:820px){.sec-head{grid-template-columns:1fr;}}
+
+.tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+@media(max-width:1000px){.tgrid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.tgrid{grid-template-columns:1fr;}}
+.tcard{
+  position:relative;border:1px solid var(--line);border-radius:18px;padding:24px 22px 26px;
+  background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));
+  overflow:hidden;transform-style:preserve-3d;
+  transition:border-color .4s,transform .5s var(--ease);
+}
+.tcard::after{content:"";position:absolute;inset:0;border-radius:18px;pointer-events:none;opacity:0;
+  transition:opacity .45s;background:radial-gradient(340px 200px at var(--mx,50%) var(--my,0%),rgba(255,255,255,.09),transparent 62%);}
+.tcard:hover{border-color:rgba(255,255,255,.2);}
+.tcard:hover::after{opacity:1;}
+.tcard .viz{height:96px;margin-bottom:20px;position:relative;border-radius:12px;overflow:hidden;
+  background:rgba(0,0,0,.34);border:1px solid var(--line-2);}
+.tcard h4{font-size:1.02rem;font-weight:600;letter-spacing:-.015em;}
+.tcard p{font-size:.875rem;line-height:1.6;margin-top:9px;}
+.tcard .tag{font-family:var(--spec);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--acc);display:block;margin-bottom:9px;}
+body[dir="rtl"] .tcard .tag{letter-spacing:normal;}
+
+/* viz 1 — UV curing pass */
+.v-uv i{position:absolute;left:8%;right:8%;height:5px;border-radius:3px;background:rgba(255,255,255,.1);}
+.v-uv i:nth-child(1){top:26px;}.v-uv i:nth-child(2){top:44px;}.v-uv i:nth-child(3){top:62px;}
+.v-uv b{position:absolute;top:8px;bottom:8px;width:26px;border-radius:5px;
+  background:linear-gradient(180deg,var(--vio),transparent);box-shadow:0 0 26px 8px rgba(139,92,246,.55);
+  animation:uvpass 3.4s var(--ease-io) infinite;}
+@keyframes uvpass{0%{left:6%}45%{left:calc(94% - 26px)}55%{left:calc(94% - 26px)}100%{left:6%}}
+/* viz 2 — sublimation gradient bleed */
+.v-sub{background:#07080B;}
+.v-sub i{position:absolute;inset:14px;border-radius:8px;
+  background:linear-gradient(96deg,var(--mag),var(--vio),var(--cy));filter:blur(0px);
+  animation:bleed 4.2s var(--ease-io) infinite;}
+@keyframes bleed{0%,100%{filter:blur(9px) saturate(.6);opacity:.55}50%{filter:blur(0px) saturate(1.3);opacity:1}}
+.v-sub b{position:absolute;inset:14px;border-radius:8px;border:1px dashed rgba(255,255,255,.32);}
+/* viz 3 — laser head cutting a shape */
+.v-laser svg{position:absolute;inset:0;width:100%;height:100%;}
+.v-laser .path{fill:none;stroke:var(--cy);stroke-width:1.4;stroke-dasharray:210;stroke-dashoffset:210;
+  animation:cut 4s var(--ease-io) infinite;filter:drop-shadow(0 0 5px rgba(37,216,240,.75));}
+@keyframes cut{0%{stroke-dashoffset:210}55%{stroke-dashoffset:0}85%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:.25}}
+/* viz 4 — vinyl blade */
+.v-vinyl i{position:absolute;border:1px solid rgba(255,255,255,.22);border-radius:5px;}
+.v-vinyl i:nth-child(1){left:18px;top:22px;width:34px;height:34px;}
+.v-vinyl i:nth-child(2){left:62px;top:30px;width:26px;height:26px;border-radius:50%;}
+.v-vinyl i:nth-child(3){left:98px;top:24px;width:30px;height:30px;transform:rotate(45deg);}
+.v-vinyl b{position:absolute;top:0;bottom:0;width:1px;background:var(--mag);
+  box-shadow:0 0 10px 2px rgba(255,45,149,.65);animation:blade 3s var(--ease-io) infinite;}
+@keyframes blade{0%{left:8%}50%{left:92%}100%{left:8%}}
+
+/* ---------- audience ----------------------------------------------------- */
+.aud-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+@media(max-width:940px){.aud-grid{grid-template-columns:1fr;}}
+.acard{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);
+  background:var(--panel);min-height:440px;display:flex;flex-direction:column;justify-content:flex-end;
+  isolation:isolate;transition:transform .6s var(--ease),border-color .4s;}
+.acard:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.2);}
+.acard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;
+  transition:transform 1.1s var(--ease),filter .6s;filter:saturate(1.05);}
+.acard:hover img{transform:scale(1.06);}
+.acard::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(7,8,11,.15) 0%,rgba(7,8,11,.72) 52%,rgba(7,8,11,.95) 100%);}
+.acard-in{padding:26px 24px 26px;}
+.acard h4{font-size:1.32rem;letter-spacing:-.022em;}
+.acard .who{font-family:var(--spec);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--acc);margin-bottom:10px;display:block;}
+body[dir="rtl"] .acard .who{letter-spacing:normal;}
+.acard p{font-size:.885rem;line-height:1.58;margin-top:10px;color:#B6BECD;}
+.acard .picks{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.11);}
+.acard .picks b{font-family:var(--spec);font-size:.63rem;font-weight:400;letter-spacing:.05em;
+  padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.09);color:#D5DBE6;}
+
+/* ---------- workflow ----------------------------------------------------- */
+.flow{background:var(--carbon);border-block:1px solid var(--line-2);overflow:hidden;}
+.flow-track{display:flex;gap:16px;will-change:transform;padding-inline-start:max(var(--pad),calc((100vw - var(--shell))/2));}
+.fstep{flex:none;width:min(78vw,392px);border:1px solid var(--line);border-radius:20px;padding:28px 26px 30px;
+  background:linear-gradient(170deg,rgba(255,255,255,.05),rgba(255,255,255,.008));position:relative;overflow:hidden;}
+.fstep-n{font-family:var(--spec);font-size:.66rem;letter-spacing:.2em;color:var(--acc);text-transform:uppercase;}
+.fstep h4{font-size:1.42rem;margin-top:14px;letter-spacing:-.026em;}
+.fstep p{font-size:.9rem;line-height:1.62;margin-top:12px;}
+.fstep .when{margin-top:22px;padding-top:16px;border-top:1px solid var(--line);
+  font-family:var(--spec);font-size:.68rem;color:var(--ink);letter-spacing:.05em;}
+.fstep .glyph{position:absolute;top:22px;inset-inline-end:22px;width:40px;height:40px;opacity:.5;}
+.fstep .glyph svg{width:100%;height:100%;stroke:var(--acc);fill:none;stroke-width:1.3;}
+
+/* ---------- studio / customizer ------------------------------------------ */
+.studio{background:linear-gradient(180deg,var(--void),#0A0C12);}
+.st-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:clamp(28px,5vw,64px);align-items:center;}
+@media(max-width:960px){.st-grid{grid-template-columns:1fr;}}
+.st-canvas-wrap{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line);
+  background:radial-gradient(120% 90% at 50% 12%,#151A24,#07080B 74%);aspect-ratio:4/3;}
+#gl-studio{width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab;}
+#gl-studio:active{cursor:grabbing;}
+.st-drop{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;
+  border-radius:22px;opacity:0;transition:opacity .3s;
+  background:rgba(255,45,149,.14);border:2px dashed var(--mag);}
+.st-canvas-wrap.dragging .st-drop{opacity:1;}
+.st-drop span{font-family:var(--spec);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#fff;}
+.st-badge{position:absolute;top:14px;inset-inline-start:14px;display:flex;align-items:center;gap:7px;
+  padding:7px 12px;border-radius:999px;background:rgba(7,8,11,.62);backdrop-filter:blur(10px);
+  border:1px solid var(--line);font-family:var(--spec);font-size:.6rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--mute);}
+.st-badge i{width:6px;height:6px;border-radius:50%;background:var(--cy);animation:blip 2s infinite;}
+@keyframes blip{0%,100%{opacity:1}50%{opacity:.25}}
+.st-spin{position:absolute;bottom:14px;inset-inline-end:14px;font-family:var(--spec);font-size:.6rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--dim);}
+
+.st-panel{display:flex;flex-direction:column;gap:22px;}
+.st-block b.lbl{display:block;font-family:var(--spec);font-size:.62rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:11px;font-weight:400;}
+body[dir="rtl"] .st-block b.lbl{letter-spacing:normal;}
+.st-prods{display:flex;flex-wrap:wrap;gap:8px;}
+.st-prods button{padding:9px 15px;border:1px solid var(--line);border-radius:999px;font-size:.82rem;
+  font-weight:500;color:var(--mute);transition:.28s;background:rgba(255,255,255,.02);}
+.st-prods button.on{background:var(--ink);color:#07080B;border-color:var(--ink);}
+.st-prods button:not(.on):hover{border-color:rgba(255,255,255,.28);color:var(--ink);}
+.st-arts{display:flex;gap:9px;flex-wrap:wrap;}
+.st-art{width:58px;height:42px;border-radius:9px;overflow:hidden;border:1.5px solid var(--line);
+  transition:.28s;position:relative;padding:0;}
+.st-art img{width:100%;height:100%;object-fit:cover;}
+.st-art.on{border-color:var(--mag);box-shadow:0 0 0 3px rgba(255,45,149,.18);}
+.st-upload{width:58px;height:42px;border-radius:9px;border:1.5px dashed rgba(255,255,255,.24);
+  display:grid;place-items:center;color:var(--mute);transition:.28s;}
+.st-upload:hover{border-color:var(--mag);color:var(--ink);}
+.st-note{font-size:.82rem;color:var(--dim);line-height:1.55;}
+.st-note b{color:var(--mute);font-weight:500;}
+
+/* ---------- CTA + footer -------------------------------------------------- */
+.cta{position:relative;overflow:hidden;text-align:center;
+  background:radial-gradient(90% 130% at 50% 0%,rgba(139,92,246,.2),transparent 58%),var(--void);}
+.cta .h2{font-size:clamp(2.2rem,6vw,4.4rem);letter-spacing:-.042em;}
+.cta .lede{margin:20px auto 0;text-align:center;}
+.cta-btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:32px;}
+.cta-meta{display:flex;flex-wrap:wrap;gap:26px;justify-content:center;margin-top:40px;
+  font-family:var(--spec);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);}
+body[dir="rtl"] .cta-meta{letter-spacing:normal;}
+.cta-meta span{display:flex;align-items:center;gap:8px;}
+.cta-meta i{width:5px;height:5px;border-radius:50%;background:var(--cy);}
+
+.foot{border-top:1px solid var(--line);padding:44px 0 40px;background:var(--void);position:relative;z-index:2;}
+.foot-in{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;}
+.foot small{font-family:var(--spec);font-size:.66rem;letter-spacing:.06em;color:var(--dim);}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap;}
+.foot-links a{font-size:.85rem;color:var(--mute);transition:color .25s;}
+.foot-links a:hover{color:var(--ink);}
+.foot-credit{width:100%;padding-top:22px;margin-top:8px;border-top:1px solid var(--line-2);
+  font-size:.78rem;color:var(--dim);}
+.foot-credit a{color:var(--mute);border-bottom:1px solid var(--line);}
+.foot-credit a:hover{color:var(--ink);}
+
+/* ---------- scroll reveal -------------------------------------------------- */
+.rise{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.rise.in{opacity:1;transform:none;}
+.rise[data-d="1"]{transition-delay:.08s}.rise[data-d="2"]{transition-delay:.16s}
+.rise[data-d="3"]{transition-delay:.24s}.rise[data-d="4"]{transition-delay:.32s}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;}
+  html{scroll-behavior:auto;}
+  .rise{opacity:1;transform:none;}
+  .hero h1 .ln i{transform:none;}
+}
+</style>
+<noscript><style>
+  /* the catalog is built and driven by script; without it, skip the empty run */
+  .catalog,.pre,#gl-main{display:none !important;}
+  .rise{opacity:1;transform:none;}
+</style></noscript>
+</head>
+<body>
+
+<div class="prog" id="prog"></div>
+
+<div class="pre" id="pre">
+  <div class="pre-in">
+    <div class="pre-mark"><i></i><i></i></div>
+    <div class="pre-txt" id="preTxt">Preparing the press</div>
+    <div class="pre-bar"><i id="preBar"></i></div>
+  </div>
+</div>
+
+<!-- ================================================================ NAV -->
+<header class="nav" id="nav">
+  <a class="wm" href="#top">
+    <span class="wm-mark"><i></i><i></i></span>
+    <span><b>SETUP</b> <span>CRAFTED</span></span>
+  </a>
+  <nav class="nav-links" id="navLinks">
+    <a href="#catalog" data-en="Catalog" data-ar="المنتجات">Catalog</a>
+    <a href="#tech" data-en="How we print" data-ar="طرق الطباعة">How we print</a>
+    <a href="#who" data-en="Who it's for" data-ar="لمن">Who it&rsquo;s for</a>
+    <a href="#studio" data-en="Try your art" data-ar="جرّب تصميمك">Try your art</a>
+    <a href="#order" data-en="Order" data-ar="اطلب الآن">Order</a>
+  </nav>
+  <div class="nav-tools">
+    <div class="lang" role="group" aria-label="Language">
+      <button id="langEn" class="on" aria-pressed="true">EN</button>
+      <button id="langAr" aria-pressed="false">ع</button>
+    </div>
+    <a class="btn neon" href="#studio" data-en="Start a design" data-ar="ابدأ تصميمك">Start a design</a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span></button>
+  </div>
+</header>
+
+<canvas id="gl-main" aria-hidden="true"></canvas>
+
+<div class="stage-wrap">
+
+<!-- =============================================================== HERO -->
+<section class="hero" id="top">
+  <div class="hero-veil"></div>
+  <div class="shell">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow" data-en="Cairo &middot; Custom printing studio" data-ar="القاهرة &middot; استوديو طباعة مخصصة">Cairo &middot; Custom printing studio</span>
+        <h1>
+          <span class="ln"><i data-en="Your setup" data-ar="مكتبك">Your setup</i></span>
+          <span class="ln"><i data-en="should look" data-ar="لازم يبقى">should look</i></span>
+          <span class="ln"><i><em data-en="like you." data-ar="على مزاجك.">like you.</em></i></span>
+        </h1>
+        <p class="hero-sub lede" data-en="Eight product lines, printed on demand from whatever you send us — a gamertag, a render, a photo of your car, your company mark. Nothing here exists until you ask for it." data-ar="ثمانية خطوط منتجات، تُطبع عند الطلب من أي تصميم ترسله — اسمك في اللعبة، صورة عربيتك، أو شعار شركتك. لا شيء جاهز مسبقًا، كله يُصنع لك.">Eight product lines, printed on demand from whatever you send us &mdash; a gamertag, a render, a photo of your car, your company mark. Nothing here exists until you ask for it.</p>
+        <div class="hero-cta">
+          <a class="btn neon" href="#studio" data-en="Preview your artwork" data-ar="جرّب تصميمك الآن">Preview your artwork</a>
+          <a class="btn ghost" href="#catalog" data-en="See the eight" data-ar="شوف الثمانية">See the eight</a>
+        </div>
+      </div>
+      <div class="hero-side">
+        <div class="hero-stat"><b>08</b><span data-en="Product lines" data-ar="خطوط إنتاج">Product lines</span></div>
+        <div class="hero-stat"><b>24h</b><span data-en="Digital proof" data-ar="معاينة رقمية">Digital proof</span></div>
+        <div class="hero-stat"><b>3&ndash;5</b><span data-en="Days to your door" data-ar="أيام للتوصيل">Days to your door</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll"><span data-en="Scroll" data-ar="انزل">Scroll</span><i></i></div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-in" id="ticker"></div>
+</div>
+
+<!-- ========================================================== MANIFESTO -->
+<section class="mani">
+  <div class="shell mani-grid">
+    <p class="mani-txt" id="maniTxt" data-en="A desk is the one room you actually choose. Everything on it should have been made for you." data-ar="المكتب هو المساحة الوحيدة اللي بتختارها بالكامل. كل حاجة عليه لازم تكون اتعملت مخصوص عشانك."></p>
+    <div class="mani-notes">
+      <div class="mani-note rise">
+        <b data-en="Nothing is stocked" data-ar="لا يوجد مخزون">Nothing is stocked</b>
+        <p data-en="Every piece is printed after you order it, from your file. There is no shelf of near-misses to pick from." data-ar="كل قطعة تُطبع بعد طلبك، من ملفك أنت. لا يوجد رف تختار منه أقرب حاجة شبه اللي عايزه.">Every piece is printed after you order it, from your file. There is no shelf of near-misses to pick from.</p>
+      </div>
+      <div class="mani-note rise" data-d="1">
+        <b data-en="Print, not stickers" data-ar="طباعة حقيقية">Print, not stickers</b>
+        <p data-en="Flatbed UV curing bonds ink into the surface of acrylic and wood. It does not peel, and it does not sit on top." data-ar="طباعة UV مباشرة على السطح مع تجفيف فوري. الحبر يندمج مع الأكريليك والخشب، فلا يتقشر ولا يبهت.">Flatbed UV curing bonds ink into the surface of acrylic and wood. It does not peel, and it does not sit on top.</p>
+      </div>
+      <div class="mani-note rise" data-d="2">
+        <b data-en="You approve it first" data-ar="أنت توافق أولاً">You approve it first</b>
+        <p data-en="A digital proof of your exact piece comes back within 24 hours. Nothing goes to the press until you say yes." data-ar="معاينة رقمية لقطعتك بالظبط خلال 24 ساعة. لا شيء يدخل الطباعة قبل موافقتك.">A digital proof of your exact piece comes back within 24 hours. Nothing goes to the press until you say yes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CATALOG -->
+<section class="catalog" id="catalog">
+  <div class="cat-pin" id="catPin">
+    <div class="shell">
+      <div class="cat-copywrap" id="catCopy"><!-- built by script --></div>
+      <div class="cat-fallback" id="catFallback"><!-- static images when WebGL is unavailable --></div>
+    </div>
+    <div class="cat-rail" id="catRail" role="tablist" aria-label="Product catalog"></div>
+    <div class="cat-hint"><i></i><span data-en="Keep scrolling" data-ar="كمّل نزول">Keep scrolling</span></div>
+  </div>
+</section>
+
+</div><!-- /stage-wrap -->
+
+<!-- =============================================================== TECH -->
+<section class="band tech solid" id="tech">
+  <div class="shell">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow" data-en="Production" data-ar="الإنتاج">Production</span>
+        <h2 class="h2 rise" data-en="Four machines,<br/>eight product lines." data-ar="أربع تقنيات،<br/>ثمانية منتجات.">Four machines,<br/>eight product lines.</h2>
+      </div>
+      <p class="lede rise" data-d="1" data-en="Different substrates need different presses. A desk mat is a textile problem; an acrylic sign is a rigid-surface problem. We run both rather than compromising on one." data-ar="كل خامة لها ماكينة. مفرش المكتب مشكلة أقمشة، ولافتة الأكريليك مشكلة أسطح صلبة. عندنا الاتنين بدل ما نتنازل عن واحدة.">Different substrates need different presses. A desk mat is a textile problem; an acrylic sign is a rigid-surface problem. We run both rather than compromising on one.</p>
+    </div>
+
+    <div class="tgrid">
+      <article class="tcard rise tilt" style="--acc:var(--vio)">
+        <div class="viz v-uv"><i></i><i></i><i></i><b></b></div>
+        <span class="tag">01 &mdash; UV</span>
+        <h4 data-en="Flatbed UV printing" data-ar="طباعة UV مسطحة">Flatbed UV printing</h4>
+        <p data-en="Ink laid directly onto acrylic, wood and rigid board, then cured under UV in the same pass. Scratch-resistant, vivid, and dry the moment it leaves the bed." data-ar="حبر مباشر على الأكريليك والخشب والألواح الصلبة، ويُجفَّف بالأشعة فوق البنفسجية في نفس المرور. مقاوم للخدش، ألوانه حية، وجاف فور خروجه.">Ink laid directly onto acrylic, wood and rigid board, then cured under UV in the same pass. Scratch-resistant, vivid, and dry the moment it leaves the bed.</p>
+      </article>
+
+      <article class="tcard rise tilt" data-d="1" style="--acc:var(--mag)">
+        <div class="viz v-sub"><i></i><b></b></div>
+        <span class="tag">02 &mdash; Dye-sub</span>
+        <h4 data-en="Sublimation &amp; high-DPI textile" data-ar="التسامي والطباعة النسيجية">Sublimation &amp; high-DPI textile</h4>
+        <p data-en="Heat turns the dye to gas so it enters the fibre instead of coating it. Gradients stay smooth across a 90cm mat and the surface keeps its glide." data-ar="الحرارة تحوّل الصبغة إلى غاز يدخل داخل الألياف بدل ما يقعد فوقها. التدرجات تفضل ناعمة على مفرش 90 سم والسطح يحافظ على انزلاقه.">Heat turns the dye to gas so it enters the fibre instead of coating it. Gradients stay smooth across a 90cm mat and the surface keeps its glide.</p>
+      </article>
+
+      <article class="tcard rise tilt" data-d="2" style="--acc:var(--cy)">
+        <div class="viz v-laser">
+          <svg viewBox="0 0 160 96" aria-hidden="true"><path class="path" d="M40 22h64a10 10 0 0 1 10 10v32a10 10 0 0 1-10 10H40a10 10 0 0 1-10-10V32a10 10 0 0 1 10-10Z"/></svg>
+        </div>
+        <span class="tag">03 &mdash; Laser</span>
+        <h4 data-en="Precision laser cutting" data-ar="قص ليزر دقيق">Precision laser cutting</h4>
+        <p data-en="Polished, flame-clear edges on acrylic shapes, wall panels and nameplates. Cut to your outline, not to a stock rectangle." data-ar="حواف لامعة وشفافة على أشكال الأكريليك واللوحات ولوحات الأسماء. القص على حدود تصميمك أنت، مش على مقاس جاهز.">Polished, flame-clear edges on acrylic shapes, wall panels and nameplates. Cut to your outline, not to a stock rectangle.</p>
+      </article>
+
+      <article class="tcard rise tilt" data-d="3" style="--acc:var(--warm)">
+        <div class="viz v-vinyl"><i></i><i></i><i></i><b></b></div>
+        <span class="tag">04 &mdash; Die-cut</span>
+        <h4 data-en="Precision die-cut vinyl" data-ar="قص فينيل دقيق">Precision die-cut vinyl</h4>
+        <p data-en="Industrial plotting for sticker sheets and phone skins. Kiss-cut through the vinyl only, so stickers lift cleanly and the backing stays whole." data-ar="قص صناعي لأوراق الاستيكرز وجلود الهواتف. القص يخترق الفينيل فقط، فالاستيكر يتشال بسهولة والظهر يفضل سليم.">Industrial plotting for sticker sheets and phone skins. Kiss-cut through the vinyl only, so stickers lift cleanly and the backing stays whole.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ WHO -->
+<section class="band solid" id="who">
+  <div class="shell">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow" data-en="Who it's for" data-ar="لمن">Who it&rsquo;s for</span>
+        <h2 class="h2 rise" data-en="Three desks,<br/>three arguments." data-ar="ثلاثة مكاتب،<br/>ثلاث حاجات مختلفة.">Three desks,<br/>three arguments.</h2>
+      </div>
+      <p class="lede rise" data-d="1" data-en="A streamer is buying a backdrop. An executive is buying restraint. A car person is buying the one photo they keep going back to. Same presses, very different briefs." data-ar="الستريمر بيشتري خلفية للكاميرا. المدير بيشتري بساطة وهيبة. وعاشق العربيات بيشتري الصورة اللي مش بيبطل يبصلها. نفس الماكينات، بريفات مختلفة تمامًا.">A streamer is buying a backdrop. An executive is buying restraint. A car person is buying the one photo they keep going back to. Same presses, very different briefs.</p>
+    </div>
+
+    <div class="aud-grid">
+      <article class="acard rise" style="--acc:var(--mag)">
+        <img src="assets/setup-crafted/sign-gamer-led.webp" alt="An LED-lit acrylic desk sign reading NIGHT_STALKER, glowing cyan on a gaming desk" loading="lazy" width="1408" height="768" />
+        <div class="acard-in">
+          <span class="who" data-en="Gamers &amp; streamers" data-ar="جيمرز وستريمرز">Gamers &amp; streamers</span>
+          <h4 data-en="The frame the camera sees" data-ar="الإطار اللي الكاميرا بتشوفه">The frame the camera sees</h4>
+          <p data-en="Gamertag identity, RGB that matches the rig, and art that reads at 1080p over a webcam. What sits behind you is part of the channel." data-ar="اسمك في اللعبة، إضاءة RGB متناسقة مع الجهاز، وتصميم يبان واضح على الكاميرا. اللي وراك جزء من القناة.">Gamertag identity, RGB that matches the rig, and art that reads at 1080p over a webcam. What sits behind you is part of the channel.</p>
+          <div class="picks">
+            <b data-en="Acrylic desk signs" data-ar="لافتات أكريليك">Acrylic desk signs</b>
+            <b data-en="Desk mats" data-ar="مفارش مكتب">Desk mats</b>
+            <b data-en="Mousepads" data-ar="ماوس باد">Mousepads</b>
+            <b data-en="Wall panels" data-ar="لوحات حائط">Wall panels</b>
+          </div>
+        </div>
+      </article>
+
+      <article class="acard rise" data-d="1" style="--acc:var(--warm)">
+        <img src="assets/setup-crafted/nameplate-acrylic.webp" alt="A bevelled clear acrylic desk nameplate reading Alex Sullivan, Creative Director, on a bright office desk" loading="lazy" width="1408" height="768" />
+        <div class="acard-in">
+          <span class="who" data-en="Remote workers &amp; executives" data-ar="موظفو الريموت والمديرون">Remote workers &amp; executives</span>
+          <h4 data-en="Quiet, and correctly spelled" data-ar="بسيط، ومكتوب صح">Quiet, and correctly spelled</h4>
+          <p data-en="A nameplate that survives a video call, coasters that match it, and a mat with nothing on it but the company mark. Personalised without being loud." data-ar="لوحة اسم تليق بأول كول فيديو، وقواعد أكواب متناسقة معها، ومفرش مكتب مافيهش غير شعار الشركة. تخصيص بدون ضجيج.">A nameplate that survives a video call, coasters that match it, and a mat with nothing on it but the company mark. Personalised without being loud.</p>
+          <div class="picks">
+            <b data-en="Nameplates" data-ar="لوحات أسماء">Nameplates</b>
+            <b data-en="Matching coasters" data-ar="قواعد أكواب">Matching coasters</b>
+            <b data-en="Minimal desk mats" data-ar="مفارش بسيطة">Minimal desk mats</b>
+          </div>
+        </div>
+      </article>
+
+      <article class="acard rise" data-d="2" style="--acc:var(--cy)">
+        <img src="assets/setup-crafted/panel-porsche.webp" alt="A high-gloss acrylic wall panel of a Porsche on a neon-lit street, mounted above a desk" loading="lazy" width="1408" height="768" />
+        <div class="acard-in">
+          <span class="who" data-en="Car &amp; tech enthusiasts" data-ar="عشاق العربيات والتقنية">Car &amp; tech enthusiasts</span>
+          <h4 data-en="One photo, printed properly" data-ar="صورة واحدة، مطبوعة صح">One photo, printed properly</h4>
+          <p data-en="High-gloss acrylic holds black better than paper and canvas do. Night shots, wet asphalt and neon survive the print instead of going grey." data-ar="الأكريليك اللامع بيمسك الأسود أحسن من الورق والكانفاس. لقطات الليل والأسفلت المبلول والنيون بتفضل زي ما هي بدل ما ترمد.">High-gloss acrylic holds black better than paper and canvas do. Night shots, wet asphalt and neon survive the print instead of going grey.</p>
+          <div class="picks">
+            <b data-en="Automotive wall panels" data-ar="لوحات حائط للعربيات">Automotive wall panels</b>
+            <b data-en="Phone skins" data-ar="جلود هواتف">Phone skins</b>
+            <b data-en="Sticker sheets" data-ar="ورق استيكرز">Sticker sheets</b>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================================== FLOW -->
+<section class="flow solid" id="flow">
+  <div class="band" style="padding-bottom:0">
+    <div class="shell">
+      <span class="eyebrow" data-en="From file to doorstep" data-ar="من الملف لباب البيت">From file to doorstep</span>
+      <h2 class="h2 rise" style="margin-top:16px;max-width:16ch" data-en="Four steps. You are involved in two of them." data-ar="أربع خطوات. أنت مشارك في اتنين منهم.">Four steps. You are involved in two of them.</h2>
+    </div>
+  </div>
+  <div class="band" id="flowSec">
+    <div class="flow-track" id="flowTrack">
+      <article class="fstep" style="--acc:var(--mag)">
+        <span class="fstep-n" data-en="Step 01" data-ar="خطوة 01">Step 01</span>
+        <div class="glyph"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></div>
+        <h4 data-en="Order &amp; upload" data-ar="اطلب وارفع الملف">Order &amp; upload</h4>
+        <p data-en="Pick the product and the size, then send the file — PNG, JPG, PDF or a vector. If the resolution is too low for the size you picked, we tell you before you pay." data-ar="اختر المنتج والمقاس، وابعت الملف — PNG أو JPG أو PDF أو فيكتور. لو الجودة أقل من المقاس اللي اخترته، هنقولك قبل ما تدفع.">Pick the product and the size, then send the file &mdash; PNG, JPG, PDF or a vector. If the resolution is too low for the size you picked, we tell you before you pay.</p>
+        <div class="when" data-en="Same day" data-ar="نفس اليوم">Same day</div>
+      </article>
+      <article class="fstep" style="--acc:var(--vio)">
+        <span class="fstep-n" data-en="Step 02" data-ar="خطوة 02">Step 02</span>
+        <div class="glyph"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="m8 11 3 3 5-6"/></svg></div>
+        <h4 data-en="Digital preview &amp; proof" data-ar="معاينة رقمية وموافقة">Digital preview &amp; proof</h4>
+        <p data-en="You get a mock-up of your exact piece — real dimensions, real bleed, real crop. Change it as many times as you need. Nothing prints without your yes." data-ar="هتستلم معاينة لقطعتك بالظبط — بمقاساتها الحقيقية وحدود القص الفعلية. عدّل زي ما تحب. لا شيء يُطبع قبل موافقتك.">You get a mock-up of your exact piece &mdash; real dimensions, real bleed, real crop. Change it as many times as you need. Nothing prints without your yes.</p>
+        <div class="when" data-en="Within 24 hours" data-ar="خلال 24 ساعة">Within 24 hours</div>
+      </article>
+      <article class="fstep" style="--acc:var(--cy)">
+        <span class="fstep-n" data-en="Step 03" data-ar="خطوة 03">Step 03</span>
+        <div class="glyph"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M6 7v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7"/><path d="M10 11h4"/></svg></div>
+        <h4 data-en="Manufacturing &amp; QC" data-ar="التصنيع والفحص">Manufacturing &amp; QC</h4>
+        <p data-en="Printed, cut, and then checked under angled light for banding, dust inclusions and edge chips. Anything that fails gets re-run, not shipped." data-ar="طباعة، قص، وبعدين فحص تحت إضاءة مائلة لاكتشاف أي خطوط أو أتربة أو حواف متكسرة. أي قطعة ترسب تتعاد، مش تتشحن.">Printed, cut, and then checked under angled light for banding, dust inclusions and edge chips. Anything that fails gets re-run, not shipped.</p>
+        <div class="when" data-en="1&ndash;2 working days" data-ar="يوم أو يومين عمل">1&ndash;2 working days</div>
+      </article>
+      <article class="fstep" style="--acc:var(--warm)">
+        <span class="fstep-n" data-en="Step 04" data-ar="خطوة 04">Step 04</span>
+        <div class="glyph"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h11v9H3z"/><path d="M14 11h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg></div>
+        <h4 data-en="Packing &amp; shipping" data-ar="التغليف والشحن">Packing &amp; shipping</h4>
+        <p data-en="Corner-protected, film-faced and rigid-boxed, then handed to Bosta or Aramex. Cash on delivery across Egypt, with tracking from the moment it leaves." data-ar="حماية للأركان، وطبقة فيلم، وكرتونة صلبة، وبعدين تسليم لبوسطة أو أرامكس. الدفع عند الاستلام في كل مصر، مع تتبع من لحظة الخروج.">Corner-protected, film-faced and rigid-boxed, then handed to Bosta or Aramex. Cash on delivery across Egypt, with tracking from the moment it leaves.</p>
+        <div class="when" data-en="3&ndash;5 days nationwide" data-ar="3 إلى 5 أيام لكل مصر">3&ndash;5 days nationwide</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= STUDIO -->
+<section class="band studio solid" id="studio">
+  <div class="shell">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow" data-en="Live preview" data-ar="معاينة مباشرة">Live preview</span>
+        <h2 class="h2 rise" data-en="Drop your art on it." data-ar="حط تصميمك عليه.">Drop your art on it.</h2>
+      </div>
+      <p class="lede rise" data-d="1" data-en="This is the same preview our proofing step runs. Pick a product, drop in an image, and drag to spin it. Your file never leaves this browser tab — it is not uploaded anywhere." data-ar="دي نفس المعاينة اللي بنستخدمها في مرحلة الموافقة. اختر منتج، حط صورة، واسحب لتدويره. ملفك مش بيخرج من المتصفح ده أبدًا — مفيش رفع لأي سيرفر.">This is the same preview our proofing step runs. Pick a product, drop in an image, and drag to spin it. Your file never leaves this browser tab &mdash; it is not uploaded anywhere.</p>
+    </div>
+
+    <div class="st-grid">
+      <div class="st-panel">
+        <div class="st-block">
+          <b class="lbl" data-en="1 &mdash; Choose a surface" data-ar="1 &mdash; اختر السطح">1 &mdash; Choose a surface</b>
+          <div class="st-prods" id="stProds"></div>
+        </div>
+        <div class="st-block">
+          <b class="lbl" data-en="2 &mdash; Choose or upload artwork" data-ar="2 &mdash; اختر تصميم أو ارفع صورتك">2 &mdash; Choose or upload artwork</b>
+          <div class="st-arts" id="stArts">
+            <button class="st-upload" id="stUploadBtn" aria-label="Upload your own image">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V5m0 0-4 4m4-4 4 4"/><path d="M4 17v2h16v-2"/></svg>
+            </button>
+          </div>
+          <input type="file" id="stFile" accept="image/*" hidden />
+        </div>
+        <p class="st-note" data-en="Everything is rendered in your browser from the file you pick. For a real order we would re-run this at print resolution and send you the proof — <b>a 90&times;40cm mat needs about 5400&times;2400 pixels</b> to stay sharp." data-ar="كل حاجة بتترسم في متصفحك من الملف اللي اخترته. في الطلب الحقيقي بنعيد التشغيل ده بدقة الطباعة ونبعتلك المعاينة — <b>مفرش <span class=&quot;ltr&quot;>90×40</span> سم محتاج حوالي <span class=&quot;ltr&quot;>5400×2400</span> بكسل</b> علشان يفضل حاد.">Everything is rendered in your browser from the file you pick. For a real order we would re-run this at print resolution and send you the proof &mdash; <b>a 90&times;40cm mat needs about 5400&times;2400 pixels</b> to stay sharp.</p>
+        <div><a class="btn neon" href="#order" data-en="Send this to the studio" data-ar="ابعتها للاستوديو">Send this to the studio</a></div>
+      </div>
+
+      <div class="st-canvas-wrap rise" id="stWrap">
+        <canvas id="gl-studio"></canvas>
+        <div class="st-badge"><i></i><span id="stLabel">Desk mat &middot; 90&times;40</span></div>
+        <div class="st-spin" data-en="Drag to rotate" data-ar="اسحب للتدوير">Drag to rotate</div>
+        <div class="st-drop"><span data-en="Drop image to preview" data-ar="اسحب الصورة هنا">Drop image to preview</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ CTA -->
+<section class="band cta solid" id="order">
+  <div class="shell">
+    <span class="eyebrow" style="justify-content:center" data-en="Made to order &middot; Cairo" data-ar="يُصنع حسب الطلب &middot; القاهرة">Made to order &middot; Cairo</span>
+    <h2 class="h2 rise" style="margin-top:18px" data-en="Send the file.<br/>We&rsquo;ll send the proof." data-ar="ابعت الملف.<br/>وإحنا نبعت المعاينة.">Send the file.<br/>We&rsquo;ll send the proof.</h2>
+    <p class="lede rise" data-d="1" data-en="Tell us the product, the size and roughly what you want on it. A proof comes back within 24 hours, and you only pay once you have approved it." data-ar="قولنا المنتج والمقاس وإيه اللي عايزه عليه تقريبًا. هتوصلك المعاينة خلال 24 ساعة، وما تدفعش غير بعد ما توافق عليها.">Tell us the product, the size and roughly what you want on it. A proof comes back within 24 hours, and you only pay once you have approved it.</p>
+    <div class="cta-btns rise" data-d="2">
+      <a class="btn neon" href="https://wa.me/201000000000" target="_blank" rel="noopener">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.5 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-3.2-.8-2.7-1.1-4.4-3.9-4.5-4-.1-.2-1.1-1.4-1.1-2.7s.7-1.9 1-2.2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.2.1.4.1.6-.1l.8-1c.2-.2.3-.2.5-.1l2 1c.2.1.4.2.4.3.1.2.1.6 0 1Z"/></svg>
+        <span data-en="Order on WhatsApp" data-ar="اطلب على واتساب">Order on WhatsApp</span>
+      </a>
+      <a class="btn ghost" href="mailto:hello@setupcrafted.com" data-en="hello@setupcrafted.com" data-ar="hello@setupcrafted.com">hello@setupcrafted.com</a>
+    </div>
+    <div class="cta-meta">
+      <span><i></i><span data-en="Cash on delivery" data-ar="الدفع عند الاستلام">Cash on delivery</span></span>
+      <span><i></i><span data-en="Bosta &amp; Aramex" data-ar="بوسطة وأرامكس">Bosta &amp; Aramex</span></span>
+      <span><i></i><span data-en="3&ndash;5 days nationwide" data-ar="<span class=&quot;ltr&quot;>3&ndash;5</span> أيام لكل مصر">3&ndash;5 days nationwide</span></span>
+      <span><i></i><span data-en="Reprint if it arrives damaged" data-ar="إعادة طباعة لو وصلت تالفة">Reprint if it arrives damaged</span></span>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="shell foot-in">
+    <a class="wm" href="#top"><span class="wm-mark"><i></i><i></i></span><span><b>SETUP</b> <span>CRAFTED</span></span></a>
+    <div class="foot-links">
+      <a href="#catalog" data-en="Catalog" data-ar="المنتجات">Catalog</a>
+      <a href="#tech" data-en="How we print" data-ar="طرق الطباعة">How we print</a>
+      <a href="#studio" data-en="Try your art" data-ar="جرّب تصميمك">Try your art</a>
+      <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://tiktok.com" target="_blank" rel="noopener">TikTok</a>
+    </div>
+    <small>&copy; <span id="yr">2026</span> Setup Crafted &mdash; Cairo, Egypt</small>
+    <p class="foot-credit">
+      <span data-en="Concept demo built by" data-ar="نموذج تجريبي من تنفيذ">Concept demo built by</span>
+      <a href="https://axisdigitalstudio.github.io/Axis-demos/" target="_blank" rel="noopener">Axis Digital</a>.
+      <span data-en="Product photography is illustrative and prices are indicative." data-ar="صور المنتجات توضيحية والأسعار استرشادية.">Product photography is illustrative and prices are indicative.</span>
+    </p>
+  </div>
+</footer>
+
+<script type="importmap">
+{ "imports": { "three": "./assets/vendor/three.module.min.js" } }
+</script>
+
+<script>
+/* ==========================================================================
+   Part 1 — data, language, chrome, and a tiny scroll engine.
+   Deliberately dependency-free: the only third party on the page is three.js,
+   and everything below still runs if that import fails.
+   ========================================================================== */
+(function(){
+"use strict";
+
+const A = "assets/setup-crafted/";
+
+/* -- the eight lines ----------------------------------------------------- */
+const PRODUCTS = [
+  { key:"mats", img:A+"desk-mat-neon.webp", acc:"#FF2D95",
+    en:{t:"Desk Mats", d:"Full-coverage mats printed edge to edge with your gamertag, artwork, photography or a seamless pattern. Stitched border, non-slip rubber base, and a sublimated surface that keeps its glide."},
+    ar:{t:"مفارش المكتب", d:"مفارش تغطي المكتب بالكامل ومطبوعة من الحافة للحافة باسمك أو تصميمك أو صورك. حواف مخيطة، وقاعدة مطاطية مانعة للانزلاق، وسطح بطباعة تسامي يحافظ على انزلاق الماوس."},
+    specs:{en:["Sublimated microfibre","4mm rubber base","Up to 90×40cm"],ar:["ميكروفايبر بطباعة تسامي","قاعدة مطاط 4 مم","حتى <span class=\"ltr\">90×40</span> سم"]},
+    price:"750", pose:{rx:-0.60,ry:0.30,s:1.02}, bend:1.0, curl:0.0, thick:0.02, glow:0.55 },
+
+  { key:"mousepads", img:A+"mousepad-esports.webp", acc:"#FF2D95",
+    en:{t:"Custom Mousepads", d:"The smaller format, for people who already own a mat they like. Names, esports crests, character art — printed at the same DPI as the large mats, on a heat-sealed edge."},
+    ar:{t:"ماوس باد مخصص", d:"المقاس الأصغر، لمن لديه بالفعل مفرش يعجبه. أسماء، شعارات فرق، أو رسومات — بنفس دقة الطباعة الكبيرة، مع حواف ملحومة بالحرارة."},
+    specs:{en:["Heat-sealed edge","Speed or control weave","30×25 / 45×40cm"],ar:["حواف ملحومة بالحرارة","نسيج سريع أو متحكم","<span class=\"ltr\">30×25 / 45×40</span> سم"]},
+    price:"320", pose:{rx:-0.54,ry:-0.30,s:0.80}, bend:0.85, curl:0.0, thick:0.03, glow:0.5 },
+
+  { key:"signs", img:A+"sign-gamer-led.webp", acc:"#25D8F0",
+    en:{t:"Acrylic Desk Signs", d:"Laser-cut standing plaques on an LED-lit wooden base. Your name, gamertag or a line you actually mean. The engraving takes the light and the rest of the panel disappears."},
+    ar:{t:"لافتات أكريليك مضيئة", d:"لوحات أكريليك مقصوصة بالليزر على قاعدة خشب بإضاءة LED. اسمك أو اسمك في اللعبة أو جملة تؤمن بها. الحفر يلتقط الضوء وباقي اللوح يختفي."},
+    specs:{en:["Edge-lit LED base","Laser-engraved 5mm cast","USB powered"],ar:["قاعدة LED من الحواف","حفر ليزر على أكريليك 5 مم","تعمل بمنفذ USB"]},
+    price:"950", pose:{rx:-0.05,ry:0.34,s:0.76}, bend:0.0, curl:0.0, thick:0.11, glow:1.15 },
+
+  { key:"coasters", img:A+"coasters-wood.webp", acc:"#E9C88A",
+    en:{t:"Coasters", d:"Sets of four in solid walnut or cast acrylic, UV-printed with initials, a monogram or the same mark that is on your nameplate. Cork-backed, sealed against rings."},
+    ar:{t:"قواعد أكواب", d:"أطقم من أربع قطع من خشب الجوز أو الأكريليك، مطبوعة بتقنية UV بالأحرف الأولى أو نفس الشعار الموجود على لوحة اسمك. ظهر فلين، ومعالجة ضد آثار الأكواب."},
+    specs:{en:["Walnut or cast acrylic","Cork-backed set of 4","10×10cm / Ø10cm"],ar:["جوز أو أكريليك","طقم 4 بظهر فلين","<span class=\"ltr\">10×10</span> سم / قطر 10 سم"]},
+    price:"480", pose:{rx:-0.74,ry:0.22,s:0.74}, bend:0.0, curl:0.0, thick:0.07, glow:0.35 },
+
+  { key:"panels", img:A+"panel-mclaren.webp", acc:"#8B5CF6",
+    en:{t:"Acrylic Wall Panels", d:"High-gloss panels that hold black properly — night shots, wet asphalt, neon, cinematic frames. Printed second-surface so the acrylic sits over the image and the colour never scuffs."},
+    ar:{t:"لوحات حائط أكريليك", d:"لوحات لامعة تحافظ على الأسود بشكل صحيح — لقطات ليلية، أسفلت مبلول، نيون، ومشاهد سينمائية. الطباعة من الخلف فيبقى الأكريليك فوق الصورة ولا يتأثر اللون بالخدش."},
+    specs:{en:["Second-surface print","Standoff wall mounts","40×30 up to 120×80cm"],ar:["طباعة من السطح الخلفي","حوامل حائط بارزة","<span class=\"ltr\">40×30</span> حتى <span class=\"ltr\">120×80</span> سم"]},
+    price:"1,650", pose:{rx:-0.04,ry:-0.24,s:1.06}, bend:0.0, curl:0.0, thick:0.055, glow:0.6 },
+
+  { key:"phones", img:A+"phone-cases.webp", acc:"#25D8F0",
+    en:{t:"Phone Skins & Cases", d:"Die-cut skins that wrap the back and camera island without adding bulk, or rigid printed cases if you want the drop protection. Same artwork, either substrate."},
+    ar:{t:"جلود وأغطية الهواتف", d:"جلود مقصوصة بدقة تغطي الظهر وجزيرة الكاميرا بدون سماكة زائدة، أو أغطية صلبة مطبوعة لو عايز حماية من السقوط. نفس التصميم على الاتنين."},
+    specs:{en:["Die-cut 3M vinyl","Or rigid printed case","Most iPhone & Galaxy"],ar:["فينيل 3M مقصوص","أو غطاء صلب مطبوع","أغلب آيفون وجالاكسي"]},
+    price:"280", pose:{rx:-0.24,ry:0.32,s:0.82}, bend:0.22, curl:0.0, thick:0.07, glow:0.55 },
+
+  { key:"stickers", img:"generated:stickers", acc:"#FF2D95",
+    en:{t:"Custom Sticker Sheets", d:"A5 sheets of kiss-cut vinyl — logos, icons, wordmarks, whatever you keep putting on your laptop lid. Cut through the vinyl only, so they peel clean and the sheet stays flat."},
+    ar:{t:"أوراق استيكرز مخصصة", d:"ورق A5 من الفينيل بقص سطحي — شعارات وأيقونات وأسماء، أي حاجة بتحطها على اللابتوب. القص يخترق الفينيل فقط، فالاستيكر يتشال بسهولة والورقة تفضل مستوية."},
+    specs:{en:["Kiss-cut matte vinyl","Laminated, UV-stable","A5 sheet, any layout"],ar:["فينيل مطفي بقص سطحي","مغلف ومقاوم للشمس","ورقة A5 بأي توزيع"]},
+    price:"150", pose:{rx:-0.48,ry:-0.26,s:0.76}, bend:0.30, curl:1.0, thick:0.006, glow:0.4 },
+
+  { key:"nameplates", img:A+"nameplate-acrylic.webp", acc:"#E9C88A",
+    en:{t:"Personal Nameplates", d:"Bevelled clear acrylic on a brushed aluminium or walnut rail. Full name, job title, and a logo if there is one. Reads correctly on a webcam, which is the point."},
+    ar:{t:"لوحات الأسماء", d:"أكريليك شفاف بحواف مشطوفة على قاعدة ألومنيوم مصقول أو خشب جوز. الاسم كامل والمسمى الوظيفي وشعار لو موجود. واضح على كاميرا الاجتماعات، وده المقصود."},
+    specs:{en:["20mm bevelled acrylic","Aluminium or walnut rail","25×10cm standard"],ar:["أكريليك مشطوف 20 مم","قاعدة ألومنيوم أو جوز","مقاس قياسي <span class=\"ltr\">25×10</span> سم"]},
+    price:"620", pose:{rx:-0.06,ry:0.26,s:0.74}, bend:0.0, curl:0.0, thick:0.10, glow:0.5 }
+];
+
+/* -- language ------------------------------------------------------------ */
+let lang = "en";
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.body.dir = lang === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-en]").forEach(function(el){
+    const v = el.getAttribute("data-" + lang);
+    if (v != null) el.innerHTML = v;
+  });
+  document.getElementById("langEn").classList.toggle("on", lang === "en");
+  document.getElementById("langAr").classList.toggle("on", lang === "ar");
+  document.getElementById("langEn").setAttribute("aria-pressed", lang === "en");
+  document.getElementById("langAr").setAttribute("aria-pressed", lang === "ar");
+  buildTicker();
+  document.dispatchEvent(new CustomEvent("langchange"));
+}
+document.getElementById("langEn").addEventListener("click", function(){ lang="en"; applyLang(); });
+document.getElementById("langAr").addEventListener("click", function(){ lang="ar"; applyLang(); });
+
+/* -- ticker -------------------------------------------------------------- */
+function buildTicker(){
+  const t = document.getElementById("ticker");
+  const words = PRODUCTS.map(function(p){ return p[lang].t; });
+  let html = "";
+  for (let r = 0; r < 2; r++) for (let i = 0; i < words.length; i++) html += "<span>" + words[i] + "</span>";
+  t.innerHTML = html;
+}
+
+/* -- nav ----------------------------------------------------------------- */
+const nav = document.getElementById("nav");
+const burger = document.getElementById("burger");
+burger.addEventListener("click", function(){
+  const open = document.body.classList.toggle("menu-open");
+  burger.setAttribute("aria-expanded", open);
+});
+document.getElementById("navLinks").addEventListener("click", function(e){
+  if (e.target.tagName === "A") { document.body.classList.remove("menu-open"); burger.setAttribute("aria-expanded", false); }
+});
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener("click", function(e){
+    const el = document.querySelector(a.getAttribute("href"));
+    if (!el) return;
+    e.preventDefault();
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 62, behavior:"smooth" });
+  });
+});
+document.getElementById("yr").textContent = new Date().getFullYear();
+
+/* -- reveal on scroll ----------------------------------------------------- */
+const io = new IntersectionObserver(function(entries){
+  entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+}, { rootMargin:"0px 0px -8% 0px", threshold:0.08 });
+document.querySelectorAll(".rise").forEach(function(el){ io.observe(el); });
+
+/* -- hero headline -------------------------------------------------------- */
+requestAnimationFrame(function(){
+  document.querySelectorAll(".hero h1 .ln i").forEach(function(el,i){
+    el.style.transition = "transform 1.05s cubic-bezier(.22,.61,.36,1) " + (0.18 + i*0.09) + "s";
+    requestAnimationFrame(function(){ el.style.transform = "none"; });
+  });
+});
+
+/* -- manifesto: words warm up as the line scrolls through ------------------ */
+const maniEl = document.getElementById("maniTxt");
+function buildMani(){
+  const txt = maniEl.getAttribute("data-" + lang) || "";
+  maniEl.innerHTML = txt.split(" ").map(function(w,i){
+    const hl = (i > txt.split(" ").length - 4) ? " hl" : "";
+    return '<span class="w' + hl + '">' + w + "</span>";
+  }).join(" ");
+}
+document.addEventListener("langchange", buildMani);
+
+/* -- card tilt ------------------------------------------------------------ */
+const fine = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+const reduced = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+if (fine && !reduced) {
+  document.querySelectorAll(".tilt").forEach(function(card){
+    card.addEventListener("pointermove", function(e){
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      card.style.setProperty("--mx", (x*100) + "%");
+      card.style.setProperty("--my", (y*100) + "%");
+      card.style.transform = "perspective(900px) rotateX(" + ((0.5-y)*7).toFixed(2) + "deg) rotateY(" + ((x-0.5)*9).toFixed(2) + "deg) translateY(-4px)";
+    });
+    card.addEventListener("pointerleave", function(){ card.style.transform = ""; });
+  });
+}
+
+/* -- scroll engine: cached metrics, one rAF loop --------------------------- */
+const M = { vh:0, vw:0, catTop:0, catH:0, catPad:0, catSpan:1, heroH:0, flowTop:0, flowH:0, trackOver:0, docH:0 };
+const catalogEl = document.getElementById("catalog");
+const flowSec   = document.getElementById("flowSec");
+const flowTrack = document.getElementById("flowTrack");
+const progEl    = document.getElementById("prog");
+
+function measure(){
+  M.vh = window.innerHeight; M.vw = window.innerWidth;
+  M.docH = document.documentElement.scrollHeight - M.vh;
+  const cr = catalogEl.getBoundingClientRect();
+  M.catPad = parseFloat(getComputedStyle(catalogEl).paddingTop) || 0;
+  M.catTop = cr.top + window.scrollY + M.catPad;
+  M.catH   = cr.height;
+  M.catSpan = Math.max(1, cr.height - M.catPad - M.vh);
+  M.heroH  = document.getElementById("top").offsetHeight;
+  const fr = flowSec.getBoundingClientRect();
+  M.flowTop = fr.top + window.scrollY; M.flowH = fr.height;
+  M.trackOver = Math.max(0, flowTrack.scrollWidth - M.vw + 24);
+}
+const clamp = function(v,a,b){ return v < a ? a : v > b ? b : v; };
+const ease  = function(t){ return t<.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2; };
+
+const listeners = [];
+function onScroll(fn){ listeners.push(fn); }
+
+let ticking = false, lastY = -1;
+function frame(){
+  const y = window.scrollY;
+  progEl.style.width = (clamp(y / Math.max(1, M.docH), 0, 1) * 100) + "%";
+  nav.classList.toggle("stuck", y > 24);
+
+  /* manifesto word warm-up */
+  if (maniEl) {
+    const r = maniEl.getBoundingClientRect();
+    const p = clamp((M.vh * 0.86 - r.top) / (r.height + M.vh * 0.30), 0, 1);
+    const ws = maniEl.children, n = ws.length;
+    for (let i = 0; i < n; i++) ws[i].classList.toggle("on", p * n > i);
+  }
+
+  /* horizontal workflow track */
+  if (M.trackOver > 0) {
+    const p = clamp((y + M.vh - M.flowTop) / (M.flowH + M.vh), 0, 1);
+    const shift = (p - 0.08) / 0.84;
+    flowTrack.style.transform = "translate3d(" + (-clamp(shift,0,1) * M.trackOver) + "px,0,0)";
+  } else {
+    flowTrack.style.transform = "";
+  }
+
+  for (let i = 0; i < listeners.length; i++) listeners[i](y, M);
+  ticking = false; lastY = y;
+}
+function requestFrame(){ if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+window.addEventListener("scroll", requestFrame, { passive:true });
+window.addEventListener("resize", function(){ measure(); requestFrame(); }, { passive:true });
+
+/* -- expose to part 2 ------------------------------------------------------ */
+window.SC = { PRODUCTS:PRODUCTS, M:M, measure:measure, onScroll:onScroll, requestFrame:requestFrame,
+  clamp:clamp, ease:ease, reduced:reduced, fine:fine, getLang:function(){ return lang; } };
+
+applyLang();
+buildMani();
+measure();
+requestFrame();
+})();
+</script>
+
+<script type="module">
+/* ==========================================================================
+   Part 2 — the stage.
+
+   One mesh carries the whole page. It arrives as the hero piece, travels
+   right as you scroll, then becomes each of the eight products in turn:
+   the surface bends like a desk mat, thickens into cast acrylic, curls at
+   the corner like a sticker sheet, and takes a different rim light each
+   time. Between products a print head sweeps across it and lays the next
+   one down, which is roughly what actually happens in the workshop.
+   ========================================================================== */
+const SC = window.SC;
+const { PRODUCTS, M, clamp, ease, reduced } = SC;
+const N = PRODUCTS.length;
+
+/* -- 1. the sticker sheet has no photograph, so draw one ------------------- */
+function stickerSheet(){
+  const c = document.createElement("canvas");
+  c.width = 1400; c.height = 764;
+  const x = c.getContext("2d");
+
+  x.fillStyle = "#F2EFE7"; x.fillRect(0,0,1400,764);
+  const g = x.createLinearGradient(0,0,1400,764);
+  g.addColorStop(0,"rgba(255,255,255,.7)"); g.addColorStop(1,"rgba(190,183,168,.35)");
+  x.fillStyle = g; x.fillRect(0,0,1400,764);
+  for (let i=0;i<5200;i++){
+    x.fillStyle = "rgba(120,112,96," + (Math.random()*0.05) + ")";
+    x.fillRect(Math.random()*1400, Math.random()*764, 1.6, 1.6);
+  }
+  x.strokeStyle = "#C6BFAF"; x.lineWidth = 2; x.setLineDash([9,7]);
+  x.strokeRect(30,30,1340,704); x.setLineDash([]);
+  x.fillStyle = "#8E8676"; x.font = "600 17px 'Space Mono',monospace";
+  x.fillText("SETUP CRAFTED", 52, 66);
+  x.textAlign = "right"; x.fillText("KISS-CUT VINYL / A5 / MATTE", 1348, 66);
+  x.textAlign = "left"; x.fillText("PEEL FROM CORNER", 52, 716);
+  x.textAlign = "right"; x.fillText("EST. CAIRO", 1348, 716);
+  x.textAlign = "left";
+
+  function die(cx,cy,rot,draw,fill){
+    x.save(); x.translate(cx,cy); x.rotate(rot);
+    x.shadowColor = "rgba(40,36,30,.30)"; x.shadowBlur = 16; x.shadowOffsetY = 6;
+    x.lineJoin = "round"; x.lineCap = "round";
+    x.strokeStyle = "#FFFFFF"; x.lineWidth = 22; draw(); x.stroke();
+    x.shadowColor = "transparent";
+    x.strokeStyle = "#FFFFFF"; x.lineWidth = 22; draw(); x.stroke();
+    x.fillStyle = fill; draw(); x.fill();
+    x.restore();
+  }
+  const rr = function(w,h,r){ return function(){ x.beginPath(); x.roundRect(-w/2,-h/2,w,h,r); }; };
+  const circ = function(r){ return function(){ x.beginPath(); x.arc(0,0,r,0,6.2832); }; };
+  const poly = function(n,r,off){ return function(){ x.beginPath();
+    for(let i=0;i<n;i++){ const a = off + i*6.2832/n; const px=Math.cos(a)*r, py=Math.sin(a)*r;
+      i ? x.lineTo(px,py) : x.moveTo(px,py); } x.closePath(); }; };
+
+  function label(t,size,col,ls){
+    x.fillStyle = col; x.font = "700 " + size + "px 'Space Grotesk',sans-serif";
+    x.textAlign = "center"; x.textBaseline = "middle";
+    if (ls){ let w=0; const ch=t.split("");
+      ch.forEach(function(c){ w += x.measureText(c).width + ls; });
+      let px = -w/2 + ls/2;
+      ch.forEach(function(c){ x.fillText(c, px + x.measureText(c).width/2, 0); px += x.measureText(c).width + ls; });
+    } else x.fillText(t,0,0);
+  }
+
+  /* row one */
+  die(196,244,-0.10, poly(6,84,Math.PI/6), "#101218");
+  x.save(); x.translate(196,244); x.rotate(-0.10);
+  x.strokeStyle="#25D8F0"; x.lineWidth=5; x.lineJoin="round";
+  x.beginPath(); x.roundRect(-40,-20,80,40,16); x.stroke();
+  x.fillStyle="#25D8F0"; x.beginPath(); x.arc(20,0,6,0,6.2832); x.fill();
+  x.fillRect(-28,-3,20,6); x.fillRect(-21,-10,6,20);
+  x.restore();
+
+  die(430,214,0.09, rr(240,104,24), "#FF2D95");
+  x.save(); x.translate(430,214); x.rotate(0.09); label("GG WP",50,"#0B0D12",2); x.restore();
+
+  die(700,232,-0.06, circ(88), "#0B0D12");
+  x.save(); x.translate(700,232); x.rotate(-0.06);
+  x.strokeStyle="#E9C88A"; x.lineWidth=4; x.beginPath(); x.arc(0,0,66,0,6.2832); x.stroke();
+  x.translate(0,-4); label("NIGHT",22,"#E9C88A",4);
+  x.translate(0,28); label("OWL",22,"#E9C88A",4); x.restore();
+
+  die(946,222,0.13, poly(3,92,-Math.PI/2), "#8B5CF6");
+  x.save(); x.translate(946,246); x.rotate(0.13); label("!",56,"#FFFFFF"); x.restore();
+
+  die(1194,236,-0.08, rr(196,96,48), "#101218");
+  x.save(); x.translate(1194,236); x.rotate(-0.08); label("AFK",44,"#25D8F0",3); x.restore();
+
+  /* row two */
+  die(212,528,0.12, rr(212,116,20), "#25D8F0");
+  x.save(); x.translate(212,528); x.rotate(0.12); label("1UP",50,"#06222A",2); x.restore();
+
+  die(470,548,-0.14, circ(80), "#E9C88A");
+  x.save(); x.translate(470,548); x.rotate(-0.14);
+  x.fillStyle="#101218"; x.beginPath();
+  x.moveTo(-6,-46); x.lineTo(22,-6); x.lineTo(4,-6); x.lineTo(10,44); x.lineTo(-24,0); x.lineTo(-4,0);
+  x.closePath(); x.fill(); x.restore();
+
+  die(730,536,0.07, poly(4,78,0), "#0B0D12");
+  x.save(); x.translate(730,536); x.rotate(0.07);
+  x.strokeStyle="#FF2D95"; x.lineWidth=4;
+  for(let i=-2;i<=2;i++){ x.beginPath(); x.moveTo(i*16,-34); x.lineTo(i*16,34); x.stroke(); }
+  for(let i=-2;i<=2;i++){ x.beginPath(); x.moveTo(-34,i*16); x.lineTo(34,i*16); x.stroke(); }
+  x.restore();
+
+  die(1000,552,-0.11, rr(268,100,16), "#FF2D95");
+  x.save(); x.translate(1000,552); x.rotate(-0.11); label("MADE TO ORDER",26,"#FFFFFF",3); x.restore();
+
+  die(1254,532,0.16, circ(72), "#8B5CF6");
+  x.save(); x.translate(1254,532); x.rotate(0.16); label("PRO",30,"#FFFFFF",3); x.restore();
+
+  return c;
+}
+
+/* the sheet is drawn once and reused by both the stage and the still fallback */
+let sheetCanvas = null, sheetURL = "";
+function sheet(){
+  if (!sheetCanvas){
+    sheetCanvas = stickerSheet();
+    try { sheetURL = sheetCanvas.toDataURL("image/webp", 0.82); } catch (e) { sheetURL = ""; }
+  }
+  return sheetCanvas;
+}
+
+/* -- 2. catalog copy, rail, and the no-WebGL fallback --------------------- */
+const copyWrap = document.getElementById("catCopy");
+const railEl   = document.getElementById("catRail");
+const fbEl     = document.getElementById("catFallback");
+const catalogEl= document.getElementById("catalog");
+const panels = [];
+let lastIdx = -1;
+
+function buildCatalog(){
+  const L = SC.getLang();
+  copyWrap.innerHTML = ""; railEl.innerHTML = ""; panels.length = 0;
+  PRODUCTS.forEach(function(p, i){
+    const other = L === "en" ? p.ar : p.en;
+    const el = document.createElement("article");
+    el.className = "cat-item";
+    el.style.setProperty("--acc", p.acc);
+    el.innerHTML =
+      '<div class="cat-idx"><b>' + String(i+1).padStart(2,"0") + "</b><span>" +
+        (L === "en" ? "of 08 product lines" : "من 08 خطوط إنتاج") + "</span></div>" +
+      "<h3>" + p[L].t + "</h3>" +
+      '<div class="cat-ar">' + other.t + "</div>" +
+      '<p class="d">' + p[L].d + "</p>" +
+      '<div class="cat-specs">' + p.specs[L].map(function(s){ return '<span class="chip"><i></i>' + s + "</span>"; }).join("") + "</div>" +
+      '<div class="cat-foot">' +
+        '<div class="cat-price">' + (L === "en" ? "From " : "يبدأ من ") + p.price +
+          " EGP<s>" + (L === "en" ? "incl. your artwork" : "شامل تصميمك") + "</s></div>" +
+        '<a class="cat-link" href="#studio">' + (L === "en" ? "Preview it" : "جرّبه") +
+          ' <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>' +
+      "</div>";
+    copyWrap.appendChild(el); panels.push(el);
+
+    const b = document.createElement("button");
+    b.setAttribute("role","tab"); b.setAttribute("aria-label", p[L].t);
+    b.addEventListener("click", function(){
+      const target = M.catTop + (i / (N - 1)) * M.catSpan;
+      window.scrollTo({ top: target + 2, behavior:"smooth" });
+    });
+    railEl.appendChild(b);
+  });
+  if (fbEl.children.length !== N) {
+    fbEl.innerHTML = PRODUCTS.map(function(p,i){
+      return '<img src="' + (p.img.indexOf("generated:") === 0 ? (sheet(), sheetURL) : p.img) + '" alt="' + p.en.t +
+             '" class="' + (i === 0 ? "on" : "") + '" loading="lazy" />';
+    }).join("");
+  }
+  paintCopy(0, 0);
+}
+document.addEventListener("langchange", buildCatalog);
+buildCatalog();
+function sizeCatalog(){
+  /* without the stage there is nothing to watch, so the run gets much shorter */
+  const flat = document.body.classList.contains("no-gl");
+  const per  = flat ? 46 : (window.innerWidth < 900 ? 88 : 100);
+  catalogEl.style.height = "calc(18svh + " + (N * per) + "svh)";
+  SC.measure();
+}
+sizeCatalog();
+window.addEventListener("resize", sizeCatalog, { passive:true });
+
+function catProgress(y){
+  const catP = clamp((y - M.catTop) / M.catSpan, 0, 1);
+  const f = catP * (N - 1);
+  const i = Math.min(N - 2, Math.max(0, Math.floor(f)));
+  return { catP:catP, f:f, i:i, t:clamp(f - i, 0, 1) };
+}
+SC.onScroll(function(y){ const c = catProgress(y); paintCopy(c.i, c.t); });
+
+/* which panel is showing, and how far through the handover we are */
+function paintCopy(i, t){
+  const outP = clamp((t - 0.28) / 0.20, 0, 1);
+  const inP  = clamp((t - 0.52) / 0.24, 0, 1);
+  for (let k = 0; k < N; k++){
+    const el = panels[k];
+    let o = 0, ty = 0;
+    if (k === i){ o = 1 - outP; ty = -outP * 26; }
+    else if (k === i + 1){ o = inP; ty = (1 - inP) * 30; }
+    el.style.opacity = o;
+    el.style.transform = "translate3d(0," + ty.toFixed(2) + "px,0)";
+    el.classList.toggle("on", o > 0.5);
+  }
+  const active = t > 0.5 ? Math.min(N - 1, i + 1) : i;
+  if (active !== lastIdx){
+    lastIdx = active;
+    for (let k = 0; k < N; k++){
+      railEl.children[k].classList.toggle("on", k === active);
+      railEl.children[k].setAttribute("aria-selected", k === active);
+      if (fbEl.children[k]) fbEl.children[k].classList.toggle("on", k === active);
+    }
+  }
+}
+
+/* -- 3. bring in three.js, or fall back gracefully ------------------------ */
+const preEl = document.getElementById("pre");
+const preBar = document.getElementById("preBar");
+const preTxt = document.getElementById("preTxt");
+function closePre(){ preBar.style.width = "100%"; setTimeout(function(){ preEl.classList.add("done"); }, 240); }
+function noGL(){ document.body.classList.add("no-gl"); closePre();
+  if (typeof sizeCatalog === "function"){ sizeCatalog(); SC.requestFrame(); } }
+
+function webglOK(){
+  try { const c = document.createElement("canvas");
+    return !!(window.WebGL2RenderingContext && c.getContext("webgl2")); } catch(e){ return false; }
+}
+
+let THREE = null;
+if (webglOK() && !reduced) {
+  try { THREE = await import("three"); }
+  catch (e) {
+    try { THREE = await import("https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"); }
+    catch (e2) { console.warn("three.js unavailable — falling back to still images", e2); }
+  }
+}
+if (!THREE) { noGL(); }
+
+/* -- 4. shaders ----------------------------------------------------------- */
+const VERT = `
+uniform float uTime, uBend, uCurl;
+uniform vec2  uSize;
+varying vec2 vUv; varying vec3 vNrm; varying vec3 vView;
+
+float disp(vec2 q){
+  float cx = q.x - 0.5;
+  float sag  = uBend * (0.58*cx*cx + 0.024*(0.5 + 0.5*sin(q.x*6.28318 + uTime*0.7)*sin(q.y*3.14159)));
+  float curl = uCurl * 0.66 * pow(max(q.x - 0.60, 0.0)/0.40, 2.2);
+  return sag + curl;
+}
+void main(){
+  vUv = uv;
+  vec3 p = position;
+  p.z += disp(uv) + 0.018;
+  float e = 0.010;
+  vec3 tx = vec3(uSize.x*2.0*e, 0.0, disp(uv+vec2(e,0.0)) - disp(uv-vec2(e,0.0)));
+  vec3 ty = vec3(0.0, uSize.y*2.0*e, disp(uv+vec2(0.0,e)) - disp(uv-vec2(0.0,e)));
+  vec3 n  = normalize(cross(tx, ty));
+  vec4 mv = modelViewMatrix * vec4(p, 1.0);
+  vNrm  = normalize(normalMatrix * n);
+  vView = -mv.xyz;
+  gl_Position = projectionMatrix * mv;
+}`;
+
+const FRAG = `
+uniform sampler2D uTexA, uTexB;
+uniform float uMix, uAspA, uAspB, uPlaneAsp, uGlow, uGloss, uOpacity;
+uniform vec3  uRim;
+varying vec2 vUv; varying vec3 vNrm; varying vec3 vView;
+
+vec2 cover(vec2 q, float ia){
+  vec2 o = q - 0.5;
+  if (ia > uPlaneAsp) o.x *= uPlaneAsp / ia; else o.y *= ia / uPlaneAsp;
+  return o + 0.5;
+}
+void main(){
+  vec3 n = normalize(vNrm);
+  vec3 v = normalize(vView);
+  if (!gl_FrontFacing) n = -n;
+
+  vec3 a = texture2D(uTexA, cover(vUv, uAspA)).rgb;
+  vec3 b = texture2D(uTexB, cover(vUv, uAspB)).rgb;
+
+  /* the print head: a lit band sweeps across and lays the next product down */
+  float head = uMix * 1.34 - 0.17;
+  float t = 1.0 - smoothstep(head - 0.13, head + 0.13, vUv.x);
+  vec3 col = mix(a, b, t);
+  float band = exp(-pow((vUv.x - head) / 0.032, 2.0)) * step(0.0001, uMix) * step(uMix, 0.9999);
+
+  vec3 L1 = normalize(vec3(-0.42, 0.66, 0.86));
+  vec3 L2 = normalize(vec3( 0.78,-0.24, 0.52));
+  col *= 0.58 + 0.52*max(dot(n,L1),0.0) + 0.16*max(dot(n,L2),0.0);
+
+  vec3 h = normalize(L1 + v);
+  col += vec3(1.0) * pow(max(dot(n,h),0.0), 42.0) * (0.22 + 0.55*uGloss);
+
+  /* the rim light rides the cut edge, the way it does on the real pieces */
+  vec2 ed = min(vUv, 1.0 - vUv);
+  float edge = 1.0 - smoothstep(0.0, 0.030, min(ed.x, ed.y));
+  float fr = pow(1.0 - max(dot(n,v),0.0), 3.4);
+  col += uRim * (edge * 0.55 + fr * 0.18) * uGlow;
+  col += uRim * band * 1.15;
+
+  float vig = 1.0 - 0.20 * length((vUv - 0.5) * vec2(1.0, 0.9));
+  col *= vig;
+
+  float alpha = uOpacity;
+#ifdef REFLECT
+  col *= 0.28;
+  alpha *= 0.22 * (1.0 - smoothstep(0.0, 0.45, vUv.y));
+#endif
+  gl_FragColor = vec4(col, alpha);
+  #include <colorspace_fragment>
+}`;
+
+const HALO_FRAG = `
+uniform vec3 uRim; uniform float uGlow, uOpacity;
+varying vec2 vUv;
+void main(){
+  float d = length((vUv - 0.5) * vec2(1.05, 1.45));
+  float g = 1.0 - smoothstep(0.0, 0.52, d);
+  gl_FragColor = vec4(uRim, g*g * uGlow * 0.42 * uOpacity);
+  #include <colorspace_fragment>
+}`;
+
+const GRID_FRAG = `
+uniform float uTime, uOp; varying vec2 vUv;
+void main(){
+  vec2 g = vUv * 54.0;
+  g.y += uTime * 1.15;
+  vec2 f = abs(fract(g) - 0.5);
+  float line = min(f.x, f.y);
+  float w = max(fwidth(g.x), fwidth(g.y));
+  float l = 1.0 - smoothstep(0.0, w * 1.5, line);
+  float d = length(vUv - 0.5) * 2.0;
+  float fade = 1.0 - smoothstep(0.10, 1.05, d);
+  vec3 c = mix(vec3(1.0, 0.176, 0.584), vec3(0.145, 0.847, 0.941), clamp(vUv.y * 1.15, 0.0, 1.0));
+  gl_FragColor = vec4(c, l * fade * uOp * 0.52);
+  #include <colorspace_fragment>
+}`;
+const PASS_VERT = `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`;
+
+/* -- 5. the main stage ---------------------------------------------------- */
+const PLANE_W = 3.42, PLANE_H = 2.00, FLOOR_Y = -1.62, MIRROR_Y = -1.02;
+let main = null;
+
+function makeFaceUniforms(THREE, blank){
+  return {
+    uTexA:{value:blank}, uTexB:{value:blank},
+    uAspA:{value:1.8}, uAspB:{value:1.8}, uPlaneAsp:{value:PLANE_W/PLANE_H},
+    uMix:{value:0}, uTime:{value:0}, uBend:{value:0}, uCurl:{value:0},
+    uGlow:{value:0.6}, uGloss:{value:0.5}, uOpacity:{value:1},
+    uRim:{value:new THREE.Color(0xFF2D95).convertSRGBToLinear()},
+    uSize:{value:new THREE.Vector2(PLANE_W, PLANE_H)}
+  };
+}
+
+function buildStage(THREE, textures){
+  const canvas = document.getElementById("gl-main");
+  const renderer = new THREE.WebGLRenderer({ canvas:canvas, antialias:true, alpha:true, powerPreference:"high-performance" });
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.75));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 120);
+  camera.position.set(0, 0.18, 7.6);
+
+  const U = makeFaceUniforms(THREE, textures[0].tex);
+  U.uTexA.value = textures[0].tex; U.uTexB.value = textures[1].tex;
+  U.uAspA.value = textures[0].asp; U.uAspB.value = textures[1].asp;
+
+  const geo = new THREE.PlaneGeometry(PLANE_W, PLANE_H, 96, 56);
+  const faceMat = new THREE.ShaderMaterial({ uniforms:U, vertexShader:VERT, fragmentShader:FRAG,
+    transparent:true, side:THREE.DoubleSide });
+  const face = new THREE.Mesh(geo, faceMat);
+
+  const slabMat = new THREE.MeshStandardMaterial({ color:0x090b10, metalness:0.4, roughness:0.12,
+    transparent:true, opacity:0.9, emissive:new THREE.Color(0xFF2D95), emissiveIntensity:0.08 });
+  const slab = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), slabMat);
+  slab.scale.set(PLANE_W * 0.995, PLANE_H * 0.995, 0.08);
+
+  const haloMat = new THREE.ShaderMaterial({ uniforms:U, vertexShader:PASS_VERT, fragmentShader:HALO_FRAG,
+    transparent:true, blending:THREE.AdditiveBlending, depthWrite:false });
+  const halo = new THREE.Mesh(new THREE.PlaneGeometry(PLANE_W * 2.1, PLANE_H * 2.3), haloMat);
+  halo.position.z = -0.5;
+
+  const obj = new THREE.Group();
+  obj.add(halo); obj.add(slab); obj.add(face);
+
+  /* mirrored copy, so the piece sits on something */
+  const reflMat = new THREE.ShaderMaterial({ uniforms:U, vertexShader:VERT, fragmentShader:FRAG,
+    defines:{ REFLECT:1 }, transparent:true, depthWrite:false, side:THREE.DoubleSide });
+  const objR = new THREE.Group();
+  objR.add(new THREE.Mesh(geo, reflMat));
+  const mirror = new THREE.Group();
+  mirror.scale.set(1, -1, 1);
+  mirror.position.y = 2 * MIRROR_Y;
+  mirror.add(objR);
+
+  const gridU = { uTime:{value:0}, uOp:{value:1} };
+  const grid = new THREE.Mesh(new THREE.PlaneGeometry(70, 70),
+    new THREE.ShaderMaterial({ uniforms:gridU, vertexShader:PASS_VERT, fragmentShader:GRID_FRAG,
+      transparent:true, depthWrite:false, blending:THREE.AdditiveBlending }));
+  grid.rotation.x = -Math.PI / 2;
+  grid.position.set(0, FLOOR_Y - 0.04, -14);
+
+  /* dust */
+  const dotC = document.createElement("canvas"); dotC.width = dotC.height = 48;
+  const dx = dotC.getContext("2d");
+  const dg = dx.createRadialGradient(24,24,0,24,24,24);
+  dg.addColorStop(0,"rgba(255,255,255,1)"); dg.addColorStop(1,"rgba(255,255,255,0)");
+  dx.fillStyle = dg; dx.fillRect(0,0,48,48);
+  const dotTex = new THREE.CanvasTexture(dotC);
+  const pn = 240, pos = new Float32Array(pn * 3);
+  for (let i = 0; i < pn; i++){
+    pos[i*3]   = (Math.random() - 0.5) * 22;
+    pos[i*3+1] = (Math.random() - 0.5) * 11;
+    pos[i*3+2] = (Math.random() - 0.5) * 12 - 2;
+  }
+  const pg = new THREE.BufferGeometry();
+  pg.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  const dust = new THREE.Points(pg, new THREE.PointsMaterial({ size:0.052, map:dotTex, transparent:true,
+    opacity:0.5, depthWrite:false, blending:THREE.AdditiveBlending, color:0x9fd8ff }));
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+  const key = new THREE.DirectionalLight(0xffffff, 1.5); key.position.set(-3, 4, 5); scene.add(key);
+  const p1 = new THREE.PointLight(0xFF2D95, 26, 22); p1.position.set(-3.4, 1.4, 2.6); scene.add(p1);
+  const p2 = new THREE.PointLight(0x25D8F0, 22, 22); p2.position.set( 3.6,-1.2, 2.2); scene.add(p2);
+
+  scene.add(grid, dust, mirror, obj);
+
+  function resize(){
+    const w = window.innerWidth, h = window.innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  resize();
+  window.addEventListener("resize", resize, { passive:true });
+
+  return { renderer, scene, camera, U, obj, objR, slab, slabMat, grid, gridU, dust, p1, p2, resize, THREE };
+}
+
+/* -- 6. texture loading --------------------------------------------------- */
+async function loadTextures(THREE){
+  const loader = new THREE.TextureLoader();
+  const out = new Array(N);
+  let done = 0;
+  function bump(){ done++; preBar.style.width = Math.round(done / N * 92) + "%"; }
+
+  await Promise.all(PRODUCTS.map(function(p, i){
+    if (p.img.indexOf("generated:") === 0){
+      const c = sheet();
+      const t = new THREE.CanvasTexture(c);
+      t.colorSpace = THREE.SRGBColorSpace;
+      t.anisotropy = 8;
+      out[i] = { tex:t, asp:c.width / c.height };
+      bump();
+      return Promise.resolve();
+    }
+    return new Promise(function(res){
+      loader.load(p.img, function(t){
+        t.colorSpace = THREE.SRGBColorSpace;
+        t.anisotropy = 8;
+        out[i] = { tex:t, asp:(t.image.width || 16) / (t.image.height || 9) };
+        bump(); res();
+      }, undefined, function(){
+        const c = document.createElement("canvas"); c.width = 16; c.height = 9;
+        const cx = c.getContext("2d"); cx.fillStyle = "#14171F"; cx.fillRect(0,0,16,9);
+        const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+        out[i] = { tex:t, asp:16/9 }; bump(); res();
+      });
+    });
+  }));
+  return out;
+}
+
+/* -- 7. drive it from the scroll position --------------------------------- */
+const lerp = function(a,b,t){ return a + (b - a) * t; };
+const smooth = function(t){ return t * t * (3 - 2 * t); };
+
+/* how wide the piece may be before it runs off a narrow screen */
+function fitScale(share){
+  const halfH = Math.tan((34 * Math.PI) / 360) * 7.6;
+  const halfW = halfH * Math.max(0.35, M.vw / Math.max(1, M.vh));
+  return clamp((halfW * share) / (PLANE_W / 2), 0.42, 1.08);
+}
+function heroPose(){
+  const mob = M.vw < 900;
+  return mob
+    ? { x:0.0,  y:1.16, z:0.0, s:fitScale(0.92), rx:-0.30, ry:0.38, rz:-0.03 }
+    : { x:1.06, y:0.42, z:0.6, s:Math.min(1.06, fitScale(1.5)), rx:-0.26, ry:0.46, rz:-0.05 };
+}
+function catAnchor(){
+  const mob = M.vw < 900;
+  return mob
+    ? { x:0.0,  y:1.22, z:0.0, s:fitScale(0.94) }
+    : { x:1.46, y:0.12, z:0.0, s:Math.min(0.94, fitScale(1.42)) };
+}
+
+function runStage(S){
+  const THREE = S.THREE;
+  const clock = new THREE.Clock();
+  const rimA = new THREE.Color(), rimB = new THREE.Color(), rimC = new THREE.Color();
+  const cols = PRODUCTS.map(function(p){ return new THREE.Color(p.acc); });
+  const mouse = { x:0, y:0, tx:0, ty:0 };
+  let visible = true, idxA = 0;
+
+  new IntersectionObserver(function(e){
+    visible = e[0].isIntersecting;
+    document.getElementById("gl-main").classList.toggle("live", visible);
+  }, { threshold:0 }).observe(document.querySelector(".stage-wrap"));
+
+  if (SC.fine) window.addEventListener("pointermove", function(e){
+    mouse.tx = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouse.ty = (e.clientY / window.innerHeight - 0.5) * 2;
+  }, { passive:true });
+
+  /* the pose we are heading for, recomputed on scroll */
+  const T = { x:0, y:0, z:0, s:1, rx:0, ry:0, rz:0, bend:0, curl:0, thick:0.05, glow:0.6, gloss:0.5, gridOp:1, op:1 };
+  const Cur = Object.assign({}, T);
+  let first = true;
+
+  function computeTargets(y){
+    const hp = heroPose(), ca = catAnchor();
+    const travel = clamp(y / Math.max(1, M.catTop), 0, 1);
+    const te = ease(travel);
+
+    const c = catProgress(y);
+    const i = c.i, t = c.t, ts = smooth(t);
+
+    const a = PRODUCTS[i], b = PRODUCTS[i + 1];
+
+    if (i !== idxA){
+      idxA = i;
+      S.U.uTexA.value = TEX[i].tex;   S.U.uAspA.value = TEX[i].asp;
+      S.U.uTexB.value = TEX[i+1].tex; S.U.uAspB.value = TEX[i+1].asp;
+    }
+    S.U.uMix.value = clamp((t - 0.30) / 0.40, 0, 1);
+
+    const cRx = lerp(a.pose.rx, b.pose.rx, ts);
+    const cRy = lerp(a.pose.ry, b.pose.ry, ts);
+    const cS  = lerp(a.pose.s,  b.pose.s,  ts);
+
+    const dirMul = document.body.dir === "rtl" ? -1 : 1;
+    T.x  = lerp(hp.x, ca.x, te) * dirMul;
+    T.y  = lerp(hp.y, ca.y, te);
+    T.z  = lerp(hp.z, 0,    te);
+    T.s  = lerp(hp.s, ca.s * cS, te);
+    T.rx = lerp(hp.rx, cRx, te);
+    T.ry = lerp(hp.ry, cRy, te) * dirMul;
+    T.rz = lerp(hp.rz, 0, te) * dirMul;
+
+    T.bend  = lerp(0.55, lerp(a.bend, b.bend, ts), te);
+    T.curl  = lerp(0.0,  lerp(a.curl, b.curl, ts), te);
+    T.thick = lerp(0.03, lerp(a.thick, b.thick, ts), te);
+    T.glow  = lerp(0.6,  lerp(a.glow, b.glow, ts), te);
+    T.gloss = lerp(0.5,  a.thick > 0.04 ? 0.95 : 0.35, te);
+    T.gridOp = (1 - te) * 0.9 + 0.12;
+    T.op = 1;
+
+    rimA.copy(cols[i]); rimB.copy(cols[i + 1]);
+    rimC.copy(rimA).lerp(rimB, ts);
+
+    return te;
+  }
+
+  let curTe = 0;
+  SC.onScroll(function(y){ curTe = computeTargets(y); });
+  computeTargets(window.scrollY);
+  document.addEventListener("langchange", function(){
+    requestAnimationFrame(function(){ SC.measure(); computeTargets(window.scrollY); SC.requestFrame(); });
+  });
+
+  const tmp = new THREE.Color();
+  function tick(){
+    requestAnimationFrame(tick);
+    if (!visible) return;
+    const dt = Math.min(clock.getDelta(), 0.05);
+    const now = clock.elapsedTime;
+    const k = first ? 1 : Math.min(1, dt * 6.5);
+    first = false;
+
+    for (const key in T) Cur[key] = lerp(Cur[key], T[key], k);
+
+    mouse.x = lerp(mouse.x, mouse.tx, Math.min(1, dt * 3));
+    mouse.y = lerp(mouse.y, mouse.ty, Math.min(1, dt * 3));
+    const par = 1 - curTe * 0.62;
+
+    S.obj.position.set(Cur.x, Cur.y + Math.sin(now * 0.62) * 0.048, Cur.z);
+    S.obj.rotation.set(
+      Cur.rx + mouse.y * 0.10 * par + Math.sin(now * 0.44) * 0.014,
+      Cur.ry + mouse.x * 0.17 * par * (document.body.dir === "rtl" ? -1 : 1) + Math.sin(now * 0.31) * 0.030,
+      Cur.rz + Math.sin(now * 0.27) * 0.010
+    );
+    S.obj.scale.setScalar(Cur.s);
+
+    S.objR.position.copy(S.obj.position);
+    S.objR.rotation.copy(S.obj.rotation);
+    S.objR.scale.copy(S.obj.scale);
+
+    const th = Math.max(0.010, Cur.thick * 2.2);
+    S.slab.scale.set(PLANE_W * (0.968 - Cur.bend * 0.14), PLANE_H * (0.962 - Cur.bend * 0.03), th);
+    S.slab.position.z = -th / 2 + 0.008;
+    S.slabMat.opacity = 0.06 + clamp((Cur.thick - 0.018) / 0.055, 0, 1) * 0.86;
+
+    S.U.uTime.value = now;
+    S.U.uBend.value = Cur.bend;
+    S.U.uCurl.value = Cur.curl;
+    S.U.uGlow.value = Cur.glow;
+    S.U.uGloss.value = Cur.gloss;
+    S.U.uOpacity.value = Cur.op;
+    S.U.uRim.value.copy(rimC).convertSRGBToLinear();
+
+    S.slabMat.emissive.copy(rimC).convertSRGBToLinear();
+    S.slabMat.emissiveIntensity = 0.04 + Cur.glow * 0.16;
+
+    S.gridU.uTime.value = now;
+    S.gridU.uOp.value = Cur.gridOp;
+
+    S.p1.color.copy(tmp.copy(rimC).convertSRGBToLinear());
+    S.p1.position.x = -3.4 + Math.sin(now * 0.4) * 0.5;
+    S.p2.position.y = -1.2 + Math.cos(now * 0.33) * 0.5;
+
+    S.dust.rotation.y = now * 0.012;
+    S.dust.position.y = Math.sin(now * 0.18) * 0.28;
+
+    S.renderer.render(S.scene, S.camera);
+  }
+  tick();
+}
+
+/* -- 8. the live preview canvas ------------------------------------------- */
+const ST_PRODUCTS = [
+  { key:"mat",   en:"Desk mat",     ar:"مفرش مكتب",   size:"90×40",  bend:1.0,  thick:0.02,  gloss:0.30, glow:0.55, rx:-0.55, acc:"#FF2D95" },
+  { key:"pad",   en:"Mousepad",     ar:"ماوس باد",    size:"30×25",  bend:0.85, thick:0.03,  gloss:0.30, glow:0.50, rx:-0.50, acc:"#FF2D95" },
+  { key:"sign",  en:"Acrylic sign", ar:"لافتة أكريليك", size:"20×15", bend:0.0,  thick:0.11,  gloss:0.98, glow:1.10, rx:-0.06, acc:"#25D8F0" },
+  { key:"panel", en:"Wall panel",   ar:"لوحة حائط",   size:"60×40",  bend:0.0,  thick:0.055, gloss:0.92, glow:0.60, rx:-0.04, acc:"#8B5CF6" }
+];
+const ST_ARTS = [
+  { src:"assets/setup-crafted/desk-mat-neon.webp",  label:"Retrowave" },
+  { src:"assets/setup-crafted/mousepad-esports.webp", label:"Esports crest" },
+  { src:"assets/setup-crafted/panel-porsche.webp",  label:"Night street" },
+  { src:"assets/setup-crafted/panel-alpine.webp",   label:"Watercolour map" }
+];
+
+function buildStudio(THREE){
+  const wrap = document.getElementById("stWrap");
+  const canvas = document.getElementById("gl-studio");
+  const prodsEl = document.getElementById("stProds");
+  const artsEl = document.getElementById("stArts");
+  const fileEl = document.getElementById("stFile");
+  const labelEl = document.getElementById("stLabel");
+
+  const renderer = new THREE.WebGLRenderer({ canvas:canvas, antialias:true, alpha:true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.75));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 60);
+  camera.position.set(0, 0.1, 7.2);
+
+  const blank = (function(){
+    const c = document.createElement("canvas"); c.width = 32; c.height = 18;
+    const g = c.getContext("2d").createLinearGradient(0,0,32,18);
+    g.addColorStop(0,"#1a1f2b"); g.addColorStop(1,"#2b3346");
+    const cx = c.getContext("2d"); cx.fillStyle = g; cx.fillRect(0,0,32,18);
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+  })();
+
+  const U = makeFaceUniforms(THREE, blank);
+  U.uMix.value = 0;
+  const geo = new THREE.PlaneGeometry(PLANE_W, PLANE_H, 84, 48);
+  const face = new THREE.Mesh(geo, new THREE.ShaderMaterial({ uniforms:U, vertexShader:VERT,
+    fragmentShader:FRAG, transparent:true, side:THREE.DoubleSide }));
+  const slabMat = new THREE.MeshStandardMaterial({ color:0x0a0c11, metalness:0.35, roughness:0.14,
+    transparent:true, opacity:0.9, emissive:new THREE.Color(0xFF2D95), emissiveIntensity:0.08 });
+  const slab = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), slabMat);
+  const halo = new THREE.Mesh(new THREE.PlaneGeometry(PLANE_W*2.0, PLANE_H*2.2),
+    new THREE.ShaderMaterial({ uniforms:U, vertexShader:PASS_VERT, fragmentShader:HALO_FRAG,
+      transparent:true, blending:THREE.AdditiveBlending, depthWrite:false }));
+  halo.position.z = -0.5;
+
+  const obj = new THREE.Group(); obj.add(halo, slab, face);
+  const objR = new THREE.Group();
+  objR.add(new THREE.Mesh(geo, new THREE.ShaderMaterial({ uniforms:U, vertexShader:VERT,
+    fragmentShader:FRAG, defines:{REFLECT:1}, transparent:true, depthWrite:false, side:THREE.DoubleSide })));
+  const mirror = new THREE.Group(); mirror.scale.set(1,-1,1); mirror.position.y = 2 * (-1.42); mirror.add(objR);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  const key = new THREE.DirectionalLight(0xffffff, 1.4); key.position.set(-3, 4, 5); scene.add(key);
+  const pl = new THREE.PointLight(0xFF2D95, 18, 20); pl.position.set(-3, 1.2, 2.4); scene.add(pl);
+  scene.add(mirror, obj);
+
+  let prod = ST_PRODUCTS[0];
+  const state = { ry:0.34, rx:-0.55, drag:false, lastX:0, lastY:0, vel:0.0016, auto:true };
+  const Tg = { bend:prod.bend, thick:prod.thick, gloss:prod.gloss, glow:prod.glow, rx:prod.rx };
+  const Cu = Object.assign({}, Tg);
+  const rim = new THREE.Color(prod.acc);
+
+  function setProduct(p){
+    prod = p; Tg.bend = p.bend; Tg.thick = p.thick; Tg.gloss = p.gloss; Tg.glow = p.glow; Tg.rx = p.rx;
+    rim.set(p.acc);
+    const L = SC.getLang();
+    labelEl.innerHTML = (L === "en" ? p.en : p.ar) + ' · <span class="ltr">' + p.size + "</span>";
+    Array.prototype.forEach.call(prodsEl.children, function(b){ b.classList.toggle("on", b.dataset.key === p.key); });
+  }
+  function renderProdButtons(){
+    const L = SC.getLang();
+    prodsEl.innerHTML = ST_PRODUCTS.map(function(p){
+      return '<button data-key="' + p.key + '"' + (p.key === prod.key ? ' class="on"' : "") + ">" + (L === "en" ? p.en : p.ar) + "</button>";
+    }).join("");
+    Array.prototype.forEach.call(prodsEl.children, function(b){
+      b.addEventListener("click", function(){
+        setProduct(ST_PRODUCTS.filter(function(p){ return p.key === b.dataset.key; })[0]);
+      });
+    });
+    setProduct(prod);
+  }
+  renderProdButtons();
+  document.addEventListener("langchange", renderProdButtons);
+
+  const loader = new THREE.TextureLoader();
+  function useTexture(t, asp){
+    U.uTexA.value = t; U.uAspA.value = asp;
+    U.uTexB.value = t; U.uAspB.value = asp; U.uMix.value = 0;
+  }
+  function selectArt(btn){
+    Array.prototype.forEach.call(artsEl.querySelectorAll(".st-art"), function(b){ b.classList.toggle("on", b === btn); });
+  }
+  ST_ARTS.forEach(function(a, i){
+    const b = document.createElement("button");
+    b.className = "st-art" + (i === 0 ? " on" : "");
+    b.title = a.label;
+    b.innerHTML = '<img src="' + a.src + '" alt="' + a.label + '" loading="lazy" />';
+    b.addEventListener("click", function(){
+      loader.load(a.src, function(t){
+        t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+        useTexture(t, t.image.width / t.image.height); selectArt(b);
+      });
+    });
+    artsEl.insertBefore(b, document.getElementById("stUploadBtn"));
+    if (i === 0) loader.load(a.src, function(t){
+      t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+      useTexture(t, t.image.width / t.image.height);
+    });
+  });
+
+  function readFile(file){
+    if (!file || !/^image\//.test(file.type)) return;
+    const fr = new FileReader();
+    fr.onload = function(){
+      const im = new Image();
+      im.onload = function(){
+        const t = new THREE.Texture(im);
+        t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; t.needsUpdate = true;
+        useTexture(t, im.width / im.height);
+        let own = artsEl.querySelector(".st-art.own");
+        if (!own){
+          own = document.createElement("button");
+          own.className = "st-art own";
+          own.innerHTML = "<img alt='Your artwork' />";
+          artsEl.insertBefore(own, document.getElementById("stUploadBtn"));
+          own.addEventListener("click", function(){ useTexture(t, im.width / im.height); selectArt(own); });
+        }
+        own.querySelector("img").src = fr.result;
+        selectArt(own);
+      };
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  }
+  document.getElementById("stUploadBtn").addEventListener("click", function(){ fileEl.click(); });
+  fileEl.addEventListener("change", function(){ readFile(fileEl.files[0]); });
+  ["dragenter","dragover"].forEach(function(ev){
+    wrap.addEventListener(ev, function(e){ e.preventDefault(); wrap.classList.add("dragging"); });
+  });
+  ["dragleave","drop"].forEach(function(ev){
+    wrap.addEventListener(ev, function(e){ e.preventDefault(); wrap.classList.remove("dragging"); });
+  });
+  wrap.addEventListener("drop", function(e){ readFile(e.dataTransfer.files[0]); });
+
+  canvas.addEventListener("pointerdown", function(e){
+    state.drag = true; state.auto = false; state.lastX = e.clientX; state.lastY = e.clientY;
+    canvas.setPointerCapture(e.pointerId);
+  });
+  canvas.addEventListener("pointermove", function(e){
+    if (!state.drag) return;
+    const dx = e.clientX - state.lastX, dy = e.clientY - state.lastY;
+    state.lastX = e.clientX; state.lastY = e.clientY;
+    state.ry += dx * 0.007; state.vel = dx * 0.0007;
+    state.rx = clamp(state.rx - dy * 0.005, -1.15, 0.45);
+  });
+  ["pointerup","pointercancel","pointerleave"].forEach(function(ev){
+    canvas.addEventListener(ev, function(){ state.drag = false; });
+  });
+
+  function resize(){
+    const r = canvas.getBoundingClientRect();
+    if (!r.width) return;
+    renderer.setSize(r.width, r.height, false);
+    camera.aspect = r.width / r.height; camera.updateProjectionMatrix();
+    camera.position.z = r.width < 520 ? 8.6 : 7.2;
+  }
+  resize();
+  window.addEventListener("resize", resize, { passive:true });
+
+  let live = false;
+  new IntersectionObserver(function(e){ live = e[0].isIntersecting; if (live) resize(); },
+    { threshold:0.05 }).observe(wrap);
+
+  const clock = new THREE.Clock();
+  const tmp2 = new THREE.Color();
+  (function loop(){
+    requestAnimationFrame(loop);
+    if (!live) return;
+    const dt = Math.min(clock.getDelta(), 0.05), now = clock.elapsedTime;
+    const k = Math.min(1, dt * 5);
+    for (const key in Tg) Cu[key] = lerp(Cu[key], Tg[key], k);
+
+    if (!state.drag){ state.ry += state.vel; state.vel *= 0.94;
+      if (state.auto) state.ry += 0.0022; state.rx = lerp(state.rx, Cu.rx, Math.min(1, dt * 2)); }
+
+    obj.rotation.set(state.rx + Math.sin(now * 0.5) * 0.012, state.ry, Math.sin(now * 0.31) * 0.012);
+    obj.position.y = Math.sin(now * 0.6) * 0.05;
+    obj.scale.setScalar(1.02);
+    objR.position.copy(obj.position); objR.rotation.copy(obj.rotation); objR.scale.copy(obj.scale);
+
+    const th = Math.max(0.010, Cu.thick * 2.2);
+    slab.scale.set(PLANE_W * (0.968 - Cu.bend * 0.14), PLANE_H * (0.962 - Cu.bend * 0.03), th);
+    slab.position.z = -th / 2 + 0.008;
+    slabMat.opacity = 0.06 + clamp((Cu.thick - 0.018) / 0.055, 0, 1) * 0.86;
+
+    U.uTime.value = now; U.uBend.value = Cu.bend; U.uCurl.value = 0;
+    U.uGlow.value = Cu.glow; U.uGloss.value = Cu.gloss;
+    U.uRim.value.copy(rim).convertSRGBToLinear();
+    slabMat.emissive.copy(tmp2.copy(rim).convertSRGBToLinear());
+    slabMat.emissiveIntensity = 0.04 + Cu.glow * 0.16;
+    pl.color.copy(tmp2.copy(rim).convertSRGBToLinear());
+
+    renderer.render(scene, camera);
+  })();
+}
+
+/* -- 9. go ---------------------------------------------------------------- */
+let TEX = null;
+if (THREE) {
+  try {
+    preTxt.textContent = SC.getLang() === "ar" ? "بنجهّز المطبعة" : "Preparing the press";
+    TEX = await loadTextures(THREE);
+    const stage = buildStage(THREE, TEX);
+    SC.measure();
+    runStage(stage);
+    buildStudio(THREE);
+    closePre();
+    SC.requestFrame();
+  } catch (err) {
+    console.error("stage failed", err);
+    noGL();
+  }
+}
+window.addEventListener("load", function(){ SC.measure(); SC.requestFrame(); });
+setTimeout(function(){ preEl.classList.add("done"); }, 8000);
+</script>
+
+</body>
+</html>
