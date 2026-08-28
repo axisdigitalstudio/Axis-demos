@@ -123,7 +123,7 @@ body[dir="rtl"] .eyebrow{letter-spacing:normal;}
   color:#fff;font-size:.7rem;display:grid;place-items:center;font-family:var(--body);font-weight:700;}
 
 /* ---------- studio ----------------------------------------------------- */
-.studio{padding:30px 0 var(--sec);}
+.studio{padding:30px 0 var(--sec);scroll-margin-top:72px;}
 .studio-head{text-align:center;}
 .studio h1{font-size:clamp(1.7rem,4.6vw,2.7rem);margin:10px 0 0;letter-spacing:-.038em;}
 .studio h1 em{font-style:normal;background:linear-gradient(92deg,var(--mg),var(--vi) 52%,var(--cy));
@@ -136,16 +136,12 @@ body[dir="rtl"] .eyebrow{letter-spacing:normal;}
 @media(min-width:700px){.stage-wrap{height:min(36svh,320px);max-width:660px;margin-inline:auto;}}
 #gl{width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab;}
 #gl:active{cursor:grabbing;}
-.stage-photo{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .35s var(--ease);}
-.stage-photo.on{opacity:1;}
-.stage-photo img{width:100%;height:100%;object-fit:cover;}
 .stage-drop{position:absolute;inset:10px;border-radius:12px;display:grid;place-items:center;
   border:2px dashed var(--ink);background:rgba(255,255,255,.74);opacity:0;pointer-events:none;
   transition:opacity .22s;color:var(--ink);font-family:var(--display);font-weight:600;}
 .stage-wrap.dragging .stage-drop{opacity:1;}
 .stage-hint{position:absolute;top:10px;inset-inline-end:12px;padding:5px 10px;border-radius:999px;
   background:rgba(255,255,255,.6);font-size:.66rem;font-weight:500;color:rgba(20,22,26,.6);pointer-events:none;}
-.stage-photo.on ~ .stage-hint{display:none;}
 .stage-fallback{position:absolute;inset:0;display:none;place-items:center;padding:24px;text-align:center;
   color:rgba(20,22,26,.62);font-size:.9rem;}
 .no-gl .stage-fallback{display:grid;}
@@ -163,15 +159,7 @@ body[dir="rtl"] .eyebrow{letter-spacing:normal;}
 .chips button svg{width:15px;height:15px;flex:none;opacity:.7;}
 .chips button.on svg{opacity:1;}
 
-/* upload / ready-made switch */
-.modes{display:flex;gap:4px;margin:16px auto 0;padding:4px;width:min(100%,400px);
-  background:rgba(20,22,26,.05);border-radius:999px;}
-.modes button{flex:1;padding:10px 12px;border-radius:999px;font-size:.88rem;font-weight:600;
-  font-family:var(--display);color:var(--mute);transition:.24s var(--ease);}
-.modes button.on{background:var(--card);color:var(--ink);box-shadow:0 2px 8px rgba(20,22,26,.1);}
-
 .pane{margin-top:14px;}
-.pane[hidden]{display:none;}
 .up-row{display:flex;flex-direction:column;align-items:center;gap:9px;}
 .up-note{font-size:.78rem;color:var(--mute);text-align:center;}
 .up-note b{color:var(--ink-2);font-weight:600;}
@@ -181,18 +169,6 @@ body[dir="rtl"] .eyebrow{letter-spacing:normal;}
 .file-chip b{font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px;}
 .file-chip button{color:var(--mute);display:grid;place-items:center;}
 .file-chip button:hover{color:var(--accent);}
-
-/* ready-made picker inside the configurator */
-.picker{display:flex;gap:9px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:none;}
-.picker::-webkit-scrollbar{display:none;}
-@media(min-width:700px){.picker{flex-wrap:wrap;justify-content:center;overflow:visible;}}
-.pick{flex:none;width:84px;border-radius:12px;overflow:hidden;border:2px solid transparent;
-  background:var(--card);transition:.2s var(--ease);padding:0;}
-.pick img{width:84px;height:84px;object-fit:cover;}
-.pick span{display:block;padding:5px 4px 6px;font-size:.64rem;line-height:1.25;color:var(--mute);
-  text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.pick.on{border-color:var(--mg);box-shadow:0 0 0 3px rgba(236,0,140,.16);}
-.pick.on span{color:var(--ink);font-weight:600;}
 
 /* ---------- option chips (size / model) --------------------------------- */
 .opts{margin-top:16px;}
@@ -370,7 +346,7 @@ body[dir="rtl"] .drawer{transform:translateX(-110%);}
   .why-card,.step{transform:none !important;}
 }
 </style>
-<noscript><style>.stage-wrap,.chips,.modes,.pane,.opts,.buy,.cartbtn{display:none;}.rise{opacity:1;transform:none;}</style></noscript>
+<noscript><style>.stage-wrap,.chips,.pane,.opts,.buy,.cartbtn{display:none;}.rise{opacity:1;transform:none;}</style></noscript>
 </head>
 <body>
 
@@ -398,24 +374,18 @@ body[dir="rtl"] .drawer{transform:translateX(-110%);}
 <section class="studio" id="top">
   <div class="shell">
     <div class="studio-head">
-      <h1 data-en="Your design, or <em>ours</em>." data-ar="تصميمك، أو <em>تصميمنا</em>.">Your design, or <em>ours</em>.</h1>
-      <p class="sub" data-en="Upload your artwork, or pick one of ours." data-ar="ارفع تصميمك، أو اختر واحد من تصاميمنا.">Upload your artwork, or pick one of ours.</p>
+      <h1 data-en="Your design, <em>printed</em>." data-ar="تصميمك، <em>مطبوع</em>.">Your design, <em>printed</em>.</h1>
+      <p class="sub" data-en="Upload your artwork and see it on the product before you order." data-ar="ارفع تصميمك وشوفه على المنتج قبل ما تطلب.">Upload your artwork and see it on the product before you order.</p>
     </div>
 
     <div class="stage-wrap" id="stageWrap">
       <canvas id="gl"></canvas>
-      <div class="stage-photo" id="stagePhoto"><img id="stagePhotoImg" alt="" /></div>
       <div class="stage-drop"><span data-en="Drop your image" data-ar="اسحب صورتك هنا">Drop your image</span></div>
       <div class="stage-hint" data-en="Drag to rotate" data-ar="اسحب للتدوير">Drag to rotate</div>
       <div class="stage-fallback" data-en="Preview needs a newer browser." data-ar="المعاينة محتاجة متصفح أحدث.">Preview needs a newer browser.</div>
     </div>
 
     <div class="chips" id="chips" role="tablist" aria-label="Product"></div>
-
-    <div class="modes" role="tablist" aria-label="Design source">
-      <button id="modeUpload" class="on" data-en="Upload your design" data-ar="ارفع تصميمك">Upload your design</button>
-      <button id="modeReady" data-en="Ready-made designs" data-ar="تصاميم جاهزة">Ready-made designs</button>
-    </div>
 
     <div class="pane" id="paneUpload">
       <div class="up-row">
@@ -432,10 +402,6 @@ body[dir="rtl"] .drawer{transform:translateX(-110%);}
         </div>
         <p class="up-note" data-en="PNG or JPG. <b>Your file stays on your device</b> — you'll send it on WhatsApp with the order." data-ar="PNG أو JPG. <b>ملفك بيفضل على جهازك</b> — هتبعته على واتساب مع الطلب.">PNG or JPG. <b>Your file stays on your device</b> &mdash; you&rsquo;ll send it on WhatsApp with the order.</p>
       </div>
-    </div>
-
-    <div class="pane" id="paneReady" hidden>
-      <div class="picker" id="picker"></div>
     </div>
 
     <div class="opts" id="opts"></div>
@@ -489,7 +455,7 @@ body[dir="rtl"] .drawer{transform:translateX(-110%);}
     <div class="sec-head rise">
       <span class="eyebrow"><i></i><span data-en="Ready-made" data-ar="تصاميم جاهزة">Ready-made</span></span>
       <h2 data-en="Designs by Printora." data-ar="تصاميم من Printora.">Designs by Printora.</h2>
-      <p data-en="Tap one to put it on the product and pick your size." data-ar="اضغط على أي تصميم علشان تحطه على المنتج وتختار مقاسك.">Tap one to put it on the product and pick your size.</p>
+      <p data-en="A look at what we print. Tap one to jump to that product." data-ar="نماذج من شغلنا. اضغط على أي واحد علشان تروح للمنتج.">A look at what we print. Tap one to jump to that product.</p>
     </div>
     <div class="filters" id="filters"></div>
     <div class="dgrid" id="dgrid"></div>
@@ -593,11 +559,6 @@ const SIZES = [
 ];
 
 const DESIGNS = [
-  { id:"case-duck",           product:"phone",    en:"Don't Touch My Phone", ar:"Don't Touch My Phone" },
-  { id:"case-reality",        product:"phone",    en:"Create Your Own Reality", ar:"Create Your Own Reality" },
-  { id:"pad-keepgoing",       product:"mousepad", en:"Keep Going",        ar:"Keep Going" },
-  { id:"pad-flowers",         product:"mousepad", en:"Pink Blossom",      ar:"Pink Blossom" },
-  { id:"pad-cat",             product:"mousepad", en:"I'm OK",            ar:"I'm OK" },
   { id:"coaster-donut-pink",  product:"coaster",  en:"Pink Donut",        ar:"دوناتس بينك" },
   { id:"coaster-donut-white", product:"coaster",  en:"Sprinkles",         ar:"سبرينكلز" },
   { id:"coaster-watermelon",  product:"coaster",  en:"Watermelon",        ar:"بطيخ" },
@@ -620,7 +581,7 @@ const GOVS_AR = ["القاهرة","الجيزة","الإسكندرية","الق�
 
 /* -- state --------------------------------------------------------------- */
 let lang = "en";
-const state = { product:PRODUCTS[0], mode:"upload", design:null, model:MODELS[3].m, size:"A3", qty:1 };
+const state = { product:PRODUCTS[0], model:MODELS[3].m, size:"A3", qty:1 };
 let cart = [];
 try { cart = JSON.parse(localStorage.getItem("printora.cart") || "[]") || []; } catch (e) { cart = []; }
 const saveCart = function(){ try { localStorage.setItem("printora.cart", JSON.stringify(cart)); } catch (e) {} };
@@ -665,7 +626,7 @@ function applyLang(){
   });
   $("langEn").classList.toggle("on", lang === "en");
   $("langAr").classList.toggle("on", lang === "ar");
-  buildChips(); buildPicker(); buildOptions(); buildFilters(); buildGrid();
+  buildChips(); buildOptions(); buildFilters(); buildGrid();
   renderPrice(); renderCart();
   document.dispatchEvent(new CustomEvent("langchange"));
 }
@@ -684,54 +645,17 @@ function buildChips(){
     b.addEventListener("click", function(){ selectProduct(b.dataset.k); });
   });
 }
-function selectProduct(key, keepDesign){
+function selectProduct(key){
   const p = PRODUCTS.filter(function(x){ return x.key === key; })[0];
   if (!p) return;
   const changed = p.key !== state.product.key;
   state.product = p;
-  if (changed && !keepDesign) state.design = null;
   Array.prototype.forEach.call($("chips").children, function(o){
     const on = o.dataset.k === key;
     o.classList.toggle("on", on); o.setAttribute("aria-selected", on);
   });
-  buildPicker(); buildOptions(); renderPrice(); syncStage();
+  buildOptions(); renderPrice();
   if (changed && window.__flipTo) window.__flipTo(key);
-}
-
-function setMode(m){
-  state.mode = m;
-  $("modeUpload").classList.toggle("on", m === "upload");
-  $("modeReady").classList.toggle("on", m === "ready");
-  $("paneUpload").hidden = m !== "upload";
-  $("paneReady").hidden = m !== "ready";
-  syncStage();
-}
-$("modeUpload").addEventListener("click", function(){ setMode("upload"); });
-$("modeReady").addEventListener("click", function(){ setMode("ready"); });
-
-function buildPicker(){
-  const list = DESIGNS.filter(function(d){ return d.product === state.product.key; });
-  $("picker").innerHTML = list.map(function(d){
-    return '<button class="pick' + (state.design === d.id ? " on" : "") + '" data-id="' + d.id + '">' +
-      '<img src="' + designSrc(d.id) + '" alt="" loading="lazy" width="84" height="84" /><span>' + T(d) + "</span></button>";
-  }).join("");
-  Array.prototype.forEach.call($("picker").children, function(b){
-    b.addEventListener("click", function(){ pickDesign(b.dataset.id); });
-  });
-}
-function pickDesign(id){
-  state.design = id;
-  setMode("ready");
-  Array.prototype.forEach.call($("picker").children, function(o){
-    o.classList.toggle("on", o.dataset.id === id);
-  });
-  syncStage();
-}
-function syncStage(){
-  const show = state.mode === "ready" && state.design;
-  const box = $("stagePhoto");
-  if (show){ $("stagePhotoImg").src = designSrc(state.design); $("stagePhotoImg").alt = ""; }
-  box.classList.toggle("on", !!show);
 }
 
 /* the size swatch: each option draws its sheet at true relative scale */
@@ -789,7 +713,10 @@ $("qPlus").addEventListener("click", function(){ state.qty = Math.min(20, state.
 /* -- designs gallery ------------------------------------------------------ */
 let filter = "all";
 function buildFilters(){
-  const all = [{ key:"all", en:"All", ar:"الكل" }].concat(PRODUCTS);
+  const withDesigns = PRODUCTS.filter(function(p){
+    return DESIGNS.filter(function(d){ return d.product === p.key; }).length > 0;
+  });
+  const all = [{ key:"all", en:"All", ar:"الكل" }].concat(withDesigns);
   $("filters").innerHTML = all.map(function(p){
     return '<button data-k="' + p.key + '"' + (p.key === filter ? ' class="on"' : "") + ">" + T(p) + "</button>";
   }).join("");
@@ -808,14 +735,13 @@ function buildGrid(){
     return '<button class="dcard" data-id="' + d.id + '"><img src="' + designSrc(d.id) + '" alt="' + d.en +
       '" loading="lazy" width="1280" height="1280" /><div class="meta"><b>' + T(d) + "</b><span>" + T(p) + "</span>" +
       '<span class="from">' + (lang === "en" ? "From " : "من ") + egpH(lowestFor(d.product)) + "</span>" +
-      '<span class="tag">' + (lang === "en" ? "Choose &amp; order →" : "اختر واطلب ←") + "</span></div></button>";
+      '<span class="tag">' + (lang === "en" ? "See this product →" : "شوف المنتج ←") + "</span></div></button>";
   }).join("");
   Array.prototype.forEach.call($("dgrid").children, function(b){
     b.addEventListener("click", function(){
       const d = DESIGNS.filter(function(x){ return x.id === b.dataset.id; })[0];
       if (!d) return;
-      selectProduct(d.product, true);
-      pickDesign(d.id);
+      selectProduct(d.product);
       $("top").scrollIntoView({ behavior:"smooth" });
     });
   });
@@ -825,20 +751,16 @@ function buildGrid(){
 let uploadName = "";
 function addToCart(){
   const p = state.product;
-  if (state.mode === "ready" && !state.design){
-    toast(lang === "en" ? "Pick a design first" : "اختر تصميم الأول"); return;
-  }
-  if (state.mode === "upload" && !uploadName){
+  if (!uploadName){
     toast(lang === "en" ? "Choose your image first" : "اختر صورتك الأول");
     $("file").click(); return;
   }
   const variant = currentVariant();
-  const design = state.mode === "ready" ? state.design : null;
-  const key = [p.key, variant, design || "custom:" + uploadName].join("|");
+  const key = [p.key, variant, "custom:" + uploadName].join("|");
   const found = cart.filter(function(i){ return i.key === key; })[0];
   if (found) found.qty = Math.min(50, found.qty + state.qty);
-  else cart.push({ key:key, product:p.key, variant:variant, design:design,
-    file:design ? "" : uploadName, price:currentPrice(), qty:state.qty });
+  else cart.push({ key:key, product:p.key, variant:variant, design:null,
+    file:uploadName, price:currentPrice(), qty:state.qty });
   saveCart(); renderCart();
   toast(lang === "en" ? "Added to cart" : "تمت الإضافة للسلة");
   bump();
@@ -1019,9 +941,6 @@ $("fileClear").addEventListener("click", function(){
 });
 window.__onUpload = function(name){
   uploadName = name; $("fileName").textContent = name; $("fileChip").classList.add("on");
-  setMode("upload"); state.design = null;
-  Array.prototype.forEach.call($("picker").children, function(o){ o.classList.remove("on"); });
-  syncStage();
 };
 
 /* -- scroll chrome -------------------------------------------------------- */
@@ -1057,7 +976,7 @@ window.addEventListener("scroll", requestFrame, { passive:true });
 window.addEventListener("resize", requestFrame, { passive:true });
 
 window.PR = { getLang:function(){ return lang; }, state:state, reduced:reduced, requestFrame:requestFrame };
-applyLang(); setMode("upload"); requestFrame();
+applyLang(); requestFrame();
 })();
 </script>
 
