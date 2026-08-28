@@ -806,7 +806,7 @@ function buildGrid(){
   $("dgrid").innerHTML = list.map(function(d){
     const p = PRODUCTS.filter(function(x){ return x.key === d.product; })[0];
     return '<button class="dcard" data-id="' + d.id + '"><img src="' + designSrc(d.id) + '" alt="' + d.en +
-      '" loading="lazy" width="900" height="900" /><div class="meta"><b>' + T(d) + "</b><span>" + T(p) + "</span>" +
+      '" loading="lazy" width="1280" height="1280" /><div class="meta"><b>' + T(d) + "</b><span>" + T(p) + "</span>" +
       '<span class="from">' + (lang === "en" ? "From " : "من ") + egpH(lowestFor(d.product)) + "</span>" +
       '<span class="tag">' + (lang === "en" ? "Choose &amp; order →" : "اختر واطلب ←") + "</span></div></button>";
   }).join("");
