@@ -31,6 +31,7 @@
   --p1:#A3B87E; --p2:#D08A6E; --p3:#9A90C0; --p4:#E0AC6A;
   --p5:#69B4C0; --p6:#9AA5AE; --p7:#5FBF95; --p8:#E39BB4;
   --p9:#F0855C; --p10:#E5934F; --p11:#E85C4A; --p12:#E85BA4;
+  --p13:#7B93E8;
 }
 
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;background:#000;}
@@ -269,8 +270,8 @@ body.menu-open .mmenu-in{opacity:1;transform:translateY(0);}
 .pview svg{transition:transform .25s var(--out);}
 .pcard:hover .pview svg{transform:translateX(4px);}
 
-/* --- the twelve marks: one shape each, none reused --- */
-.m-plates,.m-arc,.m-bottle,.m-elev,.m-flow,.m-axis,.m-dial,.m-breath,.m-car,.m-dune,.m-frame,.m-print{position:absolute;inset:0;}
+/* --- the thirteen marks: one shape each, none reused --- */
+.m-plates,.m-arc,.m-bottle,.m-elev,.m-flow,.m-axis,.m-dial,.m-breath,.m-car,.m-dune,.m-frame,.m-print,.m-hanger{position:absolute;inset:0;}
 
 .m-plates i{position:absolute;left:0;height:7px;border-radius:2px;background:var(--p1);}
 .m-plates i:nth-child(1){top:16px;width:64px;opacity:.95;}
@@ -354,6 +355,13 @@ body.menu-open .mmenu-in{opacity:1;transform:translateY(0);}
 .m-print .reg::before,.m-print .reg::after{content:"";position:absolute;background:var(--p12);opacity:.75;}
 .m-print .reg::before{left:50%;top:-5px;width:1.4px;height:23px;transform:translateX(-50%);}
 .m-print .reg::after{top:50%;left:-5px;height:1.4px;width:23px;transform:translateY(-50%);}
+
+.m-hanger span{position:absolute;background:var(--p13);}
+.m-hanger .hook{background:none;left:31px;top:6px;width:17px;height:17px;border:1.8px solid var(--p13);
+  border-radius:50%;border-bottom-color:transparent;border-right-color:transparent;transform:rotate(45deg);opacity:.75;}
+.m-hanger .l{left:0;top:31px;width:42px;height:1.9px;border-radius:1px;transform-origin:100% 50%;transform:rotate(-30deg);opacity:.9;}
+.m-hanger .r{left:42px;top:31px;width:42px;height:1.9px;border-radius:1px;transform-origin:0 50%;transform:rotate(30deg);opacity:.9;}
+.m-hanger .bar{left:5px;top:55px;width:74px;height:1.9px;border-radius:1px;opacity:.6;}
 
 /* ============================================================ STUDIO */
 .studio{border-top:1px solid rgba(255,255,255,.08);}
@@ -565,10 +573,10 @@ body.menu-open .mmenu-in{opacity:1;transform:translateY(0);}
     <div class="p-head rise">
       <div>
         <span class="eyebrow">Projects</span>
-        <h2 class="h2">Twelve builds,<br/>twelve different problems.</h2>
+        <h2 class="h2">Thirteen builds,<br/>thirteen different problems.</h2>
         <p class="lede">Every demo below is a live, working site &mdash; not a screenshot. Each one solves something specific: filling a quiet weekday, justifying a price, getting the phone to ring.</p>
       </div>
-      <span class="p-count">12 live demos</span>
+      <span class="p-count">13 live demos</span>
     </div>
 
     <div class="pgrid">
@@ -705,6 +713,17 @@ body.menu-open .mmenu-in{opacity:1;transform:translateY(0);}
         </div>
       </a>
 
+      <a class="pcard rise" style="--accent:var(--p13)" href="https://axisdigitalstudio.github.io/Axis-demos/kestrel-supply.html" target="_blank" rel="noopener">
+        <div class="pcard-in">
+          <span class="pcard-glow"></span>
+          <div class="pmark"><div class="m-hanger"><span class="hook"></span><span class="l"></span><span class="r"></span><span class="bar"></span></div></div>
+          <h3>Kestrel Supply Co.</h3>
+          <p class="pcat">Clothing &amp; apparel &middot; E-commerce</p>
+          <p class="pdesc">Thirty-four styles across five departments. Filter by size, colour and price, and every swatch redraws the garment it belongs to.</p>
+          <span class="pview">View demo <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+      </a>
+
     </div>
   </div>
 </section>
@@ -751,7 +770,7 @@ body.menu-open .mmenu-in{opacity:1;transform:translateY(0);}
         </div>
 
         <div class="stats rise">
-          <div class="stat"><b>12</b><span>Live builds</span></div>
+          <div class="stat"><b>13</b><span>Live builds</span></div>
           <div class="stat"><b>2&ndash;4</b><span>Day delivery</span></div>
           <div class="stat"><b>$75</b><span>Starting price</span></div>
           <div class="stat"><b>100%</b><span>Yours on launch</span></div>
