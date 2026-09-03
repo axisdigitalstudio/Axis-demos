@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>F30 — the BMW 3 Series, 2012</title>
+<meta name="description" content="A scroll-driven study of the 2012 BMW 3 Series (F30), told in photographs. Scroll is the timeline: each beat holds a frame and the specs that belong to it." />
+<meta name="theme-color" content="#06070A" />
+<meta name="color-scheme" content="dark" />
+<meta property="og:title" content="F30 — the BMW 3 Series, 2012" />
+<meta property="og:description" content="The sixth-generation 3 Series, photographed and annotated. Scroll drives the sequence: engine, cabin, chassis, load bay, the line-up." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ==========================================================================
+   F30 · THE 2012 3 SERIES
+   Scroll position is an animation timeline. Seven beats of page height are
+   mapped onto one pinned stage; each beat holds a photograph of the car and
+   scrubs it — a slow push-in, a pan across the frame, or, on the line-up
+   beat, a turntable sequence advanced frame by frame. Only once the frame
+   has settled does its spec panel come in.
+
+   Every image is a real photograph supplied in assets/f30/. Any frame whose
+   file is missing renders as a labelled slot naming the exact path it wants,
+   so the page is honest about what it is still waiting for rather than
+   inventing a car.
+
+   Without JavaScript the same document reads as a plain stacked article:
+   the panels are the content, they are simply pinned when the stage is live.
+   ========================================================================== */
+:root{
+  --void:#06070A;
+  --ink:#0A0C10;
+  --fg:#ECEEF2;
+  --mute:#98A0AC;
+  --dim:#5D6672;
+  --line:rgba(255,255,255,.11);
+  --line-2:rgba(255,255,255,.055);
+  --glass:rgba(14,17,22,.72);
+
+  --acc:#5C93DE;          /* set per stage by JS */
+  --acc-2:#D8493F;
+
+  --display:'Space Grotesk',system-ui,sans-serif;
+  --body:'Inter',system-ui,-apple-system,sans-serif;
+  --mono:ui-monospace,'SF Mono',SFMono-Regular,Menlo,monospace;
+
+  --pad:clamp(18px,4.4vw,54px);
+  --panel-w:clamp(300px,29vw,392px);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-io:cubic-bezier(.65,.02,.28,1);
+  --r:14px;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;background:var(--void);color:var(--mute);
+  font-family:var(--body);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  overflow-x:clip;
+}
+@supports not (overflow-x:clip){body{overflow-x:hidden;}}
+h1,h2,h3{margin:0;font-family:var(--display);color:var(--fg);font-weight:600;
+  line-height:1.02;letter-spacing:-.035em;}
+p{margin:0;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
+canvas{display:block;}
+::selection{background:var(--acc);color:#05070A;}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:4px;}
+
+/* ============================== TYPE BITS ============================== */
+.kicker{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--mono);font-size:.66rem;font-weight:500;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
+}
+.kicker i{width:5px;height:5px;border-radius:50%;background:var(--acc);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 22%,transparent);flex:none;
+  transition:background .6s var(--ease),box-shadow .6s var(--ease);}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
+
+/* ============================== THE STAGE ==============================
+   Pinned viewport that holds the canvas, the pin overlay and the grade.
+   Only pinned once JS is running — see body.cine.
+   ======================================================================== */
+.stage{position:relative;}
+body.cine .stage{
+  position:fixed;inset:0;z-index:1;
+  height:100svh;height:100dvh;
+  background:#05060A;
+}
+.shots{position:absolute;inset:0;overflow:hidden;opacity:0;transition:opacity 1.1s var(--ease);}
+body.cine.ready .shots{opacity:1;}
+body:not(.cine) .shots{display:none;}
+.stage-noscript{display:none;}
+
+/* one frame per beat, cross-faded; the transform is scrubbed by scroll */
+.shot{
+  position:absolute;inset:0;margin:0;opacity:0;visibility:hidden;
+  transition:opacity .9s var(--ease),visibility 0s linear .9s;
+  will-change:opacity;
+}
+.shot.on{opacity:1;visibility:visible;transition:opacity .9s var(--ease),visibility 0s;}
+.shot img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:var(--focus,50% 50%);
+  transform:translate3d(var(--tx,0),var(--ty,0),0) scale(var(--z,1));
+  transform-origin:var(--focus,50% 50%);
+  will-change:transform;
+  background:#0A0C10;
+}
+.shot.contain img{object-fit:contain;}
+
+/* a frame whose file has not been supplied yet */
+.shot.empty{
+  display:grid;place-items:center;padding:var(--pad);
+  background:
+    repeating-linear-gradient(45deg,rgba(255,255,255,.014) 0 12px,transparent 12px 24px),
+    #0A0C10;
+}
+/* on a wide screen the overlay owns the right-hand column, so centre the
+   slot in what is left rather than behind it */
+@media (min-width:900px){
+  .shot.empty{padding-right:calc(var(--panel-w) + var(--pad) * 2);}
+}
+.slot{
+  max-width:min(560px,86vw);text-align:center;
+  border:1px dashed var(--line);border-radius:var(--r);
+  padding:clamp(20px,4vw,34px);background:rgba(8,10,14,.55);
+}
+.slot b{
+  display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--acc);margin-bottom:10px;
+}
+.slot code{
+  display:block;font-family:var(--mono);font-size:.82rem;color:var(--fg);
+  word-break:break-all;margin-bottom:10px;
+}
+.slot span{display:block;font-size:.85rem;color:var(--dim);line-height:1.5;}
+
+/* photographer credit, bottom right of the stage */
+.credit{
+  position:fixed;right:calc(var(--pad) * .72);bottom:calc(var(--pad) * .8);z-index:8;
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--dim);opacity:0;transition:opacity .8s var(--ease);pointer-events:none;
+  max-width:44vw;text-align:right;
+}
+body.cine.ready .credit{opacity:.75;}
+body:not(.cine) .credit{display:none;}
+
+/* light grade + vignette washes, driven per stage */
+.grade,.vig{position:absolute;inset:0;pointer-events:none;}
+.grade{background:radial-gradient(120% 78% at 50% 62%,
+    color-mix(in srgb,var(--acc) 11%,transparent) 0%,transparent 62%);
+  opacity:.7;transition:background 1.2s linear;mix-blend-mode:screen;}
+.vig{background:
+    radial-gradient(112% 82% at 50% 46%,transparent 42%,rgba(3,4,6,.62) 100%),
+    linear-gradient(to bottom,rgba(4,5,8,.5),transparent 22%,transparent 74%,rgba(4,5,8,.72));}
+.fade-out{position:absolute;inset:0;background:#05060A;pointer-events:none;opacity:0;}
+body:not(.cine) .grade,body:not(.cine) .vig,body:not(.cine) .fade-out{display:none;}
+
+/* ============================== PINS ============================== */
+.pinlayer{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.leaders{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+.leaders line{stroke:var(--acc);stroke-width:1;opacity:.5;}
+.pin{
+  position:absolute;top:0;left:0;will-change:transform,opacity;opacity:0;
+  transition:opacity .45s var(--ease);
+}
+.pin.on{opacity:1;}
+.pin-dot{
+  position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;
+  background:var(--acc);box-shadow:0 0 0 1px rgba(255,255,255,.5) inset,0 0 14px color-mix(in srgb,var(--acc) 70%,transparent);
+}
+.pin-dot::after{
+  content:"";position:absolute;inset:-5px;border-radius:50%;
+  border:1px solid color-mix(in srgb,var(--acc) 60%,transparent);
+  animation:ping 2.6s var(--ease) infinite;
+}
+@keyframes ping{0%{transform:scale(.6);opacity:.9}70%,100%{transform:scale(2.1);opacity:0}}
+.pin-lab{
+  position:absolute;white-space:nowrap;transform:translate(0,-50%);
+  font-family:var(--mono);font-size:.605rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--fg);background:rgba(9,11,15,.78);backdrop-filter:blur(9px);
+  border:1px solid var(--line);border-left:2px solid var(--acc);
+  padding:5px 9px 5px 8px;border-radius:3px;
+}
+.pin-lab b{color:var(--acc);font-weight:600;}
+.pin.flip .pin-lab{transform:translate(-100%,-50%);}
+
+/* ============================== PROGRESS RAIL ============================== */
+.rail{
+  position:fixed;z-index:8;right:calc(var(--pad) * .72);top:calc(50% - 14px);transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:2px;align-items:flex-end;
+  opacity:0;transition:opacity .8s var(--ease);
+}
+body.cine.ready .rail{opacity:1;}
+.rail-track{position:absolute;right:5.5px;top:6px;bottom:6px;width:1px;background:var(--line-2);}
+.rail-fill{position:absolute;right:5.5px;top:6px;width:1px;height:0;background:var(--acc);
+  box-shadow:0 0 8px color-mix(in srgb,var(--acc) 65%,transparent);transition:background .6s var(--ease);}
+.dot{
+  position:relative;display:flex;align-items:center;gap:10px;padding:7px 0 7px 12px;
+  color:var(--dim);cursor:pointer;
+}
+.dot span{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+  opacity:0;transform:translateX(6px);transition:opacity .34s var(--ease),transform .34s var(--ease);
+  white-space:nowrap;
+}
+.dot i{
+  width:7px;height:7px;border-radius:50%;flex:none;background:var(--dim);
+  transition:transform .4s var(--ease),background .4s var(--ease);
+}
+.dot:hover span,.dot:focus-visible span{opacity:1;transform:none;}
+.dot:hover i{background:var(--mute);}
+.dot.on i{background:var(--acc);transform:scale(1.5);
+  box-shadow:0 0 12px color-mix(in srgb,var(--acc) 80%,transparent);}
+.dot.on i{background:var(--acc);}
+body:not(.cine) .rail{display:none;}
+
+/* stage read-out, bottom left */
+.meta{
+  position:fixed;left:var(--pad);bottom:calc(var(--pad) * .8);z-index:8;
+  display:flex;align-items:baseline;gap:10px;opacity:0;
+  transition:opacity .8s var(--ease);pointer-events:none;
+}
+body.cine.ready .meta{opacity:1;}
+.meta b{font-family:var(--mono);font-size:.72rem;color:var(--fg);font-weight:600;letter-spacing:.06em;}
+.meta span{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--dim);}
+body:not(.cine) .meta{display:none;}
+
+/* ============================== BEATS / TRACK ============================== */
+.track{position:relative;z-index:4;}
+body.cine .beat{height:calc(var(--h,115) * 1vh);height:calc(var(--h,115) * 1svh);pointer-events:none;}
+body.cine .beat > *{pointer-events:auto;}
+
+/* plain-document fallback layout */
+body:not(.cine) .track{max-width:820px;margin-inline:auto;padding:0 var(--pad) 64px;}
+body:not(.cine) .beat{padding:clamp(40px,8vw,84px) 0;border-bottom:1px solid var(--line-2);}
+body:not(.cine) .panel,body:not(.cine) .hero,body:not(.cine) .finale,body:not(.cine) .outro{
+  position:static;transform:none;opacity:1;visibility:visible;width:auto;max-width:none;}
+body:not(.cine) .cue{display:none;}          /* nothing to scrub without the stage */
+
+/* ============================== HERO (stage 0) ============================== */
+body.cine .hero{
+  position:fixed;z-index:6;left:var(--pad);bottom:clamp(84px,13vh,130px);
+  max-width:min(560px,72vw);
+}
+.hero .kicker{margin-bottom:18px;}
+.hero h1{
+  font-size:clamp(3.6rem,13.5vw,10.5rem);letter-spacing:-.06em;line-height:.86;
+  color:var(--fg);
+}
+.hero h1 em{font-style:normal;color:var(--dim);}
+.hero p{margin-top:16px;max-width:34ch;font-size:clamp(.9rem,1.5vw,1rem);color:var(--mute);}
+.cue{
+  display:flex;align-items:center;gap:12px;margin-top:clamp(20px,3.4vh,34px);
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
+}
+.cue-line{position:relative;width:52px;height:1px;background:var(--line);overflow:hidden;}
+.cue-line::after{
+  content:"";position:absolute;inset:0;width:40%;background:var(--acc);
+  animation:sweep 2.4s var(--ease-io) infinite;
+}
+@keyframes sweep{0%{transform:translateX(-100%)}60%,100%{transform:translateX(260%)}}
+
+/* ============================== SPEC PANELS ============================== */
+body.cine .panel{
+  position:fixed;z-index:6;right:calc(var(--pad) + 30px);top:50%;width:var(--panel-w);
+  background:var(--glass);backdrop-filter:blur(18px) saturate(1.3);
+  border:1px solid var(--line);border-radius:var(--r);
+  padding:clamp(18px,2vw,24px);
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.9);
+  /* a laptop viewport is shorter than the longest of these panels, and a
+     clipped spec table is worse than a scrolled one. Chaining is left at the
+     default so the page carries on scrubbing once the panel bottoms out. */
+  max-height:calc(100svh - var(--pad) * 2);
+  overflow-y:auto;
+}
+.panel-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;}
+.panel h2{font-size:clamp(1.3rem,2.3vw,1.72rem);margin:12px 0 0;}
+.panel > p{margin-top:10px;font-size:.85rem;line-height:1.62;color:var(--mute);}
+.panel .stamp{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;color:var(--dim);
+  border:1px solid var(--line);border-radius:99px;padding:4px 9px;flex:none;white-space:nowrap;
+}
+
+/* spec rows */
+.specs{margin-top:16px;border-top:1px solid var(--line-2);}
+.specs div{
+  display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  padding:9px 0;border-bottom:1px solid var(--line-2);
+}
+.specs dt,.specs .k{font-size:.74rem;color:var(--dim);letter-spacing:.02em;}
+.specs dd,.specs .v{margin:0;font-family:var(--mono);font-size:.83rem;color:var(--fg);
+  text-align:right;font-variant-numeric:tabular-nums;}
+.specs .v small{color:var(--mute);font-size:.86em;}
+
+/* engine variant table */
+.vars{margin-top:16px;display:flex;flex-direction:column;gap:1px;
+  background:var(--line-2);border:1px solid var(--line-2);border-radius:9px;overflow:hidden;}
+.var{
+  display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;
+  background:rgba(9,11,15,.75);padding:9px 11px;text-align:left;width:100%;
+  transition:background .35s var(--ease);
+}
+.var:hover{background:rgba(20,25,33,.9);}
+.var.on{background:color-mix(in srgb,var(--acc) 15%,rgba(9,11,15,.8));}
+.var b{font-family:var(--display);font-size:.83rem;color:var(--fg);font-weight:600;letter-spacing:-.01em;}
+.var b i{display:block;font-style:normal;font-size:.64rem;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--dim);font-family:var(--mono);margin-top:2px;}
+.var .hp,.var .sec{font-family:var(--mono);font-size:.78rem;color:var(--fg);font-variant-numeric:tabular-nums;}
+.var .sec{color:var(--mute);min-width:52px;text-align:right;}
+.var.on .hp{color:var(--acc);}
+
+.note{
+  margin-top:14px;padding-top:12px;border-top:1px solid var(--line-2);
+  font-size:.74rem;line-height:1.55;color:var(--dim);
+}
+.note b{color:var(--mute);font-weight:500;}
+
+/* panel choreography — in only after the action lands, out before the next */
+body.cine .panel,body.cine .finale,body.cine .hero,body.cine .outro{
+  opacity:0;visibility:hidden;
+  transition:opacity .5s var(--ease),transform .62s var(--ease),visibility .5s;
+}
+body.cine .panel{transform:translate(26px,-50%) ;}
+body.cine .panel.on{opacity:1;visibility:visible;transform:translate(0,-50%);}
+body.cine .hero{transform:translateY(26px);}
+body.cine .hero.on{opacity:1;visibility:visible;transform:none;}
+body.cine .panel > *{opacity:0;transform:translateY(9px);
+  transition:opacity .5s var(--ease),transform .5s var(--ease);}
+body.cine .panel.on > *{opacity:1;transform:none;}
+body.cine .panel.on > *:nth-child(1){transition-delay:.06s}
+body.cine .panel.on > *:nth-child(2){transition-delay:.12s}
+body.cine .panel.on > *:nth-child(3){transition-delay:.18s}
+body.cine .panel.on > *:nth-child(4){transition-delay:.24s}
+body.cine .panel.on > *:nth-child(5){transition-delay:.30s}
+body.cine .panel.on > *:nth-child(6){transition-delay:.36s}
+
+/* ============================== FINALE / TRIMS (stage 5) ============================== */
+body.cine .finale{
+  position:fixed;z-index:6;left:50%;bottom:clamp(74px,11vh,116px);
+  transform:translate(-50%,20px);width:min(760px,calc(100vw - var(--pad)*2));
+  text-align:center;
+}
+body.cine .finale.on{opacity:1;visibility:visible;transform:translate(-50%,0);}
+.finale .kicker{margin-bottom:14px;}
+.trims{
+  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:4px;
+}
+.trim{
+  position:relative;display:flex;align-items:center;gap:12px;
+  background:var(--glass);backdrop-filter:blur(16px);
+  border:1px solid var(--line);border-radius:12px;padding:11px 16px 11px 13px;
+  transition:border-color .4s var(--ease),background .4s var(--ease),transform .4s var(--ease);
+}
+.trim:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.24);}
+.trim.on{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 13%,var(--glass));}
+.swatch{
+  width:22px;height:22px;border-radius:50%;flex:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.28),inset -3px -4px 8px rgba(0,0,0,.5),0 3px 10px rgba(0,0,0,.6);
+}
+.trim-txt{text-align:left;line-height:1.25;}
+.trim-txt b{display:block;font-family:var(--display);font-size:.94rem;color:var(--fg);
+  font-weight:600;letter-spacing:-.02em;}
+.trim-txt span{font-family:var(--mono);font-size:.6rem;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--dim);}
+.trim.on .trim-txt span{color:var(--acc);}
+.trim-line{
+  margin-top:16px;font-size:.79rem;color:var(--mute);min-height:2.6em;
+}
+.trim-line b{color:var(--fg);font-weight:500;}
+.trim-line .num{color:var(--acc);}
+
+/* ============================== OUTRO (stage 6) ============================== */
+body.cine .outro{
+  position:fixed;z-index:6;left:50%;top:50%;transform:translate(-50%,calc(-50% + 22px));
+  width:min(720px,calc(100vw - var(--pad)*2));text-align:center;
+}
+body.cine .outro.on{opacity:1;visibility:visible;transform:translate(-50%,-50%);}
+.outro h2{font-size:clamp(1.9rem,5.6vw,3.5rem);letter-spacing:-.045em;line-height:1.02;}
+.outro h2 em{font-style:italic;font-family:var(--body);font-weight:400;color:var(--acc);}
+.outro p{margin:16px auto 0;max-width:46ch;font-size:.92rem;color:var(--mute);}
+.ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:clamp(22px,3.6vh,34px);}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border-radius:99px;
+  font-family:var(--display);font-size:.9rem;font-weight:600;letter-spacing:-.01em;
+  border:1px solid var(--line);color:var(--fg);
+  transition:transform .4s var(--ease),background .4s var(--ease),border-color .4s var(--ease);
+}
+.btn:hover{transform:translateY(-2px);}
+.btn-p{background:var(--fg);color:#06080B;border-color:var(--fg);}
+.btn-p:hover{background:#fff;}
+.btn-s:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.05);}
+.btn svg{width:14px;height:14px;flex:none;}
+
+/* ============================== FOOTER ============================== */
+.foot{
+  position:relative;z-index:5;background:var(--void);
+  border-top:1px solid var(--line-2);padding:clamp(30px,5vw,48px) var(--pad);
+}
+body.cine .foot{margin-top:0;}
+.foot-in{
+  max-width:1240px;margin-inline:auto;display:flex;flex-wrap:wrap;gap:18px 34px;
+  align-items:center;justify-content:space-between;
+}
+.wordmark{font-family:var(--display);font-weight:700;letter-spacing:-.04em;color:var(--fg);font-size:1.05rem;}
+.wordmark i{font-style:normal;color:var(--dim);font-weight:500;margin-left:9px;font-size:.78rem;letter-spacing:.14em;}
+.foot nav{display:flex;gap:22px;flex-wrap:wrap;}
+.foot nav a{font-size:.82rem;color:var(--mute);transition:color .3s var(--ease);}
+.foot nav a:hover{color:var(--fg);}
+.foot small{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;color:var(--dim);
+  text-transform:uppercase;flex-basis:100%;padding-top:10px;border-top:1px solid var(--line-2);
+  margin-top:6px;line-height:1.9;}
+
+/* ============================== SWIPE MODE (touch) ============================== */
+body.swipe{overflow:hidden;height:100svh;height:100dvh;position:fixed;inset:0;width:100%;}
+body.swipe .track{position:absolute;top:0;left:0;width:100%;visibility:hidden;}
+body.swipe .track > .beat > *{visibility:visible;}
+body.swipe .foot{display:none;}
+body.swipe .rail{
+  right:auto;top:auto;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);
+  transform:translateX(-50%);flex-direction:row;align-items:center;gap:4px;
+}
+body.swipe .rail-track{right:auto;left:6px;top:auto;bottom:auto;
+  width:calc(100% - 12px);height:1px;}
+body.swipe .rail-fill{right:auto;left:6px;top:auto;height:1px;width:0;}
+body.swipe .dot{padding:10px 4px;}
+body.swipe .dot span{display:none;}
+body.swipe .meta{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 16px);left:var(--pad);}
+body.swipe .swipe-cue{display:flex;}
+.swipe-cue{
+  display:none;position:fixed;z-index:8;left:50%;transform:translateX(-50%);
+  bottom:calc(env(safe-area-inset-bottom,0px) + 46px);
+  align-items:center;gap:8px;font-family:var(--mono);font-size:.6rem;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--dim);pointer-events:none;
+  opacity:0;transition:opacity .6s var(--ease);
+}
+body.swipe.ready .swipe-cue.on{opacity:1;}
+.swipe-cue svg{width:11px;height:11px;animation:nudge 2s var(--ease-io) infinite;}
+@keyframes nudge{0%,100%{transform:translateY(2px);opacity:.5}50%{transform:translateY(-3px);opacity:1}}
+
+/* mobile / narrow layout for the panels */
+@media (max-width:860px){
+  :root{--panel-w:auto;}
+  body.cine .panel{
+    right:var(--pad);left:var(--pad);top:auto;
+    bottom:calc(env(safe-area-inset-bottom,0px) + 62px);
+    transform:translateY(24px);max-height:56svh;overflow:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  body.cine .panel.on{transform:none;}
+  body.cine .panel .note{display:none;}      /* keep the sheet inside the fold */
+  body.cine .panel h2{font-size:1.24rem;}
+  .specs div{padding:8px 0;}
+  body.cine .hero{bottom:calc(env(safe-area-inset-bottom,0px) + 92px);right:var(--pad);}
+  body.cine .finale{bottom:calc(env(safe-area-inset-bottom,0px) + 58px);}
+  .trim{padding:9px 13px 9px 10px;}
+  .pin-lab{font-size:.55rem;padding:4px 7px;}
+}
+@media (max-width:520px){
+  .hero h1{font-size:clamp(3rem,18vw,5rem);}
+  .specs div{padding:7px 0;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;}
+  html{scroll-behavior:auto !important;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================ THE PINNED STAGE ============================
+     The frames themselves are injected by the stage script from the PHOTOS
+     manifest at the bottom of this file, so the markup here is only the
+     furniture that sits over them.
+     ========================================================================= -->
+<div class="stage" id="stage" aria-hidden="true">
+  <div class="shots" id="shots"></div>
+  <div class="grade" id="grade"></div>
+  <div class="vig"></div>
+  <div class="fade-out" id="fadeOut"></div>
+  <div class="pinlayer" id="pinLayer">
+    <svg class="leaders" id="leaders" aria-hidden="true"></svg>
+  </div>
+</div>
+
+<div class="credit" id="credit"></div>
+
+<!-- progress rail: seven beats, clickable -->
+<nav class="rail" id="rail" aria-label="Sequence">
+  <div class="rail-track"></div>
+  <div class="rail-fill" id="railFill"></div>
+</nav>
+
+<div class="meta" id="meta"><b id="metaNum">00</b><span id="metaLab">Reveal</span></div>
+
+<div class="swipe-cue" id="swipeCue">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  Swipe up
+</div>
+
+<!-- ============================ THE TRACK ============================
+     Each <section class="beat"> is a slice of scroll. Its child is the overlay
+     that belongs to that slice; with the stage live the child is pinned, and
+     without it the whole thing degrades to a readable stacked page.
+     ==================================================================== -->
+<main class="track" id="track">
+
+  <!-- ---------- 00 · REVEAL ---------- -->
+  <section class="beat" data-stage="0" data-label="Reveal" style="--h:112">
+    <div class="hero" id="hero">
+      <span class="kicker"><i></i>Bayerische Motoren Werke · Sixth generation · 2012</span>
+      <h1>The F30.</h1>
+      <p>The 3 Series that went turbo across the whole range, grew a 2 810 mm wheelbase, and traded hydraulic steering for electric — the generation where the compact BMW became a modern car.</p>
+      <div class="cue"><span class="cue-line"></span>Scroll to walk around it</div>
+    </div>
+  </section>
+
+  <!-- ---------- 01 · ENGINE ---------- -->
+  <section class="beat" data-stage="1" data-label="Engine" style="--h:132">
+    <aside class="panel" id="p1">
+      <div class="panel-hd">
+        <span class="kicker"><i></i>01 · Engine bay</span>
+        <span class="stamp">All turbocharged</span>
+      </div>
+      <h2>Every engine, forced&nbsp;induction.</h2>
+      <p>The F30 is the generation that retired the naturally aspirated six from the volume cars. A twin-scroll four does the work in the 320i and 328i; the straight-six survives, turbocharged, in the 335i. Pick one — the specs follow.</p>
+      <div class="vars" id="engineVars">
+        <button class="var" data-engine="n20-320" type="button">
+          <b>N20B20<i>320i · 2.0 turbo</i></b><span class="hp">184 hp</span><span class="sec">7.3 s</span>
+        </button>
+        <button class="var on" data-engine="n20-328" type="button">
+          <b>N20B20<i>328i · 2.0 turbo</i></b><span class="hp">245 hp</span><span class="sec">5.9 s</span>
+        </button>
+        <button class="var" data-engine="n55" type="button">
+          <b>N55B30<i>335i · 3.0 turbo</i></b><span class="hp">306 hp</span><span class="sec">5.5 s</span>
+        </button>
+        <button class="var" data-engine="n47" type="button">
+          <b>N47D20<i>320d · 2.0 diesel</i></b><span class="hp">184 hp</span><span class="sec">7.5 s</span>
+        </button>
+      </div>
+      <dl class="specs" id="engineSpecs">
+        <div><dt>Displacement</dt><dd class="v" data-k="disp">1997 cc</dd></div>
+        <div><dt>Torque</dt><dd class="v" data-k="tq">350 N·m <small>@ 1250–4800</small></dd></div>
+        <div><dt>Layout</dt><dd class="v" data-k="lay">Inline four <small>· twin-scroll</small></dd></div>
+        <div><dt>Valvetrain</dt><dd class="v" data-k="vt">DOHC 16v <small>· Valvetronic</small></dd></div>
+      </dl>
+      <p class="note"><b>TwinPower Turbo.</b> BMW's label for the whole package rather than the turbo count: one twin-scroll turbocharger, direct injection, Double-VANOS and Valvetronic throttle-less load control working together. The 328i's peak torque arrives at 1 250 rpm and holds to 4 800.</p>
+    </aside>
+  </section>
+
+  <!-- ---------- 02 · INTERIOR ---------- -->
+  <section class="beat" data-stage="2" data-label="Interior" style="--h:132">
+    <aside class="panel" id="p2">
+      <div class="panel-hd">
+        <span class="kicker"><i></i>02 · Inside</span>
+        <span class="stamp">Freestanding display</span>
+      </div>
+      <h2>The screen leaves the dashboard.</h2>
+      <p>iDrive's display stops being a slot in the fascia and stands proud of it — the arrangement every BMW since has kept. The driver's side of the cabin still angles toward the seat, just far less than an E30's did.</p>
+      <dl class="specs">
+        <div><dt>Gearbox</dt><dd class="v">8-speed Steptronic <small>· 6-sp manual std.</small></dd></div>
+        <div><dt>Drive modes</dt><dd class="v">ECO PRO · Comfort <small>· Sport · Sport+</small></dd></div>
+        <div><dt>Display</dt><dd class="v">6.5″ / 8.8″ <small>· freestanding</small></dd></div>
+        <div><dt>Head-up</dt><dd class="v">Full colour <small>· optional</small></dd></div>
+        <div><dt>Lines</dt><dd class="v">Sport · Luxury <small>· Modern · M Sport</small></dd></div>
+      </dl>
+      <p class="note"><b>Trim lines instead of one interior.</b> Rather than a single cabin with an options list, the F30 shipped as Sport, Luxury or Modern Line — each with its own materials, stitching and grille finish — with M Sport joining part-way through 2012.</p>
+    </aside>
+  </section>
+
+  <!-- ---------- 03 · CHASSIS ---------- -->
+  <section class="beat" data-stage="3" data-label="Chassis" style="--h:126">
+    <aside class="panel" id="p3">
+      <div class="panel-hd">
+        <span class="kicker"><i></i>03 · Chassis</span>
+        <span class="stamp">Electric steering</span>
+      </div>
+      <h2>The generation that went electric at the wheel.</h2>
+      <p>Electric power steering became standard — it frees the engine from driving a pump, and it is the change owners argue about most. Underneath, a double-joint strut front axle and a five-link rear carry over the geometry the E90 established.</p>
+      <dl class="specs" id="chassisSpecs">
+        <div><dt>Front</dt><dd class="v">Double-joint strut <small>· alloy links</small></dd></div>
+        <div><dt>Rear</dt><dd class="v">Five-link</dd></div>
+        <div><dt>Wheels</dt><dd class="v" data-k="wheel">18 × 8 <small>· 225/45</small></dd></div>
+        <div><dt>Front brakes</dt><dd class="v" data-k="brake">312 mm <small>vented</small></dd></div>
+        <div><dt>Weight split</dt><dd class="v" data-k="split">50 / 50</dd></div>
+      </dl>
+      <p class="note"><b>Wheelbase up 50 mm.</b> At 2 810 mm between the axles and 4 624 mm overall, the F30 is a size up on the E90 — most of it spent on rear legroom, and the reason this is the first 3 Series that stopped feeling small in the back.</p>
+    </aside>
+  </section>
+
+  <!-- ---------- 04 · LOAD BAY ---------- -->
+  <section class="beat" data-stage="4" data-label="Load bay" style="--h:126">
+    <aside class="panel" id="p4">
+      <div class="panel-hd">
+        <span class="kicker"><i></i>04 · Load bay</span>
+        <span class="stamp">Saloon &amp; Touring</span>
+      </div>
+      <h2>480 litres — and the year the coupé left.</h2>
+      <p>The saloon arrived first in February 2012, the Touring that autumn. What did not arrive was a coupé: from this generation on it became the 4 Series, and the 3 Series badge stayed on cars with four doors.</p>
+      <dl class="specs">
+        <div><dt>Saloon boot</dt><dd class="v">480 L</dd></div>
+        <div><dt>Touring <small>F31</small></dt><dd class="v">495 L <small>→ 1500 L</small></dd></div>
+        <div><dt>Rear seats</dt><dd class="v">40:20:40 <small>· optional</small></dd></div>
+        <div><dt>Length</dt><dd class="v">4624 mm</dd></div>
+        <div><dt>Kerb weight</dt><dd class="v">from 1430 kg <small>· 328i</small></dd></div>
+      </dl>
+      <p class="note"><b>EfficientDynamics as standard.</b> Auto start-stop, brake energy regeneration, an electric water pump and an ECO PRO mode that will coast with the driveline disengaged — fitted across the range, not sold as a green special.</p>
+    </aside>
+  </section>
+
+  <!-- ---------- 05 · LINE-UP ---------- -->
+  <section class="beat" data-stage="5" data-label="Line-up" style="--h:150">
+    <div class="finale" id="finale">
+      <span class="kicker"><i></i>05 · Pick one</span>
+      <div class="trims" id="trims">
+        <button class="trim" data-trim="320i" type="button">
+          <span class="swatch" style="background:#EDEEEA"></span>
+          <span class="trim-txt"><b>320i</b><span>Alpine White</span></span>
+        </button>
+        <button class="trim on" data-trim="328i" type="button">
+          <span class="swatch" style="background:#0B4C9B"></span>
+          <span class="trim-txt"><b>328i</b><span>Estoril Blue</span></span>
+        </button>
+        <button class="trim" data-trim="335i" type="button">
+          <span class="swatch" style="background:#7B1A22"></span>
+          <span class="trim-txt"><b>335i</b><span>Melbourne Red</span></span>
+        </button>
+      </div>
+      <p class="trim-line" id="trimLine"></p>
+    </div>
+  </section>
+
+  <!-- ---------- 06 · EXIT ---------- -->
+  <section class="beat" data-stage="6" data-label="Archive" style="--h:118">
+    <div class="outro" id="outro">
+      <h2>The one that had to <em>carry everything.</em></h2>
+      <p>Sold as a saloon, a Touring, a GT and a long-wheelbase car, built on four continents, and asked to be both the efficient one and the quick one. Most of what a 3 Series is today was decided here.</p>
+      <div class="ctas">
+        <a class="btn btn-p" href="#listings">
+          Explore listings
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-s" href="#community">Join the community</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot" id="listings">
+  <div class="foot-in">
+    <a href="#top" class="wordmark">F30<i>3 SERIES</i></a>
+    <nav aria-label="Footer">
+      <a href="#listings">Listings</a>
+      <a href="#community">Community</a>
+      <a href="#">Buyer's guide</a>
+      <a href="#">Parts index</a>
+    </nav>
+    <small>
+      Demonstration project · not affiliated with or endorsed by BMW AG · figures are 2012 European manufacturer claims and vary by market, body and gearbox · photographs © their respective owners
+    </small>
+  </div>
+</footer>
+<script>
+/* ==========================================================================
+   TIMELINE ENGINE
+   One number runs the whole page: `sy`, a virtual scroll offset in pixels.
+   On a mouse it follows window.scrollY; on a touch device it follows a
+   swipe-driven tween instead, so nothing has to fight the browser's own
+   scrolling. Either way `sy` is passed through a frame-rate independent
+   damper before anything reads it — that is the smoothing, and it is why
+   letting go mid-beat parks the frame mid push-in instead of snapping.
+   ========================================================================== */
+(function(){
+'use strict';
+
+var doc = document, root = doc.documentElement;
+var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+var coarse  = matchMedia('(pointer: coarse)').matches;
+
+/* ---- per-stage choreography -------------------------------------------
+   in / out : the slice of the stage's local time where its overlay is up.
+              Always after the mechanical action has landed, always closed
+              again before the next stage starts.
+   hold     : where a swipe parks, i.e. the "resting" frame of the stage.
+   acc      : the light this stage is lit with, echoed by the UI.          */
+var STAGES = [
+  { key:'reveal', label:'Reveal',    el:'hero',   in:0.00, out:0.60,  hold:0.26, acc:'#8492A4' },
+  { key:'engine', label:'Engine',    el:'p1',     in:0.56, out:0.90,  hold:0.74, acc:'#E09A4E' },
+  { key:'cabin',  label:'Interior',  el:'p2',     in:0.68, out:0.92,  hold:0.80, acc:'#C79A62' },
+  { key:'chassis',label:'Chassis',   el:'p3',     in:0.68, out:0.93,  hold:0.80, acc:'#6FA8E0' },
+  { key:'load',   label:'Load bay',  el:'p4',     in:0.64, out:0.92,  hold:0.78, acc:'#93A6BC' },
+  { key:'lineup', label:'Line-up',   el:'finale', in:0.66, out:0.985, hold:0.82, acc:'#5C93DE' },
+  { key:'exit',   label:'Archive',   el:'outro',  in:0.30, out:1.01,  hold:0.62, acc:'#42566E' }
+];
+
+var beats = [].slice.call(doc.querySelectorAll('.beat'));
+var bounds = [];          /* {top, len} per stage, measured from layout */
+var maxScroll = 1;
+
+var state = {
+  sy:0, syTarget:0, p:0, stage:0, t:0,
+  reduced:reduced, swipe:coarse,
+  trim:'328i', engine:'n20-328',
+  stages:STAGES, ready:false
+};
+window.F30 = state;
+var frameHooks = [];
+state.onFrame = function(fn){ frameHooks.push(fn); };
+
+/* ---------------- measurement ---------------- */
+var track = doc.getElementById('track');
+function measure(){
+  var base = state.swipe ? 0 : (window.pageYOffset || root.scrollTop || 0);
+  bounds = beats.map(function(b){
+    var r = b.getBoundingClientRect();
+    return { top: r.top + base, len: Math.max(1, r.height) };
+  });
+  /* the tail spacer after the last beat is what lets every beat, the last one
+     included, be scrubbed through its whole length */
+  var last = bounds[bounds.length - 1];
+  maxScroll = Math.max(1, last.top + last.len);
+}
+
+/* ---------------- rail ---------------- */
+var rail = doc.getElementById('rail');
+var railFill = doc.getElementById('railFill');
+var metaNum = doc.getElementById('metaNum');
+var metaLab = doc.getElementById('metaLab');
+var dots = STAGES.map(function(s, i){
+  var b = doc.createElement('button');
+  b.className = 'dot';
+  b.type = 'button';
+  b.setAttribute('aria-label', 'Go to stage ' + i + ' — ' + s.label);
+  b.innerHTML = '<span>' + s.label + '</span><i></i>';
+  b.addEventListener('click', function(){ goTo(i); });
+  rail.appendChild(b);
+  return b;
+});
+
+/* ---------------- navigation ---------------- */
+var tween = null, navTarget = 0, navAt = 0;
+function navFrom(){ return (performance.now() - navAt < 1300) ? navTarget : state.stage; }
+function stageAnchor(i){
+  var b = bounds[i] || {top:0,len:1};
+  return Math.max(0, Math.min(maxScroll, b.top + b.len * STAGES[i].hold));
+}
+function goTo(i){
+  i = Math.max(0, Math.min(STAGES.length - 1, i));
+  navTarget = i; navAt = performance.now();
+  var to = stageAnchor(i);
+  if (state.swipe){
+    tween = { from:state.syTarget, to:to, t:0,
+              dur: reduced ? 0.001 : Math.min(1.5, 0.55 + Math.abs(to - state.syTarget) / 2600) };
+  } else {
+    window.scrollTo({ top:to, behavior: reduced ? 'auto' : 'smooth' });
+  }
+}
+state.goTo = goTo;
+
+/* ---------------- swipe input (touch devices) ---------------- */
+var swipeCue = doc.getElementById('swipeCue');
+if (state.swipe){
+  doc.body.classList.add('swipe');
+  var sx0 = 0, sy0 = 0, st0 = 0, tracking = false;
+  doc.addEventListener('touchstart', function(e){
+    if (e.touches.length !== 1) return;
+    var p = e.touches[0];
+    sx0 = p.clientX; sy0 = p.clientY; st0 = performance.now(); tracking = true;
+  }, {passive:true});
+  doc.addEventListener('touchend', function(e){
+    if (!tracking) return;
+    tracking = false;
+    var p = e.changedTouches[0];
+    var dx = p.clientX - sx0, dy = p.clientY - sy0;
+    var dt = Math.max(1, performance.now() - st0);
+    if (Math.abs(dy) < Math.abs(dx) * 1.1) return;          /* horizontal — ignore */
+    var far = Math.abs(dy) > 46, fast = Math.abs(dy) / dt > 0.42;
+    if (!far && !fast) return;
+    goTo(navFrom() + (dy < 0 ? 1 : -1));
+  }, {passive:true});
+  /* a stray wheel / trackpad on a touch laptop still advances */
+  var wheelLock = 0;
+  doc.addEventListener('wheel', function(e){
+    var now = performance.now();
+    if (now - wheelLock < 700 || Math.abs(e.deltaY) < 12) return;
+    wheelLock = now;
+    goTo(navFrom() + (e.deltaY > 0 ? 1 : -1));
+  }, {passive:true});
+}
+
+/* ---------------- keyboard, both modes ---------------- */
+doc.addEventListener('keydown', function(e){
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  var tag = (e.target.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'textarea') return;
+  var k = e.key;
+  if (k === 'ArrowDown' || k === 'PageDown'){ goTo(navFrom() + 1); e.preventDefault(); }
+  else if (k === 'ArrowUp' || k === 'PageUp'){ goTo(navFrom() - 1); e.preventDefault(); }
+  else if (k === 'Home'){ goTo(0); e.preventDefault(); }
+  else if (k === 'End'){ goTo(STAGES.length - 1); e.preventDefault(); }
+});
+
+/* ---------------- overlay bookkeeping ---------------- */
+var overlays = STAGES.map(function(s){ return doc.getElementById(s.el); });
+var lastStage = -1, lastOn = [];
+var grade = doc.getElementById('grade');
+
+function paintUI(){
+  var i = state.stage, t = state.t;
+
+  if (i !== lastStage){
+    lastStage = i;
+    root.style.setProperty('--acc', STAGES[i].acc);
+    metaNum.textContent = ('0' + i).slice(-2);
+    metaLab.textContent = STAGES[i].label;
+    dots.forEach(function(d, k){ d.classList.toggle('on', k === i); });
+    if (swipeCue) swipeCue.classList.toggle('on', state.swipe && i < STAGES.length - 1);
+  }
+
+  for (var k = 0; k < overlays.length; k++){
+    var on = (k === i) && t >= STAGES[k].in && t <= STAGES[k].out;
+    if (on !== lastOn[k]){
+      lastOn[k] = on;
+      overlays[k].classList.toggle('on', on);
+      overlays[k].setAttribute('aria-hidden', on ? 'false' : 'true');
+    }
+  }
+
+  var pct = (state.p * 100).toFixed(2) + '%';
+  if (state.swipe) railFill.style.width = pct; else railFill.style.height = pct;
+}
+
+/* ---------------- the loop ---------------- */
+var last = performance.now();
+function frame(now){
+  var dt = Math.min(0.05, (now - last) / 1000);
+  last = now;
+
+  if (state.swipe){
+    if (tween){
+      tween.t = Math.min(1, tween.t + dt / tween.dur);
+      var e = tween.t < .5 ? 4*tween.t*tween.t*tween.t
+                           : 1 - Math.pow(-2*tween.t + 2, 3) / 2;   /* easeInOutCubic */
+      state.syTarget = tween.from + (tween.to - tween.from) * e;
+      if (tween.t >= 1) tween = null;
+    }
+  } else {
+    state.syTarget = window.pageYOffset || root.scrollTop || 0;
+  }
+
+  /* critically-damped follower: the whole "throttle" for scroll input */
+  var k = reduced ? 1 : 1 - Math.pow(0.0016, dt);
+  state.sy += (state.syTarget - state.sy) * k;
+  if (Math.abs(state.syTarget - state.sy) < 0.05) state.sy = state.syTarget;
+
+  var sy = Math.max(0, Math.min(maxScroll, state.sy));
+  state.p = sy / maxScroll;
+
+  /* locate the stage and its local time */
+  var i = bounds.length - 1;
+  for (var j = 0; j < bounds.length; j++){
+    if (sy < bounds[j].top + bounds[j].len){ i = j; break; }
+  }
+  state.stage = i;
+  state.t = Math.max(0, Math.min(1, (sy - bounds[i].top) / bounds[i].len));
+
+  paintUI();
+  for (var h = 0; h < frameHooks.length; h++) frameHooks[h](state, dt);
+  requestAnimationFrame(frame);
+}
+
+/* ---------------- boot ---------------- */
+function init(){
+  doc.body.classList.add('cine');          /* pin the stage; swapped back if it cannot run */
+  var tail = doc.createElement('div');
+  tail.setAttribute('aria-hidden','true');
+  tail.style.cssText = 'height:100vh;height:100svh;';
+  track.appendChild(tail);
+  measure();
+  state.sy = state.syTarget = state.swipe ? 0 : (window.pageYOffset || 0);
+  requestAnimationFrame(frame);
+}
+state.remeasure = measure;
+state.dropStage = function(){             /* fall back to a plain stacked article */
+  doc.body.classList.remove('cine','swipe');
+  doc.getElementById('stage').style.display = 'none';
+};
+
+var rz;
+window.addEventListener('resize', function(){
+  clearTimeout(rz);
+  rz = setTimeout(function(){ measure(); if (state.swipe && !tween) state.syTarget = stageAnchor(state.stage); }, 140);
+}, {passive:true});
+window.addEventListener('orientationchange', function(){ setTimeout(measure, 260); });
+
+init();
+})();
+</script>
+<script>
+/* ==========================================================================
+   THE FRAMES
+   The stage is a stack of photographs, one per beat, cross-faded as the beat
+   changes and scrubbed while it runs — a slow push-in toward the focal point,
+   with an optional drift across the frame. The line-up beat can instead take
+   a turntable sequence, in which case scroll advances it frame by frame.
+
+   Everything the page shows of the car comes out of the PHOTOS manifest
+   below. Point each entry at a real file in assets/f30/ and the beat plays;
+   leave one out, or let one fail to load, and that beat renders a labelled
+   slot naming the exact path it wants. Nothing here draws a car — if a
+   photograph is missing the page says so.
+
+   Tuning a frame:
+     focus  [x,y]  percent, the point the crop holds on and the push-in aims at
+     zoom   [a,b]  scale at the start and end of the beat
+     pan    [x,y]  percent of the viewport the frame drifts over the beat
+     pins   [...]  callouts in image space: u,v are 0–1 across the photograph
+                   itself, so they stay on the part they label at any crop
+   ========================================================================== */
+(function(){
+'use strict';
+
+var F30 = window.F30, doc = document;
+var BASE = 'assets/f30/';
+
+var PHOTOS = {
+  reveal: {
+    src:'01-reveal.jpg',
+    alt:'A 2012 BMW 3 Series (F30) saloon, front three-quarter view',
+    focus:[52,58], zoom:[1.15,1.02], pan:[0,-1.2]
+  },
+  engine: {
+    src:'02-engine-bay.jpg',
+    alt:'The engine bay of a 2012 BMW 3 Series with the bonnet open',
+    focus:[50,52], zoom:[1.06,1.16], pan:[-1.5,0],
+    pins:[
+      { u:0.42, v:0.40, side:-1, dy:-52, text:'Cylinder head cover' },
+      { u:0.62, v:0.52, side: 1, dy:-30, text:'Intake manifold' },
+      { u:0.26, v:0.34, side:-1, dy: 22, text:'Strut tower' },
+      { u:0.74, v:0.68, side: 1, dy: 44, text:'Battery / charging' }
+    ],
+    /* the 01 selector can swap the bay shot as well as the specs */
+    variants:{ 'n55':'02-engine-bay-n55.jpg' }
+  },
+  cabin: {
+    src:'03-interior.jpg',
+    alt:'The interior of a 2012 BMW 3 Series, looking across the dashboard',
+    focus:[46,54], zoom:[1.04,1.14], pan:[1.4,0],
+    pins:[
+      { u:0.58, v:0.30, side: 1, dy:-46, text:'Freestanding display' },
+      { u:0.30, v:0.44, side:-1, dy:-26, text:'Instrument binnacle' },
+      { u:0.50, v:0.72, side: 1, dy: 34, text:'iDrive controller' },
+      { u:0.20, v:0.66, side:-1, dy: 38, text:'Drive mode rocker' }
+    ]
+  },
+  chassis: {
+    src:'04-chassis.jpg',
+    alt:'A front wheel and brake of a 2012 BMW 3 Series',
+    focus:[50,56], zoom:[1.05,1.15], pan:[0,1.2],
+    pins:[
+      { u:0.50, v:0.52, side: 1, dy:-42, text:'<b>312</b> mm vented' },
+      { u:0.34, v:0.74, side:-1, dy: 36, text:'225/45 R18' },
+      { u:0.62, v:0.28, side: 1, dy: 28, text:'Double-joint strut' }
+    ]
+  },
+  load: {
+    src:'05-load-bay.jpg',
+    alt:'The open boot of a 2012 BMW 3 Series saloon',
+    focus:[50,50], zoom:[1.12,1.02], pan:[0,0],
+    pins:[
+      { u:0.48, v:0.58, side: 1, dy: 36, text:'<b>480</b> litres' },
+      { u:0.30, v:0.30, side:-1, dy:-38, text:'Boot lid hinge' },
+      { u:0.66, v:0.40, side: 1, dy:-28, text:'40:20:40 backrest' }
+    ]
+  },
+  lineup: {
+    src:'06-lineup.jpg',
+    alt:'A 2012 BMW 3 Series photographed in profile',
+    focus:[50,56], zoom:[1.08,1.04], pan:[0,0],
+    /* Optional turntable. Drop a numbered sequence in assets/f30/turntable/
+       and list it here — scroll then scrubs it frame by frame instead of
+       running the push-in. Leave the array empty to use the still above. */
+    frames:[],
+    /* the 05 selector swaps this frame per car */
+    variants:{ '320i':'06-lineup-320i.jpg', '328i':'06-lineup-328i.jpg', '335i':'06-lineup-335i.jpg' }
+  },
+  exit: {
+    src:'07-exit.jpg',
+    alt:'A 2012 BMW 3 Series, rear three-quarter view',
+    focus:[50,54], zoom:[1.02,1.12], pan:[0,0]
+  }
+};
+
+/* Shown bottom-right over the stage. Set this to whoever took the photographs. */
+var CREDIT = '';
+
+/* ============================ SPECS ============================ */
+var ENGINES = {
+  'n20-320':{ disp:'1997 cc', tq:'270 N·m <small>@ 1250–4500</small>',
+              lay:'Inline four <small>· twin-scroll</small>', vt:'DOHC 16v <small>· Valvetronic</small>' },
+  'n20-328':{ disp:'1997 cc', tq:'350 N·m <small>@ 1250–4800</small>',
+              lay:'Inline four <small>· twin-scroll</small>', vt:'DOHC 16v <small>· Valvetronic</small>' },
+  'n55':    { disp:'2979 cc', tq:'400 N·m <small>@ 1200–5000</small>',
+              lay:'Inline six <small>· twin-scroll</small>',  vt:'DOHC 24v <small>· Valvetronic</small>' },
+  'n47':    { disp:'1995 cc', tq:'380 N·m <small>@ 1750–2750</small>',
+              lay:'Inline four <small>· common rail</small>', vt:'DOHC 16v <small>· 1800 bar</small>' }
+};
+
+var TRIMS = {
+  '320i':{ engine:'n20-320', wheel:'17 × 7.5 <small>· 225/50</small>', brake:'300 mm <small>vented</small>',
+           split:'50 / 50', tyre:'225/50 R17', bar:'300',
+           line:'<b>320i.</b> The same 1 997 cc four wound back to 184 hp — the volume car in most of Europe, and the one that made the range’s turbocharging feel normal rather than sporting.' },
+  '328i':{ engine:'n20-328', wheel:'18 × 8 <small>· 225/45</small>', brake:'312 mm <small>vented</small>',
+           split:'50 / 50', tyre:'225/45 R18', bar:'312',
+           line:'<b>328i.</b> 245 hp and 350 N·m from two litres, quicker than the six-cylinder 328i it replaced and lighter over the nose. The badge stopped describing the displacement here.' },
+  '335i':{ engine:'n55', wheel:'18 × 8 <small>· 225/45</small>', brake:'340 mm <small>vented</small>',
+           split:'50 / 50', tyre:'225/45 R18', bar:'340',
+           line:'<b>335i.</b> The straight-six survives, turbocharged: 306 hp, 400 N·m from 1 200 rpm, and the only F30 at launch with six cylinders under the bonnet.' }
+};
+
+/* ============================ BUILD THE FRAMES ============================ */
+var shotsEl = doc.getElementById('shots');
+var pinLayer = doc.getElementById('pinLayer');
+var leaders = doc.getElementById('leaders');
+var creditEl = doc.getElementById('credit');
+var fadeOut = doc.getElementById('fadeOut');
+var SVGNS = 'http://www.w3.org/2000/svg';
+var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (creditEl && CREDIT) creditEl.textContent = CREDIT;
+
+var shots = F30.stages.map(function(s){
+  var conf = PHOTOS[s.key] || {};
+  var fig = doc.createElement('figure');
+  fig.className = 'shot';
+  shotsEl.appendChild(fig);
+  return {
+    key:s.key, conf:conf, el:fig,
+    img:null, src:null, loaded:false, failed:false,
+    focus:conf.focus || [50,50],
+    zoom:conf.zoom || [1.08,1.02],
+    pan:conf.pan || [0,0],
+    z:1, txPx:0, tyPx:0,
+    frames:(conf.frames && conf.frames.length) ? conf.frames : null,
+    frameImgs:null, frameAt:-1,
+    pins:null, on:false
+  };
+});
+
+/* a beat with no usable photograph says which file it is waiting for */
+function slot(shot){
+  var want = shot.src || (BASE + (shot.conf.src || (shot.key + '.jpg')));
+  shot.el.classList.add('empty');
+  shot.el.innerHTML =
+    '<div class="slot">' +
+      '<b>Frame not supplied</b>' +
+      '<code>' + want + '</code>' +
+      '<span>Drop the photograph in at this path and the beat plays. ' +
+      'Adjust its crop and callouts in the PHOTOS manifest at the foot of this file.</span>' +
+    '</div>';
+}
+
+function loadInto(shot, file){
+  if (!file){ slot(shot); return; }
+  var url = BASE + file;
+  if (shot.src === url && !shot.failed) return;
+  shot.src = url;
+  var img = new Image();
+  img.decoding = 'async';
+  img.alt = shot.conf.alt || '';
+  img.style.setProperty('--focus', shot.focus[0] + '% ' + shot.focus[1] + '%');
+  img.addEventListener('load', function(){
+    if (shot.src !== url) return;             /* a later swap won the race */
+    shot.el.classList.remove('empty');
+    shot.el.innerHTML = '';
+    shot.el.appendChild(img);
+    shot.img = img; shot.loaded = true; shot.failed = false;
+    buildPins(shot);
+    ready();
+  });
+  img.addEventListener('error', function(){
+    if (shot.src !== url) return;
+    shot.img = null; shot.loaded = false; shot.failed = true;
+    slot(shot);
+    ready();
+  });
+  img.src = url;
+}
+
+/* turntable frames for the line-up beat, loaded as one set */
+function loadFrames(shot){
+  if (!shot.frames || shot.frameImgs) return;
+  shot.frameImgs = shot.frames.map(function(f){
+    var i = new Image(); i.decoding = 'async'; i.alt = shot.conf.alt || '';
+    i.style.setProperty('--focus', shot.focus[0] + '% ' + shot.focus[1] + '%');
+    i.src = BASE + f;
+    return i;
+  });
+  shot.el.classList.remove('empty');
+  shot.el.innerHTML = '';
+  shot.frameImgs.forEach(function(i){ i.style.opacity = '0'; shot.el.appendChild(i); });
+  shot.img = shot.frameImgs[0];
+  shot.loaded = true;
+}
+
+/* ============================ CALLOUT PINS ============================ */
+function buildPins(shot){
+  if (shot.pins || !shot.conf.pins) return;
+  shot.pins = shot.conf.pins.map(function(p){
+    var el = doc.createElement('div');
+    el.className = 'pin' + (p.side < 0 ? ' flip' : '');
+    el.innerHTML = '<i class="pin-dot"></i><span class="pin-lab">' + p.text + '</span>';
+    var lab = el.querySelector('.pin-lab');
+    lab.style.left = (p.side * 74) + 'px';
+    lab.style.top = p.dy + 'px';
+    var line = doc.createElementNS(SVGNS, 'line');
+    line.style.opacity = '0';
+    leaders.appendChild(line);
+    pinLayer.appendChild(el);
+    return { u:p.u, v:p.v, side:p.side, dy:p.dy, el:el, lab:lab, line:line, shown:p.side };
+  });
+}
+
+/* Map a point in the photograph onto the screen. The image is object-fit
+   cover inside the stage and then transformed, so both have to be undone in
+   the same order the browser applies them. */
+function project(shot, u, v, W, H){
+  var img = shot.img;
+  if (!img || !img.naturalWidth) return null;
+  var fx = shot.focus[0] / 100, fy = shot.focus[1] / 100;
+  var s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+  var dw = img.naturalWidth * s, dh = img.naturalHeight * s;
+  var x = (W - dw) * fx + u * dw;
+  var y = (H - dh) * fy + v * dh;
+  var gx = W * fx, gy = H * fy;                 /* transform-origin */
+  return [ gx + (x - gx) * shot.z + shot.txPx,
+           gy + (y - gy) * shot.z + shot.tyPx ];
+}
+
+var pinsShown = [];
+function updatePins(shot, live, W, H){
+  var set = (live && shot.pins) ? shot.pins : [];
+  /* the overlay for this beat covers part of the frame — a column on a wide
+     screen, a bottom sheet on a narrow one. Any pin that lands inside it is
+     hidden, and on a wide screen a pin close to it labels leftward rather
+     than running underneath. */
+  var ovr = null, guard = Infinity;
+  var ov = doc.querySelector('.panel.on, .finale.on');
+  if (ov){
+    var r = ov.getBoundingClientRect();
+    if (r.width > 0 && r.height > 0){
+      ovr = r;
+      if (W >= 900) guard = r.left - 14;
+    }
+  }
+  if (set !== pinsShown){
+    pinsShown.forEach(function(p){
+      if (set.indexOf(p) < 0){ p.el.classList.remove('on'); p.line.style.opacity = '0'; }
+    });
+    pinsShown = set;
+  }
+  for (var i = 0; i < set.length; i++){
+    var p = set[i];
+    var at = project(shot, p.u, p.v, W, H);
+    if (!at || at[0] < -40 || at[0] > W + 40 || at[1] < -40 || at[1] > H + 40){
+      p.el.classList.remove('on'); p.line.style.opacity = '0'; continue;
+    }
+    var side = W < 900 ? (at[0] > W * 0.5 ? -1 : 1) : p.side;
+    if (side > 0 && at[0] + 74 + p.lab.offsetWidth > guard) side = -1;
+
+    /* the label carries the text, so it has to clear the overlay too — a dot
+       just off the edge of the frame can still throw its label across it */
+    if (ovr){
+      var lw = p.lab.offsetWidth, lh = p.lab.offsetHeight || 24;
+      var lx = side > 0 ? at[0] + 74 : at[0] - 74 - lw;
+      var ly = at[1] + p.dy - lh / 2;
+      var hitDot = at[0] > ovr.left - 10 && at[0] < ovr.right + 10 &&
+                   at[1] > ovr.top - 10 && at[1] < ovr.bottom + 10;
+      var hitLab = lx + lw > ovr.left - 6 && lx < ovr.right + 6 &&
+                   ly + lh > ovr.top - 6 && ly < ovr.bottom + 6;
+      if (hitDot || hitLab){
+        p.el.classList.remove('on'); p.line.style.opacity = '0'; continue;
+      }
+    }
+    if (side !== p.shown){
+      p.shown = side;
+      p.el.classList.toggle('flip', side < 0);
+      p.lab.style.left = (side * 74) + 'px';
+    }
+    p.el.style.transform = 'translate(' + at[0].toFixed(1) + 'px,' + at[1].toFixed(1) + 'px)';
+    p.line.setAttribute('x1', at[0]);            p.line.setAttribute('y1', at[1]);
+    p.line.setAttribute('x2', at[0] + side * 74); p.line.setAttribute('y2', at[1] + p.dy);
+    p.line.style.opacity = '';
+    p.el.classList.add('on');
+  }
+}
+
+/* ============================ SELECTORS ============================ */
+function $(id){ return doc.getElementById(id); }
+var engineSpecs = $('engineSpecs'), chassisSpecs = $('chassisSpecs'), trimLine = $('trimLine');
+
+function setSpec(root, k, html){
+  var el = root && root.querySelector('[data-k="' + k + '"]');
+  if (el) el.innerHTML = html;
+}
+
+function applyEngine(key){
+  var e = ENGINES[key];
+  if (!e) return;
+  F30.engine = key;
+  [].forEach.call(doc.querySelectorAll('#engineVars .var'), function(b){
+    b.classList.toggle('on', b.dataset.engine === key);
+  });
+  setSpec(engineSpecs, 'disp', e.disp);
+  setSpec(engineSpecs, 'tq', e.tq);
+  setSpec(engineSpecs, 'lay', e.lay);
+  setSpec(engineSpecs, 'vt', e.vt);
+
+  /* swap the bay photograph if this engine has one of its own */
+  var bay = shots[1], v = bay.conf.variants || {};
+  loadInto(bay, v[key] || bay.conf.src);
+}
+
+function applyTrim(key){
+  var c = TRIMS[key];
+  if (!c) return;
+  F30.trim = key;
+  [].forEach.call(doc.querySelectorAll('#trims .trim'), function(b){
+    b.classList.toggle('on', b.dataset.trim === key);
+  });
+  setSpec(chassisSpecs, 'wheel', c.wheel);
+  setSpec(chassisSpecs, 'brake', c.brake);
+  setSpec(chassisSpecs, 'split', c.split);
+  if (trimLine) trimLine.innerHTML = c.line;
+
+  /* the chassis callouts quote the selected car */
+  var ch = shots[3];
+  if (ch.pins && ch.pins.length >= 2){
+    ch.pins[0].lab.innerHTML = '<b>' + c.bar + '</b> mm vented';
+    ch.pins[1].lab.innerHTML = c.tyre;
+  }
+
+  var line = shots[5], v = line.conf.variants || {};
+  if (!line.frames) loadInto(line, v[key] || line.conf.src);
+
+  applyEngine(c.engine);
+}
+
+[].forEach.call(doc.querySelectorAll('#trims .trim'), function(b){
+  b.addEventListener('click', function(){ applyTrim(b.dataset.trim); });
+});
+[].forEach.call(doc.querySelectorAll('#engineVars .var'), function(b){
+  b.addEventListener('click', function(){ applyEngine(b.dataset.engine); });
+});
+
+/* ============================ THE LOOP ============================ */
+var booted = false;
+function ready(){
+  if (booted) return;
+  booted = true;
+  doc.body.classList.add('ready');
+  F30.ready = true;
+}
+
+function ease(t){ return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2; }
+
+var W = 0, H = 0, lastLoaded = -1;
+function size(){
+  var st = doc.getElementById('stage');
+  W = st.clientWidth; H = st.clientHeight;
+  leaders.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+}
+size();
+window.addEventListener('resize', size, {passive:true});
+
+function tick(state){
+  var i = state.stage, t = state.t;
+
+  /* load this beat and its neighbours, and nothing else */
+  if (i !== lastLoaded){
+    lastLoaded = i;
+    for (var n = Math.max(0, i - 1); n <= Math.min(shots.length - 1, i + 1); n++){
+      var sh = shots[n];
+      if (sh.frames) loadFrames(sh);
+      else if (!sh.src) loadInto(sh, sh.conf.src);
+    }
+  }
+
+  for (var k = 0; k < shots.length; k++){
+    var sh = shots[k], on = (k === i);
+    if (on !== sh.on){
+      sh.on = on;
+      sh.el.classList.toggle('on', on);
+    }
+    if (!on) continue;
+
+    var e = reduced ? 0.5 : ease(t);
+    sh.z = sh.zoom[0] + (sh.zoom[1] - sh.zoom[0]) * e;
+    sh.txPx = (reduced ? 0 : sh.pan[0] * e) / 100 * W;
+    sh.tyPx = (reduced ? 0 : sh.pan[1] * e) / 100 * H;
+
+    if (sh.frameImgs){
+      /* turntable: scroll advances the sequence instead of pushing in */
+      var f = Math.min(sh.frameImgs.length - 1, Math.max(0, Math.round(t * (sh.frameImgs.length - 1))));
+      if (f !== sh.frameAt){
+        if (sh.frameAt >= 0) sh.frameImgs[sh.frameAt].style.opacity = '0';
+        sh.frameImgs[f].style.opacity = '1';
+        sh.frameAt = f;
+        sh.img = sh.frameImgs[f];
+      }
+    }
+    if (sh.img){
+      sh.img.style.setProperty('--z', sh.z.toFixed(4));
+      sh.img.style.setProperty('--tx', sh.txPx.toFixed(1) + 'px');
+      sh.img.style.setProperty('--ty', sh.tyPx.toFixed(1) + 'px');
+    }
+
+    var S = state.stages[i];
+    updatePins(sh, t >= S.in - 0.05 && t <= S.out, W, H);
+  }
+
+  /* wash the stage out as the last beat runs into the footer */
+  if (fadeOut){
+    var last = shots.length - 1;
+    fadeOut.style.opacity = (i === last) ? Math.max(0, Math.min(1, (t - 0.62) / 0.34)).toFixed(3) : '0';
+  }
+}
+
+applyTrim('328i');
+F30.onFrame(tick);
+
+/* If every frame the page has tried so far has failed, say so once in the
+   console — seven "frame not supplied" slots on screen is deliberate, but it
+   should not be a silent surprise to whoever is wiring the photographs up.
+   Calling F30.dropStage() here instead would fall back to the plain stacked
+   article, which hides the slots and with them the paths they name. */
+setTimeout(function(){
+  var tried = shots.filter(function(s){ return s.src; });
+  if (tried.length && tried.every(function(s){ return s.failed; })){
+    console.warn('[F30] No photographs loaded from ' + BASE +
+      ' — every beat is showing the slot that names the file it wants.');
+  }
+}, 4000);
+
+/* the frames are late-loading; give the stage a moment before it is declared
+   ready so the first beat does not fade in over an empty box */
+setTimeout(ready, 2600);
+})();
+</script>
+</body>
+</html>
