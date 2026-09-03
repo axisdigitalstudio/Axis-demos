@@ -275,6 +275,11 @@ body.cine .panel{
   border:1px solid var(--line);border-radius:var(--r);
   padding:clamp(18px,2vw,24px);
   box-shadow:0 30px 70px -30px rgba(0,0,0,.9);
+  /* a laptop viewport is shorter than the longest of these panels, and a
+     clipped spec table is worse than a scrolled one. Chaining is left at the
+     default so the page carries on scrubbing once the panel bottoms out. */
+  max-height:calc(100svh - var(--pad) * 2);
+  overflow-y:auto;
 }
 .panel-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;}
 .panel h2{font-size:clamp(1.3rem,2.3vw,1.72rem);margin:12px 0 0;}
